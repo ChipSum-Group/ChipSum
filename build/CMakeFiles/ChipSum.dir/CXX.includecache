@@ -1,0 +1,30 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../src/backend/backend.hpp
+
+../src/numeric/operator.hpp
+type_traits
+-
+../backend/backend.hpp
+../src/backend/backend.hpp
+
+/home/lky/code/git/ChipSum/test.cpp
+iostream
+-
+cstdio
+-
+Testconfig.h
+-
+numeric/operator.hpp
+/home/lky/code/git/ChipSum/numeric/operator.hpp
+backend/backend.hpp
+/home/lky/code/git/ChipSum/backend/backend.hpp
+
+Testconfig.h
+

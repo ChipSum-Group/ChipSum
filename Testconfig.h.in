@@ -1,0 +1,3 @@
+#define ChipSum_VERSION_MAJOR @ChipSum_VERSION_MAJOR@
+#define ChipSum_VERSION_MINOR @ChipSum_VERSION_MINOR@
+

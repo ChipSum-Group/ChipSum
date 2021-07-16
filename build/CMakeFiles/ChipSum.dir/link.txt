@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/ChipSum.dir/test.cpp.o  -o ChipSum  src/libchipsum.a 
