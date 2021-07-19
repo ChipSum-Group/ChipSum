@@ -5,16 +5,30 @@
 namespace ChipSum{
 namespace Backend{
 
-template<typename ...Props>
-struct Backend_Traits;
-
-template<typename ...Props>
-struct Builtin:public Backend_Traits<Props...>{/*TODO*/};
 
 
-template<typename ...Props>
-struct KokkosKernels:public Backend_Traits<Props...>{/*TODO*/};
+struct Backend{};
 
+
+struct Builtin:public Backend{/*TODO*/};
+
+
+typedef  Builtin CPUBackend;
+
+
+
+
+
+
+struct KokkosKernels:public Backend{/*TODO*/};
+
+#ifdef ChipSum_USE_KokkosKernels
+typedef KokkosKernels DefaultBackend;
+
+#else
+typedef Builtin DefaultBackend;
+
+#endif
 }
 };
 

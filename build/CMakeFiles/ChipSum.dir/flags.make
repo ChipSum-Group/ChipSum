@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_FLAGS =   -std=gnu++17
 
-CXX_DEFINES = 
+CXX_DEFINES = -DChipSum_USE_KokkosKernels
 
 CXX_INCLUDES = -I/home/lky/code/git/ChipSum/src -I/home/lky/code/git/ChipSum/build 
 

@@ -43,12 +43,15 @@ struct Operator_Traits<ScalarType,SizeType>{
 
 
 
-template <typename ScalarType,typename SizeType,typename Be,typename ...Props >
-struct Operator_Traits<ScalarType,SizeType,Be,Props...>{
+template <typename ScalarType,typename SizeType,typename BackendType,typename ...Props >
+struct Operator_Traits<ScalarType,SizeType,BackendType,Props...>{
 
     static_assert (std::is_integral<SizeType>::value,"Integral type error." );
 
-//    static_assert (std::is_base_of<Backend_Traits<>,Be<>>,"Parameter Be NOT a Backend type" )
+    static_assert (std::is_base_of<ChipSum::Backend::Backend,
+    BackendType>::value,"Parameter BackendType error." );
+
+
 
     using nonconst_scalar_type = typename Operator_Traits<ScalarType>::nonconst_scalar_type;
 
@@ -56,6 +59,7 @@ struct Operator_Traits<ScalarType,SizeType,Be,Props...>{
 
     using nonconst_size_type = typename
     Operator_Traits<ScalarType,SizeType>::nonconst_size_type;
+
     using const_size_type = typename
     Operator_Traits<ScalarType,SizeType>::const_size_type;
 

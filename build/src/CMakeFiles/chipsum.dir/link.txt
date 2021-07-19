@@ -1,2 +1,2 @@
-/usr/bin/ar qc libchipsum.a  CMakeFiles/chipsum.dir/numeric/operator.cpp.o CMakeFiles/chipsum.dir/backend/backend.cpp.o
+/usr/bin/ar qc libchipsum.a  CMakeFiles/chipsum.dir/numeric/operator.cpp.o CMakeFiles/chipsum.dir/numeric/vector.cpp.o CMakeFiles/chipsum.dir/numeric/impl/vector_impl.cpp.o CMakeFiles/chipsum.dir/backend/backend.cpp.o
 /usr/bin/ranlib libchipsum.a

@@ -115,8 +115,8 @@ rebuild_cache/fast: rebuild_cache
 
 # Special rule for the target edit_cache
 edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
+	/usr/local/bin/ccmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -198,6 +198,33 @@ backend/backend.cpp.s:
 	cd /home/lky/code/git/ChipSum/build && $(MAKE) -f src/CMakeFiles/chipsum.dir/build.make src/CMakeFiles/chipsum.dir/backend/backend.cpp.s
 .PHONY : backend/backend.cpp.s
 
+numeric/impl/vector_impl.o: numeric/impl/vector_impl.cpp.o
+
+.PHONY : numeric/impl/vector_impl.o
+
+# target to build an object file
+numeric/impl/vector_impl.cpp.o:
+	cd /home/lky/code/git/ChipSum/build && $(MAKE) -f src/CMakeFiles/chipsum.dir/build.make src/CMakeFiles/chipsum.dir/numeric/impl/vector_impl.cpp.o
+.PHONY : numeric/impl/vector_impl.cpp.o
+
+numeric/impl/vector_impl.i: numeric/impl/vector_impl.cpp.i
+
+.PHONY : numeric/impl/vector_impl.i
+
+# target to preprocess a source file
+numeric/impl/vector_impl.cpp.i:
+	cd /home/lky/code/git/ChipSum/build && $(MAKE) -f src/CMakeFiles/chipsum.dir/build.make src/CMakeFiles/chipsum.dir/numeric/impl/vector_impl.cpp.i
+.PHONY : numeric/impl/vector_impl.cpp.i
+
+numeric/impl/vector_impl.s: numeric/impl/vector_impl.cpp.s
+
+.PHONY : numeric/impl/vector_impl.s
+
+# target to generate assembly for a file
+numeric/impl/vector_impl.cpp.s:
+	cd /home/lky/code/git/ChipSum/build && $(MAKE) -f src/CMakeFiles/chipsum.dir/build.make src/CMakeFiles/chipsum.dir/numeric/impl/vector_impl.cpp.s
+.PHONY : numeric/impl/vector_impl.cpp.s
+
 numeric/operator.o: numeric/operator.cpp.o
 
 .PHONY : numeric/operator.o
@@ -225,6 +252,33 @@ numeric/operator.cpp.s:
 	cd /home/lky/code/git/ChipSum/build && $(MAKE) -f src/CMakeFiles/chipsum.dir/build.make src/CMakeFiles/chipsum.dir/numeric/operator.cpp.s
 .PHONY : numeric/operator.cpp.s
 
+numeric/vector.o: numeric/vector.cpp.o
+
+.PHONY : numeric/vector.o
+
+# target to build an object file
+numeric/vector.cpp.o:
+	cd /home/lky/code/git/ChipSum/build && $(MAKE) -f src/CMakeFiles/chipsum.dir/build.make src/CMakeFiles/chipsum.dir/numeric/vector.cpp.o
+.PHONY : numeric/vector.cpp.o
+
+numeric/vector.i: numeric/vector.cpp.i
+
+.PHONY : numeric/vector.i
+
+# target to preprocess a source file
+numeric/vector.cpp.i:
+	cd /home/lky/code/git/ChipSum/build && $(MAKE) -f src/CMakeFiles/chipsum.dir/build.make src/CMakeFiles/chipsum.dir/numeric/vector.cpp.i
+.PHONY : numeric/vector.cpp.i
+
+numeric/vector.s: numeric/vector.cpp.s
+
+.PHONY : numeric/vector.s
+
+# target to generate assembly for a file
+numeric/vector.cpp.s:
+	cd /home/lky/code/git/ChipSum/build && $(MAKE) -f src/CMakeFiles/chipsum.dir/build.make src/CMakeFiles/chipsum.dir/numeric/vector.cpp.s
+.PHONY : numeric/vector.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -241,9 +295,15 @@ help:
 	@echo "... backend/backend.o"
 	@echo "... backend/backend.i"
 	@echo "... backend/backend.s"
+	@echo "... numeric/impl/vector_impl.o"
+	@echo "... numeric/impl/vector_impl.i"
+	@echo "... numeric/impl/vector_impl.s"
 	@echo "... numeric/operator.o"
 	@echo "... numeric/operator.i"
 	@echo "... numeric/operator.s"
+	@echo "... numeric/vector.o"
+	@echo "... numeric/vector.i"
+	@echo "... numeric/vector.s"
 .PHONY : help
 
 

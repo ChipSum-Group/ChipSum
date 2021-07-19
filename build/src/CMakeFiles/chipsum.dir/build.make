@@ -70,9 +70,35 @@ src/CMakeFiles/chipsum.dir/numeric/operator.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/chipsum.dir/numeric/operator.cpp.s"
 	cd /home/lky/code/git/ChipSum/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lky/code/git/ChipSum/src/numeric/operator.cpp -o CMakeFiles/chipsum.dir/numeric/operator.cpp.s
 
+src/CMakeFiles/chipsum.dir/numeric/vector.cpp.o: src/CMakeFiles/chipsum.dir/flags.make
+src/CMakeFiles/chipsum.dir/numeric/vector.cpp.o: ../src/numeric/vector.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lky/code/git/ChipSum/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object src/CMakeFiles/chipsum.dir/numeric/vector.cpp.o"
+	cd /home/lky/code/git/ChipSum/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/chipsum.dir/numeric/vector.cpp.o -c /home/lky/code/git/ChipSum/src/numeric/vector.cpp
+
+src/CMakeFiles/chipsum.dir/numeric/vector.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/chipsum.dir/numeric/vector.cpp.i"
+	cd /home/lky/code/git/ChipSum/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lky/code/git/ChipSum/src/numeric/vector.cpp > CMakeFiles/chipsum.dir/numeric/vector.cpp.i
+
+src/CMakeFiles/chipsum.dir/numeric/vector.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/chipsum.dir/numeric/vector.cpp.s"
+	cd /home/lky/code/git/ChipSum/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lky/code/git/ChipSum/src/numeric/vector.cpp -o CMakeFiles/chipsum.dir/numeric/vector.cpp.s
+
+src/CMakeFiles/chipsum.dir/numeric/impl/vector_impl.cpp.o: src/CMakeFiles/chipsum.dir/flags.make
+src/CMakeFiles/chipsum.dir/numeric/impl/vector_impl.cpp.o: ../src/numeric/impl/vector_impl.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lky/code/git/ChipSum/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object src/CMakeFiles/chipsum.dir/numeric/impl/vector_impl.cpp.o"
+	cd /home/lky/code/git/ChipSum/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/chipsum.dir/numeric/impl/vector_impl.cpp.o -c /home/lky/code/git/ChipSum/src/numeric/impl/vector_impl.cpp
+
+src/CMakeFiles/chipsum.dir/numeric/impl/vector_impl.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/chipsum.dir/numeric/impl/vector_impl.cpp.i"
+	cd /home/lky/code/git/ChipSum/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/lky/code/git/ChipSum/src/numeric/impl/vector_impl.cpp > CMakeFiles/chipsum.dir/numeric/impl/vector_impl.cpp.i
+
+src/CMakeFiles/chipsum.dir/numeric/impl/vector_impl.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/chipsum.dir/numeric/impl/vector_impl.cpp.s"
+	cd /home/lky/code/git/ChipSum/build/src && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/lky/code/git/ChipSum/src/numeric/impl/vector_impl.cpp -o CMakeFiles/chipsum.dir/numeric/impl/vector_impl.cpp.s
+
 src/CMakeFiles/chipsum.dir/backend/backend.cpp.o: src/CMakeFiles/chipsum.dir/flags.make
 src/CMakeFiles/chipsum.dir/backend/backend.cpp.o: ../src/backend/backend.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lky/code/git/ChipSum/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object src/CMakeFiles/chipsum.dir/backend/backend.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/lky/code/git/ChipSum/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object src/CMakeFiles/chipsum.dir/backend/backend.cpp.o"
 	cd /home/lky/code/git/ChipSum/build/src && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/chipsum.dir/backend/backend.cpp.o -c /home/lky/code/git/ChipSum/src/backend/backend.cpp
 
 src/CMakeFiles/chipsum.dir/backend/backend.cpp.i: cmake_force
@@ -86,16 +112,20 @@ src/CMakeFiles/chipsum.dir/backend/backend.cpp.s: cmake_force
 # Object files for target chipsum
 chipsum_OBJECTS = \
 "CMakeFiles/chipsum.dir/numeric/operator.cpp.o" \
+"CMakeFiles/chipsum.dir/numeric/vector.cpp.o" \
+"CMakeFiles/chipsum.dir/numeric/impl/vector_impl.cpp.o" \
 "CMakeFiles/chipsum.dir/backend/backend.cpp.o"
 
 # External object files for target chipsum
 chipsum_EXTERNAL_OBJECTS =
 
 src/libchipsum.a: src/CMakeFiles/chipsum.dir/numeric/operator.cpp.o
+src/libchipsum.a: src/CMakeFiles/chipsum.dir/numeric/vector.cpp.o
+src/libchipsum.a: src/CMakeFiles/chipsum.dir/numeric/impl/vector_impl.cpp.o
 src/libchipsum.a: src/CMakeFiles/chipsum.dir/backend/backend.cpp.o
 src/libchipsum.a: src/CMakeFiles/chipsum.dir/build.make
 src/libchipsum.a: src/CMakeFiles/chipsum.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/lky/code/git/ChipSum/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX static library libchipsum.a"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/lky/code/git/ChipSum/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX static library libchipsum.a"
 	cd /home/lky/code/git/ChipSum/build/src && $(CMAKE_COMMAND) -P CMakeFiles/chipsum.dir/cmake_clean_target.cmake
 	cd /home/lky/code/git/ChipSum/build/src && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/chipsum.dir/link.txt --verbose=$(VERBOSE)
 

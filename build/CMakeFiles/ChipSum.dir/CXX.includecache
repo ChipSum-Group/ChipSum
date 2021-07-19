@@ -6,25 +6,43 @@
 
 #IncludeRegexTransform: 
 
-../src/backend/backend.hpp
+/home/lky/code/git/ChipSum/src/backend/backend.hpp
 
-../src/numeric/operator.hpp
+/home/lky/code/git/ChipSum/src/numeric/impl/vector_impl.hpp
+../vector.hpp
+/home/lky/code/git/ChipSum/src/numeric/vector.hpp
+
+/home/lky/code/git/ChipSum/src/numeric/operator.hpp
 type_traits
 -
 ../backend/backend.hpp
-../src/backend/backend.hpp
+/home/lky/code/git/ChipSum/src/backend/backend.hpp
+
+/home/lky/code/git/ChipSum/src/numeric/vector.hpp
+vector
+-
+type_traits
+-
+iostream
+-
+operator.hpp
+/home/lky/code/git/ChipSum/src/numeric/operator.hpp
 
 /home/lky/code/git/ChipSum/test.cpp
 iostream
 -
-cstdio
--
 Testconfig.h
 -
-numeric/operator.hpp
-/home/lky/code/git/ChipSum/numeric/operator.hpp
-backend/backend.hpp
-/home/lky/code/git/ChipSum/backend/backend.hpp
+vector
+-
+type_traits
+-
+src/numeric/operator.hpp
+/home/lky/code/git/ChipSum/src/numeric/operator.hpp
+src/numeric/vector.hpp
+/home/lky/code/git/ChipSum/src/numeric/vector.hpp
+src/numeric/impl/vector_impl.hpp
+/home/lky/code/git/ChipSum/src/numeric/impl/vector_impl.hpp
 
 Testconfig.h
 

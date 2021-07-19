@@ -182,7 +182,7 @@ CMakeFiles/ChipSum.dir/all: src/CMakeFiles/chipsum.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/ChipSum.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/lky/code/git/ChipSum/build/CMakeFiles 5
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/lky/code/git/ChipSum/build/CMakeFiles 7
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/ChipSum.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/lky/code/git/ChipSum/build/CMakeFiles 0
 .PHONY : CMakeFiles/ChipSum.dir/rule
@@ -204,12 +204,12 @@ CMakeFiles/ChipSum.dir/clean:
 src/CMakeFiles/chipsum.dir/all:
 	$(MAKE) -f src/CMakeFiles/chipsum.dir/build.make src/CMakeFiles/chipsum.dir/depend
 	$(MAKE) -f src/CMakeFiles/chipsum.dir/build.make src/CMakeFiles/chipsum.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/lky/code/git/ChipSum/build/CMakeFiles --progress-num=3,4,5 "Built target chipsum"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/lky/code/git/ChipSum/build/CMakeFiles --progress-num=3,4,5,6,7 "Built target chipsum"
 .PHONY : src/CMakeFiles/chipsum.dir/all
 
 # Build rule for subdir invocation for target.
 src/CMakeFiles/chipsum.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/lky/code/git/ChipSum/build/CMakeFiles 3
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/lky/code/git/ChipSum/build/CMakeFiles 5
 	$(MAKE) -f CMakeFiles/Makefile2 src/CMakeFiles/chipsum.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/lky/code/git/ChipSum/build/CMakeFiles 0
 .PHONY : src/CMakeFiles/chipsum.dir/rule

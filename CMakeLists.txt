@@ -17,6 +17,7 @@ add_executable(ChipSum
     "test.cpp"
     )
 
+add_definitions("-DChipSum_USE_KokkosKernels")
 
 
 target_link_libraries(ChipSum PUBLIC chipsum)

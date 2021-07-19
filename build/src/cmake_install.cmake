@@ -2,7 +2,7 @@
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/usr/local")
+  set(CMAKE_INSTALL_PREFIX "/home/lky/code/git/ChipSum-build")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -44,6 +44,8 @@ endif()
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include" TYPE FILE FILES
     "/home/lky/code/git/ChipSum/src/numeric/operator.hpp"
+    "/home/lky/code/git/ChipSum/src/numeric/vector.hpp"
+    "/home/lky/code/git/ChipSum/src/numeric/impl/vector_impl.hpp"
     "/home/lky/code/git/ChipSum/src/backend/backend.hpp"
     )
 endif()

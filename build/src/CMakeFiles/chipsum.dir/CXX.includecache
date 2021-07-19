@@ -6,19 +6,5 @@
 
 #IncludeRegexTransform: 
 
-/home/lky/code/git/ChipSum/src/backend/backend.cpp
-backend.hpp
-/home/lky/code/git/ChipSum/src/backend/backend.hpp
-
-/home/lky/code/git/ChipSum/src/backend/backend.hpp
-
-/home/lky/code/git/ChipSum/src/numeric/operator.cpp
-operator.hpp
-/home/lky/code/git/ChipSum/src/numeric/operator.hpp
-
-/home/lky/code/git/ChipSum/src/numeric/operator.hpp
-type_traits
--
-../backend/backend.hpp
-/home/lky/code/git/ChipSum/src/backend/backend.hpp
+/home/lky/code/git/ChipSum/src/numeric/impl/vector_impl.cpp
 
