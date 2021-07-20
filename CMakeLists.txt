@@ -8,10 +8,10 @@ project(ChipSum VERSION 1.0)
 configure_file(Testconfig.h.in Testconfig.h)
 
 
-add_subdirectory("src")
+add_subdirectory("chipsum")
 add_subdirectory("unit_test")
 
-include_directories("src")
+include_directories("chipsum")
 
 add_executable(ChipSum
     "test.cpp"

@@ -4,9 +4,8 @@
 #include <vector>
 #include <type_traits>
 
-#include "src/numeric/operator.hpp"
-#include "src/numeric/vector.hpp"
-#include "src/numeric/impl/vector_impl.hpp"
+#include "chipsum/numeric/vector.hpp"
+#include "chipsum/numeric/impl/vector_serial_impl.hpp"
 
 using namespace std;
 
@@ -31,11 +30,11 @@ int main(int argc,char* argv[])
     ChipSum::Numeric::Vector_Traits<double,int,ChipSum::Backend::KokkosKernels> b;
 
 
-    ChipSum::Numeric::Vector_Traits<double,int,ChipSum::Backend::Builtin> v1;
-    ChipSum::Numeric::Vector_Traits<double,int,ChipSum::Backend::Builtin> v2;
+    ChipSum::Numeric::Vector_Traits<double,int,ChipSum::Backend::DefaultBackend> v1;
+    ChipSum::Numeric::Vector_Traits<double,int,ChipSum::Backend::DefaultBackend> v2;
 
 
-    ChipSum::Numeric::Impl::Dot(v1);
+//    ChipSum::Numeric::Impl::Dot();
     double a;
 //    ChipSum::Numeric::Dot<double,int>(v1,v2,a);
 
