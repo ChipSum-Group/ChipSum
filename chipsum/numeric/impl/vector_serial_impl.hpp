@@ -45,6 +45,19 @@ namespace Impl {
 
 namespace Vector {
 
+template<typename ScalarType,typename SizeType,typename ...Props>
+/**
+ * @brief Dot 向量内积的串行实现
+ * @param a 利用traits技术实现的向量类型
+ * @param b
+ * @param r
+ */
+void CreateVector(const SizeType n,std::vector<ScalarType>& dst)
+{
+    dst.resize(n);
+}
+
+
 
 template<typename ScalarType,typename SizeType,typename ...Props>
 /**
@@ -54,8 +67,8 @@ template<typename ScalarType,typename SizeType,typename ...Props>
  * @param r
  */
 void FillVector(
-        ScalarType* src,
-        SizeType n,
+        const ScalarType* src,
+        const SizeType n,
         std::vector<ScalarType>& dst
         )
 {
@@ -80,7 +93,6 @@ void Dot(
         )
 {
 
-    cout<<"BBB"<<endl;
 
     r = 0.0;
 

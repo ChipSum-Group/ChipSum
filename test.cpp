@@ -24,12 +24,30 @@ int main(int argc,char* argv[])
     std::cout << " Version " << ChipSum_VERSION_MAJOR << "."
               << ChipSum_VERSION_MINOR << std::endl;
 
-    ChipSum::Numeric::Vector<double,int,ChipSum::Backend::KokkosKernels> a;
-    ChipSum::Numeric::Vector<double,int,ChipSum::Backend::KokkosKernels> b;
+
+    double* v1 = (double*)malloc(10*sizeof (double));
+
+    double* v2 = (double*)malloc(10*sizeof (double));
+
+    for(int i=0;i<10;++i){
+        v1[i]=double(i);
+        v2[i]=double(i);
+    }
+
+    typedef ChipSum::Numeric::Vector<double,int,ChipSum::Backend::KokkosKernels> Vector;
+
+    Vector a(v1,10);
+    Vector b(v2,10);
     double r;
     a.Dot(b,r);
 
     cout<<r<<endl;
+
+
+    Kokkos::fence();
+    free(v1);
+    free(v2);
+
 }
     Kokkos::finalize();
 

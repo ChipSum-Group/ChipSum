@@ -58,11 +58,11 @@ public:
 
 
 
-    Vector(){
+    explicit inline Vector(scalar_type* data,const SizeType& size){
 
 
-        __data = Kokkos::View<double*>("v"+std::to_string(vector_name_counter),20);
-        KokkosBlas::fill(__data,2.0);
+        ChipSum::Numeric::Impl::Vector::CreateVector<ScalarType,SizeType>(size,__data);
+        ChipSum::Numeric::Impl::Vector::FillVector<ScalarType,SizeType>(data,size,__data);
 
     }
 
