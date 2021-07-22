@@ -7,20 +7,17 @@ namespace Backend{
 
 
 
-struct Backend{};
+struct BackendBase{};
 
 
-struct BuiltinSerial:public Backend{/*TODO*/};
+struct BuiltinSerial:public BackendBase{/*TODO*/};
 
 
 typedef  BuiltinSerial CPUSerialBackend;
 
 
 
-
-
-
-struct KokkosKernels:public Backend{/*TODO*/};
+struct KokkosKernels:public BackendBase{/*TODO*/};
 
 #ifdef ChipSum_USE_KokkosKernels
 typedef KokkosKernels DefaultBackend;
@@ -30,7 +27,7 @@ typedef BuiltinSerial DefaultBackend;
 
 #endif
 }
-};
+}
 
 
 #endif // BACKEND_HPP

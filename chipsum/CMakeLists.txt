@@ -1,4 +1,8 @@
-cmake_minimum_required(VERSION 3.5)
+
+
+
+
+
 
 set(SOURCES "")
 set(HEADERS "")
@@ -9,14 +13,12 @@ add_subdirectory(backend)
 
 
 
-add_library(chipsum ${SOURCES} ${HEADERS})
 
 
-include_directories(
-    common
-    numeric
-    backend
-    )
+set(CHIPSUM_SOURCES ${CHIPSUM_SOURCES} ${SOURCES} PARENT_SCOPE)
+set(CHIPSUM_HEADERS ${CHIPSUM_HEADERS} ${HEADERS} PARENT_SCOPE)
 
-install(TARGETS chipsum DESTINATION lib)
-install(FILES ${HEADERS}  DESTINATION include)
+#message(${Kokkos_CXX_COMPILER})
+
+
+

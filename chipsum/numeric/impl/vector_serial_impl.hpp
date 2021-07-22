@@ -1,11 +1,14 @@
-#ifndef __VECTOR_SERIAL_IMPL_HPP__
-#define __VECTOR_SERIAL_IMPL_HPP__
+#ifndef __CHIPSUM_VECTOR_SERIAL_IMPL_HPP__
+#define __CHIPSUM_VECTOR_SERIAL_IMPL_HPP__
 
 #include <vector>
-#include "../numeric_traits.hpp"
-
 #include <iostream>
 using namespace std;
+
+#include <Kokkos_Core.hpp>
+
+#include "../numeric_traits.hpp"
+
 
 namespace ChipSum{
 namespace Numeric {
@@ -16,13 +19,15 @@ struct Vector_Traits<ScalarType,SizeType,ChipSum::Backend::CPUSerialBackend,Prop
         ChipSum::Backend::CPUSerialBackend,Props...>
 {
     using vector_type = typename std::vector<ScalarType>;
-//    using vector_type = typename std::vector<ScalarType>;
 
 
     using vector_type_reference = typename std::add_lvalue_reference<std::vector<ScalarType>>::type ;
     using const_vector_type_reference = typename std::add_const<vector_type_reference>::type;
+
     using scalar_type = typename std::vector<ScalarType>::value_type;
     using scalar_type_reference = typename std::add_lvalue_reference<typename std::vector<ScalarType>::value_type>::type;
+
+
     using size_type = typename std::vector<ScalarType>::size_type;
 
 };
@@ -38,6 +43,8 @@ struct Vector_Traits<ScalarType,SizeType,ChipSum::Backend::CPUSerialBackend,Prop
 
 namespace Impl {
 
+namespace Vector {
+
 
 template<typename ScalarType,typename SizeType,typename ...Props>
 /**
@@ -46,14 +53,10 @@ template<typename ScalarType,typename SizeType,typename ...Props>
  * @param b
  * @param r
  */
-void VectorCopy(
+void FillVector(
         ScalarType* src,
-        typename
-        Vector_Traits<ScalarType,SizeType,
-            ChipSum::Backend::CPUSerialBackend,Props...>::size_type n,
-        typename
-        Vector_Traits<ScalarType,SizeType,
-            ChipSum::Backend::CPUSerialBackend,Props...>::vector_type_reference dst
+        SizeType n,
+        std::vector<ScalarType>& dst
         )
 {
     dst = std::vector<ScalarType>(src,src+n);
@@ -68,30 +71,20 @@ template<typename ScalarType,typename SizeType,typename ...Props>
  * @param r
  */
 void Dot(
-        typename
-        Vector_Traits<ScalarType,SizeType,
-            ChipSum::Backend::CPUSerialBackend,Props...>::const_vector_type_reference a,
+        const std::vector<ScalarType>& a,
 
-        typename
-        Vector_Traits<ScalarType,SizeType,
-                ChipSum::Backend::CPUSerialBackend,Props...>::const_vector_type_reference b,
-        typename
-        Vector_Traits<ScalarType,SizeType,
-                ChipSum::Backend::CPUSerialBackend,Props...>::scalar_type_reference r
+        const std::vector<ScalarType>& b,
+
+        const SizeType& n,
+        ScalarType& r
         )
 {
 
-
-    using traits = Vector_Traits<ScalarType,SizeType,
-    ChipSum::Backend::CPUSerialBackend,Props...>;
-
-
-    static_assert (std::is_same<decltype (a),decltype (b)>::value,"Parameter a and b shall be same type." );
+    cout<<"BBB"<<endl;
 
     r = 0.0;
-    typename traits::size_type n = a.size();
 
-    for(typename traits::size_type i=0;i<n;++i)
+    for(SizeType i=0;i<a.size();++i)
     {
         r += a[i]*b[i];
     }
@@ -99,11 +92,11 @@ void Dot(
 
 }
 
+}// End namespace Vector
+}// End namespace Impl
 
-}
+}// End namespace Numeric
 
-}
+}// End namespace ChipSum
 
-}
-
-#endif
+#endif // End #ifndef HEADER_MACRO

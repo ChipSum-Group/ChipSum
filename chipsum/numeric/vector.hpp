@@ -1,5 +1,5 @@
-#ifndef __VECTOR_HPP__
-#define __VECTOR_HPP__
+#ifndef __CHIPSUM_NUMERIC_VECTOR_HPP__
+#define __CHIPSUM_NUMERIC_VECTOR_HPP__
 
 #include <vector>
 #include <type_traits>
@@ -9,8 +9,11 @@
 
 #include "numeric_traits.hpp"
 #include "impl/vector_serial_impl.hpp"
+#include "impl/vector_kokkoskernels_impl.hpp"
 
+#include <KokkosBlas1_fill.hpp>
 
+static int vector_name_counter;
 
 namespace ChipSum {
 namespace Numeric {
@@ -27,8 +30,8 @@ template<typename ScalarType,typename SizeType,typename BackendType,typename ...
 class Vector<ScalarType,SizeType,BackendType,Props...>{
 
 
-//    static_assert (
-//    std::_or__<>!std::is_same<BackendType,ChipSum::Backend::BuiltinSerial> && , )
+    //    static_assert (
+    //    std::_or__<>!std::is_same<BackendType,ChipSum::Backend::BuiltinSerial> && , )
     using traits = Vector_Traits<ScalarType,SizeType,BackendType,Props...>;
 
     using data_type = typename traits::vector_type;
@@ -47,13 +50,25 @@ private:
     data_type __data;
     size_type __size;
 
+
+
+
+
 public:
 
-    Vector(){for(int i=0;i<10;++i)__data.push_back(ScalarType(i));}
+
+
+    Vector(){
+
+
+        __data = Kokkos::View<double*>("v"+std::to_string(vector_name_counter),20);
+        KokkosBlas::fill(__data,2.0);
+
+    }
 
 
     inline void setData(const scalar_type* data,const SizeType& size){
-//        ChipSum::Numeric::Impl::VectorCopy(data,size,)
+        ChipSum::Numeric::Impl::Vector::FillVector(data,size,__data);
     }
 
 
@@ -62,16 +77,15 @@ public:
 
 
     inline void Dot(Vector& v,scalar_type_reference r){
-
-
-
-        ChipSum::Numeric::Impl::Dot<ScalarType,SizeType,BackendType>(getData(),v.getData(),r);
+        ChipSum::Numeric::Impl::Vector::Dot<
+                ScalarType,SizeType,BackendType,Props...
+                >(getData(),v.getData(),__size,r);
     }
 
 
 };
 
-
+//int ChipSum::Numeric::Vector::__name_counter = 0;
 
 
 

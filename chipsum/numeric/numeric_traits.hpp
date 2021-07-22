@@ -48,8 +48,8 @@ struct Operator_Traits<ScalarType,SizeType,BackendType,Props...>{
 
     static_assert (std::is_integral<SizeType>::value,"Integral type error." );
 
-    static_assert (std::is_base_of<ChipSum::Backend::Backend,
-    BackendType>::value,"Parameter BackendType error." );
+//    static_assert (std::is_base_of<ChipSum::Backend::Backend,
+//    BackendType>::value,"Parameter BackendType error." );
 
 
 
@@ -68,10 +68,22 @@ struct Operator_Traits<ScalarType,SizeType,BackendType,Props...>{
 
 template<typename ScalarType,typename SizeType,typename BackendType,typename ...Props>
 struct Vector_Traits: public Operator_Traits<ScalarType,SizeType,BackendType,Props...>
-{};
+{
+    using vector_type = void;
 
 
+    using vector_type_reference = void;
+    using const_vector_type_reference = void;
+    using scalar_type = void;
+    using scalar_type_reference = void;
+
+    using size_type = void;
 };
-};
+
+
+
+
+}
+}
 
 #endif // OPERATOR_HPP
