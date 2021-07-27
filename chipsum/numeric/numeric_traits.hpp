@@ -12,16 +12,6 @@ template <typename ...Props>
 struct Operator_Traits;
 
 
-
-//template<typename ScalarType,typename SizeType>
-//struct Operator_Traits<ScalarType,SizeType>{
-
-
-
-//};
-
-
-
 template <typename ScalarType,typename SizeType,typename BackendType,typename ...Props >
 struct Operator_Traits<ScalarType,SizeType,BackendType,Props...>{
 
@@ -64,45 +54,22 @@ struct Operator_Traits<ScalarType,SizeType,BackendType,Props...>{
 
 
 template<typename ScalarType,typename SizeType,typename BackendType,typename ...Props>
-struct Vector_Traits: public Operator_Traits<ScalarType,SizeType,BackendType>
+struct Vector_Traits: public Operator_Traits<ScalarType,SizeType,BackendType,Props...>
 {
     using vector_type = void;
-    using vector_type_reference = void;
-    using const_vector_type_reference = void;
 
-//    using traits1 = Operator_Traits<ScalarType,Props...>;
+    using size_type = void;
 
-//    using nonconst_scalar_type = typename traits1::nonconst_scalar_type;
-//    using const_scalar_type = typename traits1::const_scalar_type;
-//    using nonconst_scalar_type_reference = typename traits1::nonconst_scalar_type_reference;
-//    using const_scalar_type_reference = typename traits1::const_scalar_type_reference;
-
-
-//    using traits2 = Operator_Traits<ScalarType,SizeType,Props...>;
-//    using nonconst_size_type = typename traits2::nonconst_size_type;
-//    using const_size_type = typename traits2::const_size_type;
-//    using nonconst_size_type_reference = typename traits2::nonconst_size_type_reference;
 };
 
 
-template<typename ScalarType,typename SizeType,typename ...Props>
-struct Sparse_Traits: public Operator_Traits<ScalarType,SizeType,Props...>
+template<typename ScalarType,typename SizeType,typename BackendType,typename ...Props>
+struct Sparse_Traits: public Operator_Traits<ScalarType,SizeType,BackendType,Props...>
 {
 
     using matrix_format_type = void;
 
-    using traits1 = Operator_Traits<ScalarType,Props...>;
 
-    using nonconst_scalar_type = typename traits1::nonconst_scalar_type;
-    using const_scalar_type = typename traits1::const_scalar_type;
-    using nonconst_scalar_type_reference = typename traits1::nonconst_scalar_type_reference;
-    using const_scalar_type_reference = typename traits1::const_scalar_type_reference;
-
-
-    using traits2 = Operator_Traits<ScalarType,SizeType,Props...>;
-    using nonconst_size_type = typename traits2::nonconst_size_type;
-    using const_size_type = typename traits2::const_size_type;
-    using nonconst_size_type_reference = typename traits2::nonconst_size_type_reference;
 };
 
 
