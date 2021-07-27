@@ -5,19 +5,15 @@
 namespace ChipSum{
 namespace Backend{
 
-
-
 struct BackendBase{};
-
 
 struct BuiltinSerial:public BackendBase{/*TODO*/};
 
-
 typedef  BuiltinSerial CPUSerialBackend;
 
-
-
 struct KokkosKernels:public BackendBase{/*TODO*/};
+
+
 
 #ifdef ChipSum_USE_KokkosKernels
 typedef KokkosKernels DefaultBackend;

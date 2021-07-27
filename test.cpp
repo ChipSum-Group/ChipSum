@@ -13,17 +13,19 @@
 
 
 using namespace std;
+typedef ChipSum::Numeric::Vector<double,int,ChipSum::Backend::KokkosKernels> Vector;
 
 
+template<typename T1,typename T2,typename ...Props>
+struct S1{
+
+};
 
 int main(int argc,char* argv[])
 {
+
     Kokkos::initialize();
     {
-
-    std::cout << " Version " << ChipSum_VERSION_MAJOR << "."
-              << ChipSum_VERSION_MINOR << std::endl;
-
 
     double* v1 = (double*)malloc(10*sizeof (double));
 
@@ -34,20 +36,26 @@ int main(int argc,char* argv[])
         v2[i]=double(i);
     }
 
-    typedef ChipSum::Numeric::Vector<double,int,ChipSum::Backend::KokkosKernels> Vector;
+
 
     Vector a(v1,10);
     Vector b(v2,10);
+
+
+    a = 1.0*a;
+
+
+    cout<<a.Norm1()<<endl;
+
+    cout<<a.Norm2()<<endl;
     double r;
-    a.Dot(b,r);
-
-    cout<<r<<endl;
-
+    a.Dot(a,r);
 
     Kokkos::fence();
+    cout<<r<<endl;
+
     free(v1);
     free(v2);
-
 }
     Kokkos::finalize();
 

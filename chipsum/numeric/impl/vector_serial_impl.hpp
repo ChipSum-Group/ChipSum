@@ -2,12 +2,13 @@
 #define __CHIPSUM_VECTOR_SERIAL_IMPL_HPP__
 
 #include <vector>
-#include <iostream>
+#include <cmath>
 using namespace std;
 
-#include <Kokkos_Core.hpp>
+
 
 #include "../numeric_traits.hpp"
+#include "../../chipsum_macro.h"
 
 
 namespace ChipSum{
@@ -19,24 +20,9 @@ struct Vector_Traits<ScalarType,SizeType,ChipSum::Backend::CPUSerialBackend,Prop
         ChipSum::Backend::CPUSerialBackend,Props...>
 {
     using vector_type = typename std::vector<ScalarType>;
-
-
-    using vector_type_reference = typename std::add_lvalue_reference<std::vector<ScalarType>>::type ;
-    using const_vector_type_reference = typename std::add_const<vector_type_reference>::type;
-
-    using scalar_type = typename std::vector<ScalarType>::value_type;
-    using scalar_type_reference = typename std::add_lvalue_reference<typename std::vector<ScalarType>::value_type>::type;
-
-
     using size_type = typename std::vector<ScalarType>::size_type;
 
 };
-
-
-
-
-
-
 
 
 
@@ -52,7 +38,7 @@ template<typename ScalarType,typename SizeType,typename ...Props>
  * @param b
  * @param r
  */
-void CreateVector(const SizeType n,std::vector<ScalarType>& dst)
+CHIPSUM_FUNCTION_INLINE void Create(const SizeType n,std::vector<ScalarType>& dst)
 {
     dst.resize(n);
 }
@@ -66,7 +52,7 @@ template<typename ScalarType,typename SizeType,typename ...Props>
  * @param b
  * @param r
  */
-void FillVector(
+CHIPSUM_FUNCTION_INLINE void Fill(
         const ScalarType* src,
         const SizeType n,
         std::vector<ScalarType>& dst
@@ -83,7 +69,7 @@ template<typename ScalarType,typename SizeType,typename ...Props>
  * @param b
  * @param r
  */
-void Dot(
+CHIPSUM_FUNCTION_INLINE void Dot(
         const std::vector<ScalarType>& a,
 
         const std::vector<ScalarType>& b,
@@ -101,6 +87,56 @@ void Dot(
         r += a[i]*b[i];
     }
 
+
+}
+
+template <typename ScalarType,typename SizeType,typename ...Props>
+/**
+ * @brief Scal
+ * @param R：输出，比例缩放后的向量
+ * @param a：输入，缩放比例
+ * @param X：输入，原向量
+ */
+CHIPSUM_FUNCTION_INLINE void Scal(std::vector<ScalarType>& R,const ScalarType a,const std::vector<ScalarType>& X){
+    if(R.size() != X.size()) R.resize(X.size());
+    for(size_t i=0;i<X.size();++i)
+    {
+        R[i] = a*X[i];
+    }
+}
+
+
+template<typename ScalarType,typename SizeType,typename ...Props>
+/**
+ * @brief Norm1：1范数
+ * @param X：原向量
+ * @return 范数结果
+ */
+CHIPSUM_FUNCTION_INLINE ScalarType Norm1(const std::vector<ScalarType>& X)
+{
+    ScalarType acc = 0.0;
+    for(size_t i=0;i<X.size();++i){
+        acc += X[i];
+    }
+
+    return acc;
+
+}
+
+template<typename ScalarType,typename SizeType,typename ...Props>
+/**
+ * @brief Norm1：1范数
+ * @param X：原向量
+ * @return 范数结果
+ */
+CHIPSUM_FUNCTION_INLINE ScalarType Norm2(const std::vector<ScalarType>& X)
+{
+    ScalarType acc = 0.0;
+    for(size_t i=0;i<X.size();++i){
+        acc += X[i]*X[i];
+    }
+
+    return std::sqrt(acc);
 
 }
 
