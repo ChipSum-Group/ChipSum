@@ -10,6 +10,7 @@
 #include "../sparse_matrix_types.h"
 #include "../../chipsum_macro.h"
 
+static int spm_name = 0;
 
 namespace ChipSum{
 namespace Numeric {
@@ -25,13 +26,55 @@ struct Sparse_Traits<ScalarType,SizeType,Csr,ChipSum::Backend::KokkosKernels,Pro
 };
 
 
-template<typename ScalarType,typename SizeType>
-CHIPSUM_FUNCTION_INLINE void Spmv(KokkosSparse::CrsMatrix<ScalarType,SizeType,default_device>& m,){}
+namespace Impl {
 
+namespace Sparse {
+
+
+
+template<typename ScalarType,typename SizeType,typename ...Props>
+CHIPSUM_FUNCTION_INLINE void Fill(
+        const SizeType nrows,
+        const SizeType ncols,
+        const SizeType annz,
+        SizeType* row_map,
+        SizeType* col_map,
+        ScalarType* values,
+        KokkosSparse::CrsMatrix<ScalarType,SizeType,default_device>& A
+        )
+{
+
+
+    A.ctor_impl("spm_"+std::to_string(spm_name),nrows,ncols,annz,values,row_map,col_map);
 
 }
+
+
+template<typename ScalarType,typename SizeType,typename ...Props>
+CHIPSUM_FUNCTION_INLINE void Spmv(
+        KokkosSparse::CrsMatrix<ScalarType,SizeType,default_device>& A,
+        Kokkos::View<ScalarType*>& x,
+        Kokkos::View<ScalarType*>& b)
+{
+    KokkosSparse::spmv("N",static_cast<ScalarType>(1.0),A,x,static_cast<ScalarType>(0.0),b);
 }
 
 
+template<typename ScalarType,typename SizeType,typename ...Props>
+CHIPSUM_FUNCTION_INLINE void Spmv(
+        ScalarType alpha,
+        KokkosSparse::CrsMatrix<ScalarType,SizeType,default_device>& A,
+        Kokkos::View<ScalarType*>& x,
+        ScalarType beta,
+        Kokkos::View<ScalarType*> b)
+{
+    KokkosSparse::spmv("N",alpha,A,x,beta,b);
+}
 
-#endif // CRS_KOKKOSKERNELS_IMPL_H
+
+} // End namespace Sparse
+} // End namespace Impl
+} // End namespace Numeric
+} // End namespace ChipSum
+
+#endif // __CHIPSUM_CRS_KOKKOSKERNELS_IMPL_HPP__
