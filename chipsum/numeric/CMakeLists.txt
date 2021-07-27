@@ -4,13 +4,15 @@
 
 list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/numeric_traits.hpp")
 list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/vector.hpp")
-list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/SparseMatrix.hpp")
+list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/sparse_matrix_types.h")
+list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/sparse_matrix.hpp")
+
 
 
 
 list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/impl/vector_serial_impl.hpp")
-
 list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/impl/vector_kokkoskernels_impl.hpp")
+
 
 list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/impl/crs_kokkoskernels_impl.hpp")
 

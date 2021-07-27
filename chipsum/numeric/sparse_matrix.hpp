@@ -1,5 +1,5 @@
-#ifndef __CHIPSUM_NUMERIC_SPARSEMATRIX_HPP__
-#define __CHIPSUM_NUMERIC_SPARSEMATRIX_HPP__
+#ifndef __CHIPSUM_NUMERIC_SPARSE_MATRIX_HPP__
+#define __CHIPSUM_NUMERIC_SPARSE_MATRIX_HPP__
 
 #include <vector>
 #include <type_traits>

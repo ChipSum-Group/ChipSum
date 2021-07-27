@@ -205,7 +205,8 @@ public:
  *
  */
 template<typename ScalarType,typename SizeType,typename BackendType,typename ...Props>
-CHIPSUM_FUNCTION_INLINE Vector<ScalarType,SizeType,BackendType,Props...> operator*(ScalarType s,Vector<ScalarType,SizeType,BackendType,Props...>& v){
+CHIPSUM_FUNCTION_INLINE Vector<ScalarType,SizeType,BackendType,Props...>
+operator*(ScalarType s,Vector<ScalarType,SizeType,BackendType,Props...>& v){
     return v*s;
 }
 

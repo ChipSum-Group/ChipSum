@@ -3,15 +3,13 @@
 
 
 
-#include <Kokkos_Core.hpp>
+//#include <Kokkos_Core.hpp>
 #include <KokkosBlas1_dot.hpp>
 #include <KokkosBlas1_fill.hpp>
 #include <KokkosBlas1_scal.hpp>
 #include <KokkosBlas1_nrm1.hpp>
 #include <KokkosBlas1_nrm2.hpp>
 #include <KokkosBlas1_axpby.hpp>
-
-
 
 
 #include "../numeric_traits.hpp"
@@ -45,7 +43,8 @@ template<typename ScalarType,typename SizeType,typename ...Props>
  */
 CHIPSUM_FUNCTION_INLINE void Create(const SizeType n,Kokkos::View<ScalarType*>& dst)
 {
-    dst = Kokkos::View<ScalarType*>("vector_"+std::to_string(vector_name++),n);
+
+    dst = Kokkos::View<ScalarType*>("vector_"+std::to_string(vector_name++),static_cast<size_t>(n) );
 }
 
 
@@ -64,7 +63,7 @@ CHIPSUM_FUNCTION_INLINE void Fill(
 {
     typename Kokkos::View<ScalarType*>::HostMirror h_dst("hst",dst.extent(0));
 
-    Kokkos::parallel_for(Kokkos::RangePolicy<Kokkos::OpenMP>(0,n),
+    Kokkos::parallel_for(Kokkos::RangePolicy<Kokkos::OpenMP>(0,static_cast<size_t>(n)),
                          KOKKOS_LAMBDA(const int i){
 
         h_dst(i) = src[i];
@@ -92,6 +91,7 @@ CHIPSUM_FUNCTION_INLINE void Dot(
         ScalarType& r
         )
 {
+
     r = KokkosBlas::dot(a,b);
 }
 
