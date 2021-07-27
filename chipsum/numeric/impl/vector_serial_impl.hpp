@@ -16,8 +16,7 @@ namespace Numeric {
 
 template<typename ScalarType,typename SizeType,typename ...Props>
 struct Vector_Traits<ScalarType,SizeType,ChipSum::Backend::CPUSerialBackend,Props...>:
-        public Operator_Traits<ScalarType,SizeType,
-        ChipSum::Backend::CPUSerialBackend,Props...>
+        public Operator_Traits<ScalarType,SizeType,ChipSum::Backend::CPUSerialBackend>
 {
     using vector_type = typename std::vector<ScalarType>;
     using size_type = typename std::vector<ScalarType>::size_type;

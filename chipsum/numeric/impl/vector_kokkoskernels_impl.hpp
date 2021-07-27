@@ -25,8 +25,7 @@ namespace Numeric {
 template<typename ScalarType,typename SizeType,typename ...Props>
 struct Vector_Traits<ScalarType,SizeType,ChipSum::Backend::KokkosKernels,Props...>
         :
-        public Operator_Traits<ScalarType,SizeType,
-        ChipSum::Backend::KokkosKernels,Props...>
+        public Operator_Traits<ScalarType,SizeType,ChipSum::Backend::KokkosKernels>
 {
     using vector_type = typename Kokkos::View<ScalarType*>;
     using size_type = std::size_t;

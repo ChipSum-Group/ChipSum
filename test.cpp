@@ -16,10 +16,21 @@ using namespace std;
 typedef ChipSum::Numeric::Vector<double,int,ChipSum::Backend::KokkosKernels> Vector;
 
 
-template<typename T1,typename T2,typename ...Props>
+template<typename ...Props>
 struct S1{
 
+    using t0 = int;
+
 };
+
+template<typename T,typename ...Props>
+struct S1<T,Props...>{
+
+    using t1 = double;
+};
+
+
+
 
 int main(int argc,char* argv[])
 {
@@ -36,6 +47,10 @@ int main(int argc,char* argv[])
         v2[i]=double(i);
     }
 
+
+    S1<int,double>::t1 a1 = 999;
+
+    cout<<a1<<endl;
 
 
     Vector a(v1,10);

@@ -2,18 +2,17 @@
 
 
 
-#list(APPEND SRCS "${CMAKE_CURRENT_SOURCE_DIR}/operator.cpp")
 list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/numeric_traits.hpp")
-
-
-#list(APPEND SRCS "${CMAKE_CURRENT_SOURCE_DIR}/vector.cpp")
 list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/vector.hpp")
+list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/SparseMatrix.hpp")
 
 
-#list(APPEND SRCS "${CMAKE_CURRENT_SOURCE_DIR}/impl/vector_impl.cpp")
+
 list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/impl/vector_serial_impl.hpp")
 
 list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/impl/vector_kokkoskernels_impl.hpp")
+
+list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/impl/crs_kokkoskernels_impl.hpp")
 
 include_directories("../backend")
 
