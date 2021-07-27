@@ -10,6 +10,7 @@
 #include "chipsum/numeric/vector.hpp"
 #include "chipsum/numeric/impl/vector_serial_impl.hpp"
 #include "chipsum/backend/backend.hpp"
+#include "chipsum/numeric/sparse_matrix.hpp"
 
 
 using namespace std;
