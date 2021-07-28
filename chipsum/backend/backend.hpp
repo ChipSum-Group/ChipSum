@@ -1,5 +1,12 @@
-#ifndef BACKEND_HPP
-#define BACKEND_HPP
+/* * * * * * * * * * * * * * * * * * * * *
+*   File:     backend.hpp
+*   Author:   Li Kunyun
+*   group:    CDCS-HPC
+*   Time:     2021-07-28
+* * * * * * * * * * * * * * * * * * * * * */
+
+#ifndef __CHIPSUM_BACKEND_HPP__
+#define __CHIPSUM_BACKEND_HPP__
 
 
 namespace ChipSum{

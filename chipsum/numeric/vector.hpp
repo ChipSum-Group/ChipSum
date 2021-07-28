@@ -1,3 +1,10 @@
+/* * * * * * * * * * * * * * * * * * * * *
+*   File:     vector.hpp
+*   Author:   Li Kunyun
+*   group:    CDCS-HPC
+*   Time:     2021-07-28
+* * * * * * * * * * * * * * * * * * * * * */
+
 #ifndef __CHIPSUM_NUMERIC_VECTOR_HPP__
 #define __CHIPSUM_NUMERIC_VECTOR_HPP__
 
@@ -56,20 +63,20 @@ public:
     //    void PublicSample(){}
 
     /**
-     * @brief Vector
-     * @param data
-     * @param size
+     * @brief Vector：构造函数
+     * @param data：向量数据抽象类
+     * @param size：向量维度
      */
-    explicit CHIPSUM_FUNCTION_INLINE Vector(const vector_type& data,const size_type size):
+    CHIPSUM_FUNCTION_INLINE Vector(const vector_type& data,const size_type size):
         __data(data),__size(size){}
 
 
     /**
-     * @brief Vector
+     * @brief Vector：构造函数
      * @param data
      * @param size
      */
-    explicit CHIPSUM_FUNCTION_INLINE Vector(typename traits::nonconst_scalar_type* data,const SizeType& size)
+    CHIPSUM_FUNCTION_INLINE Vector(typename traits::nonconst_scalar_type* data,const SizeType& size)
         :__size(size)
     {
         ChipSum::Numeric::Impl::Vector::Create<ScalarType,SizeType>(size,__data);
@@ -88,15 +95,15 @@ public:
 
 
     /**
-     * @brief GetData
-     * @return
+     * @brief GetData：获取向量数据
+     * @return 向量数据
      */
 
     CHIPSUM_FUNCTION_INLINE const_vector_type_reference GetData(){return __data;}
 
     /**
-     * @brief GetSize
-     * @return
+     * @brief GetSize：获取向量维度
+     * @return 向量维度
      */
     CHIPSUM_FUNCTION_INLINE const_size_type_reference GetSize(){return __size;}
 
@@ -146,7 +153,7 @@ public:
      * @param s
      * @return
      */
-    CHIPSUM_FUNCTION_INLINE Vector& operator+(ScalarType s){
+    CHIPSUM_FUNCTION_INLINE Vector& operator+(const Vector& s){
         //TODO
     }
 
@@ -155,7 +162,7 @@ public:
      * @param s
      * @return
      */
-    CHIPSUM_FUNCTION_INLINE Vector& operator+=(ScalarType s){
+    CHIPSUM_FUNCTION_INLINE Vector& operator+=(const Vector& s){
         //TODO
     }
 
@@ -164,7 +171,7 @@ public:
      * @param s
      * @return
      */
-    CHIPSUM_FUNCTION_INLINE Vector& operator-(ScalarType s){
+    CHIPSUM_FUNCTION_INLINE Vector& operator-(const Vector& s){
         //TODO
     }
 
@@ -173,7 +180,7 @@ public:
      * @param s
      * @return
      */
-    CHIPSUM_FUNCTION_INLINE Vector& operator-=(ScalarType s){
+    CHIPSUM_FUNCTION_INLINE Vector& operator-=(const Vector& s){
         //TODO
     }
 

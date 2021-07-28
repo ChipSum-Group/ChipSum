@@ -1,3 +1,10 @@
+/* * * * * * * * * * * * * * * * * * * * *
+*   File:     vector_kokkoskernels_impl.hpp
+*   Author:   Li Kunyun
+*   group:    CDCS-HPC
+*   Time:     2021-07-28
+* * * * * * * * * * * * * * * * * * * * * */
+
 #ifndef __CHIPSUM_VECTOR_KOKKOSKERNELS_IMPL_HPP__
 #define __CHIPSUM_VECTOR_KOKKOSKERNELS_IMPL_HPP__
 

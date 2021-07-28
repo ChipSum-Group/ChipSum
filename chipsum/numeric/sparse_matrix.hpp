@@ -1,8 +1,18 @@
+/* * * * * * * * * * * * * * * * * * * * *
+*   File:     sparse_matrix.hpp
+*   Author:   Li Kunyun
+*   group:    CDCS-HPC
+*   Time:     2021-07-28
+* * * * * * * * * * * * * * * * * * * * * */
+
 #ifndef __CHIPSUM_NUMERIC_SPARSE_MATRIX_HPP__
 #define __CHIPSUM_NUMERIC_SPARSE_MATRIX_HPP__
 
 #include <vector>
 #include <type_traits>
+
+
+#include "../chipsum_macro.h"
 
 //#include <iostream>
 //using namespace std;
@@ -30,6 +40,18 @@ public:
     using matrix_type = typename traits::matrix_format_type;
 
 
+private:
+
+    matrix_type __data;
+
+
+public:
+
+    template<typename ...Args>
+    CHIPSUM_FUNCTION_INLINE SparseMatrix(Args... args){
+        ChipSum::Numeric::Impl::Sparse::Fill<ScalarType,SizeType,Props...>
+                (__data,args...);
+    }
 
 
 
@@ -38,6 +60,13 @@ public:
 };
 
 
+
+//template<typename ScalarType,typename SizeType,
+//         typename BackendType,typename ...Props>
+//SparseMatrix<ScalarType,SizeType,ChipSum::Numeric::Csr,BackendType,Props...>::(int&)
+//{
+
+//}
 
 
 

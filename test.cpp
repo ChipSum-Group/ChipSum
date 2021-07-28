@@ -100,7 +100,21 @@ int main(int argc,char* argv[])
 
 
     KokkosSparse::CrsMatrix<double,size_t ,default_device> A;
-    ChipSum::Numeric::Impl::Sparse::Fill(nrows,ncols,annz,row_map,col_map,values,A);
+    ChipSum::Numeric::Impl::Sparse::Fill(A,nrows,ncols,annz,row_map,col_map,values);
+
+//    CHIPSUM_FUNCTION_INLINE void Fill(
+//            KokkosSparse::CrsMatrix<ScalarType,SizeType,default_device>& A,
+//            const SizeType nrows,
+//            const SizeType ncols,
+//            const SizeType annz,
+//            SizeType* row_map,
+//            SizeType* col_map,
+//            ScalarType* values
+
+//            )
+
+    ChipSum::Numeric::SparseMatrix<double,size_t,ChipSum::Numeric::Csr,ChipSum::Backend::KokkosKernels>
+            B(nrows,ncols,annz,row_map,col_map,values);
 
     Kokkos::View<double*> x("x",5);
 
@@ -116,7 +130,10 @@ int main(int argc,char* argv[])
 
 
 
+    printf("%f\n",y(3));
+
     Kokkos::fence();
+
     cout<<endl;
 
     free(row_map);

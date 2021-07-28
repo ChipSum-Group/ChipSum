@@ -1,5 +1,12 @@
-#ifndef __NUMERIC_TRAITS_HPP__
-#define __NUMERIC_TRAITS_HPP__
+/* * * * * * * * * * * * * * * * * * * * *
+*   File:     numeric_traits.hpp
+*   Author:   Li Kunyun
+*   group:    CDCS-HPC
+*   Time:     2021-07-28
+* * * * * * * * * * * * * * * * * * * * * */
+
+#ifndef __CHIPSUM_NUMERIC_TRAITS_HPP__
+#define __CHIPSUM_NUMERIC_TRAITS_HPP__
 
 #include <type_traits>
 #include "../backend/backend.hpp"
@@ -68,6 +75,10 @@ struct Sparse_Traits: public Operator_Traits<ScalarType,SizeType,BackendType,Pro
 {
 
     using matrix_format_type = void;
+    using graph_type = void;
+    using row_map_type = void;
+    using col_map_type = void;
+    using matrix_values_type = void;
 
 
 };
