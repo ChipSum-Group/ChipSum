@@ -1,3 +1,9 @@
+/* * * * * * * * * * * * * * * * * * * * *
+*   File:     test.cpp
+*   Author:   Li Kunyun
+*   group:    CDCS-HPC
+*   Time:     2021-07-28
+* * * * * * * * * * * * * * * * * * * * * */
 #include <iostream>
 
 
@@ -99,38 +105,19 @@ int main(int argc,char* argv[])
     values[11]=7;values[12]=9;
 
 
-    KokkosSparse::CrsMatrix<double,size_t ,default_device> A;
-    ChipSum::Numeric::Impl::Sparse::Fill(A,nrows,ncols,annz,row_map,col_map,values);
-
-//    CHIPSUM_FUNCTION_INLINE void Fill(
-//            KokkosSparse::CrsMatrix<ScalarType,SizeType,default_device>& A,
-//            const SizeType nrows,
-//            const SizeType ncols,
-//            const SizeType annz,
-//            SizeType* row_map,
-//            SizeType* col_map,
-//            ScalarType* values
-
-//            )
-
-    ChipSum::Numeric::SparseMatrix<double,size_t,ChipSum::Numeric::Csr,ChipSum::Backend::KokkosKernels>
-            B(nrows,ncols,annz,row_map,col_map,values);
-
-    Kokkos::View<double*> x("x",5);
-
-    KokkosBlas::fill(x,1.0);
-
-    Kokkos::View<double*> y("y",5);
-    ChipSum::Numeric::Impl::Sparse::Spmv(A,x,y);
-
-    // should be {6,9,15,16,16}
-    Kokkos::parallel_for(5,KOKKOS_LAMBDA(int i){
-                            printf("%.0f,",y(i));
-                         });
+    typedef ChipSum::Numeric::SparseMatrix<double,size_t,
+            ChipSum::Numeric::Csr,ChipSum::Backend::KokkosKernels> Csr;
 
 
 
-    printf("%f\n",y(3));
+
+    Csr B(nrows,ncols,annz,row_map,col_map,values);
+
+//    double* x_val = (double*)malloc
+
+//    Vector x()
+
+//    cout<<y(3)<<endl;
 
     Kokkos::fence();
 

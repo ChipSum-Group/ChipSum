@@ -19,6 +19,7 @@
 #include <KokkosBlas1_axpby.hpp>
 
 
+
 #include "../numeric_traits.hpp"
 #include "../../chipsum_macro.h"
 
@@ -144,4 +145,4 @@ CHIPSUM_FUNCTION_INLINE ScalarType Norm2(const Kokkos::View<ScalarType*>& X)
 
 }// End namespace ChipSum
 
-#endif // End #ifndef HEADER_MACRO
+#endif // __CHIPSUM_VECTOR_KOKKOSKERNELS_IMPL_HPP__

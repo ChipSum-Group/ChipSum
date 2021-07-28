@@ -13,12 +13,10 @@
 
 
 #include "../chipsum_macro.h"
-
-//#include <iostream>
-//using namespace std;
-
 #include "numeric_traits.hpp"
 #include "impl/crs_kokkoskernels_impl.hpp"
+#include "impl/crs_serial_impl.hpp"
+#include "vector.hpp"
 
 
 
@@ -34,10 +32,10 @@ template<typename ScalarType,typename SizeType,typename SpFormat,typename Backen
 class SparseMatrix<ScalarType,SizeType,SpFormat,BackendType,Props...>{
 
 public:
+
     using traits = Sparse_Traits<ScalarType,SizeType,SpFormat,BackendType,Props...>;
-
-
     using matrix_type = typename traits::matrix_format_type;
+    using vector_type = Vector<ScalarType,SizeType,BackendType,Props...>;
 
 
 private:
@@ -53,23 +51,15 @@ public:
                 (__data,args...);
     }
 
-
-
+    CHIPSUM_FUNCTION_INLINE vector_type
+    operator*(const vector_type& v){
+        typename vector_type::vector_type out_data;
+        ChipSum::Numeric::Impl::Sparse::Spmv(__data,v,out_data);
+        return rhs_type(out_data,v.GetSize());
+    }
 
 
 };
-
-
-
-//template<typename ScalarType,typename SizeType,
-//         typename BackendType,typename ...Props>
-//SparseMatrix<ScalarType,SizeType,ChipSum::Numeric::Csr,BackendType,Props...>::(int&)
-//{
-
-//}
-
-
-
 
 } // End namespace Numeric
 } // End namespace ChipSum

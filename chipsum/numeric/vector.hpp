@@ -38,7 +38,10 @@ public:
 
 
     using vector_type = typename traits::vector_type;
+
+
     using size_type = typename traits::size_type;
+    using const_size_type = typename traits::const_size_type;
     using size_type_reference = typename std::add_lvalue_reference<size_type>::type;
     using const_size_type_reference = typename std::add_const<size_type_reference>::type;
 
@@ -67,16 +70,19 @@ public:
      * @param data：向量数据抽象类
      * @param size：向量维度
      */
-    CHIPSUM_FUNCTION_INLINE Vector(const vector_type& data,const size_type size):
+    CHIPSUM_FUNCTION_INLINE Vector(const vector_type& data,const_size_type size):
         __data(data),__size(size){}
+
+
+
 
 
     /**
      * @brief Vector：构造函数
-     * @param data
+     * @param data：
      * @param size
      */
-    CHIPSUM_FUNCTION_INLINE Vector(typename traits::nonconst_scalar_type* data,const SizeType& size)
+    CHIPSUM_FUNCTION_INLINE Vector(typename traits::nonconst_scalar_type* data,const_size_type size)
         :__size(size)
     {
         ChipSum::Numeric::Impl::Vector::Create<ScalarType,SizeType>(size,__data);
@@ -85,11 +91,12 @@ public:
 
 
     /**
-     * @brief SetData
-     * @param data
-     * @param size
+     * @brief SetData：设置向量数据（暂时没有用上）
+     * @param data：CPU端向量数据
+     * @param size：向量数据维度
+     *
      */
-    CHIPSUM_FUNCTION_INLINE void SetData(typename traits::nonconst_scalar_type* data,const SizeType& size){
+    CHIPSUM_FUNCTION_INLINE void SetData(typename traits::nonconst_scalar_type* data,const_size_type_reference size){
         ChipSum::Numeric::Impl::Vector::Fill(data,size,__data);
     }
 
@@ -109,9 +116,9 @@ public:
 
 
     /**
-     * @brief Dot
-     * @param v
-     * @param r
+     * @brief Dot：向量内积操作
+     * @param v：右端项（向量）
+     * @param r：内积结果
      */
 
     CHIPSUM_FUNCTION_INLINE void Dot(Vector& v,typename traits::nonconst_scalar_type_reference r){
@@ -121,11 +128,11 @@ public:
 
 
     /**
-     * @brief operator *
-     * @param s
+     * @brief operator *：向量乘矢量（等比缩放）
+     * @param s：
      * @return
      */
-    CHIPSUM_FUNCTION_INLINE Vector operator*(ScalarType s){
+    CHIPSUM_FUNCTION_INLINE Vector operator*(typename traits::const_scalar_type s){
 
         vector_type out_data;
 
@@ -133,9 +140,7 @@ public:
 
         ChipSum::Numeric::Impl::Vector::Scal<ScalarType,SizeType,Props...>(out_data,s,GetData());
 
-        Vector out(out_data,__size);
-
-        return out;
+        return Vector(out_data,__size);
     }
 
     /**

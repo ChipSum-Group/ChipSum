@@ -12,11 +12,12 @@
 #include <KokkosKernels_default_types.hpp>
 #include <KokkosSparse.hpp>
 #include <KokkosSparse_spmv.hpp>
-
+#include <KokkosSparse_trsv.hpp>
 
 #include "../numeric_traits.hpp"
 #include "../sparse_matrix_types.h"
 #include "../../chipsum_macro.h"
+
 
 static int spm_name = 0;
 

@@ -76,8 +76,7 @@ struct Sparse_Traits: public Operator_Traits<ScalarType,SizeType,BackendType,Pro
 
     using matrix_format_type = void;
     using graph_type = void;
-    using row_map_type = void;
-    using col_map_type = void;
+
     using matrix_values_type = void;
 
 

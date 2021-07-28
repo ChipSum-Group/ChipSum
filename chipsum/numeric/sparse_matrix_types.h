@@ -18,6 +18,8 @@ struct SparseMatrixBase{};
 
 struct Csr: public SparseMatrixBase{};
 
+struct Csc:public SparseMatrixBase{};
+
 }
 
 }
