@@ -10,6 +10,9 @@
 
 #include <vector>
 #include <cmath>
+#include <cassert>
+
+#include <iostream>
 using namespace std;
 
 
@@ -27,6 +30,7 @@ struct Vector_Traits<ScalarType,SizeType,ChipSum::Backend::CPUSerialBackend,Prop
 {
     using vector_type = typename std::vector<ScalarType>;
     using size_type = typename std::vector<ScalarType>::size_type;
+    using device_scalar_value_type = ScalarType;
 
 };
 
@@ -75,6 +79,35 @@ template<typename ScalarType,typename SizeType,typename ...Props>
  * @param b
  * @param r
  */
+CHIPSUM_FUNCTION_INLINE ScalarType Dot(
+        const std::vector<ScalarType>& a,
+
+        const std::vector<ScalarType>& b,
+
+        const SizeType& n
+        )
+{
+
+
+    ScalarType r = 0.0;
+
+    for(SizeType i=0;i<a.size();++i)
+    {
+        r += a[i]*b[i];
+    }
+
+    return r;
+
+}
+
+
+template<typename ScalarType,typename SizeType,typename ...Props>
+/**
+ * @brief Dot 向量内积的串行实现
+ * @param a 利用traits技术实现的向量类型
+ * @param b
+ * @param r
+ */
 CHIPSUM_FUNCTION_INLINE void Dot(
         const std::vector<ScalarType>& a,
 
@@ -86,12 +119,13 @@ CHIPSUM_FUNCTION_INLINE void Dot(
 {
 
 
-    r = 0.0;
+
 
     for(SizeType i=0;i<a.size();++i)
     {
         r += a[i]*b[i];
     }
+
 
 
 }
@@ -122,9 +156,10 @@ CHIPSUM_FUNCTION_INLINE ScalarType Norm1(const std::vector<ScalarType>& X)
 {
     ScalarType acc = 0.0;
     for(size_t i=0;i<X.size();++i){
+        cout<<X[i]<<",";
         acc += X[i];
     }
-
+cout<<endl;
     return acc;
 
 }
@@ -145,6 +180,96 @@ CHIPSUM_FUNCTION_INLINE ScalarType Norm2(const std::vector<ScalarType>& X)
     return std::sqrt(acc);
 
 }
+
+
+
+template<typename ScalarType,typename SizeType,typename ...Props>
+
+/**
+ * @brief Axpy
+ * @param a
+ * @param X
+ * @param Y
+ */
+CHIPSUM_FUNCTION_INLINE void Axpy(
+        ScalarType a,
+        std::vector<ScalarType>& X,
+        std::vector<ScalarType>& Y)
+{
+//    std::assert(X.size()==Y.size());
+    for(size_t i=0;i<Y.size();++i)
+    {
+        Y[i] += a*X[i];
+    }
+}
+
+
+template<typename ScalarType,typename SizeType,typename ...Props>
+
+/**
+ * @brief Axpby
+ * @param a
+ * @param X
+ * @param Y
+ */
+CHIPSUM_FUNCTION_INLINE void Axpby(
+        ScalarType a,
+        std::vector<ScalarType>& X,
+        ScalarType b,
+        std::vector<ScalarType>& Y)
+{
+//    std::assert(X.size()==Y.size());
+    for(size_t i=0;i<Y.size();++i)
+    {
+        Y[i] = a*X[i] + b*Y[i];
+    }
+}
+
+
+template<typename ScalarType,typename SizeType,typename ...Props>
+
+/**
+ * @brief Axpby
+ * @param a
+ * @param X
+ * @param Y
+ */
+CHIPSUM_FUNCTION_INLINE void DeepCopy(
+        std::vector<ScalarType>& dst,
+        const std::vector<ScalarType>& src
+        )
+{
+
+    for(size_t i=0;i<dst.size();++i)
+    {
+        dst[i] = src[i];
+    }
+
+
+}
+
+template<typename ScalarType,typename SizeType,typename ...Props>
+
+/**
+ * @brief Axpby
+ * @param a
+ * @param X
+ * @param Y
+ */
+CHIPSUM_FUNCTION_INLINE void ShallowCopy(
+        std::vector<ScalarType>& dst,
+        const std::vector<ScalarType>& src
+        )
+{
+    dst = src;
+
+}
+
+
+
+
+
+
 
 }// End namespace Vector
 }// End namespace Impl

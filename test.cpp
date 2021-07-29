@@ -20,7 +20,7 @@
 
 
 using namespace std;
-typedef ChipSum::Numeric::Vector<double,int,ChipSum::Backend::KokkosKernels> Vector;
+typedef ChipSum::Numeric::Vector<double,int,ChipSum::Backend::BuiltinSerial> Vector;
 
 
 
@@ -32,37 +32,50 @@ int main(int argc,char* argv[])
     Kokkos::initialize();
     {
 
+
+//    cout<<Kokkos::View<double*>::memory_space::name()<<endl;
+
+
     double* v1 = (double*)malloc(10*sizeof (double));
 
     double* v2 = (double*)malloc(10*sizeof (double));
 
     for(int i=0;i<10;++i){
-        v1[i]=1;
-        v2[i]=1;
+        v1[i]=i;
+        v2[i]=i;
     }
 
 
 
 
 
-    Vector a(v1,10);
-    Vector b(v2,10);
+    Vector a(v1,10); //a = {0,1,2,3,4,5,6,7,8,9}
+    Vector b(v2,10); //b = {0,1,2,3,4,5,6,7,8,9}
 
 
-    a = 1.0*a;
+    a+=b; //a = {0,2,4,6,8,10,12,14,16,18}
+
+    a = a+b; //a = {0,3,6,9,12,15,18,21,24,27}
 
 
-    cout<<a.Norm1()<<endl;
+    a = 1.0*a; //a = {0,3,6,9,12,15,18,21,24,27}
 
-    cout<<a.Norm2()<<endl;
+
+
+//    auto c = a+b;
+
+    cout<<a.Norm1()<<endl; // 135
+
+    cout<<a.Norm2()<<endl; // 50.6458
     double r;
-    a.Dot(a,r);
+    r = a.Dot(a);
 
     Kokkos::fence();
-    cout<<r<<endl;
+    cout<<r<<endl; // r = 2565
 
     free(v1);
     free(v2);
+
 
 
 

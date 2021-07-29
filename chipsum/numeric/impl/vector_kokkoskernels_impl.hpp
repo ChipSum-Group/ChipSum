@@ -17,6 +17,7 @@
 #include <KokkosBlas1_nrm1.hpp>
 #include <KokkosBlas1_nrm2.hpp>
 #include <KokkosBlas1_axpby.hpp>
+#include <Kokkos_Vector.hpp>
 
 
 
@@ -28,6 +29,7 @@ namespace ChipSum{
 namespace Numeric {
 
 
+
 template<typename ScalarType,typename SizeType,typename ...Props>
 struct Vector_Traits<ScalarType,SizeType,ChipSum::Backend::KokkosKernels,Props...>
         :
@@ -35,6 +37,8 @@ struct Vector_Traits<ScalarType,SizeType,ChipSum::Backend::KokkosKernels,Props..
 {
     using vector_type = typename Kokkos::View<ScalarType*>;
     using size_type = std::size_t;
+
+    using device_scalar_value_type = typename Kokkos::View<ScalarType>;
 
 };
 
@@ -54,6 +58,7 @@ CHIPSUM_FUNCTION_INLINE void Create(const SizeType n,Kokkos::View<ScalarType*>& 
 
     dst = Kokkos::View<ScalarType*>("vector_"+std::to_string(vector_name++),static_cast<size_t>(n) );
 }
+
 
 
 template<typename ScalarType,typename SizeType,typename ...Props>
@@ -84,6 +89,27 @@ CHIPSUM_FUNCTION_INLINE void Fill(
 
 }
 
+
+
+
+template<typename ScalarType,typename SizeType,typename ...Props>
+/**
+ * @brief Dot 向量内积的串行实现
+ * @param a 利用traits技术实现的向量类型
+ * @param b
+ * @param r
+ */
+CHIPSUM_FUNCTION_INLINE ScalarType Dot(
+        const Kokkos::View<ScalarType*>& a,
+        const Kokkos::View<ScalarType*>& b,
+        const SizeType n
+        )
+{
+
+    return KokkosBlas::dot(a,b);
+}
+
+
 template<typename ScalarType,typename SizeType,typename ...Props>
 /**
  * @brief Dot 向量内积的串行实现
@@ -93,15 +119,16 @@ template<typename ScalarType,typename SizeType,typename ...Props>
  */
 CHIPSUM_FUNCTION_INLINE void Dot(
         const Kokkos::View<ScalarType*>& a,
-
         const Kokkos::View<ScalarType*>& b,
         const SizeType n,
-        ScalarType& r
+        Kokkos::View<ScalarType>& r
         )
 {
 
-    r = KokkosBlas::dot(a,b);
+    KokkosBlas::dot(r,a,b);
 }
+
+
 
 template <typename ScalarType,typename SizeType,typename ...Props>
 /**
@@ -110,9 +137,15 @@ template <typename ScalarType,typename SizeType,typename ...Props>
  * @param a：输入，缩放比例
  * @param X：输入，原向量
  */
-CHIPSUM_FUNCTION_INLINE void Scal(Kokkos::View<ScalarType*>& R,const ScalarType a,const Kokkos::View<ScalarType*>& X){
+CHIPSUM_FUNCTION_INLINE void Scal(
+        Kokkos::View<ScalarType*>& R,
+        const ScalarType a,
+        const Kokkos::View<ScalarType*>& X){
     KokkosBlas::scal(R,a,X);
 }
+
+
+
 
 template<typename ScalarType,typename SizeType,typename ...Props>
 /**
@@ -120,10 +153,13 @@ template<typename ScalarType,typename SizeType,typename ...Props>
  * @param X：原向量
  * @return 范数结果
  */
-CHIPSUM_FUNCTION_INLINE ScalarType Norm1(const Kokkos::View<ScalarType*>& X)
+CHIPSUM_FUNCTION_INLINE ScalarType Norm1(
+        const Kokkos::View<ScalarType*>& X)
 {
     return KokkosBlas::nrm1(X);
 }
+
+
 
 
 template<typename ScalarType,typename SizeType,typename ...Props>
@@ -132,10 +168,88 @@ template<typename ScalarType,typename SizeType,typename ...Props>
  * @param X：原向量
  * @return 范数结果
  */
-CHIPSUM_FUNCTION_INLINE ScalarType Norm2(const Kokkos::View<ScalarType*>& X)
+CHIPSUM_FUNCTION_INLINE ScalarType Norm2(
+        const Kokkos::View<ScalarType*>& X)
 {
     return KokkosBlas::nrm2(X);
 }
+
+
+
+template<typename ScalarType,typename SizeType,typename ...Props>
+
+/**
+ * @brief Axpy
+ * @param a
+ * @param X
+ * @param Y
+ */
+CHIPSUM_FUNCTION_INLINE void Axpy(
+        ScalarType a,
+        const Kokkos::View<ScalarType*>& X,
+        const Kokkos::View<ScalarType*>& Y)
+{
+    KokkosBlas::axpy(a,X,Y);
+}
+
+
+template<typename ScalarType,typename SizeType,typename ...Props>
+
+/**
+ * @brief Axpby
+ * @param a
+ * @param X
+ * @param Y
+ */
+CHIPSUM_FUNCTION_INLINE void Axpby(
+        ScalarType a,
+        const Kokkos::View<ScalarType*>& X,
+        ScalarType b,
+        const Kokkos::View<ScalarType*>& Y)
+{
+    KokkosBlas::axpby(a,X,b,Y);
+}
+
+
+template<typename ScalarType,typename SizeType,typename ...Props>
+
+/**
+ * @brief Axpby
+ * @param a
+ * @param X
+ * @param Y
+ */
+CHIPSUM_FUNCTION_INLINE void DeepCopy(
+        const Kokkos::View<ScalarType*>& dst,
+        const Kokkos::View<ScalarType*>& src
+        )
+{
+
+    Kokkos::deep_copy(dst,src);
+
+}
+
+template<typename ScalarType,typename SizeType,typename ...Props>
+
+/**
+ * @brief Axpby
+ * @param a
+ * @param X
+ * @param Y
+ */
+CHIPSUM_FUNCTION_INLINE void ShallowCopy(
+        const Kokkos::View<ScalarType*>& dst,
+        const Kokkos::View<ScalarType*>& src
+        )
+{
+    dst = src;
+
+}
+
+
+
+
+
 
 }// End namespace Vector
 

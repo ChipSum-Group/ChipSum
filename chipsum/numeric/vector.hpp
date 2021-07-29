@@ -48,6 +48,10 @@ public:
     using vector_type_reference = typename std::add_lvalue_reference<vector_type>::type;
     using const_vector_type_reference = typename std::add_const<vector_type_reference>::type;
 
+
+    using device_scalar_type = typename traits::device_scalar_value_type;
+    using device_scalar_type_reference = typename std::add_lvalue_reference<device_scalar_type>::type;;
+
 private:
 
     vector_type __data;
@@ -71,7 +75,11 @@ public:
      * @param size：向量维度
      */
     CHIPSUM_FUNCTION_INLINE Vector(const vector_type& data,const_size_type size):
-        __data(data),__size(size){}
+        __size(size)
+    {
+        ChipSum::Numeric::Impl::Vector::Create(__size,__data);
+        ChipSum::Numeric::Impl::Vector::DeepCopy<ScalarType,SizeType>(__data,data);
+    }
 
 
 
@@ -121,11 +129,22 @@ public:
      * @param r：内积结果
      */
 
-    CHIPSUM_FUNCTION_INLINE void Dot(Vector& v,typename traits::nonconst_scalar_type_reference r){
-        ChipSum::Numeric::Impl::Vector::
-                Dot(GetData(),v.GetData(),__size,r);
+    CHIPSUM_FUNCTION_INLINE typename traits::nonconst_scalar_type Dot(Vector& v){
+        return ChipSum::Numeric::Impl::Vector::
+                Dot(GetData(),v.GetData(),__size);
     }
 
+
+    /**
+     * @brief Dot：向量内积操作（未测试）
+     * @param v：右端项（向量）
+     * @param r：内积结果（设备）
+     */
+
+    CHIPSUM_FUNCTION_INLINE void Dot(Vector& v,device_scalar_type_reference r){
+        ChipSum::Numeric::Impl::Vector::
+                Dot<ScalarType,SizeType>(GetData(),v.GetData(),__size,r);
+    }
 
     /**
      * @brief operator *：向量乘矢量（等比缩放）
@@ -134,13 +153,13 @@ public:
      */
     CHIPSUM_FUNCTION_INLINE Vector operator*(typename traits::const_scalar_type s){
 
-        vector_type out_data;
+        Vector ret(__data,__size);
 
-        ChipSum::Numeric::Impl::Vector::Create(__size,out_data);
 
-        ChipSum::Numeric::Impl::Vector::Scal<ScalarType,SizeType,Props...>(out_data,s,GetData());
 
-        return Vector(out_data,__size);
+        ChipSum::Numeric::Impl::Vector::Scal<ScalarType,SizeType,Props...>(ret.GetData(),s,GetData());
+
+        return ret;
     }
 
     /**
@@ -158,8 +177,12 @@ public:
      * @param s
      * @return
      */
-    CHIPSUM_FUNCTION_INLINE Vector& operator+(const Vector& s){
-        //TODO
+    CHIPSUM_FUNCTION_INLINE Vector operator+(Vector& s){
+        Vector ret(__data,__size);
+        ChipSum::Numeric::Impl::Vector::Axpy<ScalarType,SizeType>(1.0,s.GetData(),ret.GetData());
+
+        return ret;
+
     }
 
     /**
@@ -167,8 +190,9 @@ public:
      * @param s
      * @return
      */
-    CHIPSUM_FUNCTION_INLINE Vector& operator+=(const Vector& s){
-        //TODO
+    CHIPSUM_FUNCTION_INLINE Vector& operator+=(Vector& s){
+        ChipSum::Numeric::Impl::Vector::Axpy<ScalarType,SizeType>(1.0,s.GetData(),__data);
+        return *this;
     }
 
     /**
