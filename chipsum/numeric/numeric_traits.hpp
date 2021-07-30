@@ -52,7 +52,7 @@ struct Operator_Traits<ScalarType,SizeType,BackendType,Props...>{
     using const_size_type_pointer = typename std::add_const_t<nonconst_size_type_pointer>;
 
     static_assert (std::is_base_of<ChipSum::Backend::BackendBase,
-    BackendType>::value,"Parameter BackendType error." );
+    BackendType>::value,"[ERR] Parameter BackendType error." );
 
 
 
@@ -70,7 +70,7 @@ struct Vector_Traits: public Operator_Traits<ScalarType,SizeType,BackendType,Pro
 };
 
 
-template<typename ScalarType,typename SizeType,typename BackendType,typename ...Props>
+template<typename ScalarType,typename SizeType,typename SparseType,typename BackendType,typename ...Props>
 struct Sparse_Traits: public Operator_Traits<ScalarType,SizeType,BackendType,Props...>
 {
 

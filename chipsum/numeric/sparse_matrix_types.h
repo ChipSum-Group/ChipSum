@@ -11,6 +11,8 @@
 
 namespace ChipSum {
 namespace  Numeric{
+namespace  SparseTypes{
+
 
 
 
@@ -21,6 +23,6 @@ struct Csr: public SparseMatrixBase{};
 struct Csc:public SparseMatrixBase{};
 
 }
-
 }
-#endif // SPARSEMATRIXTYPES_H
+}
+#endif // __CHIPSUM_NUMERIC_SPARSE_MATRIX_TYPES_H__

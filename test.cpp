@@ -10,17 +10,15 @@ using namespace std;
 #include <vector>
 #include <type_traits>
 
-
-
 #include "ChipSumConfig.h"
 #include "chipsum/numeric/vector.hpp"
 #include "chipsum/numeric/impl/vector_serial_impl.hpp"
 #include "chipsum/backend/backend.hpp"
 #include "chipsum/numeric/sparse_matrix.hpp"
 
-
 typedef ChipSum::Numeric::Vector<double,size_t,ChipSum::Backend::KokkosKernels> Vector;
-
+typedef   ChipSum::Numeric::SparseMatrix<double,size_t,
+        ChipSum::Numeric::SparseTypes::Csr,ChipSum::Backend::KokkosKernels>  Csrm;
 
 int main(int argc,char* argv[])
 {
@@ -58,6 +56,8 @@ int main(int argc,char* argv[])
 
     a = 1.0*a; //a = {0,3,6,9,12,15,18,21,24,27}
 
+    a.Print(cout);
+
 
 //    a -= a; // if uncomment, all results above turns 0
 
@@ -68,9 +68,6 @@ int main(int argc,char* argv[])
     cout<<a.Norm2()<<endl; // 50.6458
     double r;
     a.Dot(a,r);
-
-
-    ChipSum::Numeric::Impl::Vector::Print<double,int>(cout,a.GetData());
 
     cout<<r<<endl; // r = 2565
 
@@ -119,8 +116,7 @@ int main(int argc,char* argv[])
     values[11]=7;values[12]=9;
 
 
-    typedef ChipSum::Numeric::SparseMatrix<double,size_t,
-            ChipSum::Numeric::Csr,ChipSum::Backend::KokkosKernels> Csrm;
+
 
 
 
@@ -130,7 +126,9 @@ int main(int argc,char* argv[])
 
     Vector xb(v1,5);
 
-    auto bb = B*xb;
+    Vector bb = B*xb;
+
+    bb.Print();
 
     Kokkos::fence();
 

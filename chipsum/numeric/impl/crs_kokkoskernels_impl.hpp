@@ -26,7 +26,7 @@ namespace ChipSum{
 namespace Numeric {
 
 template<typename ScalarType,typename SizeType,typename ...Props>
-struct Sparse_Traits<ScalarType,SizeType,Csr,ChipSum::Backend::KokkosKernels,Props...>
+struct Sparse_Traits<ScalarType,SizeType,SparseTypes::Csr,ChipSum::Backend::KokkosKernels,Props...>
         : public Operator_Traits<ScalarType,SizeType,ChipSum::Backend::KokkosKernels,Props...>{
 
 
@@ -82,44 +82,13 @@ CHIPSUM_FUNCTION_INLINE void Create(
 
 }
 
-
-template<typename ScalarType,typename SizeType,typename ...Props>
-/**
- * @brief Spmv
- * @param A
- * @param x
- * @param b
- */
-CHIPSUM_FUNCTION_INLINE void Mult(
-        KokkosSparse::CrsMatrix<ScalarType,SizeType,default_device>& A,
-        Kokkos::View<ScalarType*>& x,
-        Kokkos::View<ScalarType*>& b)
-{
-    KokkosSparse::spmv("N",static_cast<ScalarType>(1.0),A,x,static_cast<ScalarType>(0.0),b);
-}
-
-
-template<typename ScalarType,typename SizeType,typename ...Props>
-/**
- * @brief Spmv
- * @param alpha
- * @param A
- * @param x
- * @param beta
- * @param b
- */
-CHIPSUM_FUNCTION_INLINE void Mult(
-        ScalarType alpha,
-        KokkosSparse::CrsMatrix<ScalarType,SizeType,default_device>& A,
-        Kokkos::View<ScalarType*>& x,
-        ScalarType beta,
-        Kokkos::View<ScalarType*> b)
-{
-    KokkosSparse::spmv("N",alpha,A,x,beta,b);
-}
-
-
 template <typename ScalarType,typename SizeType,typename ...Props>
+/**
+ * @brief Create
+ * @param A
+ * @param row_map_size
+ * @param col_map_size
+ */
 CHIPSUM_FUNCTION_INLINE void Create(
         KokkosSparse::CrsMatrix<ScalarType,SizeType,default_device>& A,
         const size_t row_map_size,
@@ -152,6 +121,45 @@ CHIPSUM_FUNCTION_INLINE void Create(
 
 
 }
+
+
+template<typename ScalarType,typename SizeType,typename ...Props>
+/**
+ * @brief Mult
+ * @param A
+ * @param x
+ * @param b
+ */
+CHIPSUM_FUNCTION_INLINE void Mult(
+        KokkosSparse::CrsMatrix<ScalarType,SizeType,default_device>& A,
+        const Kokkos::View<ScalarType*>& x,
+        Kokkos::View<ScalarType*>& b)
+{
+    KokkosSparse::spmv("N",static_cast<ScalarType>(1.0),A,x,static_cast<ScalarType>(0.0),b);
+}
+
+
+template<typename ScalarType,typename SizeType,typename ...Props>
+/**
+ * @brief Mult
+ * @param alpha
+ * @param A
+ * @param x
+ * @param beta
+ * @param b
+ */
+CHIPSUM_FUNCTION_INLINE void Mult(
+        ScalarType alpha,
+        KokkosSparse::CrsMatrix<ScalarType,SizeType,default_device>& A,
+        Kokkos::View<ScalarType*>& x,
+        ScalarType beta,
+        Kokkos::View<ScalarType*> b)
+{
+    KokkosSparse::spmv("N",alpha,A,x,beta,b);
+}
+
+
+
 
 } // End namespace Sparse
 } // End namespace Impl

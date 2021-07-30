@@ -8,18 +8,15 @@
 #ifndef __CHIPSUM_NUMERIC_SPARSE_MATRIX_HPP__
 #define __CHIPSUM_NUMERIC_SPARSE_MATRIX_HPP__
 
-#include <vector>
+
 #include <type_traits>
 
 
-#include "../chipsum_macro.h"
-#include "numeric_traits.hpp"
-#include "impl/crs_kokkoskernels_impl.hpp"
-#include "impl/crs_serial_impl.hpp"
+
 #include "vector.hpp"
 
-
-
+#include "impl/crs_serial_impl.hpp"
+#include "impl/crs_kokkoskernels_impl.hpp"
 
 
 namespace ChipSum {
@@ -50,12 +47,9 @@ public:
      * @brief SparseMatrix
      * @param args
      */
-    CHIPSUM_FUNCTION_INLINE SparseMatrix(Args... args){
-        ChipSum::Numeric::Impl::Sparse::Create<ScalarType,SizeType,Props...>
-                (__data,args...);
+    CHIPSUM_FUNCTION_INLINE SparseMatrix(Args ...args){
+        ChipSum::Numeric::Impl::Sparse::Create<ScalarType,SizeType>(__data,args...);
     }
-
-
 
 
     /**

@@ -9,6 +9,7 @@
 #define __CHIPSUM_NUMERIC_VECTOR_HPP__
 
 #include <vector>
+#include <fstream>
 #include <type_traits>
 
 /* To debug */
@@ -261,6 +262,11 @@ public:
      */
     CHIPSUM_FUNCTION_INLINE ScalarType Norm2(){
         return ChipSum::Numeric::Impl::Vector::Norm2<ScalarType,SizeType,Props...>(__data);
+    }
+
+
+    CHIPSUM_FUNCTION_INLINE void Print(std::ostream& out=std::cout){
+        ChipSum::Numeric::Impl::Vector::Print<ScalarType,SizeType,Props...>(out,__data);
     }
 
 
