@@ -90,6 +90,7 @@ CHIPSUM_FUNCTION_INLINE void Dot(
 {
 
 
+    assert(x.size()==y.size());
 
 
     for(SizeType i=0;i<x.size();++i)
@@ -109,7 +110,7 @@ template <typename ScalarType,typename SizeType,typename ...Props>
  * @param X：输入，原向量
  */
 CHIPSUM_FUNCTION_INLINE void Scal(std::vector<ScalarType>& R,const ScalarType a,const std::vector<ScalarType>& X){
-    if(R.size() != X.size()) R.resize(X.size());
+    assert(R.size()==X.size());
     for(size_t i=0;i<X.size();++i)
     {
         R[i] = a*X[i];
@@ -165,7 +166,7 @@ CHIPSUM_FUNCTION_INLINE void Axpy(
         const std::vector<ScalarType>& X,
         std::vector<ScalarType>& Y)
 {
-//    std::assert(X.size()==Y.size());
+    assert(X.size()==Y.size());
     for(size_t i=0;i<Y.size();++i)
     {
         Y[i] += a*X[i];
@@ -188,7 +189,7 @@ CHIPSUM_FUNCTION_INLINE void Axpby(
         ScalarType b,
         std::vector<ScalarType>& Y)
 {
-//    std::assert(X.size()==Y.size());
+    assert(X.size()==Y.size());
     for(size_t i=0;i<Y.size();++i)
     {
         Y[i] = a*X[i] + b*Y[i];
@@ -208,7 +209,7 @@ CHIPSUM_FUNCTION_INLINE void DeepCopy(
         const std::vector<ScalarType>& src
         )
 {
-
+    dst.resize(src.size());
     for(size_t i=0;i<dst.size();++i)
     {
         dst[i] = src[i];

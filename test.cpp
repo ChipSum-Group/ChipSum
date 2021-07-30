@@ -15,6 +15,7 @@ using namespace std;
 #include "chipsum/numeric/impl/vector_serial_impl.hpp"
 #include "chipsum/backend/backend.hpp"
 #include "chipsum/numeric/sparse_matrix.hpp"
+#include "chipsum/numeric/dense_matrix.hpp"
 
 typedef ChipSum::Numeric::Vector<double,size_t,ChipSum::Backend::KokkosKernels> Vector;
 typedef   ChipSum::Numeric::SparseMatrix<double,size_t,
@@ -128,7 +129,7 @@ int main(int argc,char* argv[])
 
     Vector bb = B*xb;
 
-    bb.Print();
+    bb.Print(); // {13,15,40,24,50}
 
     Kokkos::fence();
 

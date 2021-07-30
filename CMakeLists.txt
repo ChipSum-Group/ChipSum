@@ -33,7 +33,10 @@ if(ChipSum_USE_KokkosKernels)
 
 endif()
 
+if(ChipSum_USE_OpenBlas)
+    list(APPEND CHIPSUM_LIBS  "blas")
 
+endif()
 
 
 

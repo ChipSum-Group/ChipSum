@@ -166,6 +166,11 @@ CHIPSUM_FUNCTION_INLINE void Mult(
     }
 }
 
+template <typename ScalarType,typename SizeType,typename ...Props>
+CHIPSUM_FUNCTION_INLINE void Gauss_seidel(/*...*/){
+    //TODO
+}
+
 
 } // End namespace Sparse
 } // End namespace Impl

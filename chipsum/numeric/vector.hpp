@@ -185,7 +185,8 @@ public:
     CHIPSUM_FUNCTION_INLINE Vector operator*(typename traits::const_scalar_type s){
 
         Vector ret(__data,__size);
-        ChipSum::Numeric::Impl::Vector::Scal<ScalarType,SizeType,Props...>(ret.GetData(),s,GetData());
+        ChipSum::Numeric::Impl::Vector::Scal<ScalarType,SizeType,Props...>
+                (ret.GetData(),s,GetData());
 
         return ret;
     }
@@ -196,7 +197,8 @@ public:
      * @return
      */
     CHIPSUM_FUNCTION_INLINE Vector& operator*=(ScalarType s){
-        ChipSum::Numeric::Impl::Vector::Scal<ScalarType,SizeType,Props...>(__data,s,GetData());
+        ChipSum::Numeric::Impl::Vector::Scal<ScalarType,SizeType,Props...>
+                (__data,s,GetData());
         return *this;
     }
 
@@ -207,7 +209,8 @@ public:
      */
     CHIPSUM_FUNCTION_INLINE Vector operator+(Vector& s){
         Vector ret(__data,__size);
-        ChipSum::Numeric::Impl::Vector::Axpy<ScalarType,SizeType>(1.0,s.GetData(),ret.GetData());
+        ChipSum::Numeric::Impl::Vector::Axpy<ScalarType,SizeType>
+                (static_cast<ScalarType>(1),s.GetData(),ret.GetData());
 
         return ret;
 
@@ -219,7 +222,8 @@ public:
      * @return
      */
     CHIPSUM_FUNCTION_INLINE Vector& operator+=(Vector& s){
-        ChipSum::Numeric::Impl::Vector::Axpy<ScalarType,SizeType>(1.0,s.GetData(),__data);
+        ChipSum::Numeric::Impl::Vector::Axpy<ScalarType,SizeType>
+                (static_cast<ScalarType>(1),s.GetData(),__data);
         return *this;
     }
 
@@ -231,8 +235,21 @@ public:
     CHIPSUM_FUNCTION_INLINE Vector operator-(Vector& s){
 
         Vector ret(__data,__size);
-        ChipSum::Numeric::Impl::Vector::Axpy<ScalarType,SizeType>(-1.0,s.GetData(),ret.GetData());
+        ChipSum::Numeric::Impl::Vector::Axpy<ScalarType,SizeType>
+                (static_cast<ScalarType>(-1),s.GetData(),ret.GetData());
         return ret;
+    }
+
+    /**
+     * @brief operator -
+     * @param s
+     * @return
+     */
+    CHIPSUM_FUNCTION_INLINE Vector operator-(){
+
+
+
+        return static_cast<ScalarType>(-1)*(*this);
     }
 
     /**
@@ -241,7 +258,8 @@ public:
      * @return
      */
     CHIPSUM_FUNCTION_INLINE Vector& operator-=(Vector& s){
-        ChipSum::Numeric::Impl::Vector::Axpy<ScalarType,SizeType>(-1.0,s.GetData(),__data);
+        ChipSum::Numeric::Impl::Vector::Axpy<ScalarType,SizeType>
+                (static_cast<ScalarType>(-1),s.GetData(),__data);
         return *this;
     }
 

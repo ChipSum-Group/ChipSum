@@ -20,6 +20,12 @@ typedef  BuiltinSerial CPUSerialBackend;
 
 struct KokkosKernels:public BackendBase{/*TODO*/};
 
+struct Kokkos:public BackendBase{/*TODO*/};
+
+
+// 适合用于小矩阵运算，考虑后面为它设计默认编译选项，
+// 形成BlasMatrix。
+struct OpenBlas:public BackendBase{/*TODO*/};
 
 
 #ifdef ChipSum_USE_KokkosKernels

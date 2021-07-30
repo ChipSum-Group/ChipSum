@@ -69,6 +69,15 @@ struct Vector_Traits: public Operator_Traits<ScalarType,SizeType,BackendType,Pro
 
 };
 
+template<typename ScalarType,typename SizeType,typename BackendType,typename ...Props>
+struct DenseMatrix_Traits: public Operator_Traits<ScalarType,SizeType,BackendType,Props...>
+{
+    using matrix_type = void;
+
+    using size_type = void;
+
+};
+
 
 template<typename ScalarType,typename SizeType,typename SparseType,typename BackendType,typename ...Props>
 struct Sparse_Traits: public Operator_Traits<ScalarType,SizeType,BackendType,Props...>

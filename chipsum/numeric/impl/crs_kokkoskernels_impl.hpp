@@ -12,8 +12,7 @@
 #include <KokkosKernels_default_types.hpp>
 #include <KokkosSparse.hpp>
 #include <KokkosSparse_spmv.hpp>
-#include <KokkosSparse_trsv.hpp>
-#include <KokkosSparse_sptrsv.hpp>
+#include <KokkosSparse_gauss_seidel.hpp>
 
 #include "../numeric_traits.hpp"
 #include "../sparse_matrix_types.h"
@@ -111,15 +110,6 @@ CHIPSUM_FUNCTION_INLINE void Create(
 
     A = spt(A.label(),graph);
 
-
-    //    using row_map_type =
-    //        View<const size_type*, array_layout, device_type, memory_traits>;
-    //    using entries_type =
-    //        View<data_type*, array_layout, device_type, memory_traits>;
-    //    using row_block_type =
-    //        View<const size_type*, array_layout, device_type, memory_traits>;
-
-
 }
 
 
@@ -153,12 +143,16 @@ CHIPSUM_FUNCTION_INLINE void Mult(
         KokkosSparse::CrsMatrix<ScalarType,SizeType,default_device>& A,
         Kokkos::View<ScalarType*>& x,
         ScalarType beta,
-        Kokkos::View<ScalarType*> b)
+        Kokkos::View<ScalarType*>& b)
 {
     KokkosSparse::spmv("N",alpha,A,x,beta,b);
 }
 
 
+//template <typename ScalarType,typename SizeType,typename ...Props>
+//CHIPSUM_FUNCTION_INLINE void Gauss_seidel(/*...*/){
+//    //TODO
+//}
 
 
 } // End namespace Sparse
