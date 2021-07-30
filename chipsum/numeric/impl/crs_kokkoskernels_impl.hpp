@@ -13,6 +13,7 @@
 #include <KokkosSparse.hpp>
 #include <KokkosSparse_spmv.hpp>
 #include <KokkosSparse_trsv.hpp>
+#include <KokkosSparse_sptrsv.hpp>
 
 #include "../numeric_traits.hpp"
 #include "../sparse_matrix_types.h"
@@ -48,16 +49,16 @@ namespace Sparse {
 
 template<typename ScalarType,typename SizeType,typename ...Props>
 /**
- * @brief Fill：//TODO
- * @param nrows
- * @param ncols
- * @param annz
- * @param row_map
- * @param col_map
- * @param values
- * @param A
+ * @brief Fill：利用POD数据对稀疏矩阵进行填充
+ * @param A：稀疏矩阵
+ * @param nrows：行数
+ * @param ncols：列数
+ * @param annz：非零元数
+ * @param row_map：行向量
+ * @param col_map：entry向量
+ * @param values：非零元向量
  */
-CHIPSUM_FUNCTION_INLINE void Fill(
+CHIPSUM_FUNCTION_INLINE void Create(
         KokkosSparse::CrsMatrix<ScalarType,SizeType,default_device>& A,
         const SizeType nrows,
         const SizeType ncols,
@@ -89,7 +90,7 @@ template<typename ScalarType,typename SizeType,typename ...Props>
  * @param x
  * @param b
  */
-CHIPSUM_FUNCTION_INLINE void Spmv(
+CHIPSUM_FUNCTION_INLINE void Mult(
         KokkosSparse::CrsMatrix<ScalarType,SizeType,default_device>& A,
         Kokkos::View<ScalarType*>& x,
         Kokkos::View<ScalarType*>& b)
@@ -107,7 +108,7 @@ template<typename ScalarType,typename SizeType,typename ...Props>
  * @param beta
  * @param b
  */
-CHIPSUM_FUNCTION_INLINE void Spmv(
+CHIPSUM_FUNCTION_INLINE void Mult(
         ScalarType alpha,
         KokkosSparse::CrsMatrix<ScalarType,SizeType,default_device>& A,
         Kokkos::View<ScalarType*>& x,
@@ -117,6 +118,40 @@ CHIPSUM_FUNCTION_INLINE void Spmv(
     KokkosSparse::spmv("N",alpha,A,x,beta,b);
 }
 
+
+template <typename ScalarType,typename SizeType,typename ...Props>
+CHIPSUM_FUNCTION_INLINE void Create(
+        KokkosSparse::CrsMatrix<ScalarType,SizeType,default_device>& A,
+        const size_t row_map_size,
+        const size_t col_map_size
+        )
+{
+    using sp_t = KokkosSparse::CrsMatrix<ScalarType,SizeType,default_device>;
+
+
+    typename sp_t::row_map_type row_map(
+                "row_map_"+A.label(),
+                static_cast<typename sp_t::row_map_type>(row_map_size)
+                );
+    typename sp_t::entries_type col_map(
+                "col_map_"+A.label(),
+                static_cast<typename sp_t::entries_type>(col_map_size)
+                );
+
+    typename sp_t::staticcrsgraph_type graph(col_map,row_map);
+
+    A = spt(A.label(),graph);
+
+
+    //    using row_map_type =
+    //        View<const size_type*, array_layout, device_type, memory_traits>;
+    //    using entries_type =
+    //        View<data_type*, array_layout, device_type, memory_traits>;
+    //    using row_block_type =
+    //        View<const size_type*, array_layout, device_type, memory_traits>;
+
+
+}
 
 } // End namespace Sparse
 } // End namespace Impl

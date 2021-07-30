@@ -12,8 +12,7 @@
 #include <cmath>
 #include <cassert>
 
-#include <iostream>
-using namespace std;
+#include <fstream>
 
 
 
@@ -43,10 +42,9 @@ namespace Vector {
 
 template<typename ScalarType,typename SizeType,typename ...Props>
 /**
- * @brief Dot 向量内积的串行实现
- * @param a 利用traits技术实现的向量类型
- * @param b
- * @param r
+ * @brief Create：创建向量数据，主要是申请内存空间
+ * @param n：向量维度
+ * @param dst：需要申请的向量
  */
 CHIPSUM_FUNCTION_INLINE void Create(const SizeType n,std::vector<ScalarType>& dst)
 {
@@ -57,10 +55,10 @@ CHIPSUM_FUNCTION_INLINE void Create(const SizeType n,std::vector<ScalarType>& ds
 
 template<typename ScalarType,typename SizeType,typename ...Props>
 /**
- * @brief Dot 向量内积的串行实现
- * @param a 利用traits技术实现的向量类型
- * @param b
- * @param r
+ * @brief Fill：利用POD数据进行向量填充
+ * @param src：POD数据源
+ * @param n：向量维度
+ * @param dst：目标向量
  */
 CHIPSUM_FUNCTION_INLINE void Fill(
         const ScalarType* src,
@@ -72,46 +70,19 @@ CHIPSUM_FUNCTION_INLINE void Fill(
 }
 
 
-template<typename ScalarType,typename SizeType,typename ...Props>
-/**
- * @brief Dot 向量内积的串行实现
- * @param a 利用traits技术实现的向量类型
- * @param b
- * @param r
- */
-CHIPSUM_FUNCTION_INLINE ScalarType Dot(
-        const std::vector<ScalarType>& a,
-
-        const std::vector<ScalarType>& b,
-
-        const SizeType& n
-        )
-{
-
-
-    ScalarType r = 0.0;
-
-    for(SizeType i=0;i<a.size();++i)
-    {
-        r += a[i]*b[i];
-    }
-
-    return r;
-
-}
-
 
 template<typename ScalarType,typename SizeType,typename ...Props>
 /**
- * @brief Dot 向量内积的串行实现
- * @param a 利用traits技术实现的向量类型
- * @param b
- * @param r
+ * @brief Dot：向量x和y的内积操作
+ * @param x：向量x
+ * @param y：向量y
+ * @param n：向量维度
+ * @param r：结果
  */
 CHIPSUM_FUNCTION_INLINE void Dot(
-        const std::vector<ScalarType>& a,
+        const std::vector<ScalarType>& x,
 
-        const std::vector<ScalarType>& b,
+        const std::vector<ScalarType>& y,
 
         const SizeType& n,
         ScalarType& r
@@ -121,9 +92,9 @@ CHIPSUM_FUNCTION_INLINE void Dot(
 
 
 
-    for(SizeType i=0;i<a.size();++i)
+    for(SizeType i=0;i<x.size();++i)
     {
-        r += a[i]*b[i];
+        r += x[i]*y[i];
     }
 
 
@@ -156,19 +127,17 @@ CHIPSUM_FUNCTION_INLINE ScalarType Norm1(const std::vector<ScalarType>& X)
 {
     ScalarType acc = 0.0;
     for(size_t i=0;i<X.size();++i){
-        cout<<X[i]<<",";
         acc += X[i];
     }
-cout<<endl;
     return acc;
 
 }
 
 template<typename ScalarType,typename SizeType,typename ...Props>
 /**
- * @brief Norm1：1范数
+ * @brief Norm2：2范数
  * @param X：原向量
- * @return 范数结果
+ * @return 结果
  */
 CHIPSUM_FUNCTION_INLINE ScalarType Norm2(const std::vector<ScalarType>& X)
 {
@@ -186,14 +155,14 @@ CHIPSUM_FUNCTION_INLINE ScalarType Norm2(const std::vector<ScalarType>& X)
 template<typename ScalarType,typename SizeType,typename ...Props>
 
 /**
- * @brief Axpy
- * @param a
- * @param X
- * @param Y
+ * @brief Axpby： y(i) = a*x(i)+b*y(i)
+ * @param a： 标量，如int和double
+ * @param X： 向量X
+ * @param Y： 向量Y
  */
 CHIPSUM_FUNCTION_INLINE void Axpy(
         ScalarType a,
-        std::vector<ScalarType>& X,
+        const std::vector<ScalarType>& X,
         std::vector<ScalarType>& Y)
 {
 //    std::assert(X.size()==Y.size());
@@ -207,10 +176,11 @@ CHIPSUM_FUNCTION_INLINE void Axpy(
 template<typename ScalarType,typename SizeType,typename ...Props>
 
 /**
- * @brief Axpby
- * @param a
- * @param X
- * @param Y
+ * @brief Axpby： y(i) = a*x(i)+b*y(i)
+ * @param a： 标量，如int和double
+ * @param X： 向量X
+ * @param b： 标量，同a
+ * @param Y： 向量Y
  */
 CHIPSUM_FUNCTION_INLINE void Axpby(
         ScalarType a,
@@ -229,10 +199,9 @@ CHIPSUM_FUNCTION_INLINE void Axpby(
 template<typename ScalarType,typename SizeType,typename ...Props>
 
 /**
- * @brief Axpby
- * @param a
- * @param X
- * @param Y
+ * @brief DeepCopy：深拷贝操作（该接口主要应对Kokkos等后端的拷贝机制）
+ * @param dst：目标向量
+ * @param src：原向量
  */
 CHIPSUM_FUNCTION_INLINE void DeepCopy(
         std::vector<ScalarType>& dst,
@@ -251,10 +220,9 @@ CHIPSUM_FUNCTION_INLINE void DeepCopy(
 template<typename ScalarType,typename SizeType,typename ...Props>
 
 /**
- * @brief Axpby
- * @param a
- * @param X
- * @param Y
+ * @brief DeepCopy：浅拷贝操作（该接口主要应对Kokkos等后端的拷贝机制）
+ * @param dst：目标向量
+ * @param src：原向量
  */
 CHIPSUM_FUNCTION_INLINE void ShallowCopy(
         std::vector<ScalarType>& dst,
@@ -267,7 +235,25 @@ CHIPSUM_FUNCTION_INLINE void ShallowCopy(
 
 
 
+template <typename ScalarType,typename SizeType,typename ...Props>
+/**
+ * @brief Print：打印向量数据。
+ * @param out：输出流，可以是std::cout，也可以是std::ofstream等
+ * @param vec：向量
+ */
+CHIPSUM_FUNCTION_INLINE void Print(std::ostream& out,const std::vector<ScalarType>& vec)
+{
 
+    out<<" [";
+    for(size_t i=0;i<vec.size()-1;++i)
+    {
+        out<<vec[i]<<", ";
+    }
+
+    out<<vec[vec.size()-1]<<"]"<<std::endl;
+
+
+}
 
 
 

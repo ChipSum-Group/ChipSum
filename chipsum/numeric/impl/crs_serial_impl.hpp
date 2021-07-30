@@ -91,19 +91,27 @@ CHIPSUM_FUNCTION_INLINE void Fill(
 
 template<typename ScalarType,typename SizeType,typename ...Props>
 /**
- * @brief Spmv
+ * @brief Mult
  * @param A
  * @param x
  * @param b
  */
-CHIPSUM_FUNCTION_INLINE void Spmv(
+CHIPSUM_FUNCTION_INLINE void Mult(
         CrsFormat<ScalarType>& A,
         std::vector<ScalarType>& x,
         std::vector<ScalarType>& b)
 {
+
+    for(int i=0;i<b.size();++i) b[i]=0.0;
+
     for(size_t i=0;i<b.size();++i)
     {
         size_t start = A.graph.row_map[i];
+        size_t end   = A.graph.row_map[i+1];
+        for(size_t j=start,j<end;++j)
+        {
+            b[i] += A.vals[j]*x[j];
+        }
 
 
     }
@@ -112,14 +120,14 @@ CHIPSUM_FUNCTION_INLINE void Spmv(
 
 template<typename ScalarType,typename SizeType,typename ...Props>
 /**
- * @brief Spmv
+ * @brief Mult
  * @param alpha
  * @param A
  * @param x
  * @param beta
  * @param b
  */
-CHIPSUM_FUNCTION_INLINE void Spmv(
+CHIPSUM_FUNCTION_INLINE void Mult(
         ScalarType alpha,
         CrsFormat<ScalarType>& A,
         std::vector<ScalarType>& x,

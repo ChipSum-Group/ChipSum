@@ -9,7 +9,7 @@
 #define __CHIPSUM_VECTOR_KOKKOSKERNELS_IMPL_HPP__
 
 
-
+#include <fstream>
 //#include <Kokkos_Core.hpp>
 #include <KokkosBlas1_dot.hpp>
 #include <KokkosBlas1_fill.hpp>
@@ -49,9 +49,9 @@ namespace Vector {
 
 template<typename ScalarType,typename SizeType,typename ...Props>
 /**
- * @brief 创建向量
+ * @brief Create：创建向量数据，主要是申请内存空间
  * @param n：向量维度
- * @param dst：向量
+ * @param dst：需要申请的向量
  */
 CHIPSUM_FUNCTION_INLINE void Create(const SizeType n,Kokkos::View<ScalarType*>& dst)
 {
@@ -63,10 +63,10 @@ CHIPSUM_FUNCTION_INLINE void Create(const SizeType n,Kokkos::View<ScalarType*>& 
 
 template<typename ScalarType,typename SizeType,typename ...Props>
 /**
- * @brief POD类型数组填充向量
- * @param POD数据
- * @param n
- * @param dst
+ * @brief Fill：利用POD数据进行向量填充
+ * @param src：POD数据源
+ * @param n：向量维度
+ * @param dst：目标向量
  */
 CHIPSUM_FUNCTION_INLINE void Fill(
         ScalarType* src,
@@ -94,28 +94,32 @@ CHIPSUM_FUNCTION_INLINE void Fill(
 
 template<typename ScalarType,typename SizeType,typename ...Props>
 /**
- * @brief Dot 向量内积的串行实现
- * @param a 利用traits技术实现的向量类型
- * @param b
- * @param r
+ * @brief Dot：向量x和y的内积操作
+ * @param x：向量x
+ * @param y：向量y
+ * @param n：向量维度
+ * @param r：结果
  */
-CHIPSUM_FUNCTION_INLINE ScalarType Dot(
+CHIPSUM_FUNCTION_INLINE void Dot(
         const Kokkos::View<ScalarType*>& a,
         const Kokkos::View<ScalarType*>& b,
-        const SizeType n
+        const SizeType n,
+        ScalarType& r
         )
 {
 
-    return KokkosBlas::dot(a,b);
+    r = KokkosBlas::dot(a,b);
+
 }
 
 
 template<typename ScalarType,typename SizeType,typename ...Props>
 /**
- * @brief Dot 向量内积的串行实现
- * @param a 利用traits技术实现的向量类型
- * @param b
- * @param r
+ * @brief Dot：向量x和y的内积操作（未测试）
+ * @param x：向量x
+ * @param y：向量y
+ * @param n：向量维度
+ * @param r：结果（Kokkos标量数据）
  */
 CHIPSUM_FUNCTION_INLINE void Dot(
         const Kokkos::View<ScalarType*>& a,
@@ -166,7 +170,7 @@ template<typename ScalarType,typename SizeType,typename ...Props>
 /**
  * @brief Norm2：2范数
  * @param X：原向量
- * @return 范数结果
+ * @return 结果
  */
 CHIPSUM_FUNCTION_INLINE ScalarType Norm2(
         const Kokkos::View<ScalarType*>& X)
@@ -179,10 +183,10 @@ CHIPSUM_FUNCTION_INLINE ScalarType Norm2(
 template<typename ScalarType,typename SizeType,typename ...Props>
 
 /**
- * @brief Axpy
- * @param a
- * @param X
- * @param Y
+ * @brief Axpby： y(i) = a*x(i)+b*y(i)
+ * @param a： 标量，如int和double
+ * @param X： 向量X
+ * @param Y： 向量Y
  */
 CHIPSUM_FUNCTION_INLINE void Axpy(
         ScalarType a,
@@ -196,10 +200,11 @@ CHIPSUM_FUNCTION_INLINE void Axpy(
 template<typename ScalarType,typename SizeType,typename ...Props>
 
 /**
- * @brief Axpby
- * @param a
- * @param X
- * @param Y
+ * @brief Axpby： y(i) = a*x(i)+b*y(i)
+ * @param a： 标量，如int和double
+ * @param X： 向量X
+ * @param b： 标量，同a
+ * @param Y： 向量Y
  */
 CHIPSUM_FUNCTION_INLINE void Axpby(
         ScalarType a,
@@ -214,10 +219,9 @@ CHIPSUM_FUNCTION_INLINE void Axpby(
 template<typename ScalarType,typename SizeType,typename ...Props>
 
 /**
- * @brief Axpby
- * @param a
- * @param X
- * @param Y
+ * @brief DeepCopy：深拷贝操作（该接口主要应对Kokkos等后端的拷贝机制）
+ * @param dst：目标向量
+ * @param src：原向量
  */
 CHIPSUM_FUNCTION_INLINE void DeepCopy(
         const Kokkos::View<ScalarType*>& dst,
@@ -232,10 +236,9 @@ CHIPSUM_FUNCTION_INLINE void DeepCopy(
 template<typename ScalarType,typename SizeType,typename ...Props>
 
 /**
- * @brief Axpby
- * @param a
- * @param X
- * @param Y
+ * @brief DeepCopy：浅拷贝操作（该接口主要应对Kokkos等后端的拷贝机制）
+ * @param dst：目标向量
+ * @param src：原向量
  */
 CHIPSUM_FUNCTION_INLINE void ShallowCopy(
         const Kokkos::View<ScalarType*>& dst,
@@ -247,7 +250,29 @@ CHIPSUM_FUNCTION_INLINE void ShallowCopy(
 }
 
 
+template <typename ScalarType,typename SizeType,typename ...Props>
+/**
+ * @brief Print：打印向量数据。
+ * @param out：输出流，可以是std::cout，也可以是std::ofstream等
+ * @param vec：向量
+ */
+CHIPSUM_FUNCTION_INLINE void Print(
+        std::ostream& out,
+        const Kokkos::View<ScalarType*>& vec)
+{
+    typename Kokkos::View<ScalarType*>::HostMirror h_vec("h_vector",vec.extent(0));
+    Kokkos::deep_copy(h_vec,vec);
 
+    out<<vec.label()<<": [";
+    for(size_t i=0;i<h_vec.extent(0)-1;++i)
+    {
+        out<<h_vec(i)<<", ";
+    }
+
+    out<<h_vec(h_vec.extent(0)-1)<<"]"<<std::endl;
+
+
+}
 
 
 

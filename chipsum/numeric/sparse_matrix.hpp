@@ -45,17 +45,30 @@ private:
 
 public:
 
-    template<typename ...Args>
+    template<typename ...Args> // 用于应对不同格式稀疏矩阵的创建
+    /**
+     * @brief SparseMatrix
+     * @param args
+     */
     CHIPSUM_FUNCTION_INLINE SparseMatrix(Args... args){
-        ChipSum::Numeric::Impl::Sparse::Fill<ScalarType,SizeType,Props...>
+        ChipSum::Numeric::Impl::Sparse::Create<ScalarType,SizeType,Props...>
                 (__data,args...);
     }
 
+
+
+
+    /**
+     * @brief operator *
+     * @param v
+     * @return
+     */
     CHIPSUM_FUNCTION_INLINE vector_type
-    operator*(const vector_type& v){
-        typename vector_type::vector_type out_data;
-        ChipSum::Numeric::Impl::Sparse::Spmv(__data,v,out_data);
-        return rhs_type(out_data,v.GetSize());
+    operator*(vector_type& v){
+        vector_type ret(v.GetSize());
+        ChipSum::Numeric::Impl::Sparse::Mult<ScalarType,SizeType>(
+                    __data,v.GetData(),ret.GetData());
+        return ret;
     }
 
 

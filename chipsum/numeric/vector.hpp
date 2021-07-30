@@ -69,6 +69,28 @@ public:
 
     //    void PublicSample(){}
 
+
+    /**
+     * @brief Vector：构造函数（创建一个未初始化的Vector）
+     * @param size：向量维度
+     */
+    CHIPSUM_FUNCTION_INLINE Vector():
+        __size(0),__data(0)
+    {
+
+    }
+
+
+    /**
+     * @brief Vector：构造函数（创建一个未初始化的Vector）
+     * @param size：向量维度
+     */
+    CHIPSUM_FUNCTION_INLINE Vector(const_size_type size):
+        __size(size)
+    {
+        ChipSum::Numeric::Impl::Vector::Create(__size,__data);
+    }
+
     /**
      * @brief Vector：构造函数
      * @param data：向量数据抽象类
@@ -116,6 +138,13 @@ public:
 
     CHIPSUM_FUNCTION_INLINE const_vector_type_reference GetData(){return __data;}
 
+//    /**
+//     * @brief GetData：获取向量数据
+//     * @return 向量数据
+//     */
+
+//    CHIPSUM_FUNCTION_INLINE vector_type_reference GetData(){return __data;}
+
     /**
      * @brief GetSize：获取向量维度
      * @return 向量维度
@@ -141,7 +170,8 @@ public:
      * @param r：内积结果（设备）
      */
 
-    CHIPSUM_FUNCTION_INLINE void Dot(Vector& v,device_scalar_type_reference r){
+    template<typename Args>
+    CHIPSUM_FUNCTION_INLINE void Dot(Vector& v,Args& r){
         ChipSum::Numeric::Impl::Vector::
                 Dot<ScalarType,SizeType>(GetData(),v.GetData(),__size,r);
     }
@@ -154,9 +184,6 @@ public:
     CHIPSUM_FUNCTION_INLINE Vector operator*(typename traits::const_scalar_type s){
 
         Vector ret(__data,__size);
-
-
-
         ChipSum::Numeric::Impl::Vector::Scal<ScalarType,SizeType,Props...>(ret.GetData(),s,GetData());
 
         return ret;
@@ -200,8 +227,11 @@ public:
      * @param s
      * @return
      */
-    CHIPSUM_FUNCTION_INLINE Vector& operator-(const Vector& s){
-        //TODO
+    CHIPSUM_FUNCTION_INLINE Vector operator-(Vector& s){
+
+        Vector ret(__data,__size);
+        ChipSum::Numeric::Impl::Vector::Axpy<ScalarType,SizeType>(-1.0,s.GetData(),ret.GetData());
+        return ret;
     }
 
     /**
@@ -209,8 +239,9 @@ public:
      * @param s
      * @return
      */
-    CHIPSUM_FUNCTION_INLINE Vector& operator-=(const Vector& s){
-        //TODO
+    CHIPSUM_FUNCTION_INLINE Vector& operator-=(Vector& s){
+        ChipSum::Numeric::Impl::Vector::Axpy<ScalarType,SizeType>(-1.0,s.GetData(),__data);
+        return *this;
     }
 
 
@@ -237,9 +268,7 @@ public:
 
 
 
-/**
- *
- */
+
 template<typename ScalarType,typename SizeType,typename BackendType,typename ...Props>
 CHIPSUM_FUNCTION_INLINE Vector<ScalarType,SizeType,BackendType,Props...>
 operator*(ScalarType s,Vector<ScalarType,SizeType,BackendType,Props...>& v){

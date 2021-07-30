@@ -5,12 +5,12 @@
 *   Time:     2021-07-28
 * * * * * * * * * * * * * * * * * * * * * */
 #include <iostream>
-
+using namespace std;
 
 #include <vector>
 #include <type_traits>
 
-#include <Kokkos_Core.hpp>
+
 
 #include "ChipSumConfig.h"
 #include "chipsum/numeric/vector.hpp"
@@ -19,11 +19,7 @@
 #include "chipsum/numeric/sparse_matrix.hpp"
 
 
-using namespace std;
-typedef ChipSum::Numeric::Vector<double,int,ChipSum::Backend::BuiltinSerial> Vector;
-
-
-
+typedef ChipSum::Numeric::Vector<double,size_t,ChipSum::Backend::KokkosKernels> Vector;
 
 
 int main(int argc,char* argv[])
@@ -31,6 +27,8 @@ int main(int argc,char* argv[])
 
     Kokkos::initialize();
     {
+
+
 
 
 //    cout<<Kokkos::View<double*>::memory_space::name()<<endl;
@@ -61,6 +59,7 @@ int main(int argc,char* argv[])
     a = 1.0*a; //a = {0,3,6,9,12,15,18,21,24,27}
 
 
+//    a -= a; // if uncomment, all results above turns 0
 
 //    auto c = a+b;
 
@@ -68,9 +67,11 @@ int main(int argc,char* argv[])
 
     cout<<a.Norm2()<<endl; // 50.6458
     double r;
-    r = a.Dot(a);
+    a.Dot(a,r);
 
-    Kokkos::fence();
+
+    ChipSum::Numeric::Impl::Vector::Print<double,int>(cout,a.GetData());
+
     cout<<r<<endl; // r = 2565
 
     free(v1);
@@ -119,18 +120,17 @@ int main(int argc,char* argv[])
 
 
     typedef ChipSum::Numeric::SparseMatrix<double,size_t,
-            ChipSum::Numeric::Csr,ChipSum::Backend::KokkosKernels> Csr;
+            ChipSum::Numeric::Csr,ChipSum::Backend::KokkosKernels> Csrm;
 
 
 
 
-    Csr B(nrows,ncols,annz,row_map,col_map,values);
+    Csrm B(nrows,ncols,annz,row_map,col_map,values);
 
-//    double* x_val = (double*)malloc
 
-//    Vector x()
+    Vector xb(v1,5);
 
-//    cout<<y(3)<<endl;
+    auto bb = B*xb;
 
     Kokkos::fence();
 
