@@ -17,9 +17,9 @@ using namespace std;
 #include "chipsum/numeric/sparse_matrix.hpp"
 #include "chipsum/numeric/dense_matrix.hpp"
 
-typedef ChipSum::Numeric::Vector<double,size_t,ChipSum::Backend::KokkosKernels> Vector;
+
 typedef   ChipSum::Numeric::SparseMatrix<double,size_t,
-        ChipSum::Numeric::SparseTypes::Csr,ChipSum::Backend::KokkosKernels>  Csrm;
+        ChipSum::Numeric::SparseTypes::Csr,ChipSum::Backend::BuiltinSerial>  Csrm;
 
 int main(int argc,char* argv[])
 {

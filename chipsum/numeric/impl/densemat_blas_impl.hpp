@@ -32,16 +32,15 @@ struct DenseMatrix_Traits<double,blasint,ChipSum::Backend::OpenBlas,Props...>
 namespace  DenseMat
 {
 
+template <typename ScalarType>
+CHIPSUM_FUNCTION_INLINE void Mult(blasint M,blasint N,blasint K,ScalarType* A,ScalarType* B,ScalarType* C);
 
-CHIPSUM_FUNCTION_INLINE void Mult(blasint M,blasint N,blasint K,double* A,double* B,double* C)
-{
-    cblas_dgemm(CBLAS_ORDER::CblasRowMajor,
-                CBLAS_TRANSPOSE::CblasNoTrans,
-                CBLAS_TRANSPOSE::CblasNoTrans,
-                M,N,K,1.0,A,K,B,N,0.0,C,N
-                );
+CHIPSUM_FUNCTION_INLINE void Scal(){
+//    void cblas_dscal(OPENBLAS_CONST blasint N,
+//                     OPENBLAS_CONST double alpha,
+//                     double *X,
+//                     OPENBLAS_CONST blasint incX);
 }
-
 
 
 } // namespace DenseMat

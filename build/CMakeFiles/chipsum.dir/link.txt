@@ -1,0 +1,2 @@
+/home/lky/code/git/kokkos-build/bin/kokkos_launch_compiler /home/lky/code/git/kokkos-build/bin/nvcc_wrapper /usr/bin/c++ /usr/bin/ar qc libchipsum.a CMakeFiles/chipsum.dir/chipsum/backend/backend.cpp.o CMakeFiles/chipsum.dir/chipsum/numeric/impl/densemat_blas_impl.cpp.o
+/home/lky/code/git/kokkos-build/bin/kokkos_launch_compiler /home/lky/code/git/kokkos-build/bin/nvcc_wrapper /usr/bin/c++ /usr/bin/ranlib libchipsum.a

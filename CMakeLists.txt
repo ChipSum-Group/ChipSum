@@ -33,10 +33,10 @@ if(ChipSum_USE_KokkosKernels)
 
 endif()
 
-if(ChipSum_USE_OpenBlas)
-    list(APPEND CHIPSUM_LIBS  "blas")
+#if(ChipSum_USE_OpenBlas)
+#    list(APPEND CHIPSUM_LIBS  "blas")
 
-endif()
+#endif()
 
 
 
@@ -49,8 +49,7 @@ endif()
 
 add_definitions("-fopenmp")
 
-include_directories("${ChipSum_Kokkos_DIR}/include")
-include_directories("${ChipSum_KokkosKernels_DIR}/include")
+
 
 add_library(chipsum ${CHIPSUM_SOURCES} ${CHIPSUM_HEADERS})
 

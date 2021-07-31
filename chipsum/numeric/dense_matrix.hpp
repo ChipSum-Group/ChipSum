@@ -31,20 +31,26 @@ public:
 private:
 
     matrix_type __data;
+    size_type __nrow;
+    size_type __ncol;
 
 
 public:
 
-    template<typename ...Args> // 用于应对不同格式稀疏矩阵的创建
+
     /**
      * @brief SparseMatrix
      * @param args
      */
-    CHIPSUM_FUNCTION_INLINE DenseMatrix(Args ...args){
+    CHIPSUM_FUNCTION_INLINE DenseMatrix(size_type M,size_type N){
         // TODO
     }
 
 
+    /**
+     * @brief GetData
+     * @return
+     */
     CHIPSUM_FUNCTION_INLINE matrix_type GetData(){
         return __data;
     }

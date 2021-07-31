@@ -143,7 +143,7 @@ template<typename ScalarType,typename SizeType,typename ...Props>
 CHIPSUM_FUNCTION_INLINE ScalarType Norm2(const std::vector<ScalarType>& X)
 {
     ScalarType acc = 0.0;
-    for(size_t i=0;i<X.size();++i){
+    for(std::size_t i=0;i<X.size();++i){
         acc += X[i]*X[i];
     }
 
@@ -167,7 +167,7 @@ CHIPSUM_FUNCTION_INLINE void Axpy(
         std::vector<ScalarType>& Y)
 {
     assert(X.size()==Y.size());
-    for(size_t i=0;i<Y.size();++i)
+    for(std::size_t i=0;i<Y.size();++i)
     {
         Y[i] += a*X[i];
     }
@@ -190,7 +190,7 @@ CHIPSUM_FUNCTION_INLINE void Axpby(
         std::vector<ScalarType>& Y)
 {
     assert(X.size()==Y.size());
-    for(size_t i=0;i<Y.size();++i)
+    for(std::size_t i=0;i<Y.size();++i)
     {
         Y[i] = a*X[i] + b*Y[i];
     }
@@ -210,7 +210,7 @@ CHIPSUM_FUNCTION_INLINE void DeepCopy(
         )
 {
     dst.resize(src.size());
-    for(size_t i=0;i<dst.size();++i)
+    for(std::size_t i=0;i<dst.size();++i)
     {
         dst[i] = src[i];
     }
@@ -246,7 +246,7 @@ CHIPSUM_FUNCTION_INLINE void Print(std::ostream& out,const std::vector<ScalarTyp
 {
 
     out<<" [";
-    for(size_t i=0;i<vec.size()-1;++i)
+    for(std::size_t i=0;i<vec.size()-1;++i)
     {
         out<<vec[i]<<", ";
     }

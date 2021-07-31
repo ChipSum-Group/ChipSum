@@ -128,8 +128,6 @@ CHIPSUM_FUNCTION_INLINE void Mult(
 
         }
 
-
-
     }
 }
 
@@ -160,9 +158,6 @@ CHIPSUM_FUNCTION_INLINE void Mult(
         {
             b[i] += beta*b[i] + alpha*A.vals[start+j]*x[A.graph.col_map[start+j]];
         }
-
-
-
     }
 }
 

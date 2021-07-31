@@ -71,7 +71,7 @@ CHIPSUM_FUNCTION_INLINE void Create(
 
     using crs_t = KokkosSparse::CrsMatrix<ScalarType,SizeType,default_device>;
 
-    A.ctor_impl("spm_"+std::to_string(spm_name),
+    A = crs_t("spm_"+std::to_string(spm_name),
                 static_cast<typename crs_t::ordinal_type>(nrows),
                 static_cast<typename crs_t::ordinal_type>(ncols),
                 static_cast<typename crs_t::size_type>(annz),

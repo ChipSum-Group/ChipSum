@@ -89,7 +89,7 @@ public:
     CHIPSUM_FUNCTION_INLINE Vector(const_size_type size):
         __size(size)
     {
-        ChipSum::Numeric::Impl::Vector::Create(__size,__data);
+        ChipSum::Numeric::Impl::Vector::Create<ScalarType,SizeType>(__size,__data);
     }
 
     /**
@@ -100,7 +100,7 @@ public:
     CHIPSUM_FUNCTION_INLINE Vector(const vector_type& data,const_size_type size):
         __size(size)
     {
-        ChipSum::Numeric::Impl::Vector::Create(__size,__data);
+        ChipSum::Numeric::Impl::Vector::Create<ScalarType,SizeType>(__size,__data);
         ChipSum::Numeric::Impl::Vector::DeepCopy<ScalarType,SizeType>(__data,data);
     }
 
@@ -117,7 +117,7 @@ public:
         :__size(size)
     {
         ChipSum::Numeric::Impl::Vector::Create<ScalarType,SizeType>(size,__data);
-        ChipSum::Numeric::Impl::Vector::Fill(data,size,__data);
+        ChipSum::Numeric::Impl::Vector::Fill<ScalarType,SizeType>(data,size,__data);
     }
 
 
@@ -128,7 +128,7 @@ public:
      *
      */
     CHIPSUM_FUNCTION_INLINE void SetData(typename traits::nonconst_scalar_type* data,const_size_type_reference size){
-        ChipSum::Numeric::Impl::Vector::Fill(data,size,__data);
+        ChipSum::Numeric::Impl::Vector::Fill<ScalarType,SizeType>(data,size,__data);
     }
 
 
@@ -161,7 +161,7 @@ public:
 
     CHIPSUM_FUNCTION_INLINE typename traits::nonconst_scalar_type Dot(Vector& v){
         return ChipSum::Numeric::Impl::Vector::
-                Dot(GetData(),v.GetData(),__size);
+                Dot<ScalarType,SizeType>(GetData(),v.GetData(),__size);
     }
 
 
@@ -185,7 +185,7 @@ public:
     CHIPSUM_FUNCTION_INLINE Vector operator*(typename traits::const_scalar_type s){
 
         Vector ret(__data,__size);
-        ChipSum::Numeric::Impl::Vector::Scal<ScalarType,SizeType,Props...>
+        ChipSum::Numeric::Impl::Vector::Scal<ScalarType,SizeType>
                 (ret.GetData(),s,GetData());
 
         return ret;
@@ -197,7 +197,7 @@ public:
      * @return
      */
     CHIPSUM_FUNCTION_INLINE Vector& operator*=(ScalarType s){
-        ChipSum::Numeric::Impl::Vector::Scal<ScalarType,SizeType,Props...>
+        ChipSum::Numeric::Impl::Vector::Scal<ScalarType,SizeType>
                 (__data,s,GetData());
         return *this;
     }
@@ -304,6 +304,9 @@ operator*(ScalarType s,Vector<ScalarType,SizeType,BackendType,Props...>& v){
 } // End namespace Numeric
 } // End namespace ChipSum
 
+typedef ChipSum::Numeric::Vector<double,size_t,ChipSum::Backend::DefaultBackend> Vector;
+
+typedef ChipSum::Numeric::Vector<double,size_t,ChipSum::Backend::BuiltinSerial> SerialVector;
 
 
 #endif // VECTOR_HPP
