@@ -304,7 +304,7 @@ operator*(ScalarType s,Vector<ScalarType,SizeType,BackendType,Props...>& v){
 } // End namespace Numeric
 } // End namespace ChipSum
 
-typedef ChipSum::Numeric::Vector<double,size_t,ChipSum::Backend::DefaultBackend> Vector;
+typedef ChipSum::Numeric::Vector<double,size_t,ChipSum::Backend::KokkosKernels> Vector;
 
 typedef ChipSum::Numeric::Vector<double,size_t,ChipSum::Backend::BuiltinSerial> SerialVector;
 

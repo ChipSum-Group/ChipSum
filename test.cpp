@@ -19,7 +19,7 @@ using namespace std;
 
 
 typedef   ChipSum::Numeric::SparseMatrix<double,size_t,
-        ChipSum::Numeric::SparseTypes::Csr,ChipSum::Backend::BuiltinSerial>  Csrm;
+        ChipSum::Numeric::SparseTypes::Csr,ChipSum::Backend::KokkosKernels>  Csrm;
 
 int main(int argc,char* argv[])
 {

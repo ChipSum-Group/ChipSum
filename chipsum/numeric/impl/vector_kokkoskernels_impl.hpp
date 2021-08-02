@@ -71,21 +71,17 @@ template<typename ScalarType,typename SizeType,typename ...Props>
 CHIPSUM_FUNCTION_INLINE void Fill(
         ScalarType* src,
         SizeType n,
-        Kokkos::View<ScalarType*> dst
+        Kokkos::View<ScalarType*>& dst
         )
 {
-    typename Kokkos::View<ScalarType*>::HostMirror h_dst("hst",dst.extent(0));
+    typename Kokkos::View<ScalarType*>::HostMirror h_dst(src,n);
 
-    Kokkos::parallel_for(Kokkos::RangePolicy<Kokkos::OpenMP>(0,static_cast<size_t>(n)),
-                         KOKKOS_LAMBDA(const int i){
-
-        h_dst(i) = src[i];
-
-    }
-
-    );
+    assert(static_cast<SizeType>(dst.extent(0)) ==  n);
 
     Kokkos::deep_copy(dst,h_dst);
+
+
+
 
 }
 
