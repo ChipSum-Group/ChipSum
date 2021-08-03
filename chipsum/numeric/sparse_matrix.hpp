@@ -47,7 +47,7 @@ public:
      * @brief SparseMatrix
      * @param args
      */
-    CHIPSUM_FUNCTION_INLINE SparseMatrix(Args ...args){
+    CHIPSUM_DECLARED_FUNCTION SparseMatrix(Args ...args){
         ChipSum::Numeric::Impl::Sparse::Create<ScalarType,SizeType>(__data,args...);
     }
 

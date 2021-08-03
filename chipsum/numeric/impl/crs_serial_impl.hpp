@@ -67,16 +67,15 @@ template<typename ScalarType,typename SizeType,typename ...Props>
  * @param values
  * @param A
  */
-CHIPSUM_FUNCTION_INLINE void Create(
-                CrsFormat<ScalarType,SizeType>& A,
-        const SizeType nrows,
-        const SizeType ncols,
-        const SizeType annz,
-        SizeType* row_map,
-        SizeType* col_map,
-        ScalarType* values
+CHIPSUM_FUNCTION_INLINE void Create(CrsFormat<ScalarType,SizeType>& A,
+                                    const SizeType nrows,
+                                    const SizeType ncols,
+                                    const SizeType annz,
+                                    SizeType* row_map,
+                                    SizeType* col_map,
+                                    ScalarType* values
 
-        )
+                                    )
 {
     A.vals = std::vector<ScalarType>(values,values+annz);
     A.graph.row_map = std::vector<SizeType>(row_map,row_map+nrows+1);
@@ -91,11 +90,10 @@ template <typename ScalarType,typename SizeType,typename ...Props>
  * @param row_map_size
  * @param col_map_size
  */
-CHIPSUM_FUNCTION_INLINE void Create(
-        CrsFormat<ScalarType,SizeType>& A,
-        const std::size_t row_map_size,
-        const std::size_t col_map_size
-        )
+CHIPSUM_FUNCTION_INLINE void Create(CrsFormat<ScalarType,SizeType>& A,
+                                    const std::size_t row_map_size,
+                                    const std::size_t col_map_size
+                                    )
 {
     A.vals.resize(col_map_size);
     A.graph.row_map.resize(col_map_size);
@@ -109,13 +107,12 @@ template<typename ScalarType,typename SizeType,typename ...Props>
  * @param x
  * @param b
  */
-CHIPSUM_FUNCTION_INLINE void Mult(
-        CrsFormat<ScalarType,SizeType>& A,
-        std::vector<ScalarType>& x,
-        std::vector<ScalarType>& b)
+CHIPSUM_FUNCTION_INLINE void Mult(CrsFormat<ScalarType,SizeType>& A,
+                                  std::vector<ScalarType>& x,
+                                  std::vector<ScalarType>& b)
 {
 
-    for(int i=0;i<b.size();++i) b[i]=0.0;
+    for(std::size_t i=0;i<b.size();++i) b[i]=0;
 
     for(std::size_t i=0;i<b.size();++i)
     {

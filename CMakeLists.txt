@@ -33,10 +33,12 @@ if(ChipSum_USE_KokkosKernels)
 
 endif()
 
-#if(ChipSum_USE_OpenBlas)
-#    list(APPEND CHIPSUM_LIBS  "blas")
 
-#endif()
+set(ChipSum_USE_OpenBlas "yes")
+set(ChipSum_OpenBlas_Libs "/usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblas.so")
+if(ChipSum_USE_OpenBlas)
+    list(APPEND CHIPSUM_LIBS  ${ChipSum_OpenBlas_Libs})
+endif()
 
 
 

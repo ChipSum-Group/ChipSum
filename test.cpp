@@ -18,6 +18,8 @@ using namespace std;
 #include "chipsum/numeric/dense_matrix.hpp"
 
 
+
+
 typedef   ChipSum::Numeric::SparseMatrix<double,size_t,
         ChipSum::Numeric::SparseTypes::Csr,ChipSum::Backend::KokkosKernels>  Csrm;
 
@@ -45,7 +47,6 @@ int main(int argc,char* argv[])
 
 
 
-
     Vector a(v1,10); //a = {0,1,2,3,4,5,6,7,8,9}
     Vector b(v2,10); //b = {0,1,2,3,4,5,6,7,8,9}
 
@@ -58,6 +59,12 @@ int main(int argc,char* argv[])
     a = 1.0*a; //a = {0,3,6,9,12,15,18,21,24,27}
 
     a.Print(cout);
+
+
+
+//    for(std::size_t i=0;i<10;++i) b(i) = 0.0; /* for operator() test */
+    b *= 0.0;
+    b.Print(); // b = {0.,0.,0., ... ,0.}
 
 
 //    a -= a; // if uncomment, all results above turns 0
@@ -125,7 +132,7 @@ int main(int argc,char* argv[])
     Csrm B(nrows,ncols,annz,row_map,col_map,values);
 
 
-    Vector xb(v1,5);
+  Vector xb(v1,5);
 
     Vector bb = B*xb;
 
@@ -138,6 +145,21 @@ int main(int argc,char* argv[])
     free(row_map);
     free(col_map);
     free(values);
+
+
+    Matrix mat(5,5);
+
+//    for(size_t i=0;i<5;++i){
+//        mat(i,i) = 1.0;
+//    }
+
+
+    mat.Print();
+
+    (mat*bb).Print();// {13,15,40,24,50}
+
+
+
 
 
 }

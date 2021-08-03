@@ -13,6 +13,7 @@ list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/dense_matrix.hpp")
 
 
 
+
 list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/impl/vector_serial_impl.hpp")
 list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/impl/vector_kokkoskernels_impl.hpp")
 
@@ -21,8 +22,9 @@ list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/impl/crs_kokkoskernels_impl.hpp")
 list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/impl/crs_serial_impl.hpp")
 
 
-list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/impl/densemat_blas_impl.hpp")
-list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/impl/densemat_blas_impl.cpp")
+list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/impl/densemat_serial_impl.hpp")
+list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/impl/densemat_kokkoskernels_impl.hpp")
+
 
 include_directories("../backend")
 

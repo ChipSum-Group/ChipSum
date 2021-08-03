@@ -3,6 +3,7 @@
 
 
 #define CHIPSUM_FUNCTION_INLINE inline
+#define CHIPSUM_DECLARED_FUNCTION inline
 
 
 //#ifdef USE_CUDA

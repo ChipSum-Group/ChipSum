@@ -17,8 +17,10 @@
 //using namespace std;
 
 #include "numeric_traits.hpp"
+
 #include "impl/vector_serial_impl.hpp"
 #include "impl/vector_kokkoskernels_impl.hpp"
+
 
 
 
@@ -59,6 +61,7 @@ private:
     size_type __size;
 
 private:
+//    friend class DenseMatrix<ScalarType,SizeType,BackendType,Props...>;
 
     //    void privateSample(){}
 
@@ -75,18 +78,15 @@ public:
      * @brief Vector：构造函数（创建一个未初始化的Vector）
      * @param size：向量维度
      */
-    CHIPSUM_FUNCTION_INLINE Vector():
-        __size(0),__data(0)
-    {
+    CHIPSUM_DECLARED_FUNCTION Vector() = default;
 
-    }
 
 
     /**
      * @brief Vector：构造函数（创建一个未初始化的Vector）
      * @param size：向量维度
      */
-    CHIPSUM_FUNCTION_INLINE Vector(const_size_type size):
+    CHIPSUM_DECLARED_FUNCTION Vector(const_size_type size):
         __size(size)
     {
         ChipSum::Numeric::Impl::Vector::Create<ScalarType,SizeType>(__size,__data);
@@ -97,7 +97,7 @@ public:
      * @param data：向量数据抽象类
      * @param size：向量维度
      */
-    CHIPSUM_FUNCTION_INLINE Vector(const vector_type& data,const_size_type size):
+    CHIPSUM_DECLARED_FUNCTION Vector(const vector_type& data,const_size_type size):
         __size(size)
     {
         ChipSum::Numeric::Impl::Vector::Create<ScalarType,SizeType>(__size,__data);
@@ -113,23 +113,13 @@ public:
      * @param data：
      * @param size
      */
-    CHIPSUM_FUNCTION_INLINE Vector(typename traits::nonconst_scalar_type* data,const_size_type size)
+    CHIPSUM_DECLARED_FUNCTION Vector(typename traits::nonconst_scalar_type* data,const_size_type size)
         :__size(size)
     {
-        ChipSum::Numeric::Impl::Vector::Create<ScalarType,SizeType>(size,__data);
-        ChipSum::Numeric::Impl::Vector::Fill<ScalarType,SizeType>(data,size,__data);
+
+        ChipSum::Numeric::Impl::Vector::Create<ScalarType,SizeType>(data,size,__data);
     }
 
-
-    /**
-     * @brief SetData：设置向量数据（暂时没有用上）
-     * @param data：CPU端向量数据
-     * @param size：向量数据维度
-     *
-     */
-    CHIPSUM_FUNCTION_INLINE void SetData(typename traits::nonconst_scalar_type* data,const_size_type_reference size){
-        ChipSum::Numeric::Impl::Vector::Fill<ScalarType,SizeType>(data,size,__data);
-    }
 
 
     /**
@@ -264,6 +254,13 @@ public:
     }
 
 
+    CHIPSUM_FUNCTION_INLINE ScalarType& operator()(const SizeType i){
+        return ChipSum::Numeric::Impl::Vector::GetItem<ScalarType,SizeType>(i,__data);
+    }
+
+
+
+
 
     /**
      * @brief Norm1
@@ -304,9 +301,10 @@ operator*(ScalarType s,Vector<ScalarType,SizeType,BackendType,Props...>& v){
 } // End namespace Numeric
 } // End namespace ChipSum
 
-typedef ChipSum::Numeric::Vector<double,size_t,ChipSum::Backend::KokkosKernels> Vector;
 
-typedef ChipSum::Numeric::Vector<double,size_t,ChipSum::Backend::BuiltinSerial> SerialVector;
+
+typedef ChipSum::Numeric::Vector<double,std::size_t,ChipSum::Backend::KokkosKernels> Vector;
+typedef ChipSum::Numeric::Vector<double,std::size_t,ChipSum::Backend::BuiltinSerial> SerialVector;
 
 
 #endif // VECTOR_HPP

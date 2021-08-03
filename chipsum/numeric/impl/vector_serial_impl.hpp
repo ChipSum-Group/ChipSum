@@ -60,13 +60,30 @@ template<typename ScalarType,typename SizeType,typename ...Props>
  * @param n：向量维度
  * @param dst：目标向量
  */
-CHIPSUM_FUNCTION_INLINE void Fill(
+CHIPSUM_FUNCTION_INLINE void Create(
         const ScalarType* src,
         const SizeType n,
         std::vector<ScalarType>& dst
         )
 {
     dst = std::vector<ScalarType>(src,src+n);
+}
+
+
+template<typename ScalarType,typename SizeType,typename ...Props>
+/**
+ * @brief Fill：利用POD数据进行向量填充
+ * @param src：POD数据源
+ * @param n：向量维度
+ * @param dst：目标向量
+ */
+CHIPSUM_FUNCTION_INLINE void Fill(
+        const ScalarType val,
+        const SizeType n,
+        std::vector<ScalarType>& dst
+        )
+{
+    dst = std::vector<ScalarType>(n,val);
 }
 
 
@@ -109,7 +126,9 @@ template <typename ScalarType,typename SizeType,typename ...Props>
  * @param a：输入，缩放比例
  * @param X：输入，原向量
  */
-CHIPSUM_FUNCTION_INLINE void Scal(std::vector<ScalarType>& R,const ScalarType a,const std::vector<ScalarType>& X){
+CHIPSUM_FUNCTION_INLINE void Scal(std::vector<ScalarType>& R,
+                                  const ScalarType a,
+                                  const std::vector<ScalarType>& X){
     assert(R.size()==X.size());
     for(size_t i=0;i<X.size();++i)
     {
@@ -256,6 +275,22 @@ CHIPSUM_FUNCTION_INLINE void Print(std::ostream& out,const std::vector<ScalarTyp
 
 }
 
+
+
+template <typename ScalarType,typename SizeType,typename ...Props>
+/**
+ * @brief GetItem：获取下标对应的值
+ * @param index：下标
+ * @param vec：原向量
+ * @return 下标值引用
+ */
+CHIPSUM_FUNCTION_INLINE ScalarType& GetItem(std::size_t index,std::vector<ScalarType>& vec)
+{
+
+    return vec[index];
+
+
+}
 
 
 }// End namespace Vector

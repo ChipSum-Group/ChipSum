@@ -68,16 +68,17 @@ template<typename ScalarType,typename SizeType,typename ...Props>
  * @param n：向量维度
  * @param dst：目标向量
  */
-CHIPSUM_FUNCTION_INLINE void Fill(
+CHIPSUM_FUNCTION_INLINE void Create(
         ScalarType* src,
-        SizeType n,
+        const std::size_t n,
         Kokkos::View<ScalarType*>& dst
         )
 {
     typename Kokkos::View<ScalarType*>::HostMirror h_dst(src,n);
 
-    assert(static_cast<SizeType>(dst.extent(0)) ==  n);
-
+    if(dst.extent(0) != n) {
+        dst = Kokkos::View<ScalarType*>("vector_"+std::to_string(vector_name++),n);
+    }
     Kokkos::deep_copy(dst,h_dst);
 
 
@@ -137,10 +138,10 @@ template <typename ScalarType,typename SizeType,typename ...Props>
  * @param a：输入，缩放比例
  * @param X：输入，原向量
  */
-CHIPSUM_FUNCTION_INLINE void Scal(
-        Kokkos::View<ScalarType*>& R,
-        const ScalarType a,
-        const Kokkos::View<ScalarType*>& X){
+CHIPSUM_FUNCTION_INLINE void Scal(Kokkos::View<ScalarType*>& R,
+                                  const ScalarType a,
+                                  const Kokkos::View<ScalarType*>& X)
+{
     KokkosBlas::scal(R,a,X);
 }
 
@@ -270,7 +271,21 @@ CHIPSUM_FUNCTION_INLINE void Print(
 
 }
 
+template <typename ScalarType,typename SizeType,typename ...Props>
+/**
+ * @brief GetItem：获取下标对应的值
+ * @param index：下标
+ * @param vec：原向量
+ * @return
+ */
+CHIPSUM_FUNCTION_INLINE ScalarType& GetItem(const std::size_t index,Kokkos::View<ScalarType*>& vec)
+{
 
+    Kokkos::abort("[ERR] ChipSum::Numeric::Vector didn't support operator() on Kokkos backend yet\n");
+
+
+
+}
 
 }// End namespace Vector
 
