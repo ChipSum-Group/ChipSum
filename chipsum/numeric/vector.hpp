@@ -303,8 +303,8 @@ operator*(ScalarType s,Vector<ScalarType,SizeType,BackendType,Props...>& v){
 
 
 
-typedef ChipSum::Numeric::Vector<double,std::size_t,ChipSum::Backend::KokkosKernels> Vector;
-typedef ChipSum::Numeric::Vector<double,std::size_t,ChipSum::Backend::BuiltinSerial> SerialVector;
+typedef ChipSum::Numeric::Vector<double,std::size_t,ChipSum::Backend::DefaultBackend> Vector;
+typedef ChipSum::Numeric::Vector<double,std::size_t,ChipSum::Backend::Serial> SerialVector;
 
 
 #endif // VECTOR_HPP

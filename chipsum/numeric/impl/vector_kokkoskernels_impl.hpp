@@ -281,9 +281,7 @@ template <typename ScalarType,typename SizeType,typename ...Props>
 CHIPSUM_FUNCTION_INLINE ScalarType& GetItem(const std::size_t index,Kokkos::View<ScalarType*>& vec)
 {
 
-    Kokkos::abort("[ERR] ChipSum::Numeric::Vector didn't support operator() on Kokkos backend yet\n");
-
-
+    return vec(index);
 
 }
 

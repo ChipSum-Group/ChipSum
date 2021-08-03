@@ -14,9 +14,9 @@ namespace Backend{
 
 struct BackendBase{};
 
-struct BuiltinSerial:public BackendBase{/*TODO*/};
+struct Serial:public BackendBase{/*TODO*/};
 
-typedef  BuiltinSerial CPUSerialBackend;
+typedef  Serial CPUSerial;
 
 struct KokkosKernels:public BackendBase{/*TODO*/};
 
@@ -32,7 +32,7 @@ struct OpenBlas:public BackendBase{/*TODO*/};
 typedef KokkosKernels DefaultBackend;
 
 #else
-typedef BuiltinSerial DefaultBackend;
+typedef KokkosKernels DefaultBackend;
 
 #endif
 }

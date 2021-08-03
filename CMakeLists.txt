@@ -7,6 +7,7 @@ project(ChipSum VERSION 1.0)
 
 configure_file(ChipSumConfig.h.in ChipSumConfig.h)
 
+set(CMAKE_CXX_FLAGS "-Wall"${CMAKE_CXX_FLAGS})
 
 set(CHIPSUM_SOURCES "")
 

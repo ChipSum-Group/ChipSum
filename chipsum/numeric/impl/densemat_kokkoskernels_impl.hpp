@@ -1,3 +1,9 @@
+/* * * * * * * * * * * * * * * * * * * * *
+*   File:     densemat_kokkoskernels_impl.hpp
+*   Author:   Li Kunyun
+*   group:    CDCS-HPC
+*   Time:     2021-08-03
+* * * * * * * * * * * * * * * * * * * * * */
 #ifndef __CHIPSUM_DENSEMAT_KOKKOEKERNELS_IMPL_HPP__
 #define __CHIPSUM_DENSEMAT_KOKKOEKERNELS_IMPL_HPP__
 
@@ -59,6 +65,7 @@ CHIPSUM_FUNCTION_INLINE void Fill(const std::size_t M,
                                   Kokkos::View<double**>& dst)
 {
     auto h_dst = Kokkos::View<double**>(src,M,N);
+
     Kokkos::deep_copy(dst,h_dst);
 }
 
@@ -70,6 +77,7 @@ CHIPSUM_FUNCTION_INLINE void Mult(const std::size_t M,
                                   const Kokkos::View<double**>& B,
                                   Kokkos::View<double**>& C)
 {
+
     KokkosBlas::gemm("N","N",1.0,A,B,0.0,C);
 }
 
@@ -80,6 +88,7 @@ CHIPSUM_FUNCTION_INLINE void Mult(const std::size_t M,
                                   const Kokkos::View<double*>& x,
                                   Kokkos::View<double*>& y)
 {
+
     KokkosBlas::gemv("N",1.0,A,x,0.0,y);
 }
 
@@ -104,8 +113,7 @@ CHIPSUM_FUNCTION_INLINE ScalarType& GetItem(const std::size_t i,
                                             Kokkos::View<double**>& mat
                                             )
 {
-    Kokkos::abort("[ERR] ChipSum::Numeric::DenseMatrix didn't "
-                  "support operator() on Kokkos backend yet\n");
+    return mat(i,j);
 }
 
 

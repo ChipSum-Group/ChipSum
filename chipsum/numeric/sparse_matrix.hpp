@@ -14,9 +14,11 @@
 
 
 #include "vector.hpp"
+#include "dense_matrix.hpp"
 
 #include "impl/crs_serial_impl.hpp"
 #include "impl/crs_kokkoskernels_impl.hpp"
+
 
 
 namespace ChipSum {
@@ -31,13 +33,22 @@ class SparseMatrix<ScalarType,SizeType,SpFormat,BackendType,Props...>{
 public:
 
     using traits = Sparse_Traits<ScalarType,SizeType,SpFormat,BackendType,Props...>;
-    using matrix_type = typename traits::matrix_format_type;
+    using sp_type = typename traits::sp_type;
+    using size_type = typename traits::size_type;
+
+
     using vector_type = Vector<ScalarType,SizeType,BackendType,Props...>;
+    using dense_type = DenseMatrix<ScalarType,SizeType,BackendType,Props...>;
 
 
 private:
 
-    matrix_type __data;
+    sp_type __data;
+    size_type __nrow;
+    size_type __ncol;
+    size_type __annz;
+
+
 
 
 public:
@@ -47,10 +58,27 @@ public:
      * @brief SparseMatrix
      * @param args
      */
-    CHIPSUM_DECLARED_FUNCTION SparseMatrix(Args ...args){
-        ChipSum::Numeric::Impl::Sparse::Create<ScalarType,SizeType>(__data,args...);
+    CHIPSUM_DECLARED_FUNCTION SparseMatrix(size_type nrow,
+                                           size_type ncol,
+                                           size_type annz,Args ...args)
+        :__nrow(nrow),__ncol(ncol),__annz(annz)
+    {
+        ChipSum::Numeric::Impl::Sparse::Create<ScalarType,SizeType>(nrow,ncol,annz,__data,args...);
     }
 
+
+    /**
+     * @brief GetColNum
+     * @return
+     */
+    CHIPSUM_FUNCTION_INLINE size_type GetColNum(){return __ncol;}
+
+
+    /**
+     * @brief GetColNum
+     * @return
+     */
+    CHIPSUM_FUNCTION_INLINE size_type GetRowNum(){return __nrow;}
 
     /**
      * @brief operator *
@@ -66,6 +94,18 @@ public:
     }
 
 
+    /**
+     * @brief operator *
+     * @param m
+     * @return
+     */
+    CHIPSUM_FUNCTION_INLINE dense_type
+    operator*(dense_type& m){
+        dense_type ret(__nrow,m.GetColNum());
+        ChipSum::Numeric::Impl::Sparse::Mult<ScalarType,SizeType>(
+                    __data,m.GetData(),ret.GetData());
+        return ret;
+    }
 
 };
 

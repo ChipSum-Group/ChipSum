@@ -24,8 +24,8 @@ namespace ChipSum{
 namespace Numeric {
 
 template<typename ScalarType,typename SizeType,typename ...Props>
-struct Vector_Traits<ScalarType,SizeType,ChipSum::Backend::CPUSerialBackend,Props...>:
-        public Operator_Traits<ScalarType,SizeType,ChipSum::Backend::CPUSerialBackend>
+struct Vector_Traits<ScalarType,SizeType,ChipSum::Backend::Serial,Props...>:
+        public Operator_Traits<ScalarType,SizeType,ChipSum::Backend::Serial>
 {
     using vector_type = typename std::vector<ScalarType>;
     using size_type = typename std::vector<ScalarType>::size_type;
@@ -287,6 +287,7 @@ template <typename ScalarType,typename SizeType,typename ...Props>
 CHIPSUM_FUNCTION_INLINE ScalarType& GetItem(std::size_t index,std::vector<ScalarType>& vec)
 {
 
+    assert(index<vec.size());
     return vec[index];
 
 

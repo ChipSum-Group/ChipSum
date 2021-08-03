@@ -1,7 +1,13 @@
+/* * * * * * * * * * * * * * * * * * * * *
+*   File:     dense_matrix.hpp
+*   Author:   Li Kunyun
+*   group:    CDCS-HPC
+*   Time:     2021-08-03
+* * * * * * * * * * * * * * * * * * * * * */
+
 #ifndef __CHIPSUM_DENSE_MATRIX_HPP__
 #define __CHIPSUM_DENSE_MATRIX_HPP__
 
-#include <fstream>
 
 #include "numeric_traits.hpp"
 #include "vector.hpp"
@@ -22,6 +28,8 @@ public:
 
     using traits = DenseMatrix_Traits<ScalarType,SizeType,BackendType,Props...>;
     using matrix_type = typename traits::matrix_type;
+    using matrix_type_reference = typename std::add_lvalue_reference<matrix_type>::type;
+
     using size_type = typename traits::size_type;
     using vector_type = ChipSum::Numeric::Vector<ScalarType,SizeType,BackendType,Props...>;
 
@@ -54,14 +62,15 @@ public:
     CHIPSUM_DECLARED_FUNCTION DenseMatrix(size_type M,size_type N,ScalarType* src)
         :__nrow(M),__ncol(N)
     {
-        ChipSum::Numeric::Impl::DenseMat::Fill(M,N,src,__data);
+        ChipSum::Numeric::Impl::DenseMat::Create<ScalarType,SizeType>(M,N,__data);
+        ChipSum::Numeric::Impl::DenseMat::Fill<ScalarType,SizeType>(M,N,src,__data);
     }
 
     /**
      * @brief GetData
      * @return
      */
-    CHIPSUM_FUNCTION_INLINE matrix_type GetData(){return __data;}
+    CHIPSUM_FUNCTION_INLINE matrix_type_reference GetData(){return __data;}
 
     /**
      * @brief GetNRow
@@ -84,7 +93,7 @@ public:
      */
     CHIPSUM_FUNCTION_INLINE matrix_type
     operator*(DenseMatrix& m){
-        matrix_type ret;
+        matrix_type ret(__nrow,__ncol);
         ChipSum::Numeric::Impl::DenseMat::Mult<ScalarType,SizeType>(__data,m.GetData(),ret);
         return ret;
     }
@@ -97,7 +106,7 @@ public:
      */
     CHIPSUM_FUNCTION_INLINE vector_type
     operator*(vector_type& v){
-        vector_type ret(v.GetSize());
+        vector_type ret(__ncol);
         ChipSum::Numeric::Impl::DenseMat::Mult<ScalarType,SizeType>(__nrow,__ncol,__data,v.GetData(),ret.GetData());
         return ret;
     }
@@ -114,13 +123,16 @@ public:
     }
 
 
+    /**
+     * @brief operator ()
+     * @param i
+     * @param j
+     * @return
+     */
     CHIPSUM_FUNCTION_INLINE ScalarType&
     operator()(const SizeType i,const SizeType j){
         return ChipSum::Numeric::Impl::DenseMat::GetItem<ScalarType,SizeType>(i,j,__nrow,__ncol,__data);
     }
-
-
-
 
 
 
@@ -135,7 +147,7 @@ public:
 } // End namespace Numeric
 } // End namespace ChipSum
 
-typedef ChipSum::Numeric::DenseMatrix<double,std::size_t,ChipSum::Backend::KokkosKernels> Matrix;
+typedef ChipSum::Numeric::DenseMatrix<double,std::size_t,ChipSum::Backend::DefaultBackend> Matrix;
 
 
 #endif // __CHIPSUM_DENSE_MATRIX_HPP__

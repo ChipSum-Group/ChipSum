@@ -1,3 +1,9 @@
+/* * * * * * * * * * * * * * * * * * * * *
+*   File:     densemat_serial_impl.hpp
+*   Author:   Li Kunyun
+*   group:    CDCS-HPC
+*   Time:     2021-08-03
+* * * * * * * * * * * * * * * * * * * * * */
 #ifndef __CHIPSUM_DENSEMAT_SERIAL_IMPL_HPP__
 #define __CHIPSUM_DENSEMAT_SERIAL_IMPL_HPP__
 
@@ -17,8 +23,8 @@ namespace  Numeric {
 
 
 template<typename ScalarType,typename SizeType,typename ...Props>
-struct DenseMatrix_Traits<ScalarType,SizeType,ChipSum::Backend::BuiltinSerial,Props...>
-        : public Operator_Traits<ScalarType,SizeType,ChipSum::Backend::BuiltinSerial,Props...>{
+struct DenseMatrix_Traits<ScalarType,SizeType,ChipSum::Backend::Serial,Props...>
+        : public Operator_Traits<ScalarType,SizeType,ChipSum::Backend::Serial,Props...>{
 
 
 
@@ -66,8 +72,6 @@ CHIPSUM_FUNCTION_INLINE void Mult(const std::size_t M,
                                   const std::vector<ScalarType>& x,
                                   std::vector<ScalarType>& b)
 {
-    assert(A.size()==M*N && x.size()==N);
-    if(b.size()!=M)b.resize(M);
 
     for(std::size_t i=0;i<M;++i)b[i] = 0;
 
@@ -87,14 +91,17 @@ CHIPSUM_FUNCTION_INLINE void Mult(const std::size_t M,
                                   const std::vector<ScalarType>& B,
                                   std::vector<ScalarType>& C)
 {
-    assert(A.size()==M*K && B.size()==N*K);
-    if(C.size()!=M*N)C.resize(M*N);
+
 
     for(std::size_t i=0;i<C.size();++i)C[i] = 0;
 
     for(std::size_t i=0;i<M;++i){
-        for(std::size_t j=0;j<N;++j){
-            C[i] += A[i*N+j] * B[j];
+        for(std::size_t j=0;j<K;++j){
+            ScalarType Aik = A[i*K+j];
+            for(std::size_t k=0;k<N;++k){
+                C[i*N+k] += Aik*B[j*K+k];
+            }
+
         }
     }
 }
@@ -124,6 +131,7 @@ CHIPSUM_FUNCTION_INLINE ScalarType& GetItem(const std::size_t i,
                                             )
 {
     assert(i<M && j<N);
+
     return mat[i*N+j];
 }
 
@@ -137,6 +145,7 @@ CHIPSUM_FUNCTION_INLINE void Print(const std::size_t M,
 
     for(std::size_t i=0;i<M;++i)
     {
+
         out<<" "<<"[";
         for(std::size_t j=0;j<M-1;++j)
         {

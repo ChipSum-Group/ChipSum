@@ -35,16 +35,17 @@ struct CrsFormat{
 
 
 template<typename ScalarType,typename SizeType,typename ...Props>
-struct Sparse_Traits<ScalarType,SizeType,SparseTypes::Csr,ChipSum::Backend::BuiltinSerial,Props...>
-        : public Operator_Traits<ScalarType,SizeType,ChipSum::Backend::BuiltinSerial,Props...>{
+struct Sparse_Traits<ScalarType,SizeType,SparseTypes::Csr,ChipSum::Backend::Serial,Props...>
+        : public Operator_Traits<ScalarType,SizeType,ChipSum::Backend::Serial,Props...>{
 
 
-    using matrix_format_type = CrsFormat<ScalarType,SizeType>;
+    using sp_type = CrsFormat<ScalarType,SizeType>;
+    using size_type = std::size_t;
 
     using graph_type = StaticGraph<SizeType>;
     using row_map_type = std::vector<SizeType>;
     using col_map_type = std::vector<SizeType>;
-    using matrix_values_type = std::vector<ScalarType>;
+    using values_type = std::vector<ScalarType>;
 
 
 };
@@ -58,25 +59,25 @@ namespace Sparse {
 
 template<typename ScalarType,typename SizeType,typename ...Props>
 /**
- * @brief Fill：//TODO
+ * @brief Create
  * @param nrows
  * @param ncols
  * @param annz
+ * @param A
  * @param row_map
  * @param col_map
  * @param values
- * @param A
  */
-CHIPSUM_FUNCTION_INLINE void Create(CrsFormat<ScalarType,SizeType>& A,
-                                    const SizeType nrows,
+CHIPSUM_FUNCTION_INLINE void Create(const SizeType nrows,
                                     const SizeType ncols,
                                     const SizeType annz,
+                                    CrsFormat<ScalarType,SizeType>& A,
                                     SizeType* row_map,
                                     SizeType* col_map,
                                     ScalarType* values
-
                                     )
 {
+    CHIPSUM_UNUSED(ncols);
     A.vals = std::vector<ScalarType>(values,values+annz);
     A.graph.row_map = std::vector<SizeType>(row_map,row_map+nrows+1);
     A.graph.col_map = std::vector<SizeType>(col_map,col_map+annz);
@@ -95,6 +96,7 @@ CHIPSUM_FUNCTION_INLINE void Create(CrsFormat<ScalarType,SizeType>& A,
                                     const std::size_t col_map_size
                                     )
 {
+    CHIPSUM_UNUSED(row_map_size);
     A.vals.resize(col_map_size);
     A.graph.row_map.resize(col_map_size);
     A.graph.col_map.resize(col_map_size);

@@ -14,6 +14,8 @@
 #include <KokkosSparse_spmv.hpp>
 #include <KokkosSparse_gauss_seidel.hpp>
 
+
+
 #include "../numeric_traits.hpp"
 #include "../sparse_matrix_types.h"
 #include "../../chipsum_macro.h"
@@ -29,12 +31,13 @@ struct Sparse_Traits<ScalarType,SizeType,SparseTypes::Csr,ChipSum::Backend::Kokk
         : public Operator_Traits<ScalarType,SizeType,ChipSum::Backend::KokkosKernels,Props...>{
 
 
-    using matrix_format_type = KokkosSparse::CrsMatrix<ScalarType,SizeType,default_device>;
+    using sp_type = KokkosSparse::CrsMatrix<ScalarType,SizeType,default_device>;
+    using size_type = std::size_t;
 
-    using graph_type = typename matrix_format_type::staticcrsgraph_type;
-    using row_map_type = typename matrix_format_type::row_map_type;
-    using col_map_type = typename matrix_format_type::index_type;
-    using matrix_values_type = typename matrix_format_type::values_type;
+    using graph_type = typename sp_type::staticcrsgraph_type;
+    using row_map_type = typename sp_type::row_map_type;
+    using col_map_type = typename sp_type::index_type;
+    using values_type = typename sp_type::values_type;
 
 
 };
@@ -58,10 +61,10 @@ template<typename ScalarType,typename SizeType,typename ...Props>
  * @param values：非零元向量
  */
 CHIPSUM_FUNCTION_INLINE void Create(
-        KokkosSparse::CrsMatrix<ScalarType,SizeType,default_device>& A,
         const SizeType nrows,
         const SizeType ncols,
         const SizeType annz,
+        KokkosSparse::CrsMatrix<ScalarType,SizeType,default_device>& A,
         SizeType* row_map,
         SizeType* col_map,
         ScalarType* values
@@ -126,6 +129,24 @@ CHIPSUM_FUNCTION_INLINE void Mult(
         Kokkos::View<ScalarType*>& b)
 {
     KokkosSparse::spmv("N",static_cast<ScalarType>(1.0),A,x,static_cast<ScalarType>(0.0),b);
+}
+
+
+template<typename ScalarType,typename SizeType,typename ...Props>
+/**
+ * @brief Mult
+ * @param A
+ * @param x
+ * @param b
+ */
+CHIPSUM_FUNCTION_INLINE void Mult(
+        KokkosSparse::CrsMatrix<ScalarType,SizeType,default_device>& A,
+        const Kokkos::View<ScalarType**>& B,
+        Kokkos::View<ScalarType**>& C)
+{
+
+//    KokkosSparse::spgemm_numeric
+    KokkosSparse::spmv("N",static_cast<ScalarType>(1.0),A,B,static_cast<ScalarType>(0.0),C);
 }
 
 

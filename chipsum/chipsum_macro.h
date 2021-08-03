@@ -6,6 +6,8 @@
 #define CHIPSUM_DECLARED_FUNCTION inline
 
 
+#define CHIPSUM_UNUSED(x) (void)x;
+
 //#ifdef USE_CUDA
 //#define CHIPSUM_FUNCTION_INLINE __global__ __device__
 //#endif
