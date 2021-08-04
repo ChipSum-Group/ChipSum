@@ -13,9 +13,6 @@ namespace ChipSum {
 namespace  Numeric{
 namespace  SparseTypes{
 
-
-
-
 struct SparseMatrixBase{};
 
 struct Csr: public SparseMatrixBase{};

@@ -8,16 +8,10 @@
 #ifndef __CHIPSUM_NUMERIC_VECTOR_HPP__
 #define __CHIPSUM_NUMERIC_VECTOR_HPP__
 
-#include <vector>
-#include <fstream>
-#include <type_traits>
 
-/* To debug */
-//#include <iostream>
-//using namespace std;
+#include <fstream>
 
 #include "numeric_traits.hpp"
-
 #include "impl/vector_serial_impl.hpp"
 #include "impl/vector_kokkoskernels_impl.hpp"
 
@@ -129,12 +123,6 @@ public:
 
     CHIPSUM_FUNCTION_INLINE const_vector_type_reference GetData(){return __data;}
 
-//    /**
-//     * @brief GetData：获取向量数据
-//     * @return 向量数据
-//     */
-
-//    CHIPSUM_FUNCTION_INLINE vector_type_reference GetData(){return __data;}
 
     /**
      * @brief GetSize：获取向量维度
@@ -149,9 +137,11 @@ public:
      * @param r：内积结果
      */
 
-    CHIPSUM_FUNCTION_INLINE typename traits::nonconst_scalar_type Dot(Vector& v){
-        return ChipSum::Numeric::Impl::Vector::
-                Dot<ScalarType,SizeType>(GetData(),v.GetData(),__size);
+    CHIPSUM_FUNCTION_INLINE ScalarType Dot(Vector& v){
+        double r;
+        ChipSum::Numeric::Impl::Vector::
+                Dot<ScalarType,SizeType>(GetData(),v.GetData(),__size,r);
+        return r;
     }
 
 

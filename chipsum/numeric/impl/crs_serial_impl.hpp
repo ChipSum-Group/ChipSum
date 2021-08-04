@@ -35,6 +35,7 @@ struct CrsFormat{
 
 
 template<typename ScalarType,typename SizeType,typename ...Props>
+
 struct Sparse_Traits<ScalarType,SizeType,SparseTypes::Csr,ChipSum::Backend::Serial,Props...>
         : public Operator_Traits<ScalarType,SizeType,ChipSum::Backend::Serial,Props...>{
 
@@ -59,23 +60,24 @@ namespace Sparse {
 
 template<typename ScalarType,typename SizeType,typename ...Props>
 /**
- * @brief Create
- * @param nrows
- * @param ncols
- * @param annz
- * @param A
- * @param row_map
- * @param col_map
- * @param values
+ * @brief Create：创建稀疏矩阵
+ * @param nrows：行数
+ * @param ncols：列数
+ * @param annz：非零元数
+ * @param A：原稀疏矩阵
+ * @param row_map：行邻接表，长度为nrows+1
+ * @param col_map：列邻接表，长度为annz
+ * @param values：非零元，长度为annz
  */
-CHIPSUM_FUNCTION_INLINE void Create(const SizeType nrows,
-                                    const SizeType ncols,
-                                    const SizeType annz,
-                                    CrsFormat<ScalarType,SizeType>& A,
-                                    SizeType* row_map,
-                                    SizeType* col_map,
-                                    ScalarType* values
-                                    )
+CHIPSUM_FUNCTION_INLINE
+void Create(const SizeType nrows,
+            const SizeType ncols,
+            const SizeType annz,
+            CrsFormat<ScalarType,SizeType>& A,
+            SizeType* row_map,
+            SizeType* col_map,
+            ScalarType* values
+            )
 {
     CHIPSUM_UNUSED(ncols);
     A.vals = std::vector<ScalarType>(values,values+annz);
@@ -91,7 +93,8 @@ template <typename ScalarType,typename SizeType,typename ...Props>
  * @param row_map_size
  * @param col_map_size
  */
-CHIPSUM_FUNCTION_INLINE void Create(CrsFormat<ScalarType,SizeType>& A,
+CHIPSUM_FUNCTION_INLINE
+void Create(CrsFormat<ScalarType,SizeType>& A,
                                     const std::size_t row_map_size,
                                     const std::size_t col_map_size
                                     )
@@ -123,7 +126,6 @@ CHIPSUM_FUNCTION_INLINE void Mult(CrsFormat<ScalarType,SizeType>& A,
         for(std::size_t j=0;j<end-start;++j)
         {
             b[i] += A.vals[start+j]*x[A.graph.col_map[start+j]];
-
 
         }
 
@@ -160,10 +162,10 @@ CHIPSUM_FUNCTION_INLINE void Mult(
     }
 }
 
-template <typename ScalarType,typename SizeType,typename ...Props>
-CHIPSUM_FUNCTION_INLINE void Gauss_seidel(/*...*/){
-    //TODO
-}
+//template <typename ScalarType,typename SizeType,typename ...Props>
+//CHIPSUM_FUNCTION_INLINE void Gauss_seidel(/*...*/){
+//    //TODO
+//}
 
 
 } // End namespace Sparse

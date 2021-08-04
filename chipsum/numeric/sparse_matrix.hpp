@@ -16,16 +16,20 @@
 #include "vector.hpp"
 #include "dense_matrix.hpp"
 
-#include "impl/crs_serial_impl.hpp"
 #include "impl/crs_kokkoskernels_impl.hpp"
+#include "impl/crs_serial_impl.hpp"
+
 
 
 
 namespace ChipSum {
 namespace Numeric {
 
+
 template<typename ...Props>
 class SparseMatrix;
+
+enum GSAlgorithm{DEFAULT, PERMUTED, TEAM, CLUSTER, TWOSTAGE};
 
 template<typename ScalarType,typename SizeType,typename SpFormat,typename BackendType,typename ...Props>
 class SparseMatrix<ScalarType,SizeType,SpFormat,BackendType,Props...>{
@@ -60,7 +64,8 @@ public:
      */
     CHIPSUM_DECLARED_FUNCTION SparseMatrix(size_type nrow,
                                            size_type ncol,
-                                           size_type annz,Args ...args)
+                                           size_type annz,
+                                           Args ...args)
         :__nrow(nrow),__ncol(ncol),__annz(annz)
     {
         ChipSum::Numeric::Impl::Sparse::Create<ScalarType,SizeType>(nrow,ncol,annz,__data,args...);
@@ -105,6 +110,16 @@ public:
         ChipSum::Numeric::Impl::Sparse::Mult<ScalarType,SizeType>(
                     __data,m.GetData(),ret.GetData());
         return ret;
+    }
+
+
+
+    CHIPSUM_FUNCTION_INLINE void
+    GSSmooth(GSAlgorithm algo = DEFAULT)
+    {
+        ChipSum::Numeric::Impl::Sparse::GaussSeidelSmooth
+                <ScalarType,SizeType>
+                (__data,__nrow,__ncol,static_cast<char>(algo));
     }
 
 };

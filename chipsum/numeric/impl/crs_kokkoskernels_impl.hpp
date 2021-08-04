@@ -12,6 +12,7 @@
 #include <KokkosKernels_default_types.hpp>
 #include <KokkosSparse.hpp>
 #include <KokkosSparse_spmv.hpp>
+#include <KokkosKernels_Handle.hpp>
 #include <KokkosSparse_gauss_seidel.hpp>
 
 
@@ -28,8 +29,8 @@ namespace Numeric {
 
 template<typename ScalarType,typename SizeType,typename ...Props>
 struct Sparse_Traits<ScalarType,SizeType,SparseTypes::Csr,ChipSum::Backend::KokkosKernels,Props...>
-        : public Operator_Traits<ScalarType,SizeType,ChipSum::Backend::KokkosKernels,Props...>{
-
+        : public Operator_Traits<ScalarType,SizeType,ChipSum::Backend::KokkosKernels,Props...>
+{
 
     using sp_type = KokkosSparse::CrsMatrix<ScalarType,SizeType,default_device>;
     using size_type = std::size_t;
@@ -39,15 +40,12 @@ struct Sparse_Traits<ScalarType,SizeType,SparseTypes::Csr,ChipSum::Backend::Kokk
     using col_map_type = typename sp_type::index_type;
     using values_type = typename sp_type::values_type;
 
-
 };
 
 
 namespace Impl {
 
 namespace Sparse {
-
-
 
 template<typename ScalarType,typename SizeType,typename ...Props>
 /**
@@ -67,20 +65,18 @@ CHIPSUM_FUNCTION_INLINE void Create(
         KokkosSparse::CrsMatrix<ScalarType,SizeType,default_device>& A,
         SizeType* row_map,
         SizeType* col_map,
-        ScalarType* values
-
-        )
+        ScalarType* values)
 {
 
     using crs_t = KokkosSparse::CrsMatrix<ScalarType,SizeType,default_device>;
 
     A = crs_t("spm_"+std::to_string(spm_name),
-                static_cast<typename crs_t::ordinal_type>(nrows),
-                static_cast<typename crs_t::ordinal_type>(ncols),
-                static_cast<typename crs_t::size_type>(annz),
-                static_cast<typename crs_t::value_type*>(values),
-                static_cast<typename crs_t::ordinal_type*>(row_map),
-                static_cast<typename crs_t::ordinal_type*>(col_map));
+              static_cast<typename crs_t::ordinal_type>(nrows),
+              static_cast<typename crs_t::ordinal_type>(ncols),
+              static_cast<typename crs_t::size_type>(annz),
+              values,
+              static_cast<typename crs_t::ordinal_type*>(row_map),
+              static_cast<typename crs_t::ordinal_type*>(col_map));
 
 }
 
@@ -93,12 +89,12 @@ template <typename ScalarType,typename SizeType,typename ...Props>
  */
 CHIPSUM_FUNCTION_INLINE void Create(
         KokkosSparse::CrsMatrix<ScalarType,SizeType,default_device>& A,
-        const size_t row_map_size,
-        const size_t col_map_size
+        const std::size_t row_map_size,
+        const std::size_t col_map_size
         )
 {
-    using sp_t = KokkosSparse::CrsMatrix<ScalarType,SizeType,default_device>;
 
+    using sp_t = KokkosSparse::CrsMatrix<ScalarType,SizeType,default_device>;
 
     typename sp_t::row_map_type row_map(
                 "row_map_"+A.label(),
@@ -129,6 +125,7 @@ CHIPSUM_FUNCTION_INLINE void Mult(
         Kokkos::View<ScalarType*>& b)
 {
     KokkosSparse::spmv("N",static_cast<ScalarType>(1.0),A,x,static_cast<ScalarType>(0.0),b);
+
 }
 
 
@@ -144,8 +141,6 @@ CHIPSUM_FUNCTION_INLINE void Mult(
         const Kokkos::View<ScalarType**>& B,
         Kokkos::View<ScalarType**>& C)
 {
-
-//    KokkosSparse::spgemm_numeric
     KokkosSparse::spmv("N",static_cast<ScalarType>(1.0),A,B,static_cast<ScalarType>(0.0),C);
 }
 
@@ -167,13 +162,37 @@ CHIPSUM_FUNCTION_INLINE void Mult(
         Kokkos::View<ScalarType*>& b)
 {
     KokkosSparse::spmv("N",alpha,A,x,beta,b);
+
 }
 
 
-//template <typename ScalarType,typename SizeType,typename ...Props>
-//CHIPSUM_FUNCTION_INLINE void Gauss_seidel(/*...*/){
-//    //TODO
-//}
+template <typename ScalarType,typename SizeType,typename ...Props>
+CHIPSUM_FUNCTION_INLINE
+void GaussSeidelSmooth(KokkosSparse::CrsMatrix<ScalarType,SizeType,default_device>& A,
+                  SizeType nrow,SizeType ncol,
+                  char algo
+                  )
+{
+   using handle_t = KokkosKernels::Experimental::KokkosKernelsHandle
+            <SizeType,
+            SizeType,
+            SizeType,
+            Kokkos::DefaultExecutionSpace,
+            Kokkos::DefaultExecutionSpace::memory_space,
+            Kokkos::DefaultExecutionSpace::memory_space> ;
+
+//    handle_t handle;
+//    handle.create_gs_handle(static_cast<KokkosSparse::GSAlgorithm>(algo));
+
+//    KokkosSparse::Experimental::gauss_seidel_symbolic(&handle,
+//                                                      static_cast<typename handle_t::const_nnz_lno_t>(nrow),
+//                                                      static_cast<typename handle_t::const_nnz_lno_t>(ncol),
+//                                                      A.graph.row_map,
+//                                                      A.graph.entries,
+//                                                      false);
+//    KokkosSparse::Experimental::gauss_seidel_numeric(&handle, nrow, ncol, A.graph.row_map, A.graph.entries, A.values, false);
+
+}
 
 
 } // End namespace Sparse

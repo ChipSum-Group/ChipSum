@@ -45,9 +45,16 @@ namespace  DenseMat
 
 
 template <typename ScalarType,typename SizeType,typename ...Props>
-CHIPSUM_FUNCTION_INLINE void Create(const std::size_t M,
-                                    const std::size_t N,
-                                    Kokkos::View<double**>& mat)
+/**
+ * @brief Create
+ * @param M
+ * @param N
+ * @param mat
+ */
+CHIPSUM_FUNCTION_INLINE
+void Create(const std::size_t M,
+            const std::size_t N,
+            Kokkos::View<double**>& mat)
 {
 
 
@@ -59,10 +66,18 @@ CHIPSUM_FUNCTION_INLINE void Create(const std::size_t M,
 
 
 template <typename ScalarType,typename SizeType,typename ...Props>
-CHIPSUM_FUNCTION_INLINE void Fill(const std::size_t M,
-                                  const std::size_t N,
-                                  ScalarType* src,
-                                  Kokkos::View<double**>& dst)
+/**
+ * @brief Fill
+ * @param M
+ * @param N
+ * @param src
+ * @param dst
+ */
+CHIPSUM_FUNCTION_INLINE
+void Fill(const std::size_t M,
+          const std::size_t N,
+          ScalarType* src,
+          Kokkos::View<double**>& dst)
 {
     auto h_dst = Kokkos::View<double**>(src,M,N);
 
@@ -70,23 +85,42 @@ CHIPSUM_FUNCTION_INLINE void Fill(const std::size_t M,
 }
 
 template <typename ScalarType,typename SizeType,typename ...Props>
-CHIPSUM_FUNCTION_INLINE void Mult(const std::size_t M,
-                                  const std::size_t N,
-                                  const std::size_t K,
-                                  const Kokkos::View<double**>& A,
-                                  const Kokkos::View<double**>& B,
-                                  Kokkos::View<double**>& C)
+/**
+ * @brief Mult
+ * @param M
+ * @param N
+ * @param K
+ * @param A
+ * @param B
+ * @param C
+ */
+CHIPSUM_FUNCTION_INLINE
+void Mult(const std::size_t M,
+          const std::size_t N,
+          const std::size_t K,
+          const Kokkos::View<double**>& A,
+          const Kokkos::View<double**>& B,
+          Kokkos::View<double**>& C)
 {
 
     KokkosBlas::gemm("N","N",1.0,A,B,0.0,C);
 }
 
 template <typename ScalarType,typename SizeType,typename ...Props>
-CHIPSUM_FUNCTION_INLINE void Mult(const std::size_t M,
-                                  const std::size_t N,
-                                  const Kokkos::View<double**>& A,
-                                  const Kokkos::View<double*>& x,
-                                  Kokkos::View<double*>& y)
+/**
+ * @brief Mult
+ * @param M
+ * @param N
+ * @param A
+ * @param x
+ * @param y
+ */
+CHIPSUM_FUNCTION_INLINE
+void Mult(const std::size_t M,
+          const std::size_t N,
+          const Kokkos::View<double**>& A,
+          const Kokkos::View<double*>& x,
+          Kokkos::View<double*>& y)
 {
 
     KokkosBlas::gemv("N",1.0,A,x,0.0,y);
@@ -96,37 +130,64 @@ CHIPSUM_FUNCTION_INLINE void Mult(const std::size_t M,
 
 
 template <typename ScalarType,typename SizeType,typename ...Props>
-CHIPSUM_FUNCTION_INLINE void Scal(ScalarType alpha,
-                                  const std::size_t M,
-                                  const std::size_t N,
-                                  Kokkos::View<double**>& mat)
+/**
+ * @brief Scal
+ * @param alpha
+ * @param M
+ * @param N
+ * @param mat
+ */
+CHIPSUM_FUNCTION_INLINE
+void Scal(ScalarType alpha,
+          const std::size_t M,
+          const std::size_t N,
+          Kokkos::View<double**>& mat)
 {
     KokkosBlas::scal(mat,alpha,mat);
 }
 
 
 template <typename ScalarType,typename SizeType,typename ...Props>
-CHIPSUM_FUNCTION_INLINE ScalarType& GetItem(const std::size_t i,
-                                            const std::size_t j,
-                                            const std::size_t M,
-                                            const std::size_t N,
-                                            Kokkos::View<double**>& mat
-                                            )
+/**
+ * @brief GetItem
+ * @param i
+ * @param j
+ * @param M
+ * @param N
+ * @param mat
+ * @return
+ */
+CHIPSUM_FUNCTION_INLINE
+ScalarType& GetItem(const std::size_t i,
+                    const std::size_t j,
+                    const std::size_t M,
+                    const std::size_t N,
+                    Kokkos::View<double**>& mat
+                    )
 {
     return mat(i,j);
 }
 
 
 template <typename ScalarType,typename SizeType,typename ...Props>
-CHIPSUM_FUNCTION_INLINE void Print(const std::size_t M,
-                                   const std::size_t N,
-                                   Kokkos::View<double**>& mat,
-                                   std::ostream &out)
+/**
+ * @brief Print
+ * @param M
+ * @param N
+ * @param mat
+ * @param out
+ */
+CHIPSUM_FUNCTION_INLINE
+void Print(const std::size_t M,
+           const std::size_t N,
+           Kokkos::View<double**>& mat,
+           std::ostream &out)
 {
     auto h_mat = Kokkos::create_mirror_view(mat);
 
     Kokkos::deep_copy(h_mat,mat);
 
+    cout<<mat.label()<<":"<<endl;
 
     for(std::size_t i=0;i<M;++i)
     {

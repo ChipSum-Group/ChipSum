@@ -16,19 +16,20 @@ set(CHIPSUM_HEADERS "")
 add_subdirectory("unit_test")
 add_subdirectory("chipsum")
 
-
 set(ChipSum_USE_KokkosKernels "yes")
 set(ChipSum_Kokkos_DIR "/home/lky/code/git/kokkos-build")
 set(ChipSum_KokkosKernels_DIR "/home/lky/code/git/kokkos-kernels-build")
 
-
 if(ChipSum_USE_KokkosKernels)
+
     set(KokkosKernels_DIR ${ChipSum_KokkosKernels_DIR}/lib/cmake/KokkosKernels)
     set(Kokkos_DIR ${ChipSum_Kokkos_DIR}/lib/cmake/Kokkos)
 
     find_package(Kokkos REQUIRED)
     find_package(KokkosKernels REQUIRED)
+
     set(CMAKE_CXX_COMPILER ${Kokkos_CXX_COMPILER})
+
     list(APPEND CHIPSUM_LIBS  "Kokkos::kokkos")
     list(APPEND CHIPSUM_LIBS "Kokkos::kokkoskernels")
 

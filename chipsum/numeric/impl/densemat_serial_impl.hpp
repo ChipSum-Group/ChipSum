@@ -43,9 +43,16 @@ namespace  DenseMat
 
 
 template <typename ScalarType,typename SizeType,typename ...Props>
-CHIPSUM_FUNCTION_INLINE void Create(const std::size_t M,
-                                    const std::size_t N,
-                                    std::vector<ScalarType>& mat)
+/**
+ * @brief Create
+ * @param M
+ * @param N
+ * @param mat
+ */
+CHIPSUM_FUNCTION_INLINE
+void Create(const std::size_t M,
+            const std::size_t N,
+            std::vector<ScalarType>& mat)
 {
 
 
@@ -57,20 +64,37 @@ CHIPSUM_FUNCTION_INLINE void Create(const std::size_t M,
 
 
 template <typename ScalarType,typename SizeType,typename ...Props>
-CHIPSUM_FUNCTION_INLINE void Fill(const std::size_t M,
-                                  const std::size_t N,
-                                  ScalarType* src,
-                                  std::vector<ScalarType>& dst)
+/**
+ * @brief Fill
+ * @param M
+ * @param N
+ * @param src
+ * @param dst
+ */
+CHIPSUM_FUNCTION_INLINE
+void Fill(const std::size_t M,
+          const std::size_t N,
+          ScalarType* src,
+          std::vector<ScalarType>& dst)
 {
     dst = std::vector<ScalarType>(src,src+M*N);
 }
 
 template <typename ScalarType,typename SizeType,typename ...Props>
-CHIPSUM_FUNCTION_INLINE void Mult(const std::size_t M,
-                                  const std::size_t N,
-                                  const std::vector<ScalarType>& A,
-                                  const std::vector<ScalarType>& x,
-                                  std::vector<ScalarType>& b)
+/**
+ * @brief Mult
+ * @param M
+ * @param N
+ * @param A
+ * @param x
+ * @param b
+ */
+CHIPSUM_FUNCTION_INLINE
+void Mult(const std::size_t M,
+          const std::size_t N,
+          const std::vector<ScalarType>& A,
+          const std::vector<ScalarType>& x,
+          std::vector<ScalarType>& b)
 {
 
     for(std::size_t i=0;i<M;++i)b[i] = 0;
@@ -84,12 +108,22 @@ CHIPSUM_FUNCTION_INLINE void Mult(const std::size_t M,
 
 
 template <typename ScalarType,typename SizeType,typename ...Props>
-CHIPSUM_FUNCTION_INLINE void Mult(const std::size_t M,
-                                  const std::size_t N,
-                                  const std::size_t K,
-                                  const std::vector<ScalarType>& A,
-                                  const std::vector<ScalarType>& B,
-                                  std::vector<ScalarType>& C)
+/**
+ * @brief Mult
+ * @param M
+ * @param N
+ * @param K
+ * @param A
+ * @param B
+ * @param C
+ */
+CHIPSUM_FUNCTION_INLINE
+void Mult(const std::size_t M,
+          const std::size_t N,
+          const std::size_t K,
+          const std::vector<ScalarType>& A,
+          const std::vector<ScalarType>& B,
+          std::vector<ScalarType>& C)
 {
 
 
@@ -109,10 +143,18 @@ CHIPSUM_FUNCTION_INLINE void Mult(const std::size_t M,
 
 
 template <typename ScalarType,typename SizeType,typename ...Props>
-CHIPSUM_FUNCTION_INLINE void Scal(ScalarType alpha,
-                                  const std::size_t M,
-                                  const std::size_t N,
-                                  std::vector<ScalarType>& mat)
+/**
+ * @brief Scal
+ * @param alpha
+ * @param M
+ * @param N
+ * @param mat
+ */
+CHIPSUM_FUNCTION_INLINE
+void Scal(ScalarType alpha,
+          const std::size_t M,
+          const std::size_t N,
+          std::vector<ScalarType>& mat)
 {
     assert(mat.size() == M*N);
     for(std::size_t i=0;i<mat.size();++i)
@@ -123,12 +165,22 @@ CHIPSUM_FUNCTION_INLINE void Scal(ScalarType alpha,
 
 
 template <typename ScalarType,typename SizeType,typename ...Props>
-CHIPSUM_FUNCTION_INLINE ScalarType& GetItem(const std::size_t i,
-                                            const std::size_t j,
-                                            const std::size_t M,
-                                            const std::size_t N,
-                                            std::vector<ScalarType>& mat
-                                            )
+/**
+ * @brief GetItem
+ * @param i
+ * @param j
+ * @param M
+ * @param N
+ * @param mat
+ * @return
+ */
+CHIPSUM_FUNCTION_INLINE
+ScalarType& GetItem(const std::size_t i,
+                    const std::size_t j,
+                    const std::size_t M,
+                    const std::size_t N,
+                    std::vector<ScalarType>& mat
+                    )
 {
     assert(i<M && j<N);
 
@@ -137,10 +189,18 @@ CHIPSUM_FUNCTION_INLINE ScalarType& GetItem(const std::size_t i,
 
 
 template <typename ScalarType,typename SizeType,typename ...Props>
-CHIPSUM_FUNCTION_INLINE void Print(const std::size_t M,
-                                   const std::size_t N,
-                                   std::vector<ScalarType>& mat,
-                                   std::ostream &out)
+/**
+ * @brief Print
+ * @param M
+ * @param N
+ * @param mat
+ * @param out
+ */
+CHIPSUM_FUNCTION_INLINE
+void Print(const std::size_t M,
+           const std::size_t N,
+           std::vector<ScalarType>& mat,
+           std::ostream &out)
 {
 
     for(std::size_t i=0;i<M;++i)
