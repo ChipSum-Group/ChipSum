@@ -18,12 +18,11 @@ add_subdirectory("chipsum")
 
 set(CMAKE_INCLUDE_DIRECTORIES_BEFORE on)
 
-set(ChipSum_USE_KokkosKernels "yes")
 
 if(ChipSum_USE_KokkosKernels)
 
-    set(Kokkos_DIR ./tpl/kokkos-build/lib)
-    set(KokkosKernels_DIR ./tpl/kokkos-kernels-build/lib)
+    set(Kokkos_DIR ./tpl/kokkos-build/lib/cmake/Kokkos)
+    set(KokkosKernels_DIR ./tpl/kokkos-kernels-build/lib/cmake/KokkosKernels)
 
     find_package(Kokkos REQUIRED)
     find_package(KokkosKernels REQUIRED)
@@ -36,6 +35,20 @@ if(ChipSum_USE_KokkosKernels)
 endif()
 
 
+if(ChipSum_USE_KokkosKernels64)
+
+    set(Kokkos_DIR ./tpl/kokkos-build/lib64/cmake/Kokkos)
+    set(KokkosKernels_DIR ./tpl/kokkos-kernels-build/libi64/cmake/KokkosKernels)
+
+    find_package(Kokkos REQUIRED)
+    find_package(KokkosKernels REQUIRED)
+
+    set(CMAKE_CXX_COMPILER ${Kokkos_CXX_COMPILER})
+
+    list(APPEND CHIPSUM_LIBS  "Kokkos::kokkos")
+    list(APPEND CHIPSUM_LIBS "Kokkos::kokkoskernels")
+
+endif()
 
 
 add_definitions("-fopenmp")
