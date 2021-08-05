@@ -43,22 +43,7 @@ int main(int argc,char* argv[])
         Vector x(v1,10);
         x.Print();
 
-        Vector y(v2,10);
-        y.Print();
 
-        double r;
-        x.Dot(y,r);
-
-
-        cout<<x.Dot(y)<<endl;
-
-
-        (x+y).Print();
-
-        (3.0*x).Print();
-
-        cout<<x.Norm1()<<endl;
-        cout<<y.Norm2()<<endl;
 
 //        Vector a(v1,10); //a = {0,1,2,3,4,5,6,7,8,9}
 //        Vector b(v2,10); //b = {0,1,2,3,4,5,6,7,8,9}

@@ -16,14 +16,15 @@ set(CHIPSUM_HEADERS "")
 add_subdirectory("unit_test")
 add_subdirectory("chipsum")
 
-set(ChipSum_USE_KokkosKernels "yes")
-set(ChipSum_Kokkos_DIR "/home/lky/code/git/kokkos-build")
-set(ChipSum_KokkosKernels_DIR "/home/lky/code/git/kokkos-kernels-build")
+set(CMAKE_INCLUDE_DIRECTORIES_BEFORE on)
+
+
 
 if(ChipSum_USE_KokkosKernels)
 
-    set(KokkosKernels_DIR ${ChipSum_KokkosKernels_DIR}/lib/cmake/KokkosKernels)
-    set(Kokkos_DIR ${ChipSum_Kokkos_DIR}/lib/cmake/Kokkos)
+    
+    set(Kokkos_DIR ./tpl/kokkos-build/lib/cmake/Kokkos)
+    set(KokkosKernels_DIR ./tpl/kokkos-kernels-build/lib/cmake/KokkosKernels)
 
     find_package(Kokkos REQUIRED)
     find_package(KokkosKernels REQUIRED)
@@ -34,21 +35,6 @@ if(ChipSum_USE_KokkosKernels)
     list(APPEND CHIPSUM_LIBS "Kokkos::kokkoskernels")
 
 endif()
-
-
-set(ChipSum_USE_OpenBlas "yes")
-set(ChipSum_OpenBlas_Libs "/usr/lib/x86_64-linux-gnu/openblas-pthread/libopenblas.so")
-if(ChipSum_USE_OpenBlas)
-    list(APPEND CHIPSUM_LIBS  ${ChipSum_OpenBlas_Libs})
-endif()
-
-
-
-
-
-
-
-
 
 
 add_definitions("-fopenmp")
@@ -66,7 +52,7 @@ install(FILES ${CHIPSUM_HEADERS}  DESTINATION include)
 add_executable(ChipSum
     "test.cpp"
     )
-
+install(TARGETS ChipSum  DESTINATION bin)
 
 target_link_libraries(ChipSum PUBLIC ${CHIPSUM_LIBS}  )
 
