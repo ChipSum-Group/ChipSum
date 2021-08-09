@@ -16,6 +16,7 @@ using namespace std;
 #include "chipsum/backend/backend.hpp"
 #include "chipsum/numeric/sparse_matrix.hpp"
 #include "chipsum/numeric/dense_matrix.hpp"
+#include "chipsum/numeric/scalar.hpp"
 
 
 
@@ -43,7 +44,9 @@ int main(int argc,char* argv[])
         Vector x(v1,10);
         x.Print();
 
+        Scalar s = 3.3;
 
+        cout<<s()<<endl;
 
 //        Vector a(v1,10); //a = {0,1,2,3,4,5,6,7,8,9}
 //        Vector b(v2,10); //b = {0,1,2,3,4,5,6,7,8,9}

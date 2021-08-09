@@ -173,13 +173,13 @@ void GaussSeidelSmooth(KokkosSparse::CrsMatrix<ScalarType,SizeType,default_devic
                   char algo
                   )
 {
-   using handle_t = KokkosKernels::Experimental::KokkosKernelsHandle
-            <SizeType,
-            SizeType,
-            SizeType,
-            Kokkos::DefaultExecutionSpace,
-            Kokkos::DefaultExecutionSpace::memory_space,
-            Kokkos::DefaultExecutionSpace::memory_space> ;
+//    using handle_t = KokkosKernels::Experimental::KokkosKernelsHandle
+//             <SizeType,
+//             SizeType,
+//             SizeType,
+//             Kokkos::DefaultExecutionSpace,
+//             Kokkos::DefaultExecutionSpace::memory_space,
+//             Kokkos::DefaultExecutionSpace::memory_space> ;
 
 //    handle_t handle;
 //    handle.create_gs_handle(static_cast<KokkosSparse::GSAlgorithm>(algo));

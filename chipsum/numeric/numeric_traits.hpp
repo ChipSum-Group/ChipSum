@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2021-08-09 12:20:42
+ * @LastEditTime: 2021-08-09 14:12:39
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /lky/git/ChipSum/chipsum/numeric/numeric_traits.hpp
+ */
 /* * * * * * * * * * * * * * * * * * * * *
 *   File:     numeric_traits.hpp
 *   Author:   Li Kunyun
@@ -56,6 +64,15 @@ struct Operator_Traits<ScalarType,SizeType,BackendType,Props...>{
 
 
 
+
+};
+
+template<typename ScalarType,typename SizeType,typename BackendType,typename ...Props>
+struct Scalar_Traits: public Operator_Traits<ScalarType,SizeType,BackendType,Props...>
+{
+    using scalar_type = void;
+
+    using size_type = void;
 
 };
 
