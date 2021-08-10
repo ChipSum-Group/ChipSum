@@ -44,11 +44,26 @@ int main(int argc,char* argv[])
         Vector x(v1,10);
         x.Print();
 
+        Vector y(v2,10);
+
         Scalar s = 3.3;
+
+
+        free(v1);free(v2);
 
         cout<<s()<<endl;
 
         (s*x).Print();
+
+        s = x.Dot(y);
+
+        s.Print();
+
+        Scalar s1;
+        x.Dot(y,s1);
+        s1.Print();
+
+        cout<<sizeof(Scalar)<<endl;
 
 //        Vector a(v1,10); //a = {0,1,2,3,4,5,6,7,8,9}
 //        Vector b(v2,10); //b = {0,1,2,3,4,5,6,7,8,9}

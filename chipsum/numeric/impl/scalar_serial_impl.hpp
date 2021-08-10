@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-08-09 13:58:38
- * @LastEditTime: 2021-08-09 16:02:44
+ * @LastEditTime: 2021-08-10 15:23:41
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /lky/git/ChipSum/chipsum/numeric/impl/scalar_serial_impl.hpp
@@ -10,6 +10,7 @@
 #ifndef __CHIPSUM_SCALAR_SERIAL_IMPL_HPP__
 #define __CHIPSUM_SCALAR_SERIAL_IMPL_HPP__
 
+#include <fstream>
 #include <vector>
 
 #include "../../chipsum_macro.h"
@@ -65,6 +66,8 @@ CHIPSUM_FUNCTION_INLINE void GetItem(const ScalarType s,ScalarType& r){
 }
 
 
+
+
 template <typename ScalarType,typename SizeType,typename ...Props>
 CHIPSUM_FUNCTION_INLINE 
 void Mult(const ScalarType s,const std::vector<ScalarType>& v,std::vector<ScalarType>& r){
@@ -74,7 +77,11 @@ void Mult(const ScalarType s,const std::vector<ScalarType>& v,std::vector<Scalar
         r[i] = s*v[i];
     }
 }
-
+template <typename ScalarType,typename SizeType,typename ...Props>
+CHIPSUM_FUNCTION_INLINE 
+void Print(const ScalarType s,std::ostream& out){
+    cout<<s<<endl;
+}
 }
 }
 

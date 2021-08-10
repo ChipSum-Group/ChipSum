@@ -1,20 +1,24 @@
 /*
- * @Author: your name
+ * @Author: Li Kunyun
  * @Date: 2021-08-09 12:27:29
- * @LastEditTime: 2021-08-09 16:31:33
+ * @LastEditTime: 2021-08-10 15:28:28
  * @LastEditors: Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: scalar.hpp
+ * @Description: Scalar user interface
+ * @FilePath: /lky/ChipSum/chipsum/numeric/scalar.hpp
  */
+
+
 #ifndef __CHIPSUM_NUMERIC_SCALAR_HPP_
 #define __CHIPSUM_NUMERIC_SCALAR_HPP_
+
+
+
 
 #include "../chipsum_macro.h"
 #include "numeric_traits.hpp"
 #include "impl/scalar_kokkoskernels_impl.hpp"
 #include "impl/scalar_serial_impl.hpp"
 #include "../backend/backend.hpp"
-#include "vector.hpp"
 
 namespace ChipSum
 {
@@ -54,30 +58,23 @@ namespace ChipSum
                 ChipSum::Numeric::Impl::Scalar::Create<ScalarType, SizeType>(s, __data);
             }
 
-
-            CHIPSUM_FUNCTION_INLINE const_scalar_type_reference GetData(){return __data;}
+            CHIPSUM_FUNCTION_INLINE const_scalar_type_reference GetData() { return __data; }
 
             CHIPSUM_FUNCTION_INLINE Scalar operator=(ScalarType &&s)
             {
                 ChipSum::Numeric::Impl::Scalar::DeepCopy<ScalarType, SizeType>(s, __data);
             }
 
-            CHIPSUM_FUNCTION_INLINE const ScalarType operator()(){
-                return ChipSum::Numeric::Impl::Scalar::GetItem<ScalarType,SizeType>(__data);
+            CHIPSUM_FUNCTION_INLINE const ScalarType operator()()
+            {
+                return ChipSum::Numeric::Impl::Scalar::GetItem<ScalarType, SizeType>(__data);
+            }
+
+            CHIPSUM_FUNCTION_INLINE void Print(std::ostream& out=std::cout)
+            {
+                ChipSum::Numeric::Impl::Scalar::Print<ScalarType,SizeType>(__data,out);
             }
         };
-
-
-        template<typename ScalarType,typename SizeType,typename BackendType,typename ...Props>
-        CHIPSUM_FUNCTION_INLINE Vector<ScalarType,SizeType,BackendType> 
-        operator*(Scalar<ScalarType,SizeType,BackendType>& s,Vector<ScalarType,SizeType,BackendType>& v)
-        {
-            Vector<ScalarType,SizeType,BackendType> r(v.GetSize());
-            ChipSum::Numeric::Impl::Scalar::Mult<ScalarType,SizeType>(s.GetData(),v.GetData(),r.GetData());
-            return r;
-        }
-
-
 
     } // End namespace Numeric
 } // End namespace ChipSum
