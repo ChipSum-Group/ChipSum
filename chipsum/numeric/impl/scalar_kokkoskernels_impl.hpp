@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-08-09 12:34:28
- * @LastEditTime: 2021-08-10 11:02:00
+ * @LastEditTime: 2021-08-10 11:25:23
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: scalar_kokkoskernels_impl.hpp
@@ -11,8 +11,6 @@
 #define __CHIPSUM_SCALAR_KOKKOSKERNELS_IMPL_HPP__
 
 #include <KokkosBlas1_axpby_spec.hpp>
-
-
 
 #include "../numeric_traits.hpp"
 #include "../../backend/backend.hpp"
@@ -31,6 +29,26 @@ namespace ChipSum
             using scalar_type = Kokkos::View<ScalarType>;
 
             using device_scalar_value_type = typename scalar_type::HostMirror;
+        };
+
+        template <typename ScalarType, typename SizeType,typename... Props>
+        struct Scal_Functor
+        {
+            Scal_Functor(Kokkos::View<ScalarType> ai,
+                         Kokkos::View<ScalarType *> xi, 
+                         Kokkos::View<ScalarType *> yi)
+            {
+                a = ai;x=xi;y=yi;
+            }
+
+            KOKKOS_INLINE_FUNCTION void operator()(const int i)const{
+                y(i) = a()*x(i);
+            }
+
+        private:
+            Kokkos::View<ScalarType> a;
+            Kokkos::View<ScalarType *> x;
+            Kokkos::View<ScalarType *> y;
         };
 
         namespace Impl
@@ -81,8 +99,9 @@ namespace ChipSum
                                                   const Kokkos::View<ScalarType *> &v,
                                                   Kokkos::View<ScalarType *> &r)
                 {
-                    
-                    KokkosBlas::scal(r,s(),v);
+                    assert(v.extent(0)>0);
+                    r = Kokkos::View<ScalarType*>("scalar_"+std::to_string(scalar_name++),v.extent(0));
+                    Kokkos::parallel_for(r.extent(0),Scal_Functor<ScalarType,SizeType>(s,v,r));
                 }
 
             }
