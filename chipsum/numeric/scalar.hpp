@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-08-09 12:27:29
- * @LastEditTime: 2021-08-09 15:51:25
+ * @LastEditTime: 2021-08-09 16:31:33
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: scalar.hpp
@@ -54,6 +54,9 @@ namespace ChipSum
                 ChipSum::Numeric::Impl::Scalar::Create<ScalarType, SizeType>(s, __data);
             }
 
+
+            CHIPSUM_FUNCTION_INLINE const_scalar_type_reference GetData(){return __data;}
+
             CHIPSUM_FUNCTION_INLINE Scalar operator=(ScalarType &&s)
             {
                 ChipSum::Numeric::Impl::Scalar::DeepCopy<ScalarType, SizeType>(s, __data);
@@ -67,9 +70,11 @@ namespace ChipSum
 
         template<typename ScalarType,typename SizeType,typename BackendType,typename ...Props>
         CHIPSUM_FUNCTION_INLINE Vector<ScalarType,SizeType,BackendType> 
-        operator*(const Scalar<ScalarType,SizeType,BackendType> s,const Vector<ScalarType,SizeType,BackendType> v)
+        operator*(Scalar<ScalarType,SizeType,BackendType>& s,Vector<ScalarType,SizeType,BackendType>& v)
         {
-            
+            Vector<ScalarType,SizeType,BackendType> r(v.GetSize());
+            ChipSum::Numeric::Impl::Scalar::Mult<ScalarType,SizeType>(s.GetData(),v.GetData(),r.GetData());
+            return r;
         }
 
 
