@@ -4,7 +4,7 @@
  * @Autor: Li Kunyun
  * @Date: 2021-08-09 12:20:42
  * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-12 10:45:06
+ * @LastEditTime: 2021-08-12 14:18:41
  */
 
 #ifndef __CHIPSUM_NUMERIC_VECTOR_HPP__
@@ -66,6 +66,10 @@ public:
 
   CHIPSUM_DECLARED_FUNCTION Vector() = default;
 
+  CHIPSUM_DECLARED_FUNCTION Vector(const Vector&) = default;
+
+  CHIPSUM_DECLARED_FUNCTION Vector(Vector&&) = default;
+
   /**
    * @description:
    * @param {const_size_type} size
@@ -85,10 +89,14 @@ public:
   CHIPSUM_DECLARED_FUNCTION Vector(const vector_type &data,
                                    const_size_type size)
       : __size(size) {
+
+          
     ChipSum::Numeric::Impl::Vector::Create<ScalarType, SizeType>(__size,
                                                                  __data);
+                                                              
     ChipSum::Numeric::Impl::Vector::DeepCopy<ScalarType, SizeType>(__data,
                                                                    data);
+                                                               
   }
 
   /**
@@ -166,14 +174,19 @@ public:
    * @param {*}
    * @return {*}
    */
-  CHIPSUM_FUNCTION_INLINE Vector operator*(ScalarType s) {
+  CHIPSUM_FUNCTION_INLINE Vector operator*(const ScalarType s) {
 
     Vector ret(__data, __size);
+   
     ChipSum::Numeric::Impl::Vector::Scal<ScalarType, SizeType>(ret.GetData(), s,
                                                                GetData());
 
+
     return ret;
   }
+
+  CHIPSUM_FUNCTION_INLINE Vector& operator=(const Vector&)=default;
+  
 
   /**
    * @description:
@@ -181,16 +194,21 @@ public:
    * @return {*}
    */
   CHIPSUM_FUNCTION_INLINE Vector
-  operator*(Scalar<ScalarType, SizeType, BackendType> s) {
+  operator*(Scalar<ScalarType, SizeType, BackendType>& s) {
 
     Vector ret(__size);
+
     ChipSum::Numeric::Impl::Vector::Scal<
         ScalarType, SizeType,
         typename Scalar<ScalarType, SizeType, BackendType>::device_scalar_type>(
         ret.GetData(), s.GetData(), __data);
+
+    
     return ret;
   }
 
+
+  
   /**
    * @description:
    * @param {*}
@@ -309,7 +327,7 @@ template <typename ScalarType, typename SizeType, typename BackendType,
  * @return {*}
  */
 CHIPSUM_FUNCTION_INLINE Vector<ScalarType, SizeType, BackendType, Props...>
-operator*(ScalarType s,
+operator*(const ScalarType s,
           Vector<ScalarType, SizeType, BackendType, Props...> &v) {
   return v * s;
 }
@@ -326,6 +344,7 @@ operator*(Scalar<ScalarType, SizeType, BackendType, Props...> s,
           Vector<ScalarType, SizeType, BackendType, Props...> &v) {
   return v * s;
 }
+
 
 } // End namespace Numeric
 } // End namespace ChipSum

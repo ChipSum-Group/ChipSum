@@ -1,8 +1,8 @@
 /*
  * @Author       : your name
  * @Date         : 2021-08-10 15:35:49
- * @LastEditTime : 2021-08-12 09:54:21
- * @LastEditors  : Please set LastEditors
+ * @LastEditTime: 2021-08-12 14:19:40
+ * @LastEditors: Li Kunyun
  * @Description  : In User Settings Edit
  * @FilePath     : \\lky\\ChipSum\\test.cpp
  */
@@ -26,7 +26,7 @@ using namespace std;
 #include "chipsum/numeric/dense_matrix.hpp"
 #include "chipsum/numeric/scalar.hpp"
 
-
+#define N 5
 
 
 typedef ChipSum::Numeric::SparseMatrix<double,size_t,ChipSum::Numeric::SparseTypes::Csr,ChipSum::Backend::DefaultBackend>  Csrm;
@@ -37,44 +37,38 @@ int main(int argc,char* argv[])
     Kokkos::initialize();
     {
 
-        double* v1 = (double*)malloc(10*sizeof (double));
+        double* v0_data = (double*)std::malloc(N*sizeof(double));
 
-        double* v2 = (double*)malloc(10*sizeof (double));
+        double* m0_data = (double*)std::malloc(N*N*sizeof(double));
 
-        for(int i=0;i<10;++i){
-            v1[i]=i;
-            v2[i]=i;
-        }
+        for(int i=0;i<N;++i) v0_data[i] = i+1;
 
-        Vector x(v1,10);
-        x.Print();
-
-        Vector y(v2,10);
-
-        Scalar s = 3.3;
+        for(int i=0;i<N*N;++i) m0_data[i] = i+1;
 
 
-        free(v1);free(v2);
+        Vector v0(v0_data,N);
 
-        cout<<s()<<endl;
+        v0.Print();
 
-        (s*x).Print();
+        double s = 3.141592653;
 
-        s = x.Dot(y);
+        
 
-        s.Print();
+        Vector sv0 = s*v0;
+        sv0.Print();
 
-        Scalar s1;
-        x.Dot(y,s1);
-        s1.Print();
+        Scalar s1 = 2.2;
+        (2.22*v0).Print();
+
+        Matrix m(N,N,m0_data);
 
 
-        double dot = x.Dot(y);
-        cout<<"dot="<<dot<<endl;
+        (m*v0).Print();
 
-        double num = s1;
-        cout<<num<<endl;
 
+
+        std::free(v0_data);
+        std::free(m0_data);
 //        Vector a(v1,10); //a = {0,1,2,3,4,5,6,7,8,9}
 //        Vector b(v2,10); //b = {0,1,2,3,4,5,6,7,8,9}
 
@@ -133,32 +127,32 @@ int main(int argc,char* argv[])
 //        *
 //       */
 
-//        size_t nrows = 5;
-//        size_t ncols = 5;
-//        size_t annz = 13;
-//        size_t* row_map = (size_t*)malloc(6*sizeof (size_t));
-//        size_t* col_map = (size_t*)malloc(13*sizeof (size_t));
-//        double* values = (double*)malloc(13*sizeof (double));
-//        row_map[0]=0;row_map[1]=3;row_map[2]=5;row_map[3]=8;row_map[4]=11;row_map[5]=13;
-//        col_map[0]=col_map[5]=col_map[8] = 0;
-//        col_map[1]=col_map[6]=col_map[11] = 2;
-//        col_map[2]=col_map[4]=col_map[10] = 3;
-//        col_map[3]=col_map[9] = 1;
-//        col_map[7]=col_map[12] = 4;
+       size_t nrows = 5;
+       size_t ncols = 5;
+       size_t annz = 13;
+       size_t* row_map = (size_t*)malloc(6*sizeof (size_t));
+       size_t* col_map = (size_t*)malloc(13*sizeof (size_t));
+       double* values = (double*)malloc(13*sizeof (double));
+       row_map[0]=0;row_map[1]=3;row_map[2]=5;row_map[3]=8;row_map[4]=11;row_map[5]=13;
+       col_map[0]=col_map[5]=col_map[8] = 0;
+       col_map[1]=col_map[6]=col_map[11] = 2;
+       col_map[2]=col_map[4]=col_map[10] = 3;
+       col_map[3]=col_map[9] = 1;
+       col_map[7]=col_map[12] = 4;
 
-//        for(int i=0;i<5;++i) values[i]=double(i+1);
+       for(int i=0;i<5;++i) values[i]=double(i+1);
 
-//        values[5]=2;values[6]=6;values[7]=7;
-//        values[8]=3;values[9]=5;values[10]=8;
-//        values[11]=7;values[12]=9;
+       values[5]=2;values[6]=6;values[7]=7;
+       values[8]=3;values[9]=5;values[10]=8;
+       values[11]=7;values[12]=9;
 
-//        Csrm B(nrows,ncols,annz,row_map,col_map,values);
-////        B.GSSmooth();
+       Csrm B(nrows,ncols,annz,row_map,col_map,values);
 
 
-//        Vector xb(v1,5);
 
-//        Vector bb = B*xb;
+       
+
+       (B*v0).Print();
 
 //        bb.Print(); // {13,15,40,24,50}
 

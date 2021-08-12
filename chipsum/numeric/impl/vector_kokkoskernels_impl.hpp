@@ -4,7 +4,7 @@
  * @Autor: Li Kunyun
  * @Date: 2021-08-09 12:20:42
  * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-12 10:40:24
+ * @LastEditTime: 2021-08-12 14:18:23
  */
 
 
@@ -20,6 +20,9 @@
 #include <KokkosBlas1_nrm2.hpp>
 #include <KokkosBlas1_scal.hpp>
 #include <Kokkos_Vector.hpp>
+
+#include <iostream>
+using namespace std;
 
 #include "../../chipsum_macro.h"
 #include "../numeric_traits.hpp"
@@ -53,8 +56,11 @@ template <typename ScalarType, typename SizeType, typename... Props>
 CHIPSUM_FUNCTION_INLINE void Create(const SizeType n,
                                     Kokkos::View<ScalarType *> &dst) {
 
+ 
   dst = Kokkos::View<ScalarType *>("vector_" + std::to_string(vector_name++),
                                    static_cast<size_t>(n));
+                                    
+                                 
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
@@ -73,6 +79,7 @@ CHIPSUM_FUNCTION_INLINE void Create(ScalarType *src, const std::size_t n,
                                      n);
   }
   Kokkos::deep_copy(dst, h_dst);
+   
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
@@ -130,11 +137,22 @@ template <typename ScalarType, typename SizeType, typename... Props>
 CHIPSUM_FUNCTION_INLINE void Scal(Kokkos::View<ScalarType *> &R,
                                   const Kokkos::View<ScalarType> &a,
                                   const Kokkos::View<ScalarType *> &X) {
-  assert(X.extent(0) > 0);
-  R = Kokkos::View<ScalarType *>("vector_" + std::to_string(vector_name++),
-                                 X.extent(0));
+  assert(X.extent(0) == R.extent(0));          
   Kokkos::parallel_for(R.extent(0),
                        Scal_Functor<ScalarType, SizeType>(a, X, R));
+}
+
+template <typename ScalarType, typename SizeType, typename... Props>
+
+/**
+ * @description:
+ * @param {*}
+ * @return {*}
+ */
+CHIPSUM_FUNCTION_INLINE void Scal(Kokkos::View<ScalarType *> &R,
+                                  const ScalarType &a,
+                                  const Kokkos::View<ScalarType *> &X) {
+  KokkosBlas::scal(R,a,X);
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
