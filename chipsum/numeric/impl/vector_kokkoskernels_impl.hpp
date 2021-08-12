@@ -7,7 +7,6 @@
  * @LastEditTime: 2021-08-12 14:18:23
  */
 
-
 #ifndef __CHIPSUM_VECTOR_KOKKOSKERNELS_IMPL_HPP__
 #define __CHIPSUM_VECTOR_KOKKOSKERNELS_IMPL_HPP__
 
@@ -56,11 +55,8 @@ template <typename ScalarType, typename SizeType, typename... Props>
 CHIPSUM_FUNCTION_INLINE void Create(const SizeType n,
                                     Kokkos::View<ScalarType *> &dst) {
 
- 
   dst = Kokkos::View<ScalarType *>("vector_" + std::to_string(vector_name++),
                                    static_cast<size_t>(n));
-                                    
-                                 
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
@@ -79,7 +75,6 @@ CHIPSUM_FUNCTION_INLINE void Create(ScalarType *src, const std::size_t n,
                                      n);
   }
   Kokkos::deep_copy(dst, h_dst);
-   
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
@@ -137,7 +132,7 @@ template <typename ScalarType, typename SizeType, typename... Props>
 CHIPSUM_FUNCTION_INLINE void Scal(Kokkos::View<ScalarType *> &R,
                                   const Kokkos::View<ScalarType> &a,
                                   const Kokkos::View<ScalarType *> &X) {
-  assert(X.extent(0) == R.extent(0));          
+  assert(X.extent(0) == R.extent(0));
   Kokkos::parallel_for(R.extent(0),
                        Scal_Functor<ScalarType, SizeType>(a, X, R));
 }
@@ -152,7 +147,7 @@ template <typename ScalarType, typename SizeType, typename... Props>
 CHIPSUM_FUNCTION_INLINE void Scal(Kokkos::View<ScalarType *> &R,
                                   const ScalarType &a,
                                   const Kokkos::View<ScalarType *> &X) {
-  KokkosBlas::scal(R,a,X);
+  KokkosBlas::scal(R, a, X);
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>

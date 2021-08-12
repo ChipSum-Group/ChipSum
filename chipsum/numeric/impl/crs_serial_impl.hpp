@@ -4,7 +4,7 @@
  * @Autor: Li Kunyun
  * @Date: 2021-08-09 12:20:42
  * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-12 10:41:46
+ * @LastEditTime: 2021-08-12 16:06:35
  */
 
 
@@ -95,7 +95,9 @@ template <typename ScalarType, typename SizeType, typename... Props>
  * @param x
  * @param b
  */
-CHIPSUM_FUNCTION_INLINE void Mult(CrsFormat<ScalarType, SizeType> &A,
+CHIPSUM_FUNCTION_INLINE void Mult(std::size_t M,
+                                  std::size_t N,
+                                  CrsFormat<ScalarType, SizeType> &A,
                                   std::vector<ScalarType> &x,
                                   std::vector<ScalarType> &b) {
 

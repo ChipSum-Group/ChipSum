@@ -4,7 +4,7 @@
  * @Autor: Li Kunyun
  * @Date: 2021-08-09 12:20:42
  * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-12 14:50:55
+ * @LastEditTime: 2021-08-12 16:59:26
  */
 
 
@@ -103,11 +103,23 @@ public:
    * @return {*}
    */
   CHIPSUM_FUNCTION_INLINE DenseMatrix operator*(DenseMatrix &m) {
-    DenseMatrix ret(__nrow, __ncol);
+    DenseMatrix ret(__nrow, m.GetColNum());
     ChipSum::Numeric::Impl::DenseMat::Mult<ScalarType, SizeType>(
         __nrow,m.GetColNum(),m.GetRowNum(), __data,m.GetData(), ret.GetData());
     return ret;
   }
+
+  // /**
+  //  * @description:
+  //  * @param {*}
+  //  * @return {*}
+  //  */
+  // CHIPSUM_FUNCTION_INLINE DenseMatrix operator*=(DenseMatrix &m) {
+    
+  //   ChipSum::Numeric::Impl::DenseMat::Mult<ScalarType, SizeType>(
+  //       __nrow,m.GetColNum(),m.GetRowNum(), __data,m.GetData(), ret.GetData());
+  //   return ret;
+  // }
 
   template <typename... Args>
   /**

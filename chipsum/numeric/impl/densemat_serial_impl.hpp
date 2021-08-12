@@ -4,7 +4,7 @@
  * @Autor: Li Kunyun
  * @Date: 2021-08-09 12:20:42
  * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-12 10:42:58
+ * @LastEditTime: 2021-08-12 15:51:13
  */
 
 #ifndef __CHIPSUM_DENSEMAT_SERIAL_IMPL_HPP__
@@ -99,6 +99,8 @@ CHIPSUM_FUNCTION_INLINE void
 Mult(const std::size_t M, const std::size_t N, const std::size_t K,
      const std::vector<ScalarType> &A, const std::vector<ScalarType> &B,
      std::vector<ScalarType> &C) {
+
+  
 
   for (std::size_t i = 0; i < C.size(); ++i)
     C[i] = 0;

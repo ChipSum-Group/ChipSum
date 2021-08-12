@@ -4,7 +4,7 @@
  * @Autor: Li Kunyun
  * @Date: 2021-08-09 12:20:42
  * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-12 10:42:26
+ * @LastEditTime: 2021-08-12 16:38:51
  */
 
 #ifndef __CHIPSUM_DENSEMAT_KOKKOEKERNELS_IMPL_HPP__
@@ -82,7 +82,8 @@ Mult(const std::size_t M, const std::size_t N, const std::size_t K,
      const Kokkos::View<double **> &A, const Kokkos::View<double **> &B,
      Kokkos::View<double **> &C) {
 
-  KokkosBlas::gemm("N", "N", 1.0, A, B, 0.0, C);
+  KokkosBlas::gemm("N", "N", static_cast<ScalarType>(1), A, B,
+                   static_cast<ScalarType>(0), C);
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
@@ -98,7 +99,8 @@ CHIPSUM_FUNCTION_INLINE void
 Mult(const std::size_t M, const std::size_t N, const Kokkos::View<double **> &A,
      const Kokkos::View<double *> &x, Kokkos::View<double *> &y) {
 
-  KokkosBlas::gemv("N", 1.0, A, x, 0.0, y);
+  KokkosBlas::gemv("N", static_cast<ScalarType>(1), A, x,
+                   static_cast<ScalarType>(0), y);
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>

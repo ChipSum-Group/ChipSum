@@ -4,7 +4,7 @@
  * @Autor: Li Kunyun
  * @Date: 2021-08-09 12:20:42
  * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-12 10:45:41
+ * @LastEditTime: 2021-08-12 16:08:14
  */
 
 
@@ -104,7 +104,8 @@ template <typename ScalarType, typename SizeType, typename... Props>
  * @param b
  */
 CHIPSUM_FUNCTION_INLINE void
-Mult(KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
+Mult(SizeType M,SizeType N,
+     KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
      const Kokkos::View<ScalarType *> &x, Kokkos::View<ScalarType *> &b) {
   KokkosSparse::spmv("N", static_cast<ScalarType>(1.0), A, x,
                      static_cast<ScalarType>(0.0), b);
@@ -118,7 +119,8 @@ template <typename ScalarType, typename SizeType, typename... Props>
  * @param b
  */
 CHIPSUM_FUNCTION_INLINE void
-Mult(KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
+Mult(SizeType M,SizeType N,SizeType K,
+     KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
      const Kokkos::View<ScalarType **> &B, Kokkos::View<ScalarType **> &C) {
   KokkosSparse::spmv("N", static_cast<ScalarType>(1.0), A, B,
                      static_cast<ScalarType>(0.0), C);

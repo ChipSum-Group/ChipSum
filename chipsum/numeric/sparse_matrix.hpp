@@ -4,7 +4,7 @@
  * @Autor: Li Kunyun
  * @Date: 2021-08-09 12:20:42
  * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-12 10:38:08
+ * @LastEditTime: 2021-08-12 16:11:56
  */
 
 #ifndef __CHIPSUM_NUMERIC_SPARSE_MATRIX_HPP__
@@ -80,7 +80,7 @@ public:
   CHIPSUM_FUNCTION_INLINE vector_type operator*(vector_type &v) {
     vector_type ret(v.GetSize());
     ChipSum::Numeric::Impl::Sparse::Mult<ScalarType, SizeType>(
-        __data, v.GetData(), ret.GetData());
+        __nrow,__ncol,__data, v.GetData(), ret.GetData());
     return ret;
   }
 
@@ -92,7 +92,7 @@ public:
   CHIPSUM_FUNCTION_INLINE dense_type operator*(dense_type &m) {
     dense_type ret(__nrow, m.GetColNum());
     ChipSum::Numeric::Impl::Sparse::Mult<ScalarType, SizeType>(
-        __data, m.GetData(), ret.GetData());
+        __nrow,m.GetColNum(),__ncol,__data, m.GetData(), ret.GetData());
     return ret;
   }
 };

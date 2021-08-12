@@ -4,7 +4,7 @@
  * @Autor: Li Kunyun
  * @Date: 2021-08-09 12:20:42
  * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-12 15:22:01
+ * @LastEditTime: 2021-08-12 16:23:44
  */
 
 
@@ -29,7 +29,7 @@ struct Kokkos:public BackendBase{/*TODO*/};
 // 形成BlasMatrix。
 struct OpenBlas:public BackendBase{/*TODO*/};
 
-#ifdef ChipSum_USE_KokkosKernels || ChipSum_USE_KokkosKernels64
+#if defined(ChipSum_USE_KokkosKernels) || defined(ChipSum_USE_KokkosKernels64)
 typedef KokkosKernels DefaultBackend;
 
 #else
