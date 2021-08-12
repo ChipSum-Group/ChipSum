@@ -38,7 +38,7 @@ endif()
 if(ChipSum_USE_KokkosKernels64)
 
     set(Kokkos_DIR ./tpl/kokkos-build/lib64/cmake/Kokkos)
-    set(KokkosKernels_DIR ./tpl/kokkos-kernels-build/libi64/cmake/KokkosKernels)
+    set(KokkosKernels_DIR ./tpl/kokkos-kernels-build/lib64/cmake/KokkosKernels)
 
     find_package(Kokkos REQUIRED)
     find_package(KokkosKernels REQUIRED)

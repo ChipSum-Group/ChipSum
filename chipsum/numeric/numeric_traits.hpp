@@ -1,17 +1,12 @@
 /*
  * @Author: your name
  * @Date: 2021-08-09 12:20:42
- * @LastEditTime: 2021-08-09 14:12:39
- * @LastEditors: Please set LastEditors
+ * @LastEditTime : 2021-08-12 10:00:10
+ * @LastEditors  : Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /lky/git/ChipSum/chipsum/numeric/numeric_traits.hpp
  */
-/* * * * * * * * * * * * * * * * * * * * *
-*   File:     numeric_traits.hpp
-*   Author:   Li Kunyun
-*   group:    CDCS-HPC
-*   Time:     2021-07-28
-* * * * * * * * * * * * * * * * * * * * * */
+
 
 #ifndef __CHIPSUM_NUMERIC_TRAITS_HPP__
 #define __CHIPSUM_NUMERIC_TRAITS_HPP__
