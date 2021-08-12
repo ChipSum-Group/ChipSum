@@ -11,6 +11,7 @@
 
 #include "numeric_traits.hpp"
 #include "vector.hpp"
+#include "scalar.hpp"
 #include "impl/densemat_serial_impl.hpp"
 #include "impl/densemat_kokkoskernels_impl.hpp"
 
@@ -45,10 +46,11 @@ public:
 
 
     /**
-     * @brief DenseMatrix
-     * @param M
-     * @param N
-     */
+     * @description: 
+     * @param {size_type} M
+     * @param {size_type} N
+     * @return {*}
+     */ 
     CHIPSUM_DECLARED_FUNCTION DenseMatrix(size_type M,size_type N)
         :__nrow(M),__ncol(N)
     {
@@ -56,10 +58,11 @@ public:
     }
 
     /**
-     * @brief DenseMatrix
-     * @param M
-     * @param N
-     * @param src
+     * @description: 
+     * @param {size_type} M
+     * @param {size_type} N
+     * @param {ScalarType*} src
+     * @return {*}
      */
     CHIPSUM_DECLARED_FUNCTION DenseMatrix(size_type M,size_type N,ScalarType* src)
         :__nrow(M),__ncol(N)
@@ -69,29 +72,32 @@ public:
     }
 
     /**
-     * @brief GetData
-     * @return
+     * @description: 
+     * @param {*}
+     * @return {*}
      */
     CHIPSUM_FUNCTION_INLINE const_matrix_type_reference GetData(){return __data;}
 
     /**
-     * @brief GetNRow
-     * @return
+     * @description: 
+     * @param {*}
+     * @return {*}
      */
     CHIPSUM_FUNCTION_INLINE size_type GetRowNum(){return __nrow;}
 
 
     /**
-     * @brief GetColNum
-     * @return
+     * @description: 
+     * @param {*}
+     * @return {*}
      */
     CHIPSUM_FUNCTION_INLINE size_type GetColNum(){return __ncol;}
 
 
     /**
-     * @brief operator *
-     * @param v
-     * @return
+     * @description: 
+     * @param {*}
+     * @return {*}
      */
     CHIPSUM_FUNCTION_INLINE matrix_type
     operator*(DenseMatrix& m){
@@ -103,9 +109,9 @@ public:
 
     template<typename ...Args>
     /**
-     * @brief operator *
-     * @param v
-     * @return
+     * @description: 
+     * @param {*}
+     * @return {*}
      */
     CHIPSUM_FUNCTION_INLINE vector_type
     operator*(vector_type& v){
@@ -116,9 +122,9 @@ public:
     }
 
     /**
-     * @brief operator *
-     * @param v
-     * @return
+     * @description: 
+     * @param {*}
+     * @return {*}
      */
     CHIPSUM_FUNCTION_INLINE matrix_type
     operator*=(ScalarType s){
@@ -129,10 +135,9 @@ public:
 
 
     /**
-     * @brief operator ()
-     * @param i
-     * @param j
-     * @return
+     * @description: 
+     * @param {*}
+     * @return {*}
      */
     CHIPSUM_FUNCTION_INLINE ScalarType&
     operator()(const SizeType i,const SizeType j){
@@ -143,8 +148,9 @@ public:
 
 
     /**
-     * @brief Print
-     * @param out
+     * @description: 
+     * @param {*}
+     * @return {*}
      */
     CHIPSUM_FUNCTION_INLINE void Print(std::ostream& out=std::cout){
         ChipSum::Numeric::Impl::DenseMat::Print<ScalarType,SizeType>

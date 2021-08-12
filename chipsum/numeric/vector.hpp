@@ -159,8 +159,7 @@ namespace ChipSum
 
              CHIPSUM_FUNCTION_INLINE void Dot(Vector &v, scalar_type &r)
             {
-                ChipSum::Numeric::Impl::Vector::
-                    Dot<ScalarType, SizeType>(GetData(), v.GetData(), __size, r.GetData());
+                    Dot(v, r.GetData());
             }
 
             /**
@@ -186,9 +185,9 @@ namespace ChipSum
             {
 
                 Vector ret(__size);
-                // ChipSum::Numeric::Impl::Scalar::Mult<ScalarType,SizeType>
-                //         (s.GetData(),GetData(),ret.GetData());
-                ChipSum::Numeric::Impl::Vector::Scal<ScalarType, SizeType, typename Scalar<ScalarType, SizeType, BackendType>::device_scalar_type>(ret.GetData(), s.GetData(), __data);
+                ChipSum::Numeric::Impl::Vector::Scal<ScalarType, SizeType, 
+                typename Scalar<ScalarType, SizeType, BackendType>::device_scalar_type>(
+                    ret.GetData(), s.GetData(), __data);
                 return ret;
             }
 
@@ -211,7 +210,8 @@ namespace ChipSum
             CHIPSUM_FUNCTION_INLINE Vector operator+(Vector &s)
             {
                 Vector ret(__data, __size);
-                ChipSum::Numeric::Impl::Vector::Axpy<ScalarType, SizeType>(static_cast<ScalarType>(1), s.GetData(), ret.GetData());
+                ChipSum::Numeric::Impl::Vector::Axpy<ScalarType, SizeType>(
+                    static_cast<ScalarType>(1), s.GetData(), ret.GetData());
 
                 return ret;
             }
@@ -223,7 +223,8 @@ namespace ChipSum
              */
             CHIPSUM_FUNCTION_INLINE Vector &operator+=(Vector &s)
             {
-                ChipSum::Numeric::Impl::Vector::Axpy<ScalarType, SizeType>(static_cast<ScalarType>(1), s.GetData(), __data);
+                ChipSum::Numeric::Impl::Vector::Axpy<ScalarType, SizeType>(
+                    static_cast<ScalarType>(1), s.GetData(), __data);
                 return *this;
             }
 
@@ -236,7 +237,8 @@ namespace ChipSum
             {
 
                 Vector ret(__data, __size);
-                ChipSum::Numeric::Impl::Vector::Axpy<ScalarType, SizeType>(static_cast<ScalarType>(-1), s.GetData(), ret.GetData());
+                ChipSum::Numeric::Impl::Vector::Axpy<ScalarType, SizeType>(
+                    static_cast<ScalarType>(-1), s.GetData(), ret.GetData());
                 return ret;
             }
 
@@ -258,7 +260,8 @@ namespace ChipSum
              */
             CHIPSUM_FUNCTION_INLINE Vector &operator-=(Vector &s)
             {
-                ChipSum::Numeric::Impl::Vector::Axpy<ScalarType, SizeType>(static_cast<ScalarType>(-1), s.GetData(), __data);
+                ChipSum::Numeric::Impl::Vector::Axpy<ScalarType, SizeType>(
+                    static_cast<ScalarType>(-1), s.GetData(), __data);
                 return *this;
             }
 
@@ -269,7 +272,8 @@ namespace ChipSum
              */
             CHIPSUM_FUNCTION_INLINE ScalarType &operator()(const SizeType i)
             {
-                return ChipSum::Numeric::Impl::Vector::GetItem<ScalarType, SizeType>(i, __data);
+                return ChipSum::Numeric::Impl::Vector::GetItem<ScalarType, SizeType>(
+                    i, __data);
             }
 
             /**
@@ -279,7 +283,8 @@ namespace ChipSum
              */
             CHIPSUM_FUNCTION_INLINE ScalarType Norm1()
             {
-                return ChipSum::Numeric::Impl::Vector::Norm1<ScalarType, SizeType, Props...>(__data);
+                return ChipSum::Numeric::Impl::Vector::Norm1<ScalarType, SizeType, Props...>(
+                    __data);
             }
 
             /**
@@ -289,7 +294,8 @@ namespace ChipSum
              */
             CHIPSUM_FUNCTION_INLINE ScalarType Norm2()
             {
-                return ChipSum::Numeric::Impl::Vector::Norm2<ScalarType, SizeType, Props...>(__data);
+                return ChipSum::Numeric::Impl::Vector::Norm2<ScalarType, SizeType, Props...>(
+                    __data);
             }
 
             /**
@@ -299,30 +305,46 @@ namespace ChipSum
              */
             CHIPSUM_FUNCTION_INLINE void Print(std::ostream &out = std::cout)
             {
-                ChipSum::Numeric::Impl::Vector::Print<ScalarType, SizeType, Props...>(out, __data);
+                ChipSum::Numeric::Impl::Vector::Print<ScalarType, SizeType, Props...>(
+                    out, __data);
             }
         };
 
-        template <typename ScalarType, typename SizeType, typename BackendType, typename... Props>
+        template <
+        typename ScalarType, 
+        typename SizeType, 
+        typename BackendType, 
+        typename... Props
+        >
         /**
          * @description: 
          * @param {*}
          * @return {*}
          */        
-        CHIPSUM_FUNCTION_INLINE Vector<ScalarType, SizeType, BackendType, Props...>
-        operator*(ScalarType s, Vector<ScalarType, SizeType, BackendType, Props...> &v)
+        CHIPSUM_FUNCTION_INLINE 
+        Vector<ScalarType, SizeType, BackendType, Props...>
+        operator*(
+            ScalarType s,
+            Vector<ScalarType, SizeType, BackendType, Props...> &v)
         {
             return v * s;
         }
 
-        template <typename ScalarType, typename SizeType, typename BackendType, typename... Props>
+        template <
+        typename ScalarType, 
+        typename SizeType, 
+        typename BackendType, 
+        typename... Props>
         /**
          * @description: 
          * @param {*}
          * @return {*}
          */        
-        CHIPSUM_FUNCTION_INLINE Vector<ScalarType, SizeType, BackendType, Props...>
-        operator*(Scalar<ScalarType, SizeType, BackendType, Props...> s, Vector<ScalarType, SizeType, BackendType, Props...> &v)
+        CHIPSUM_FUNCTION_INLINE 
+        Vector<ScalarType, SizeType, BackendType, Props...>
+        operator*(
+            Scalar<ScalarType, SizeType, BackendType, Props...> s, 
+            Vector<ScalarType, SizeType, BackendType, Props...> &v)
         {
             return v * s;
         }

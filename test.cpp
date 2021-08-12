@@ -29,9 +29,6 @@ int main(int argc,char* argv[])
     Kokkos::initialize();
     {
 
-
-
-
         double* v1 = (double*)malloc(10*sizeof (double));
 
         double* v2 = (double*)malloc(10*sizeof (double));
@@ -63,7 +60,12 @@ int main(int argc,char* argv[])
         x.Dot(y,s1);
         s1.Print();
 
-        cout<<sizeof(Scalar)<<endl;
+
+        double dot = x.Dot(y);
+        cout<<"dot="<<dot<<endl;
+
+        double num = s1;
+        cout<<num<<endl;
 
 //        Vector a(v1,10); //a = {0,1,2,3,4,5,6,7,8,9}
 //        Vector b(v2,10); //b = {0,1,2,3,4,5,6,7,8,9}

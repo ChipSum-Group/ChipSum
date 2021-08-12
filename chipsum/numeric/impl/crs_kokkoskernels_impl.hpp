@@ -1,9 +1,12 @@
-/* * * * * * * * * * * * * * * * * * * * *
-*   File:     crs_kokkoskernels_impl.hpp
-*   Author:   Li Kunyun
-*   group:    CDCS-HPC
-*   Time:     2021-07-28
-* * * * * * * * * * * * * * * * * * * * * */
+/*
+ * @Author: Li Kunyun
+ * @Date: 2021-08-09 12:20:42
+ * @LastEditTime: 2021-08-11 09:31:15
+ * @LastEditors: Please set LastEditors
+ * @Description: CRS矩阵
+ * @FilePath: /ChipSum/chipsum/numeric/impl/crs_kokkoskernels_impl.hpp
+ */
+
 
 #ifndef __CHIPSUM_CRS_KOKKOSKERNELS_IMPL_HPP__
 #define __CHIPSUM_CRS_KOKKOSKERNELS_IMPL_HPP__
@@ -166,33 +169,7 @@ CHIPSUM_FUNCTION_INLINE void Mult(
 }
 
 
-template <typename ScalarType,typename SizeType,typename ...Props>
-CHIPSUM_FUNCTION_INLINE
-void GaussSeidelSmooth(KokkosSparse::CrsMatrix<ScalarType,SizeType,default_device>& A,
-                  SizeType nrow,SizeType ncol,
-                  char algo
-                  )
-{
-//    using handle_t = KokkosKernels::Experimental::KokkosKernelsHandle
-//             <SizeType,
-//             SizeType,
-//             SizeType,
-//             Kokkos::DefaultExecutionSpace,
-//             Kokkos::DefaultExecutionSpace::memory_space,
-//             Kokkos::DefaultExecutionSpace::memory_space> ;
 
-//    handle_t handle;
-//    handle.create_gs_handle(static_cast<KokkosSparse::GSAlgorithm>(algo));
-
-//    KokkosSparse::Experimental::gauss_seidel_symbolic(&handle,
-//                                                      static_cast<typename handle_t::const_nnz_lno_t>(nrow),
-//                                                      static_cast<typename handle_t::const_nnz_lno_t>(ncol),
-//                                                      A.graph.row_map,
-//                                                      A.graph.entries,
-//                                                      false);
-//    KokkosSparse::Experimental::gauss_seidel_numeric(&handle, nrow, ncol, A.graph.row_map, A.graph.entries, A.values, false);
-
-}
 
 
 } // End namespace Sparse

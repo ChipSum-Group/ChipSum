@@ -110,11 +110,7 @@ namespace ChipSum
                 return ret;
             }
 
-            CHIPSUM_FUNCTION_INLINE void
-            GSSmooth(GSAlgorithm algo = DEFAULT)
-            {
-                ChipSum::Numeric::Impl::Sparse::GaussSeidelSmooth<ScalarType, SizeType>(__data, __nrow, __ncol, static_cast<char>(algo));
-            }
+
         };
 
     } // End namespace Numeric
