@@ -1,11 +1,12 @@
 /*
- * @Author: your name
+ * @Description: 数值类数据的共性提取和特性分离
+ * @Version: 2.0
+ * @Autor: Li Kunyun
  * @Date: 2021-08-09 12:20:42
- * @LastEditTime : 2021-08-12 10:00:10
- * @LastEditors  : Please set LastEditors
- * @Description: In User Settings Edit
- * @FilePath: /lky/git/ChipSum/chipsum/numeric/numeric_traits.hpp
+ * @LastEditors: Li Kunyun
+ * @LastEditTime: 2021-08-12 10:34:55
  */
+
 
 
 #ifndef __CHIPSUM_NUMERIC_TRAITS_HPP__
