@@ -4,7 +4,7 @@
  * @Autor: Li Kunyun
  * @Date: 2021-08-09 12:20:42
  * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-12 14:18:41
+ * @LastEditTime: 2021-08-12 14:32:38
  */
 
 #ifndef __CHIPSUM_NUMERIC_VECTOR_HPP__
@@ -176,7 +176,7 @@ public:
    */
   CHIPSUM_FUNCTION_INLINE Vector operator*(const ScalarType s) {
 
-    Vector ret(__data, __size);
+    Vector ret(__size);
    
     ChipSum::Numeric::Impl::Vector::Scal<ScalarType, SizeType>(ret.GetData(), s,
                                                                GetData());
@@ -225,10 +225,10 @@ public:
    * @param {*}
    * @return {*}
    */
-  CHIPSUM_FUNCTION_INLINE Vector operator+(Vector &s) {
+  CHIPSUM_FUNCTION_INLINE Vector operator+(Vector &x) {
     Vector ret(__data, __size);
     ChipSum::Numeric::Impl::Vector::Axpy<ScalarType, SizeType>(
-        static_cast<ScalarType>(1), s.GetData(), ret.GetData());
+        static_cast<ScalarType>(1), x.GetData(), ret.GetData());
 
     return ret;
   }

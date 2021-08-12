@@ -1,9 +1,12 @@
-/* * * * * * * * * * * * * * * * * * * * *
-*   File:     backend.hpp
-*   Author:   Li Kunyun
-*   group:    CDCS-HPC
-*   Time:     2021-07-28
-* * * * * * * * * * * * * * * * * * * * * */
+/*
+ * @Description: 后端模板参数
+ * @Version: 2.0
+ * @Autor: Li Kunyun
+ * @Date: 2021-08-09 12:20:42
+ * @LastEditors: Li Kunyun
+ * @LastEditTime: 2021-08-12 15:22:01
+ */
+
 
 #ifndef __CHIPSUM_BACKEND_HPP__
 #define __CHIPSUM_BACKEND_HPP__
@@ -26,7 +29,7 @@ struct Kokkos:public BackendBase{/*TODO*/};
 // 形成BlasMatrix。
 struct OpenBlas:public BackendBase{/*TODO*/};
 
-#ifdef ChipSum_USE_KokkosKernels
+#ifdef ChipSum_USE_KokkosKernels || ChipSum_USE_KokkosKernels64
 typedef KokkosKernels DefaultBackend;
 
 #else

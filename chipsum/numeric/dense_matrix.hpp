@@ -4,7 +4,7 @@
  * @Autor: Li Kunyun
  * @Date: 2021-08-09 12:20:42
  * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-12 10:43:19
+ * @LastEditTime: 2021-08-12 14:50:55
  */
 
 
@@ -71,6 +71,7 @@ public:
                                                                    __data);
     ChipSum::Numeric::Impl::DenseMat::Fill<ScalarType, SizeType>(M, N, src,
                                                                  __data);
+                                                                 Kokkos::fence();
   }
 
   /**
@@ -101,10 +102,10 @@ public:
    * @param {*}
    * @return {*}
    */
-  CHIPSUM_FUNCTION_INLINE matrix_type operator*(DenseMatrix &m) {
-    matrix_type ret(__nrow, __ncol);
+  CHIPSUM_FUNCTION_INLINE DenseMatrix operator*(DenseMatrix &m) {
+    DenseMatrix ret(__nrow, __ncol);
     ChipSum::Numeric::Impl::DenseMat::Mult<ScalarType, SizeType>(
-        __data, m.GetData(), ret);
+        __nrow,m.GetColNum(),m.GetRowNum(), __data,m.GetData(), ret.GetData());
     return ret;
   }
 

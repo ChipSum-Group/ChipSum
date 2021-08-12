@@ -1,7 +1,7 @@
 /*
  * @Author       : your name
  * @Date         : 2021-08-10 15:35:49
- * @LastEditTime: 2021-08-12 14:19:40
+ * @LastEditTime: 2021-08-12 15:14:11
  * @LastEditors: Li Kunyun
  * @Description  : In User Settings Edit
  * @FilePath     : \\lky\\ChipSum\\test.cpp
@@ -41,31 +41,36 @@ int main(int argc,char* argv[])
 
         double* m0_data = (double*)std::malloc(N*N*sizeof(double));
 
-        for(int i=0;i<N;++i) v0_data[i] = i+1;
 
-        for(int i=0;i<N*N;++i) m0_data[i] = i+1;
+        for(int i=0;i<N;++i) v0_data[i] = i+1;
+        for(int i=0;i<N*N;++i) m0_data[i] = i+1; 
+
+
+        Matrix m0(N,N,m0_data);// 创建矩阵通过
+        m0.Print();
+        Matrix m1(N,N,m0_data);
+        m1.Print();
+
+        (m0*m1).Print(); // 矩阵乘通过
 
 
         Vector v0(v0_data,N);
-
-        v0.Print();
-
-        double s = 3.141592653;
-
-        
-
-        Vector sv0 = s*v0;
-        sv0.Print();
-
-        Scalar s1 = 2.2;
-        (2.22*v0).Print();
-
-        Matrix m(N,N,m0_data);
+        (m0*v0).Print(); // 矩阵乘向量通过
 
 
-        (m*v0).Print();
+       
 
+        Scalar s = 9.9;
 
+        (s*v0).Print(); // 标量乘矢量通过
+
+        Vector v1(v0_data,N);
+
+        s = v0.Dot(v1); // dot通过
+
+        s.Print();
+
+    
 
         std::free(v0_data);
         std::free(m0_data);
@@ -148,11 +153,16 @@ int main(int argc,char* argv[])
 
        Csrm B(nrows,ncols,annz,row_map,col_map,values);
 
+       (B*v1).Print(); // spmv通过
+       (B*m1).Print(); // spgemm的KokkosKernels通过，但是Serial版本还存在问题
 
+       std::free(row_map);
+       std::free(col_map);
+       std::free(values);
 
        
 
-       (B*v0).Print();
+       
 
 //        bb.Print(); // {13,15,40,24,50}
 
