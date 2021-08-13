@@ -4,7 +4,7 @@
  * @Autor: Li Kunyun
  * @Date: 2021-08-09 12:20:42
  * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-12 10:40:49
+ * @LastEditTime: 2021-08-13 10:08:24
  */
 
 
@@ -93,10 +93,10 @@ CHIPSUM_FUNCTION_INLINE void Dot(const std::vector<ScalarType> &x,
 
 template <typename ScalarType, typename SizeType, typename... Props>
 /**
- * @brief Scal
- * @param R：输出，比例缩放后的向量
- * @param a：输入，缩放比例
- * @param X：输入，原向量
+ * @description: 
+ * @param {*}
+ * @return {*}
+ * @author: Li Kunyun
  */
 CHIPSUM_FUNCTION_INLINE void Scal(std::vector<ScalarType> &R,
                                   const ScalarType a,

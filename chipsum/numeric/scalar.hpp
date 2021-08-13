@@ -4,7 +4,7 @@
  * @Autor: lhl
  * @Date: 2021-08-09 12:27:29
  * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-12 10:44:04
+ * @LastEditTime: 2021-08-13 10:02:37
  */
 
 
@@ -45,14 +45,33 @@ private:
   scalar_type __data;
 
 public:
+
+  /**
+   * @description: 
+   * @param {*}
+   * @return {*}
+   * @author: Li Kunyun
+   */
   CHIPSUM_DECLARED_FUNCTION Scalar() {
     ChipSum::Numeric::Impl::Scalar::Create<ScalarType, SizeType>(__data);
   }
 
+  /**
+   * @description: 
+   * @param {const ScalarType} s
+   * @return {*}
+   * @author: Li Kunyun
+   */
   CHIPSUM_DECLARED_FUNCTION Scalar(const ScalarType s) {
     ChipSum::Numeric::Impl::Scalar::Create<ScalarType, SizeType>(s, __data);
   }
 
+  /**
+   * @description: 
+   * @param {*}
+   * @return {*}
+   * @author: Li Kunyun
+   */
   CHIPSUM_FUNCTION_INLINE const_scalar_type_reference GetData() {
     return __data;
   }
@@ -61,16 +80,34 @@ public:
     ChipSum::Numeric::Impl::Scalar::DeepCopy<ScalarType, SizeType>(s, __data);
   }
 
+  /**
+   * @description: 
+   * @param {*}
+   * @return {*}
+   * @author: Li Kunyun
+   */
   CHIPSUM_FUNCTION_INLINE const ScalarType operator()() {
     return ChipSum::Numeric::Impl::Scalar::GetItem<ScalarType, SizeType>(
         __data);
   }
 
+  /**
+   * @description: 
+   * @param {*}
+   * @return {*}
+   * @author: Li Kunyun
+   */
   CHIPSUM_FUNCTION_INLINE operator ScalarType() const {
     return ChipSum::Numeric::Impl::Scalar::GetItem<ScalarType, SizeType>(
         __data);
   }
 
+  /**
+   * @description: 
+   * @param {ostream} &out
+   * @return {*}
+   * @author: Li Kunyun
+   */
   CHIPSUM_FUNCTION_INLINE void Print(std::ostream &out = std::cout) {
     ChipSum::Numeric::Impl::Scalar::Print<ScalarType, SizeType>(__data, out);
   }

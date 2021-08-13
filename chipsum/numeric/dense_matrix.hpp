@@ -4,7 +4,7 @@
  * @Autor: Li Kunyun
  * @Date: 2021-08-09 12:20:42
  * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-12 16:59:26
+ * @LastEditTime: 2021-08-13 10:21:45
  */
 
 
@@ -36,6 +36,8 @@ public:
       typename std::add_const<matrix_type_reference>::type;
 
   using size_type = typename traits::size_type;
+  using const_size_type = typename traits::const_size_type;
+
   using vector_type =
       ChipSum::Numeric::Vector<ScalarType, SizeType, BackendType, Props...>;
 
@@ -51,7 +53,7 @@ public:
    * @param {size_type} N
    * @return {*}
    */
-  CHIPSUM_DECLARED_FUNCTION DenseMatrix(size_type M, size_type N)
+  CHIPSUM_DECLARED_FUNCTION DenseMatrix(const_size_type M, const_size_type N)
       : __nrow(M), __ncol(N) {
     ChipSum::Numeric::Impl::DenseMat::Create<ScalarType, SizeType>(M, N,
                                                                    __data);
@@ -64,7 +66,7 @@ public:
    * @param {ScalarType*} src
    * @return {*}
    */
-  CHIPSUM_DECLARED_FUNCTION DenseMatrix(size_type M, size_type N,
+  CHIPSUM_DECLARED_FUNCTION DenseMatrix(const_size_type M, const_size_type N,
                                         ScalarType *src)
       : __nrow(M), __ncol(N) {
     ChipSum::Numeric::Impl::DenseMat::Create<ScalarType, SizeType>(M, N,
@@ -143,14 +145,26 @@ public:
     ChipSum::Numeric::Impl::DenseMat::Scal<ScalarType, SizeType>(s, __data);
     return *this;
   }
-
   /**
-   * @description:
+   * @description: 
    * @param {*}
    * @return {*}
+   * @author: Li Kunyun
    */
-  CHIPSUM_FUNCTION_INLINE ScalarType &operator()(const SizeType i,
-                                                 const SizeType j) {
+  CHIPSUM_FUNCTION_INLINE ScalarType &operator()(const_size_type i,
+                                                 const_size_type j) {
+    return ChipSum::Numeric::Impl::DenseMat::GetItem<ScalarType, SizeType>(
+        i, j, __nrow, __ncol, __data);
+  }
+
+    /**
+   * @description: 
+   * @param {*}
+   * @return {*}
+   * @author: Li Kunyun
+   */
+  CHIPSUM_FUNCTION_INLINE const ScalarType &operator()(const_size_type i,
+                                                 const_size_type j) const{
     return ChipSum::Numeric::Impl::DenseMat::GetItem<ScalarType, SizeType>(
         i, j, __nrow, __ncol, __data);
   }

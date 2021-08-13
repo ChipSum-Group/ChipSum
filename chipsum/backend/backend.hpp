@@ -4,7 +4,7 @@
  * @Autor: Li Kunyun
  * @Date: 2021-08-09 12:20:42
  * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-12 16:23:44
+ * @LastEditTime: 2021-08-13 16:37:59
  */
 
 
@@ -33,7 +33,7 @@ struct OpenBlas:public BackendBase{/*TODO*/};
 typedef KokkosKernels DefaultBackend;
 
 #else
-typedef KokkosKernels DefaultBackend;
+typedef Serial DefaultBackend;
 
 #endif
 }

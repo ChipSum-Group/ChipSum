@@ -4,18 +4,18 @@
  * @Autor: Li Kunyun
  * @Date: 2021-08-09 12:20:42
  * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-12 16:08:14
+ * @LastEditTime: 2021-08-13 16:36:05
  */
-
 
 #ifndef __CHIPSUM_CRS_KOKKOSKERNELS_IMPL_HPP__
 #define __CHIPSUM_CRS_KOKKOSKERNELS_IMPL_HPP__
 
-#include <KokkosKernels_Handle.hpp>
-#include <KokkosKernels_default_types.hpp>
+
+
 #include <KokkosSparse.hpp>
-#include <KokkosSparse_gauss_seidel.hpp>
-#include <KokkosSparse_spmv.hpp>
+#include <KokkosKernels_default_types.hpp>
+#include <fstream>
+
 
 #include "../../chipsum_macro.h"
 #include "../numeric_traits.hpp"
@@ -104,7 +104,7 @@ template <typename ScalarType, typename SizeType, typename... Props>
  * @param b
  */
 CHIPSUM_FUNCTION_INLINE void
-Mult(SizeType M,SizeType N,
+Mult(SizeType M, SizeType N,
      KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
      const Kokkos::View<ScalarType *> &x, Kokkos::View<ScalarType *> &b) {
   KokkosSparse::spmv("N", static_cast<ScalarType>(1.0), A, x,
@@ -119,7 +119,7 @@ template <typename ScalarType, typename SizeType, typename... Props>
  * @param b
  */
 CHIPSUM_FUNCTION_INLINE void
-Mult(SizeType M,SizeType N,SizeType K,
+Mult(SizeType M, SizeType N, SizeType K,
      KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
      const Kokkos::View<ScalarType **> &B, Kokkos::View<ScalarType **> &C) {
   KokkosSparse::spmv("N", static_cast<ScalarType>(1.0), A, B,
@@ -142,6 +142,64 @@ Mult(ScalarType alpha,
      Kokkos::View<ScalarType *> &b) {
   KokkosSparse::spmv("N", alpha, A, x, beta, b);
 }
+
+
+
+template <typename ScalarType,typename SizeType,typename ...Props>
+CHIPSUM_FUNCTION_INLINE void
+Print(KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
+      std::ostream &out) 
+{
+  using crs_t = typename KokkosSparse::CrsMatrix<ScalarType,SizeType,default_device>;
+  
+  using row_map_t = typename crs_t::row_map_type::HostMirror;
+  using entries_t = typename crs_t::index_type::HostMirror;
+  using values_t = typename crs_t::values_type::HostMirror;
+
+  row_map_t h_row_map = Kokkos::create_mirror_view(A.graph.row_map);
+  values_t h_vals = Kokkos::create_mirror_view(A.values);
+  entries_t h_entries = Kokkos::create_mirror_view(A.graph.entries);
+
+
+
+  Kokkos::deep_copy(h_row_map,A.graph.row_map);
+  Kokkos::deep_copy(h_vals,A.values);
+  Kokkos::deep_copy(h_entries,A.graph.entries);
+
+  
+  
+  out<<"spm_"+std::to_string(spm_name)<<" "
+  <<"("<<"rows="<<A.graph.row_map.extent(0)<<", "
+  <<"entries="<<h_entries.extent(0)<<")"<<std::endl;
+
+
+
+   out<<A.graph.row_map.label()<<":";
+  out<<"[";
+  for(std::size_t i=0;i<h_row_map.extent(0)-1;++i){
+     out<<h_row_map(i)<<",";
+  }
+  out<<h_row_map(h_row_map.extent(0)-1)<<"]"<<std::endl;
+
+
+  
+  out<<A.graph.entries.label()<<":";
+  out<<"[";
+  for(std::size_t i=0;i<h_entries.extent(0)-1;++i){
+     out<<h_entries(i)<<",";
+  }
+  out<<h_entries(h_entries.extent(0)-1)<<"]"<<std::endl;
+  
+
+  out<<A.values.label()<<": ";
+  out<<"[";
+  for(std::size_t i=0;i<h_vals.extent(0)-1;++i){
+     out<<h_vals(i)<<",";
+  }
+  out<<h_vals(h_vals.extent(0)-1)<<"]"<<std::endl;
+}
+
+
 
 } // End namespace Sparse
 } // End namespace Impl

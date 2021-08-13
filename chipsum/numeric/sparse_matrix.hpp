@@ -4,13 +4,14 @@
  * @Autor: Li Kunyun
  * @Date: 2021-08-09 12:20:42
  * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-12 16:11:56
+ * @LastEditTime: 2021-08-13 14:24:12
  */
 
 #ifndef __CHIPSUM_NUMERIC_SPARSE_MATRIX_HPP__
 #define __CHIPSUM_NUMERIC_SPARSE_MATRIX_HPP__
 
 #include <type_traits>
+#include <fstream>
 
 #include "dense_matrix.hpp"
 #include "vector.hpp"
@@ -95,6 +96,13 @@ public:
         __nrow,m.GetColNum(),__ncol,__data, m.GetData(), ret.GetData());
     return ret;
   }
+
+
+  CHIPSUM_FUNCTION_INLINE void Print(std::ostream& out=std::cout)
+  {
+    ChipSum::Numeric::Impl::Sparse::Print<ScalarType,SizeType>(__data,out);
+  }
+
 };
 
 } // End namespace Numeric

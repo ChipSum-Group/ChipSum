@@ -4,7 +4,7 @@
  * @Autor: Li Kunyun
  * @Date: 2021-08-09 12:20:42
  * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-12 16:06:35
+ * @LastEditTime: 2021-08-13 16:44:32
  */
 
 
@@ -12,6 +12,7 @@
 #define __CHIPSUM_CRS_SERIAL_IMPL_HPP__
 
 #include <vector>
+#include <fstream>
 
 #include "../../chipsum_macro.h"
 #include "../numeric_traits.hpp"
@@ -136,10 +137,33 @@ Mult(ScalarType alpha, CrsFormat<ScalarType, SizeType> &A,
   }
 }
 
-// template <typename ScalarType,typename SizeType,typename ...Props>
-// CHIPSUM_FUNCTION_INLINE void Gauss_seidel(/*...*/){
-//    //TODO
-//}
+template<typename ScalarType,typename SizeType,typename ...Props>
+
+CHIPSUM_FUNCTION_INLINE void Print(CrsFormat<ScalarType, SizeType>& A,std::ostream& out){
+  out<<"spm_serial:"<<
+  "(rows="<<A.graph.row_map.size()-1<<
+  ", entries="<<A.vals.size()<<")"<<std::endl;
+
+  out<<"rowmap: [";
+  for(std::size_t i=0;i<A.graph.row_map.size()-1;++i){
+    out<<A.graph.row_map[i]<<",";
+  }
+  out<<A.graph.row_map[A.graph.row_map.size()-1]<<"]"<<std::endl;
+
+
+  out<<"entries: [";
+  for(std::size_t i=0;i<A.graph.col_map.size()-1;++i){
+    out<<A.graph.col_map[i]<<",";
+  }
+  out<<A.graph.col_map[A.graph.col_map.size()-1]<<"]"<<std::endl;
+
+
+  out<<"values: [";
+  for(std::size_t i=0;i<A.vals.size()-1;++i){
+    out<<A.vals[i]<<",";
+  }
+  out<<A.vals[A.vals.size()-1]<<"]"<<std::endl;
+}
 
 } // End namespace Sparse
 } // End namespace Impl

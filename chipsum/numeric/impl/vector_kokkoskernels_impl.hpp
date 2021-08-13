@@ -4,7 +4,7 @@
  * @Autor: Li Kunyun
  * @Date: 2021-08-09 12:20:42
  * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-12 14:18:23
+ * @LastEditTime: 2021-08-13 11:58:07
  */
 
 #ifndef __CHIPSUM_VECTOR_KOKKOSKERNELS_IMPL_HPP__
@@ -236,7 +236,7 @@ CHIPSUM_FUNCTION_INLINE void Print(std::ostream &out,
   Kokkos::deep_copy(h_vec, vec);
 
   out << vec.label() << ": [";
-  for (size_t i = 0; i < h_vec.extent(0) - 1; ++i) {
+  for (std::size_t i = 0; i < h_vec.extent(0) - 1; ++i) {
     out << h_vec(i) << ", ";
   }
 

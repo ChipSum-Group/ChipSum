@@ -1,7 +1,7 @@
 /*
  * @Author       : your name
  * @Date         : 2021-08-10 15:35:49
- * @LastEditTime: 2021-08-12 16:52:40
+ * @LastEditTime: 2021-08-13 14:21:20
  * @LastEditors: Li Kunyun
  * @Description  : In User Settings Edit
  * @FilePath     : \\lky\\ChipSum\\test.cpp
@@ -130,6 +130,8 @@ int main(int argc, char *argv[]) {
 
     
     Csrm B(nrows, ncols, annz, row_map, col_map, values);
+
+    B.Print();
 
     (B * a).Print(); // spmv通过{39,57,120,87,150}
     // (B * m1).Print(); // spgemm的KokkosKernels通过，但是Serial版本还存在问题

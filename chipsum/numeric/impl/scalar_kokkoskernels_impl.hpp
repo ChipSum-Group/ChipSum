@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-08-09 12:34:28
- * @LastEditTime: 2021-08-12 10:39:16
+ * @LastEditTime: 2021-08-13 10:34:26
  * @LastEditors: Li Kunyun
  * @Description: In User Settings Edit
  * @FilePath: scalar_kokkoskernels_impl.hpp
@@ -89,6 +89,10 @@ CHIPSUM_FUNCTION_INLINE void Print(const Kokkos::View<ScalarType> &s,
   out << s.label() << ": ";
   out << h_s() << endl;
 }
+
+
+
+
 
 } // namespace Scalar
 } // namespace Impl
