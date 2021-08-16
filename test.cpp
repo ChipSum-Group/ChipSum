@@ -1,7 +1,7 @@
 /*
  * @Author       : your name
  * @Date         : 2021-08-10 15:35:49
- * @LastEditTime: 2021-08-13 14:21:20
+ * @LastEditTime: 2021-08-16 14:48:06
  * @LastEditors: Li Kunyun
  * @Description  : In User Settings Edit
  * @FilePath     : \\lky\\ChipSum\\test.cpp
@@ -28,6 +28,20 @@ using namespace std;
 
 #define N 5
 
+namespace ChipSum {
+CHIPSUM_FUNCTION_INLINE void Init(int& argc,char* argv[]) {
+#if defined(ChipSum_USE_KokkosKernels) || defined(ChipSum_USE_KokkosKernels64)
+  Kokkos::initialize(argc,argv);
+#endif
+}
+
+CHIPSUM_FUNCTION_INLINE void Finalize() {
+#if defined(ChipSum_USE_KokkosKernels) || defined(ChipSum_USE_KokkosKernels64)
+  Kokkos::finalize();
+#endif
+}
+}
+
 typedef ChipSum::Numeric::SparseMatrix<double, size_t,
                                        ChipSum::Numeric::SparseTypes::Csr,
                                        ChipSum::Backend::DefaultBackend>
@@ -35,32 +49,32 @@ typedef ChipSum::Numeric::SparseMatrix<double, size_t,
 
 int main(int argc, char *argv[]) {
 
-  Kokkos::initialize();
+  ChipSum::Init(argc,argv);
   {
 
-    double* v1 = static_cast<double*>(std::malloc(N*sizeof(double)));
-    double* v2 = static_cast<double*>(std::malloc(N*sizeof(double)));
+    double *v1 = static_cast<double *>(std::malloc(N * sizeof(double)));
+    double *v2 = static_cast<double *>(std::malloc(N * sizeof(double)));
 
-    for(int i=0;i<N;++i){
-        v1[i] = double(i);
-        v2[i] = double(i);
+    for (int i = 0; i < N; ++i) {
+      v1[i] = double(i);
+      v2[i] = double(i);
     }
-    
+
     Vector a(v1, N); // a = {0,1,2,3,4}
     a.Print();
     Vector b(v2, N); // b = {0,1,2,3,4}
 
     a += b; // a = {0,2,4,6,8}
 
-    a  += b; // a = {0,3,6,9,12}
+    a += b; // a = {0,3,6,9,12}
 
-    a *= 1.0 ; // a = {0,3,6,9,12}
+    a *= 1.0; // a = {0,3,6,9,12}
 
     a.Print();
 
     //    for(std::size_t i=0;i<N;++i) b(i) = 0.0; /* for operator()
-    b *= 0.0; /*  */
-    b.Print();         // b = {0.,0.,0., ... ,0.}
+    b *= 0.0;  /*  */
+    b.Print(); // b = {0.,0.,0., ... ,0.}
 
     //    a -= a; // if uncomment, all results below turns 0
 
@@ -72,9 +86,10 @@ int main(int argc, char *argv[]) {
     Scalar r;
     a.Dot(a, r);
 
-    cout << r()*r() << endl; // r = 270
+    cout << r() * r() << endl; // r = 270
 
-    
+    Matrix A(10, 10);
+    A.Print();
 
     //        /*
     //        *
@@ -126,9 +141,6 @@ int main(int argc, char *argv[]) {
     values[11] = 7;
     values[12] = 9;
 
-
-
-    
     Csrm B(nrows, ncols, annz, row_map, col_map, values);
 
     B.Print();
@@ -198,5 +210,5 @@ int main(int argc, char *argv[]) {
     std::free(v1);
     std::free(v2);
   }
-  Kokkos::finalize();
+  ChipSum::Finalize();
 }

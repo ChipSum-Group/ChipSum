@@ -4,7 +4,7 @@
  * @Autor: Li Kunyun
  * @Date: 2021-08-09 12:20:42
  * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-13 16:36:05
+ * @LastEditTime: 2021-08-16 10:23:08
  */
 
 #ifndef __CHIPSUM_CRS_KOKKOSKERNELS_IMPL_HPP__
@@ -47,14 +47,16 @@ namespace Sparse {
 
 template <typename ScalarType, typename SizeType, typename... Props>
 /**
- * @brief Fill：利用POD数据对稀疏矩阵进行填充
- * @param A：稀疏矩阵
- * @param nrows：行数
- * @param ncols：列数
- * @param annz：非零元数
- * @param row_map：行向量
- * @param col_map：entry向量
- * @param values：非零元向量
+ * @description: 创建初始化的CRS矩阵
+ * @param {*} nrows 行数
+ * @param {*} ncols 列数
+ * @param {*} annz 非零元数
+ * @param {*} A 稀疏矩阵（out）
+ * @param {*} row_map 行邻接表
+ * @param {*} col_map 列邻接表
+ * @param {*} values 非零元
+ * @return {*}
+ * @author: Li Kunyun
  */
 CHIPSUM_FUNCTION_INLINE void
 Create(const SizeType nrows, const SizeType ncols, const SizeType annz,
@@ -73,10 +75,12 @@ Create(const SizeType nrows, const SizeType ncols, const SizeType annz,
 
 template <typename ScalarType, typename SizeType, typename... Props>
 /**
- * @brief Create
- * @param A
- * @param row_map_size
- * @param col_map_size
+ * @description: 创建未初始化的CRS矩阵
+ * @param {*} A 稀疏矩阵（out）
+ * @param {*} row_map_size 行邻接表长度
+ * @param {*} col_map_size 列邻接表长度
+ * @return {*} 
+ * @author: Li Kunyun
  */
 CHIPSUM_FUNCTION_INLINE void
 Create(KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
@@ -93,15 +97,17 @@ Create(KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
 
   typename sp_t::staticcrsgraph_type graph(col_map, row_map);
 
-  A = spt(A.label(), graph);
+  A = sp_t(A.label(), graph);
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
 /**
- * @brief Mult b=Ax
- * @param A
- * @param x
- * @param b
+ * @description: b=Ax（SpMV）
+ * @param {*} A 稀疏矩阵
+ * @param {*} x 向量
+ * @param {*} b 向量（out）
+ * @return {*}
+ * @author: Li Kunyun
  */
 CHIPSUM_FUNCTION_INLINE void
 Mult(SizeType M, SizeType N,
@@ -113,10 +119,15 @@ Mult(SizeType M, SizeType N,
 
 template <typename ScalarType, typename SizeType, typename... Props>
 /**
- * @brief Mult
- * @param A
- * @param x
- * @param b
+ * @description: SpGEMM（稀疏X稠密）
+ * @param {*} M A/C的行数
+ * @param {*} N B/C的列数
+ * @param {*} K A的列数，B的行数
+ * @param {*} A 稀疏矩阵
+ * @param {*} B 稠密矩阵
+ * @param {*} C 稠密矩阵（out）
+ * @return {*}
+ * @author: Li Kunyun
  */
 CHIPSUM_FUNCTION_INLINE void
 Mult(SizeType M, SizeType N, SizeType K,
@@ -128,12 +139,14 @@ Mult(SizeType M, SizeType N, SizeType K,
 
 template <typename ScalarType, typename SizeType, typename... Props>
 /**
- * @brief Mult
- * @param alpha
- * @param A
- * @param x
- * @param beta
- * @param b
+ * @description: b = alpha*Ax+beta*b
+ * @param {*} alpha 稀疏矩阵A的系数
+ * @param {*} A 稀疏矩阵
+ * @param {*} x 向量
+ * @param {*} beta 向量b的系数
+ * @param {*} b 向量（in/out）
+ * @return {*}
+ * @author: Li Kunyun
  */
 CHIPSUM_FUNCTION_INLINE void
 Mult(ScalarType alpha,
@@ -146,6 +159,13 @@ Mult(ScalarType alpha,
 
 
 template <typename ScalarType,typename SizeType,typename ...Props>
+/**
+ * @description: 打印出稀疏矩阵的数据信息，多用于调试
+ * @param {*} A 稀疏矩阵
+ * @param {*} out 输出流（in/out）
+ * @return {*}
+ * @author: Li Kunyun
+ */
 CHIPSUM_FUNCTION_INLINE void
 Print(KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
       std::ostream &out) 
@@ -169,12 +189,12 @@ Print(KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
   
   
   out<<"spm_"+std::to_string(spm_name)<<" "
-  <<"("<<"rows="<<A.graph.row_map.extent(0)<<", "
+  <<"("<<"rows="<<A.graph.row_map.extent(0)-1<<", "
   <<"entries="<<h_entries.extent(0)<<")"<<std::endl;
 
 
 
-   out<<A.graph.row_map.label()<<":";
+   out<<A.graph.row_map.label()<<": ";
   out<<"[";
   for(std::size_t i=0;i<h_row_map.extent(0)-1;++i){
      out<<h_row_map(i)<<",";
@@ -183,7 +203,7 @@ Print(KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
 
 
   
-  out<<A.graph.entries.label()<<":";
+  out<<A.graph.entries.label()<<": ";
   out<<"[";
   for(std::size_t i=0;i<h_entries.extent(0)-1;++i){
      out<<h_entries(i)<<",";

@@ -18,9 +18,12 @@ add_subdirectory("chipsum")
 
 set(CMAKE_INCLUDE_DIRECTORIES_BEFORE on)
 
+option (ChipSum_ENABLE_KokkosKernels "Use provided Kokkos implementation" OFF)
 
-if(ChipSum_USE_KokkosKernels)
 
+
+if(ChipSum_ENABLE_KokkosKernels)
+    add_definitions("-DChipSum_USE_KokkosKernels=on")
     set(Kokkos_DIR ./tpl/kokkos-build/lib/cmake/Kokkos)
     set(KokkosKernels_DIR ./tpl/kokkos-kernels-build/lib/cmake/KokkosKernels)
 

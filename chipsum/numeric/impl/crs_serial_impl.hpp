@@ -4,7 +4,7 @@
  * @Autor: Li Kunyun
  * @Date: 2021-08-09 12:20:42
  * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-13 16:44:32
+ * @LastEditTime: 2021-08-16 10:22:53
  */
 
 
@@ -54,14 +54,16 @@ namespace Sparse {
 
 template <typename ScalarType, typename SizeType, typename... Props>
 /**
- * @brief Create：创建稀疏矩阵
- * @param nrows：行数
- * @param ncols：列数
- * @param annz：非零元数
- * @param A：原稀疏矩阵
- * @param row_map：行邻接表，长度为nrows+1
- * @param col_map：列邻接表，长度为annz
- * @param values：非零元，长度为annz
+ * @description: 创建初始化的CRS矩阵
+ * @param {*} nrows 行数
+ * @param {*} ncols 列数
+ * @param {*} annz 非零元数
+ * @param {*} A 稀疏矩阵（out）
+ * @param {*} row_map 行邻接表
+ * @param {*} col_map 列邻接表
+ * @param {*} values 非零元
+ * @return {*}
+ * @author: Li Kunyun
  */
 CHIPSUM_FUNCTION_INLINE void
 Create(const SizeType nrows, const SizeType ncols, const SizeType annz,
@@ -75,10 +77,12 @@ Create(const SizeType nrows, const SizeType ncols, const SizeType annz,
 
 template <typename ScalarType, typename SizeType, typename... Props>
 /**
- * @brief Create
- * @param A
- * @param row_map_size
- * @param col_map_size
+ * @description: 创建未初始化的CRS矩阵
+ * @param {*} A 稀疏矩阵（out）
+ * @param {*} row_map_size 行邻接表长度
+ * @param {*} col_map_size 列邻接表长度
+ * @return {*} 
+ * @author: Li Kunyun
  */
 CHIPSUM_FUNCTION_INLINE void Create(CrsFormat<ScalarType, SizeType> &A,
                                     const std::size_t row_map_size,
@@ -91,10 +95,12 @@ CHIPSUM_FUNCTION_INLINE void Create(CrsFormat<ScalarType, SizeType> &A,
 
 template <typename ScalarType, typename SizeType, typename... Props>
 /**
- * @brief Mult
- * @param A
- * @param x
- * @param b
+ * @description: b=Ax（SpMV）
+ * @param {*} A 稀疏矩阵
+ * @param {*} x 向量
+ * @param {*} b 向量（out）
+ * @return {*}
+ * @author: Li Kunyun
  */
 CHIPSUM_FUNCTION_INLINE void Mult(std::size_t M,
                                   std::size_t N,
@@ -116,12 +122,14 @@ CHIPSUM_FUNCTION_INLINE void Mult(std::size_t M,
 
 template <typename ScalarType, typename SizeType, typename... Props>
 /**
- * @brief Mult
- * @param alpha
- * @param A
- * @param x
- * @param beta
- * @param b
+ * @description: b = alpha*Ax+beta*b
+ * @param {*} alpha 稀疏矩阵A的系数
+ * @param {*} A 稀疏矩阵
+ * @param {*} x 向量
+ * @param {*} beta 向量b的系数
+ * @param {*} b 向量（in/out）
+ * @return {*}
+ * @author: Li Kunyun
  */
 CHIPSUM_FUNCTION_INLINE void
 Mult(ScalarType alpha, CrsFormat<ScalarType, SizeType> &A,
@@ -138,7 +146,13 @@ Mult(ScalarType alpha, CrsFormat<ScalarType, SizeType> &A,
 }
 
 template<typename ScalarType,typename SizeType,typename ...Props>
-
+/**
+ * @description: 打印出稀疏矩阵的数据信息，多用于调试
+ * @param {*} A 稀疏矩阵
+ * @param {*} out 输出流（in/out）
+ * @return {*}
+ * @author: Li Kunyun
+ */
 CHIPSUM_FUNCTION_INLINE void Print(CrsFormat<ScalarType, SizeType>& A,std::ostream& out){
   out<<"spm_serial:"<<
   "(rows="<<A.graph.row_map.size()-1<<

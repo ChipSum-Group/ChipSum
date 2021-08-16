@@ -4,7 +4,7 @@
  * @Autor: Li Kunyun
  * @Date: 2021-08-09 12:20:42
  * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-13 16:37:59
+ * @LastEditTime: 2021-08-16 10:30:02
  */
 
 
@@ -31,8 +31,8 @@ struct OpenBlas:public BackendBase{/*TODO*/};
 
 #if defined(ChipSum_USE_KokkosKernels) || defined(ChipSum_USE_KokkosKernels64)
 typedef KokkosKernels DefaultBackend;
-
 #else
+
 typedef Serial DefaultBackend;
 
 #endif

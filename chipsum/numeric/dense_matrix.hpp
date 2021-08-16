@@ -4,18 +4,23 @@
  * @Autor: Li Kunyun
  * @Date: 2021-08-09 12:20:42
  * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-13 10:21:45
+ * @LastEditTime: 2021-08-16 16:05:08
  */
 
 
 #ifndef __CHIPSUM_DENSE_MATRIX_HPP__
 #define __CHIPSUM_DENSE_MATRIX_HPP__
 
+#if defined(ChipSum_USE_KokkosKernels) || defined(ChipSum_USE_KokkosKernels64)
 #include "impl/densemat_kokkoskernels_impl.hpp"
+#endif
 #include "impl/densemat_serial_impl.hpp"
 #include "numeric_traits.hpp"
 #include "scalar.hpp"
 #include "vector.hpp"
+
+
+
 
 namespace ChipSum {
 namespace Numeric {
@@ -48,9 +53,9 @@ private:
 
 public:
   /**
-   * @description:
-   * @param {size_type} M
-   * @param {size_type} N
+   * @description: 构造一个M行N列的稠密矩阵，该矩阵未初始化
+   * @param {size_type} M 行数
+   * @param {size_type} N 列数
    * @return {*}
    */
   CHIPSUM_DECLARED_FUNCTION DenseMatrix(const_size_type M, const_size_type N)
@@ -60,10 +65,10 @@ public:
   }
 
   /**
-   * @description:
-   * @param {size_type} M
-   * @param {size_type} N
-   * @param {ScalarType*} src
+   * @description: 构造一个M行N列的稠密矩阵，并用src赋值该矩阵
+   * @param {size_type} M 行数
+   * @param {size_type} N 列数
+   * @param {ScalarType*} src 原数据
    * @return {*}
    */
   CHIPSUM_DECLARED_FUNCTION DenseMatrix(const_size_type M, const_size_type N,
@@ -73,36 +78,36 @@ public:
                                                                    __data);
     ChipSum::Numeric::Impl::DenseMat::Fill<ScalarType, SizeType>(M, N, src,
                                                                  __data);
-                                                                 Kokkos::fence();
+                                                                
   }
 
   /**
-   * @description:
+   * @description: 获取矩阵数据
    * @param {*}
-   * @return {*}
+   * @return {const_matrix_type_reference} 稠密矩阵数据
    */
   CHIPSUM_FUNCTION_INLINE const_matrix_type_reference GetData() {
     return __data;
   }
 
   /**
-   * @description:
+   * @description: 获取矩阵行数
    * @param {*}
-   * @return {*}
+   * @return {size_type} 矩阵行数
    */
   CHIPSUM_FUNCTION_INLINE size_type GetRowNum() { return __nrow; }
 
   /**
-   * @description:
-   * @param {*}
-   * @return {*}
+   * @description: 获取矩阵列数
+   * @param {*} 
+   * @return {*} 矩阵列数
    */
   CHIPSUM_FUNCTION_INLINE size_type GetColNum() { return __ncol; }
 
   /**
-   * @description:
-   * @param {*}
-   * @return {*}
+   * @description: GEMM
+   * @param {DenseMatrix} m 稠密矩阵 
+   * @return {*} 稠密矩阵（结果）
    */
   CHIPSUM_FUNCTION_INLINE DenseMatrix operator*(DenseMatrix &m) {
     DenseMatrix ret(__nrow, m.GetColNum());
@@ -111,23 +116,11 @@ public:
     return ret;
   }
 
-  // /**
-  //  * @description:
-  //  * @param {*}
-  //  * @return {*}
-  //  */
-  // CHIPSUM_FUNCTION_INLINE DenseMatrix operator*=(DenseMatrix &m) {
-    
-  //   ChipSum::Numeric::Impl::DenseMat::Mult<ScalarType, SizeType>(
-  //       __nrow,m.GetColNum(),m.GetRowNum(), __data,m.GetData(), ret.GetData());
-  //   return ret;
-  // }
-
   template <typename... Args>
   /**
-   * @description:
-   * @param {*}
-   * @return {*}
+   * @description: GEMV
+   * @param {vector_type} v 向量
+   * @return {*} 向量（结果）
    */
   CHIPSUM_FUNCTION_INLINE vector_type operator*(vector_type &v) {
     vector_type ret(__ncol);
@@ -137,18 +130,19 @@ public:
   }
 
   /**
-   * @description:
-   * @param {*}
-   * @return {*}
+   * @description: A*=a
+   * @param {const ScalarType} a 系数
+   * @return {*} A（结果）
    */
-  CHIPSUM_FUNCTION_INLINE matrix_type operator*=(ScalarType s) {
-    ChipSum::Numeric::Impl::DenseMat::Scal<ScalarType, SizeType>(s, __data);
+  CHIPSUM_FUNCTION_INLINE matrix_type operator*=(const ScalarType a) {
+    ChipSum::Numeric::Impl::DenseMat::Scal<ScalarType, SizeType>(a, __data);
     return *this;
   }
   /**
-   * @description: 
-   * @param {*}
-   * @return {*}
+   * @description: 获取Aij
+   * @param {const_size_type} i 行索引
+   * @param {const_size_type} j 列索引
+   * @return {*} Aij
    * @author: Li Kunyun
    */
   CHIPSUM_FUNCTION_INLINE ScalarType &operator()(const_size_type i,
@@ -158,9 +152,10 @@ public:
   }
 
     /**
-   * @description: 
-   * @param {*}
-   * @return {*}
+   * @description: 获取Aij（只读）
+   * @param {*} i 行数
+   * @param {*} j 列数
+   * @return {*} Aij
    * @author: Li Kunyun
    */
   CHIPSUM_FUNCTION_INLINE const ScalarType &operator()(const_size_type i,
@@ -170,8 +165,8 @@ public:
   }
 
   /**
-   * @description:
-   * @param {*}
+   * @description: 打印函数
+   * @param {std::ostream&} 输出流
    * @return {*}
    */
   CHIPSUM_FUNCTION_INLINE void Print(std::ostream &out = std::cout) {

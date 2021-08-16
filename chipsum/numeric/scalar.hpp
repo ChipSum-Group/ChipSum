@@ -4,7 +4,7 @@
  * @Autor: lhl
  * @Date: 2021-08-09 12:27:29
  * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-13 10:02:37
+ * @LastEditTime: 2021-08-16 16:18:46
  */
 
 
@@ -13,9 +13,13 @@
 
 #include "../backend/backend.hpp"
 #include "../chipsum_macro.h"
-#include "impl/scalar_kokkoskernels_impl.hpp"
-#include "impl/scalar_serial_impl.hpp"
+
 #include "numeric_traits.hpp"
+#include "impl/scalar_serial_impl.hpp"
+
+#if defined(ChipSum_USE_KokkosKernels) || defined(ChipSum_USE_KokkosKernels64)
+#include "impl/scalar_kokkoskernels_impl.hpp"
+#endif
 
 namespace ChipSum {
 namespace Numeric {
@@ -47,7 +51,7 @@ private:
 public:
 
   /**
-   * @description: 
+   * @description: 构造函数
    * @param {*}
    * @return {*}
    * @author: Li Kunyun
@@ -57,8 +61,8 @@ public:
   }
 
   /**
-   * @description: 
-   * @param {const ScalarType} s
+   * @description: 构造函数（初始化）
+   * @param {const ScalarType} s 初始值
    * @return {*}
    * @author: Li Kunyun
    */
@@ -67,23 +71,30 @@ public:
   }
 
   /**
-   * @description: 
+   * @description: 获取数据
    * @param {*}
-   * @return {*}
+   * @return {const_scalar_type_reference} 数据
    * @author: Li Kunyun
    */
   CHIPSUM_FUNCTION_INLINE const_scalar_type_reference GetData() {
     return __data;
   }
 
-  CHIPSUM_FUNCTION_INLINE Scalar operator=(ScalarType &&s) {
+  /**
+   * @description: 赋值
+   * @param {const ScalarType} 标量值
+   * @return {Scalar} 
+   * @author: Li Kunyun
+   */
+  CHIPSUM_FUNCTION_INLINE Scalar& operator=(const ScalarType s) {
     ChipSum::Numeric::Impl::Scalar::DeepCopy<ScalarType, SizeType>(s, __data);
+    return *this;
   }
 
   /**
-   * @description: 
-   * @param {*}
-   * @return {*}
+   * @description: 获取标量值
+   * @param {*} 
+   * @return {const ScalarType} 标量值
    * @author: Li Kunyun
    */
   CHIPSUM_FUNCTION_INLINE const ScalarType operator()() {
@@ -92,8 +103,8 @@ public:
   }
 
   /**
-   * @description: 
-   * @param {*}
+   * @description: 隐式转换
+   * @param {*} 
    * @return {*}
    * @author: Li Kunyun
    */
@@ -103,8 +114,8 @@ public:
   }
 
   /**
-   * @description: 
-   * @param {ostream} &out
+   * @description: 打印（方便调试）
+   * @param {ostream} &out 输出流
    * @return {*}
    * @author: Li Kunyun
    */

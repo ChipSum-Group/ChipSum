@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2021-08-09 12:34:28
- * @LastEditTime: 2021-08-13 10:34:26
+ * @LastEditTime: 2021-08-16 10:24:47
  * @LastEditors: Li Kunyun
  * @Description: In User Settings Edit
  * @FilePath: scalar_kokkoskernels_impl.hpp
@@ -36,11 +36,24 @@ namespace Impl {
 namespace Scalar {
 
 template <typename ScalarType, typename SizeType, typename... Props>
+/**
+ * @description: 创建标量
+ * @param {View<ScalarType>} &r 标量（out）
+ * @return {*}
+ * @author: Li Kunyun
+ */
 CHIPSUM_FUNCTION_INLINE void Create(Kokkos::View<ScalarType> &r) {
   r = Kokkos::View<ScalarType>("scalar_" + std::to_string(scalar_name++));
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
+/**
+ * @description: 标量深拷贝
+ * @param {*} s 数据源
+ * @param {*} r 标量（out）
+ * @return {*}
+ * @author: Li Kunyun
+ */
 CHIPSUM_FUNCTION_INLINE void DeepCopy(const ScalarType s,
                                       Kokkos::View<ScalarType> &r) {
 
@@ -51,13 +64,25 @@ CHIPSUM_FUNCTION_INLINE void DeepCopy(const ScalarType s,
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
+/**
+ * @description: 创建标量
+ * @param {*} s 数据源
+ * @param {*} r 标量（out）
+ * @return {*}
+ * @author: Li Kunyun
+ */
 CHIPSUM_FUNCTION_INLINE void Create(const ScalarType s,
                                     Kokkos::View<ScalarType> &r) {
-  r = Kokkos::View<ScalarType>("scalar_" + std::to_string(scalar_name++));
   DeepCopy<ScalarType, SizeType>(s, r);
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
+/**
+ * @description: 获取标量（by return）
+ * @param {*} s 标量
+ * @return {*} 标量（out）
+ * @author: Li Kunyun
+ */
 CHIPSUM_FUNCTION_INLINE const ScalarType
 GetItem(const Kokkos::View<ScalarType> &s) {
   typename Kokkos::View<ScalarType>::HostMirror h_s =
@@ -67,6 +92,13 @@ GetItem(const Kokkos::View<ScalarType> &s) {
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
+/**
+ * @description: 获取标量（by reference）
+ * @param {*} s 标量
+ * @param {*} r 标量（out）
+ * @return {*}
+ * @author: Li Kunyun
+ */
 CHIPSUM_FUNCTION_INLINE void GetItem(const Kokkos::View<ScalarType> &s,
                                      ScalarType &r) {
   typename Kokkos::View<ScalarType>::HostMirror h_s =
@@ -76,11 +108,13 @@ CHIPSUM_FUNCTION_INLINE void GetItem(const Kokkos::View<ScalarType> &s,
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
-CHIPSUM_FUNCTION_INLINE void Mult(const Kokkos::View<ScalarType> &s,
-                                  const Kokkos::View<ScalarType *> &v,
-                                  Kokkos::View<ScalarType *> &r) {}
-
-template <typename ScalarType, typename SizeType, typename... Props>
+/**
+ * @description: 打印标量，一般用于调试
+ * @param {*} s 标量
+ * @param {*} out 输出流（in/out）
+ * @return {*}
+ * @author: Li Kunyun
+ */
 CHIPSUM_FUNCTION_INLINE void Print(const Kokkos::View<ScalarType> &s,
                                    std::ostream &out) {
   typename Kokkos::View<ScalarType>::HostMirror h_s =

@@ -4,7 +4,7 @@
  * @Autor: Li Kunyun
  * @Date: 2021-08-09 12:20:42
  * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-13 14:24:12
+ * @LastEditTime: 2021-08-16 16:35:14
  */
 
 #ifndef __CHIPSUM_NUMERIC_SPARSE_MATRIX_HPP__
@@ -16,8 +16,12 @@
 #include "dense_matrix.hpp"
 #include "vector.hpp"
 
-#include "impl/crs_kokkoskernels_impl.hpp"
 #include "impl/crs_serial_impl.hpp"
+
+#if defined(ChipSum_USE_KokkosKernels) || defined(ChipSum_USE_KokkosKernels64)
+#include "impl/crs_kokkoskernels_impl.hpp"
+#endif
+
 
 namespace ChipSum {
 namespace Numeric {
@@ -49,7 +53,10 @@ public:
   template <typename... Args> // 用于应对不同格式稀疏矩阵的创建
   /**
    * @description:
-   * @param {*}
+   * @param {size_type} nrow 行数
+   * @param {size_type} ncol 列数
+   * @param {size_type} annz 非零元数
+   * @param {Args} 稀疏矩阵所需的其他数据
    * @return {*}
    */
   CHIPSUM_DECLARED_FUNCTION SparseMatrix(size_type nrow, size_type ncol,
@@ -58,25 +65,26 @@ public:
     ChipSum::Numeric::Impl::Sparse::Create<ScalarType, SizeType>(
         nrow, ncol, annz, __data, args...);
   }
+  
 
   /**
    * @description:
    * @param {*}
-   * @return {*}
+   * @return {size_type} 获取列数
    */
   CHIPSUM_FUNCTION_INLINE size_type GetColNum() { return __ncol; }
 
   /**
    * @description:
    * @param {*}
-   * @return {*}
+   * @return {size_type} 获取行数
    */
   CHIPSUM_FUNCTION_INLINE size_type GetRowNum() { return __nrow; }
 
   /**
-   * @description:
-   * @param {*}
-   * @return {*}
+   * @description: SpMV
+   * @param {vector_type} 向量
+   * @return {*} 向量（结果）
    */
   CHIPSUM_FUNCTION_INLINE vector_type operator*(vector_type &v) {
     vector_type ret(v.GetSize());
@@ -86,8 +94,8 @@ public:
   }
 
   /**
-   * @description:
-   * @param {*}
+   * @description: SpMD（稀疏矩阵乘稠密矩阵）
+   * @param {dense_type} 稠密矩阵
    * @return {*}
    */
   CHIPSUM_FUNCTION_INLINE dense_type operator*(dense_type &m) {
@@ -98,6 +106,12 @@ public:
   }
 
 
+  /**
+   * @description: 打印（调试用）
+   * @param {std::ostream&} 输出流
+   * @return {*}
+   * @author: Li Kunyun
+   */
   CHIPSUM_FUNCTION_INLINE void Print(std::ostream& out=std::cout)
   {
     ChipSum::Numeric::Impl::Sparse::Print<ScalarType,SizeType>(__data,out);

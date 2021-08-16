@@ -4,9 +4,8 @@
  * @Autor: Li Kunyun
  * @Date: 2021-08-09 12:20:42
  * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-13 10:08:24
+ * @LastEditTime: 2021-08-16 15:40:31
  */
-
 
 #ifndef __CHIPSUM_VECTOR_SERIAL_IMPL_HPP__
 #define __CHIPSUM_VECTOR_SERIAL_IMPL_HPP__
@@ -37,9 +36,10 @@ namespace Vector {
 
 template <typename ScalarType, typename SizeType, typename... Props>
 /**
- * @brief Create：创建向量数据，主要是申请内存空间
- * @param n：向量维度
- * @param dst：需要申请的向量
+ * @description: 创建未初始化的向量
+ * @param {*} n 向量长度 
+ * @param {*} x 向量（out）
+ * @return {*}
  */
 CHIPSUM_FUNCTION_INLINE void Create(const SizeType n,
                                     std::vector<ScalarType> &dst) {
@@ -48,10 +48,11 @@ CHIPSUM_FUNCTION_INLINE void Create(const SizeType n,
 
 template <typename ScalarType, typename SizeType, typename... Props>
 /**
- * @brief Fill：利用POD数据进行向量填充
- * @param src：POD数据源
- * @param n：向量维度
- * @param dst：目标向量
+ * @description: 创建初始化的向量
+ * @param {*} src POD数据源
+ * @param {*} n 向量长度
+ * @param {*} x 向量（out）
+ * @return {*}
  */
 CHIPSUM_FUNCTION_INLINE void Create(const ScalarType *src, const SizeType n,
                                     std::vector<ScalarType> &dst) {
@@ -72,11 +73,12 @@ CHIPSUM_FUNCTION_INLINE void Fill(const ScalarType val, const SizeType n,
 
 template <typename ScalarType, typename SizeType, typename... Props>
 /**
- * @brief Dot：向量x和y的内积操作
- * @param x：向量x
- * @param y：向量y
- * @param n：向量维度
- * @param r：结果
+ * @description: 向量dot运算（by reference）
+ * @param {*} a 向量
+ * @param {*} b 向量
+ * @param {*} n 向量长度 
+ * @param {*} r 结果（out）
+ * @return {*}
  */
 CHIPSUM_FUNCTION_INLINE void Dot(const std::vector<ScalarType> &x,
 
@@ -93,10 +95,11 @@ CHIPSUM_FUNCTION_INLINE void Dot(const std::vector<ScalarType> &x,
 
 template <typename ScalarType, typename SizeType, typename... Props>
 /**
- * @description: 
- * @param {*}
+ * @description: R=a*X
+ * @param {*} R Scal结果（out）
+ * @param {*} a X的系数
+ * @param {*} X 向量
  * @return {*}
- * @author: Li Kunyun
  */
 CHIPSUM_FUNCTION_INLINE void Scal(std::vector<ScalarType> &R,
                                   const ScalarType a,
@@ -109,9 +112,9 @@ CHIPSUM_FUNCTION_INLINE void Scal(std::vector<ScalarType> &R,
 
 template <typename ScalarType, typename SizeType, typename... Props>
 /**
- * @brief Norm1：1范数
- * @param X：原向量
- * @return 范数结果
+ * @description: X的1范数
+ * @param {*} X 向量
+ * @return {*}
  */
 CHIPSUM_FUNCTION_INLINE ScalarType Norm1(const std::vector<ScalarType> &X) {
   ScalarType acc = 0.0;
@@ -123,9 +126,9 @@ CHIPSUM_FUNCTION_INLINE ScalarType Norm1(const std::vector<ScalarType> &X) {
 
 template <typename ScalarType, typename SizeType, typename... Props>
 /**
- * @brief Norm2：2范数
- * @param X：原向量
- * @return 结果
+ * @description: X的2范数
+ * @param {*} X 向量
+ * @return {*}
  */
 CHIPSUM_FUNCTION_INLINE ScalarType Norm2(const std::vector<ScalarType> &X) {
   ScalarType acc = 0.0;
@@ -137,12 +140,12 @@ CHIPSUM_FUNCTION_INLINE ScalarType Norm2(const std::vector<ScalarType> &X) {
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
-
 /**
- * @brief Axpby： y(i) = a*x(i)+b*y(i)
- * @param a： 标量，如int和double
- * @param X： 向量X
- * @param Y： 向量Y
+ * @description: Y=Y+a*X
+ * @param {*} a 系数
+ * @param {*} X 向量
+ * @param {*} Y 向量
+ * @return {*}
  */
 CHIPSUM_FUNCTION_INLINE void Axpy(ScalarType a,
                                   const std::vector<ScalarType> &X,
@@ -154,13 +157,13 @@ CHIPSUM_FUNCTION_INLINE void Axpy(ScalarType a,
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
-
 /**
- * @brief Axpby： y(i) = a*x(i)+b*y(i)
- * @param a： 标量，如int和double
- * @param X： 向量X
- * @param b： 标量，同a
- * @param Y： 向量Y
+ * @description: Y=b*Y+a*X
+ * @param {*} a 系数
+ * @param {*} X 向量
+ * @param {*} b 系数
+ * @param {*} Y 向量
+ * @return {*}
  */
 CHIPSUM_FUNCTION_INLINE void Axpby(ScalarType a, std::vector<ScalarType> &X,
                                    ScalarType b, std::vector<ScalarType> &Y) {
@@ -171,11 +174,11 @@ CHIPSUM_FUNCTION_INLINE void Axpby(ScalarType a, std::vector<ScalarType> &X,
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
-
 /**
- * @brief DeepCopy：深拷贝操作（该接口主要应对Kokkos等后端的拷贝机制）
- * @param dst：目标向量
- * @param src：原向量
+ * @description: 深拷贝
+ * @param {*} dst 目标数据
+ * @param {*} src 原数据
+ * @return {*}
  */
 CHIPSUM_FUNCTION_INLINE void DeepCopy(std::vector<ScalarType> &dst,
                                       const std::vector<ScalarType> &src) {
@@ -186,25 +189,42 @@ CHIPSUM_FUNCTION_INLINE void DeepCopy(std::vector<ScalarType> &dst,
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
-
 /**
- * @brief DeepCopy：浅拷贝操作（该接口主要应对Kokkos等后端的拷贝机制）
- * @param dst：目标向量
- * @param src：原向量
+ * @description: 浅拷贝
+ * @param {*} dst 目标数据
+ * @param {*} src 原数据
+ * @return {*}
  */
 CHIPSUM_FUNCTION_INLINE void ShallowCopy(std::vector<ScalarType> &dst,
                                          const std::vector<ScalarType> &src) {
   dst = src;
 }
 
+
 template <typename ScalarType, typename SizeType, typename... Props>
 /**
- * @brief Print：打印向量数据。
- * @param out：输出流，可以是std::cout，也可以是std::ofstream等
- * @param vec：向量
+ * @description: 获取向量元素
+ * @param {*} index 索引
+ * @param {*} vec 向量
+ * @return {*} 元素值
+ * @author: Li Kunyun
  */
-CHIPSUM_FUNCTION_INLINE void Print(std::ostream &out,
-                                   const std::vector<ScalarType> &vec) {
+CHIPSUM_FUNCTION_INLINE ScalarType &GetItem(const std::size_t index,
+                                            std::vector<ScalarType> &vec) {
+
+  assert(index < vec.size());
+  return vec[index];
+}
+
+template <typename ScalarType, typename SizeType, typename... Props>
+/**
+ * @description: 打印向量，一般用于调试
+ * @param {*} vec 向量
+ * @param {*} out 输出流
+ * @return {*}
+ */
+CHIPSUM_FUNCTION_INLINE void Print(const std::vector<ScalarType> &vec,
+                                   std::ostream &out) {
 
   out << " [";
   for (std::size_t i = 0; i < vec.size() - 1; ++i) {
@@ -214,19 +234,6 @@ CHIPSUM_FUNCTION_INLINE void Print(std::ostream &out,
   out << vec[vec.size() - 1] << "]" << std::endl;
 }
 
-template <typename ScalarType, typename SizeType, typename... Props>
-/**
- * @brief GetItem：获取下标对应的值
- * @param index：下标
- * @param vec：原向量
- * @return 下标值引用
- */
-CHIPSUM_FUNCTION_INLINE ScalarType &GetItem(std::size_t index,
-                                            std::vector<ScalarType> &vec) {
-
-  assert(index < vec.size());
-  return vec[index];
-}
 
 } // End namespace Vector
 } // End namespace Impl
