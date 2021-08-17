@@ -4,7 +4,7 @@
  * @Autor: Li Kunyun
  * @Date: 2021-08-09 12:20:42
  * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-16 16:54:53
+ * @LastEditTime: 2021-08-17 09:14:22
  */
 
 #ifndef __CHIPSUM_NUMERIC_VECTOR_HPP__
@@ -302,9 +302,9 @@ public:
   }
 
   /**
-   * @description:
-   * @param {const SizeType} i
-   * @return {*}
+   * @description: 下标取值
+   * @param {const SizeType} i 下标索引
+   * @return {ScalarType &} 标量（POD） 
    */
   CHIPSUM_FUNCTION_INLINE ScalarType &operator()(const SizeType i) {
     return ChipSum::Numeric::Impl::Vector::GetItem<ScalarType, SizeType>(
@@ -312,9 +312,9 @@ public:
   }
 
   /**
-   * @description:
-   * @param {*}
-   * @return {*}
+   * @description: x的1范数
+   * @param {*} 
+   * @return {*} 标量（POD）
    */
   CHIPSUM_FUNCTION_INLINE ScalarType Norm1() {
     return ChipSum::Numeric::Impl::Vector::Norm1<ScalarType, SizeType,
@@ -322,9 +322,9 @@ public:
   }
 
   /**
-   * @description:
-   * @param {*}
-   * @return {*}
+   * @description: x的2范数
+   * @param {*} 
+   * @return {*} 标量（POD）
    */
   CHIPSUM_FUNCTION_INLINE ScalarType Norm2() {
     return ChipSum::Numeric::Impl::Vector::Norm2<ScalarType, SizeType,
@@ -332,8 +332,8 @@ public:
   }
 
   /**
-   * @description:
-   * @param {ostream} &out
+   * @description: 打印（一般用于调试）
+   * @param {std::ostream&} out 输出流
    * @return {*}
    */
   CHIPSUM_FUNCTION_INLINE void Print(std::ostream &out = std::cout) {
@@ -345,27 +345,29 @@ public:
 template <typename ScalarType, typename SizeType, typename BackendType,
           typename... Props>
 /**
- * @description:
- * @param {*}
- * @return {*}
+ * @description: y=a*x
+ * @param {const ScalarType} 系数（POD）
+ * @param {Vector} 向量
+ * @return {*} 向量
  */
 CHIPSUM_FUNCTION_INLINE Vector<ScalarType, SizeType, BackendType, Props...>
-operator*(const ScalarType s,
-          Vector<ScalarType, SizeType, BackendType, Props...> &v) {
-  return v * s;
+operator*(const ScalarType a,
+          Vector<ScalarType, SizeType, BackendType, Props...> &x) {
+  return x * a;
 }
 
 template <typename ScalarType, typename SizeType, typename BackendType,
           typename... Props>
 /**
- * @description:
- * @param {*}
- * @return {*}
+ * @description: y=a*x
+ * @param {Scalar} 标量（ChipSum） 
+ * @param {Vector} 向量
+ * @return {*} 向量
  */
 CHIPSUM_FUNCTION_INLINE Vector<ScalarType, SizeType, BackendType, Props...>
-operator*(Scalar<ScalarType, SizeType, BackendType, Props...> s,
-          Vector<ScalarType, SizeType, BackendType, Props...> &v) {
-  return v * s;
+operator*(Scalar<ScalarType, SizeType, BackendType, Props...> &a,
+          Vector<ScalarType, SizeType, BackendType, Props...> &x) {
+  return x * a;
 }
 
 
