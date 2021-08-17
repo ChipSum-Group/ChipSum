@@ -1,7 +1,7 @@
 /*
  * @Author       : your name
  * @Date         : 2021-08-10 15:35:49
- * @LastEditTime: 2021-08-17 10:20:48
+ * @LastEditTime: 2021-08-17 15:25:14
  * @LastEditors: Li Kunyun
  * @Description  : In User Settings Edit
  * @FilePath     : \\lky\\ChipSum\\test.cpp
@@ -129,6 +129,7 @@ int main(int argc, char *argv[]) {
 
     CSR B(nrows, ncols, annz, row_map, col_map, values);
 
+    B.PrintPattern();
     B.Print();
 
     (B * a).Print(); // spmv通过{39,57,120,87,150}

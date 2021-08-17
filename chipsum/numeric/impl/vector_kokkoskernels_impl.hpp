@@ -4,7 +4,7 @@
  * @Autor: Li Kunyun
  * @Date: 2021-08-09 12:20:42
  * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-16 15:39:45
+ * @LastEditTime: 2021-08-17 15:14:04
  */
 
 #ifndef __CHIPSUM_VECTOR_KOKKOSKERNELS_IMPL_HPP__

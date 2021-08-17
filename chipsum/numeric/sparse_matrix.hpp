@@ -4,7 +4,7 @@
  * @Autor: Li Kunyun
  * @Date: 2021-08-09 12:20:42
  * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-17 10:20:35
+ * @LastEditTime: 2021-08-17 15:25:03
  */
 
 #ifndef __CHIPSUM_NUMERIC_SPARSE_MATRIX_HPP__
@@ -115,6 +115,19 @@ public:
   CHIPSUM_FUNCTION_INLINE void Print(std::ostream& out=std::cout)
   {
     ChipSum::Numeric::Impl::Sparse::Print<ScalarType,SizeType>(__data,out);
+  }
+
+
+
+  /**
+   * @description: 打印pattern（调试用）
+   * @param {std::ostream&} 输出流
+   * @return {*}
+   * @author: Li Kunyun
+   */
+  CHIPSUM_FUNCTION_INLINE void PrintPattern(std::ostream& out=std::cout)
+  {
+    ChipSum::Numeric::Impl::Sparse::PrintPattern<ScalarType,SizeType>(__data,out);
   }
 
 };

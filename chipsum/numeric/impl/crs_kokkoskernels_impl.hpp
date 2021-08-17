@@ -4,7 +4,7 @@
  * @Autor: Li Kunyun
  * @Date: 2021-08-09 12:20:42
  * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-16 10:23:08
+ * @LastEditTime: 2021-08-17 15:33:26
  */
 
 #ifndef __CHIPSUM_CRS_KOKKOSKERNELS_IMPL_HPP__
@@ -217,6 +217,52 @@ Print(KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
      out<<h_vals(i)<<",";
   }
   out<<h_vals(h_vals.extent(0)-1)<<"]"<<std::endl;
+}
+
+
+template <typename ScalarType,typename SizeType,typename ...Props>
+/**
+ * @description: 打印出稀疏矩阵的数据信息，多用于调试
+ * @param {*} A 稀疏矩阵
+ * @param {*} out 输出流（in/out）
+ * @return {*}
+ * @author: Li Kunyun
+ */
+CHIPSUM_FUNCTION_INLINE void
+PrintPattern(KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
+      std::ostream &out) 
+{
+  using crs_t = typename KokkosSparse::CrsMatrix<ScalarType,SizeType,default_device>;
+  
+  using row_map_t = typename crs_t::row_map_type::HostMirror;
+  using entries_t = typename crs_t::index_type::HostMirror;
+
+  row_map_t h_row_map = Kokkos::create_mirror_view(A.graph.row_map);
+  entries_t h_entries = Kokkos::create_mirror_view(A.graph.entries);
+
+  Kokkos::deep_copy(h_row_map,A.graph.row_map);
+  Kokkos::deep_copy(h_entries,A.graph.entries);
+
+  std::size_t M = h_row_map.extent(0)-1;
+  std::size_t N = A.numCols();
+
+
+  std::size_t entry_cnt = 0;
+   
+  for (std::size_t i = 0; i < M; ++i) {
+    std::size_t start = h_row_map[i];
+    for (std::size_t j = 0; j < N; ++j) {
+      char info = 'o';
+      if(h_entries[start+entry_cnt]==j){
+         info = '+';
+         ++entry_cnt;
+      }
+      out<<info<<" ";
+    }
+    entry_cnt = 0;
+    out<<::std::endl;
+  }
+  
 }
 
 
