@@ -1,0 +1,81 @@
+cmake_minimum_required(VERSION 3.5)
+
+set(CMAKE_CXX_STANDARD 14)
+#set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+project(ChipSum VERSION 1.0)
+
+configure_file(ChipSumConfig.h.in ChipSumConfig.h)
+
+set(CMAKE_CXX_FLAGS "-Wall"${CMAKE_CXX_FLAGS})
+
+set(CHIPSUM_SOURCES "")
+
+set(CHIPSUM_HEADERS "")
+
+add_subdirectory("unit_test")
+add_subdirectory("chipsum")
+
+set(CMAKE_INCLUDE_DIRECTORIES_BEFORE on)
+
+option (ChipSum_ENABLE_KokkosKernels "Use provided Kokkos implementation" OFF)
+
+
+
+if(ChipSum_ENABLE_KokkosKernels)
+    add_definitions("-DChipSum_USE_KokkosKernels=on")
+    set(Kokkos_DIR ./tpl/kokkos-build/lib/cmake/Kokkos)
+    set(KokkosKernels_DIR ./tpl/kokkos-kernels-build/lib/cmake/KokkosKernels)
+
+    find_package(Kokkos REQUIRED)
+    find_package(KokkosKernels REQUIRED)
+
+    set(CMAKE_CXX_COMPILER ${Kokkos_CXX_COMPILER})
+
+    list(APPEND CHIPSUM_LIBS  "Kokkos::kokkos")
+    list(APPEND CHIPSUM_LIBS "Kokkos::kokkoskernels")
+
+endif()
+
+
+if(ChipSum_USE_KokkosKernels64)
+
+    set(Kokkos_DIR ./tpl/kokkos-build/lib64/cmake/Kokkos)
+    set(KokkosKernels_DIR ./tpl/kokkos-kernels-build/lib64/cmake/KokkosKernels)
+
+    find_package(Kokkos REQUIRED)
+    find_package(KokkosKernels REQUIRED)
+
+    set(CMAKE_CXX_COMPILER ${Kokkos_CXX_COMPILER})
+
+    list(APPEND CHIPSUM_LIBS  "Kokkos::kokkos")
+    list(APPEND CHIPSUM_LIBS "Kokkos::kokkoskernels")
+
+endif()
+
+
+add_definitions("-fopenmp")
+
+
+
+add_library(chipsum ${CHIPSUM_SOURCES} ${CHIPSUM_HEADERS})
+
+list(APPEND CHIPSUM_LIBS chipsum)
+
+install(TARGETS chipsum DESTINATION lib)
+install(FILES ${CHIPSUM_HEADERS}  DESTINATION include)
+
+
+add_executable(ChipSum
+    "test.cpp"
+    )
+install(TARGETS ChipSum  DESTINATION bin)
+
+target_link_libraries(ChipSum PUBLIC ${CHIPSUM_LIBS}  )
+
+target_include_directories(ChipSum PUBLIC
+                           "${PROJECT_BINARY_DIR}"
+                           )
+
+
+

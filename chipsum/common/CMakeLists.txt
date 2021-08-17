@@ -1,0 +1,15 @@
+
+
+
+
+# list(APPEND SRCS "${CMAKE_CURRENT_SOURCE_DIR}/enviroment.cpp")
+list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/enviroment.hpp")
+
+
+
+list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/bmp_writer.h")
+list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/bmp_writer.cpp")
+
+
+set(SOURCES ${SOURCES} ${SRCS} PARENT_SCOPE)
+set(HEADERS ${HEADERS} ${HDRS} PARENT_SCOPE)
