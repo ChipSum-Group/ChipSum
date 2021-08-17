@@ -32,11 +32,11 @@ void ChipSum::Common::FlipBMP(int w,int h,char* img)
     {
         for(int j=0;j<w;++j)
         {
-            for(int k=0;k<3;++k){
+            for(int k=0;k<3;++k)
+	    {
                 char temp = img[3*i*j+k];
                 img [3*i*j+k] = img[3*(h-i)*j+k];
                 img[3*(h-i)*j+k] = temp;
-                
             }
         }
     }
