@@ -4,7 +4,7 @@
  * @Autor: Li Kunyun
  * @Date: 2021-08-09 12:20:42
  * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-17 09:34:42
+ * @LastEditTime: 2021-08-17 10:20:35
  */
 
 #ifndef __CHIPSUM_NUMERIC_SPARSE_MATRIX_HPP__
@@ -124,5 +124,5 @@ public:
 typedef ChipSum::Numeric::SparseMatrix<double, size_t,
                                        ChipSum::Numeric::SparseTypes::Csr,
                                        ChipSum::Backend::DefaultBackend>
-    Csrm;
+    CSR;
 #endif // SPARSEMATRIX_HPP

@@ -1,7 +1,7 @@
 /*
  * @Author       : your name
  * @Date         : 2021-08-10 15:35:49
- * @LastEditTime: 2021-08-17 09:35:56
+ * @LastEditTime: 2021-08-17 10:20:48
  * @LastEditors: Li Kunyun
  * @Description  : In User Settings Edit
  * @FilePath     : \\lky\\ChipSum\\test.cpp
@@ -127,7 +127,7 @@ int main(int argc, char *argv[]) {
     values[11] = 7;
     values[12] = 9;
 
-    Csrm B(nrows, ncols, annz, row_map, col_map, values);
+    CSR B(nrows, ncols, annz, row_map, col_map, values);
 
     B.Print();
 
