@@ -1,7 +1,7 @@
 /*
  * @Author       : your name
  * @Date         : 2021-08-10 15:35:49
- * @LastEditTime: 2021-08-16 14:48:06
+ * @LastEditTime: 2021-08-17 09:35:56
  * @LastEditors: Li Kunyun
  * @Description  : In User Settings Edit
  * @FilePath     : \\lky\\ChipSum\\test.cpp
@@ -25,31 +25,17 @@ using namespace std;
 #include "chipsum/numeric/scalar.hpp"
 #include "chipsum/numeric/sparse_matrix.hpp"
 #include "chipsum/numeric/vector.hpp"
+#include "chipsum/common/enviroment.hpp"
 
 #define N 5
 
-namespace ChipSum {
-CHIPSUM_FUNCTION_INLINE void Init(int& argc,char* argv[]) {
-#if defined(ChipSum_USE_KokkosKernels) || defined(ChipSum_USE_KokkosKernels64)
-  Kokkos::initialize(argc,argv);
-#endif
-}
 
-CHIPSUM_FUNCTION_INLINE void Finalize() {
-#if defined(ChipSum_USE_KokkosKernels) || defined(ChipSum_USE_KokkosKernels64)
-  Kokkos::finalize();
-#endif
-}
-}
 
-typedef ChipSum::Numeric::SparseMatrix<double, size_t,
-                                       ChipSum::Numeric::SparseTypes::Csr,
-                                       ChipSum::Backend::DefaultBackend>
-    Csrm;
+
 
 int main(int argc, char *argv[]) {
 
-  ChipSum::Init(argc,argv);
+   ChipSum::Common::Init(argc,argv);
   {
 
     double *v1 = static_cast<double *>(std::malloc(N * sizeof(double)));
@@ -210,5 +196,5 @@ int main(int argc, char *argv[]) {
     std::free(v1);
     std::free(v2);
   }
-  ChipSum::Finalize();
+  ChipSum::Common::Finalize();
 }
