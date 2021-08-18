@@ -4,19 +4,22 @@
  * @Autor: Li Kunyun
  * @Date: 2021-08-09 12:20:42
  * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-18 13:58:40
+ * @LastEditTime: 2021-08-18 14:45:48
  */
 
 #ifndef __CHIPSUM_CRS_KOKKOSKERNELS_IMPL_HPP__
 #define __CHIPSUM_CRS_KOKKOSKERNELS_IMPL_HPP__
 
-#include <KokkosKernels_default_types.hpp>
-#include <KokkosSparse.hpp>
+
 #include <algorithm>
 #include <cctype>
 #include <cstdlib>
 #include <fstream>
 #include <string>
+
+#include <KokkosKernels_default_types.hpp>
+#include <KokkosSparse.hpp>
+
 
 #include "../../chipsum_macro.h"
 #include "../../common/bmp_writer.h"
