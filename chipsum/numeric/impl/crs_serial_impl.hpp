@@ -4,7 +4,7 @@
  * @Autor: Li Kunyun
  * @Date: 2021-08-09 12:20:42
  * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-18 14:03:19
+ * @LastEditTime: 2021-08-18 16:35:03
  */
 
 #ifndef __CHIPSUM_CRS_SERIAL_IMPL_HPP__
@@ -197,6 +197,8 @@ CHIPSUM_FUNCTION_INLINE void PrintPattern(CrsFormat<ScalarType, SizeType> &A,
   ::std::size_t M = A.graph.row_map.size()-1;
   ::std::size_t N = A.col_num;
 
+  
+  ::std::size_t row_entry_cnt = 0;
   ::std::size_t entry_cnt = 0;
 
   for (::std::size_t i = 0; i < M; ++i) {
@@ -204,14 +206,18 @@ CHIPSUM_FUNCTION_INLINE void PrintPattern(CrsFormat<ScalarType, SizeType> &A,
     ::std::size_t end = A.graph.row_map[i+1];
     for (::std::size_t j = 0; j < N; ++j) {
       char info = 'o';
-      if(A.graph.col_map[start+entry_cnt]==j){
+      if(row_entry_cnt < end - start && entry_cnt < A.graph.col_map.size())
+      {
+      if(A.graph.col_map[start+row_entry_cnt]==j ){
          info = '+';
+         ++row_entry_cnt;
          ++entry_cnt;
-         if(entry_cnt == end-start) continue;
+         
+      }
       }
       out<<info<<" ";
     }
-    entry_cnt = 0;
+    row_entry_cnt = 0;
     out<<::std::endl;
   }
 }
@@ -232,6 +238,7 @@ SaveFigure(CrsFormat<ScalarType,SizeType> &A,
   ::std::size_t M = A.graph.row_map.size() - 1;
   ::std::size_t N = A.col_num;
 
+  ::std::size_t row_entry_cnt = 0;
   ::std::size_t entry_cnt = 0;
 
   unsigned char *img = static_cast<unsigned char *>(
@@ -245,9 +252,10 @@ SaveFigure(CrsFormat<ScalarType,SizeType> &A,
     for (::std::size_t j = 0; j < N; ++j) {
 
       color = 0;
-      if (entry_cnt < end - start) {
-        if (A.graph.col_map[start + entry_cnt] == j) {
+      if (row_entry_cnt < end - start && entry_cnt < A.graph.col_map.size()) {
+        if (A.graph.col_map[start + row_entry_cnt] == j) {
           color = 255;
+          ++row_entry_cnt;
           ++entry_cnt;
         }
       }
@@ -256,7 +264,7 @@ SaveFigure(CrsFormat<ScalarType,SizeType> &A,
       img[i * N * 3 + j * 3 + 1] = color;
       img[i * N * 3 + j * 3 + 2] = color;
     }
-    entry_cnt = 0;
+    row_entry_cnt = 0;
   }
   ::std::string file_string(filename);
 
@@ -267,11 +275,11 @@ SaveFigure(CrsFormat<ScalarType,SizeType> &A,
 
   if (file_string == ".bmp" || file_string == ".BMP"/* 补丁写法 */) {
     // 有一些已知的BUG，见用户接口
-    ChipSum::Common::FlipBMP(M, N, img);
-    ChipSum::Common::WriteBMP(M, N, img, filename);
+    ChipSum::Common::FlipBMP(N, M, img);
+    ChipSum::Common::WriteBMP(N, M, img, filename);
   } else if (file_string == ".png" || file_string == ".PNG"/* 补丁写法 */) {
     ::std::FILE *fp = ::std::fopen(filename, "wb");
-    svpng(fp, M, N, img, 0);
+    svpng(fp, N, M, img, 0);
     ::std::fclose(fp);
   } else {
     ::std::cerr << "No such format support: " << file_string << endl;

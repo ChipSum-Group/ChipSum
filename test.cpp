@@ -1,7 +1,7 @@
 /*
  * @Author       : your name
  * @Date         : 2021-08-10 15:35:49
- * @LastEditTime: 2021-08-18 15:42:33
+ * @LastEditTime: 2021-08-18 16:29:57
  * @LastEditors: Li Kunyun
  * @Description  : In User Settings Edit
  * @FilePath     : \\lky\\ChipSum\\test.cpp
@@ -10,8 +10,8 @@
 #include <iostream>
 using namespace std;
 
-#include <KokkosKernels_IOUtils.hpp>
-#include <KokkosSparse_CrsMatrix.hpp>
+// #include <KokkosKernels_IOUtils.hpp>
+// #include <KokkosSparse_CrsMatrix.hpp>
 
 #include <type_traits>
 #include <vector>
@@ -123,11 +123,11 @@ int main(int argc, char *argv[]) {
     // values[11] = 7;
     // values[12] = 9;
 
-    const size_t m = 500;
-    const size_t n = 500;
+    const size_t m = 111;
+    const size_t n = 25;
     size_t nrows = m;
     size_t ncols = n;
-    size_t annz = m;
+    size_t annz = std::min(m,n);
     size_t *row_map = (size_t *)malloc((m + 1) * sizeof(size_t));
     size_t *col_map = (size_t *)malloc(std::min(m,n) * sizeof(size_t));
     double *values = (double *)malloc(std::min(m,n) * sizeof(double));
@@ -145,8 +145,8 @@ int main(int argc, char *argv[]) {
 
     CSR B(nrows, ncols, annz, row_map, col_map, values);
 
-    // B.PrintPattern();
-    // B.Print();
+    B.PrintPattern();
+    B.Print();
 
     // B.SavePatternFig("sparse.bmp"); /* Has BUGs */
     B.SavePatternFig("sparse.png");

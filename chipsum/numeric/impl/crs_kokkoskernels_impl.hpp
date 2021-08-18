@@ -4,7 +4,7 @@
  * @Autor: Li Kunyun
  * @Date: 2021-08-09 12:20:42
  * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-18 14:45:48
+ * @LastEditTime: 2021-08-18 16:36:50
  */
 
 #ifndef __CHIPSUM_CRS_KOKKOSKERNELS_IMPL_HPP__
@@ -241,6 +241,7 @@ PrintPattern(KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
   ::std::size_t M = h_row_map.extent(0) - 1;
   ::std::size_t N = A.numCols();
 
+  ::std::size_t row_entry_cnt = 0;
   ::std::size_t entry_cnt = 0;
 
   for (::std::size_t i = 0; i < M; ++i) {
@@ -249,15 +250,16 @@ PrintPattern(KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
     for (::std::size_t j = 0; j < N; ++j) {
 
       char info = 'o';
-      if (entry_cnt < end - start) {
-        if (h_entries[start + entry_cnt] == j) {
+      if (row_entry_cnt < end - start && entry_cnt < h_entries.extent(0)) {
+        if (h_entries[start + row_entry_cnt] == j) {
           info = '+';
+          ++row_entry_cnt;
           ++entry_cnt;
         }
       }
       out << info << " ";
     }
-    entry_cnt = 0;
+    row_entry_cnt = 0;
     out << ::std::endl;
   }
 }
@@ -288,10 +290,12 @@ SaveFigure(KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
   ::std::size_t M = h_row_map.extent(0) - 1;
   ::std::size_t N = A.numCols();
 
+  ::std::size_t row_entry_cnt = 0;
   ::std::size_t entry_cnt = 0;
 
   unsigned char *img = static_cast<unsigned char *>(
       ::std::malloc(M * N * 3 * sizeof(unsigned char)));
+
 
   char color = 0;
 
@@ -301,9 +305,10 @@ SaveFigure(KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
     for (::std::size_t j = 0; j < N; ++j) {
 
       color = 0;
-      if (entry_cnt < end - start) {
-        if (h_entries[start + entry_cnt] == j) {
+      if (row_entry_cnt < end - start && entry_cnt < h_entries.extent(0)) {
+        if (h_entries[start + row_entry_cnt] == j) {
           color = 255;
+          ++row_entry_cnt;
           ++entry_cnt;
         }
       }
@@ -312,7 +317,7 @@ SaveFigure(KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
       img[i * N * 3 + j * 3 + 1] = color;
       img[i * N * 3 + j * 3 + 2] = color;
     }
-    entry_cnt = 0;
+    row_entry_cnt = 0;
   }
   ::std::string file_string(filename);
 
@@ -323,11 +328,11 @@ SaveFigure(KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
 
   if (file_string == ".bmp" || file_string == ".BMP"/* 补丁写法 */) {
     // 有一些已知的BUG，见用户接口
-    ChipSum::Common::FlipBMP(M, N, img);
-    ChipSum::Common::WriteBMP(M, N, img, filename);
+    ChipSum::Common::FlipBMP(N, M, img);
+    ChipSum::Common::WriteBMP(N, M, img, filename);
   } else if (file_string == ".png" || file_string == ".PNG"/* 补丁写法 */) {
     ::std::FILE *fp = ::std::fopen(filename, "wb");
-    svpng(fp, M, N, img, 0);
+    svpng(fp, N, M, img, 0);
     ::std::fclose(fp);
   } else {
     ::std::cerr << "No such format support: " << file_string << endl;
