@@ -4,7 +4,7 @@
  * @Autor: Li Kunyun
  * @Date: 2021-08-09 12:20:42
  * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-17 15:25:03
+ * @LastEditTime: 2021-08-18 13:56:46
  */
 
 #ifndef __CHIPSUM_NUMERIC_SPARSE_MATRIX_HPP__
@@ -128,6 +128,20 @@ public:
   CHIPSUM_FUNCTION_INLINE void PrintPattern(std::ostream& out=std::cout)
   {
     ChipSum::Numeric::Impl::Sparse::PrintPattern<ScalarType,SizeType>(__data,out);
+  }
+
+
+  
+  /**
+   * @description: 打印pattern（调试用）
+   * @param {std::ostream&} 输出流
+   * @return {*}
+   * @author: Li Kunyun
+   */
+  CHIPSUM_FUNCTION_INLINE void SavePatternFig(const char* filename)
+  {
+    // 还有一些BUG:BMP格式的稀疏矩阵必须是方阵，且行列数必须是4的倍数。（待修复）
+    ChipSum::Numeric::Impl::Sparse::SaveFigure<ScalarType,SizeType>(__data,filename);
   }
 
 };

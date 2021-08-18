@@ -1,7 +1,7 @@
 /*
  * @Author       : your name
  * @Date         : 2021-08-10 15:35:49
- * @LastEditTime: 2021-08-17 15:25:14
+ * @LastEditTime: 2021-08-18 13:42:37
  * @LastEditors: Li Kunyun
  * @Description  : In User Settings Edit
  * @FilePath     : \\lky\\ChipSum\\test.cpp
@@ -20,22 +20,18 @@ using namespace std;
 
 #include "ChipSumConfig.h"
 #include "chipsum/backend/backend.hpp"
+#include "chipsum/common/enviroment.hpp"
 #include "chipsum/numeric/dense_matrix.hpp"
 #include "chipsum/numeric/impl/vector_serial_impl.hpp"
 #include "chipsum/numeric/scalar.hpp"
 #include "chipsum/numeric/sparse_matrix.hpp"
 #include "chipsum/numeric/vector.hpp"
-#include "chipsum/common/enviroment.hpp"
 
 #define N 5
 
-
-
-
-
 int main(int argc, char *argv[]) {
 
-   ChipSum::Common::Init(argc,argv);
+  ChipSum::Common::Init(argc, argv);
   {
 
     double *v1 = static_cast<double *>(std::malloc(N * sizeof(double)));
@@ -96,43 +92,66 @@ int main(int argc, char *argv[]) {
     //        *  y = {6,9,15,16,16}
     //        *
     //       */
+    // const size_t m = 5;
+    // const size_t n = 5;
 
-    size_t nrows = 5;
-    size_t ncols = 5;
-    size_t annz = 13;
-    size_t *row_map = (size_t *)malloc(6 * sizeof(size_t));
-    size_t *col_map = (size_t *)malloc(13 * sizeof(size_t));
-    double *values = (double *)malloc(13 * sizeof(double));
-    row_map[0] = 0;
-    row_map[1] = 3;
-    row_map[2] = 5;
-    row_map[3] = 8;
-    row_map[4] = 11;
-    row_map[5] = 13;
-    col_map[0] = col_map[5] = col_map[8] = 0;
-    col_map[1] = col_map[6] = col_map[11] = 2;
-    col_map[2] = col_map[4] = col_map[10] = 3;
-    col_map[3] = col_map[9] = 1;
-    col_map[7] = col_map[12] = 4;
+    // size_t nrows = m;
+    // size_t ncols = n;
+    // size_t annz = 13;
+    // size_t *row_map = (size_t *)malloc(6 * sizeof(size_t));
+    // size_t *col_map = (size_t *)malloc(13 * sizeof(size_t));
+    // double *values = (double *)malloc(13 * sizeof(double));
+    // row_map[0] = 0;
+    // row_map[1] = 3;
+    // row_map[2] = 5;
+    // row_map[3] = 8;
+    // row_map[4] = 11;
+    // row_map[5] = 13;
+    // col_map[0] = col_map[5] = col_map[8] = 0;
+    // col_map[1] = col_map[6] = col_map[11] = 2;
+    // col_map[2] = col_map[4] = col_map[10] = 3;
+    // col_map[3] = col_map[9] = 1;
+    // col_map[7] = col_map[12] = 4;
 
-    for (int i = 0; i < 5; ++i)
-      values[i] = double(i + 1);
+    // for (int i = 0; i < 5; ++i)
+    //   values[i] = double(i + 1);
 
-    values[5] = 2;
-    values[6] = 6;
-    values[7] = 7;
-    values[8] = 3;
-    values[9] = 5;
-    values[10] = 8;
-    values[11] = 7;
-    values[12] = 9;
+    // values[5] = 2;
+    // values[6] = 6;
+    // values[7] = 7;
+    // values[8] = 3;
+    // values[9] = 5;
+    // values[10] = 8;
+    // values[11] = 7;
+    // values[12] = 9;
+
+    const size_t m = 500;
+    const size_t n = 500;
+    size_t nrows = m;
+    size_t ncols = n;
+    size_t annz = m;
+    size_t *row_map = (size_t *)malloc((m + 1) * sizeof(size_t));
+    size_t *col_map = (size_t *)malloc(std::min(m,n) * sizeof(size_t));
+    double *values = (double *)malloc(std::min(m,n) * sizeof(double));
+
+    for (size_t i = 0; i < std::min(m,n); ++i) {
+      
+      col_map[i] = i;
+      values[i] = 1;
+    }
+     for (size_t i = 0; i <= m; ++i) {
+      
+       row_map[i] = i;
+    }
+   
 
     CSR B(nrows, ncols, annz, row_map, col_map, values);
 
-    B.PrintPattern();
-    B.Print();
+    // B.PrintPattern();
+    // B.Print();
+    B.SavePatternFig(argv[1]);
 
-    (B * a).Print(); // spmv通过{39,57,120,87,150}
+    // (B * a).Print(); // spmv通过{39,57,120,87,150}
     // (B * m1).Print(); // spgemm的KokkosKernels通过，但是Serial版本还存在问题
 
     std::free(row_map);

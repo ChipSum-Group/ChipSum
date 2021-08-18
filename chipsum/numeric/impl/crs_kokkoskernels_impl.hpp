@@ -4,20 +4,23 @@
  * @Autor: Li Kunyun
  * @Date: 2021-08-09 12:20:42
  * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-17 15:33:26
+ * @LastEditTime: 2021-08-18 13:58:40
  */
 
 #ifndef __CHIPSUM_CRS_KOKKOSKERNELS_IMPL_HPP__
 #define __CHIPSUM_CRS_KOKKOSKERNELS_IMPL_HPP__
 
-
-
-#include <KokkosSparse.hpp>
 #include <KokkosKernels_default_types.hpp>
+#include <KokkosSparse.hpp>
+#include <algorithm>
+#include <cctype>
+#include <cstdlib>
 #include <fstream>
-
+#include <string>
 
 #include "../../chipsum_macro.h"
+#include "../../common/bmp_writer.h"
+#include "../../common/png_writer.hpp"
 #include "../numeric_traits.hpp"
 #include "../sparse_matrix_types.h"
 
@@ -33,7 +36,7 @@ struct Sparse_Traits<ScalarType, SizeType, SparseTypes::Csr,
                              ChipSum::Backend::KokkosKernels, Props...> {
 
   using sp_type = KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device>;
-  using size_type = std::size_t;
+  using size_type = ::std::size_t;
 
   using graph_type = typename sp_type::staticcrsgraph_type;
   using row_map_type = typename sp_type::row_map_type;
@@ -65,7 +68,7 @@ Create(const SizeType nrows, const SizeType ncols, const SizeType annz,
 
   using crs_t = KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device>;
 
-  A = crs_t("spm_" + std::to_string(spm_name),
+  A = crs_t("spm_" + ::std::to_string(spm_name),
             static_cast<typename crs_t::ordinal_type>(nrows),
             static_cast<typename crs_t::ordinal_type>(ncols),
             static_cast<typename crs_t::size_type>(annz), values,
@@ -79,12 +82,12 @@ template <typename ScalarType, typename SizeType, typename... Props>
  * @param {*} A 稀疏矩阵（out）
  * @param {*} row_map_size 行邻接表长度
  * @param {*} col_map_size 列邻接表长度
- * @return {*} 
+ * @return {*}
  * @author: Li Kunyun
  */
 CHIPSUM_FUNCTION_INLINE void
 Create(KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
-       const std::size_t row_map_size, const std::size_t col_map_size) {
+       const ::std::size_t row_map_size, const ::std::size_t col_map_size) {
 
   using sp_t = KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device>;
 
@@ -156,9 +159,7 @@ Mult(ScalarType alpha,
   KokkosSparse::spmv("N", alpha, A, x, beta, b);
 }
 
-
-
-template <typename ScalarType,typename SizeType,typename ...Props>
+template <typename ScalarType, typename SizeType, typename... Props>
 /**
  * @description: 打印出稀疏矩阵的数据信息，多用于调试
  * @param {*} A 稀疏矩阵
@@ -168,10 +169,10 @@ template <typename ScalarType,typename SizeType,typename ...Props>
  */
 CHIPSUM_FUNCTION_INLINE void
 Print(KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
-      std::ostream &out) 
-{
-  using crs_t = typename KokkosSparse::CrsMatrix<ScalarType,SizeType,default_device>;
-  
+      ::std::ostream &out) {
+  using crs_t =
+      typename KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device>;
+
   using row_map_t = typename crs_t::row_map_type::HostMirror;
   using entries_t = typename crs_t::index_type::HostMirror;
   using values_t = typename crs_t::values_type::HostMirror;
@@ -180,47 +181,38 @@ Print(KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
   values_t h_vals = Kokkos::create_mirror_view(A.values);
   entries_t h_entries = Kokkos::create_mirror_view(A.graph.entries);
 
+  Kokkos::deep_copy(h_row_map, A.graph.row_map);
+  Kokkos::deep_copy(h_vals, A.values);
+  Kokkos::deep_copy(h_entries, A.graph.entries);
 
+  out << "spm_" + ::std::to_string(spm_name) << " "
+      << "("
+      << "rows=" << A.graph.row_map.extent(0) - 1 << ", "
+      << "entries=" << h_entries.extent(0) << ")" << ::std::endl;
 
-  Kokkos::deep_copy(h_row_map,A.graph.row_map);
-  Kokkos::deep_copy(h_vals,A.values);
-  Kokkos::deep_copy(h_entries,A.graph.entries);
-
-  
-  
-  out<<"spm_"+std::to_string(spm_name)<<" "
-  <<"("<<"rows="<<A.graph.row_map.extent(0)-1<<", "
-  <<"entries="<<h_entries.extent(0)<<")"<<std::endl;
-
-
-
-   out<<A.graph.row_map.label()<<": ";
-  out<<"[";
-  for(std::size_t i=0;i<h_row_map.extent(0)-1;++i){
-     out<<h_row_map(i)<<",";
+  out << A.graph.row_map.label() << ": ";
+  out << "[";
+  for (::std::size_t i = 0; i < h_row_map.extent(0) - 1; ++i) {
+    out << h_row_map(i) << ",";
   }
-  out<<h_row_map(h_row_map.extent(0)-1)<<"]"<<std::endl;
+  out << h_row_map(h_row_map.extent(0) - 1) << "]" << ::std::endl;
 
-
-  
-  out<<A.graph.entries.label()<<": ";
-  out<<"[";
-  for(std::size_t i=0;i<h_entries.extent(0)-1;++i){
-     out<<h_entries(i)<<",";
+  out << A.graph.entries.label() << ": ";
+  out << "[";
+  for (::std::size_t i = 0; i < h_entries.extent(0) - 1; ++i) {
+    out << h_entries(i) << ",";
   }
-  out<<h_entries(h_entries.extent(0)-1)<<"]"<<std::endl;
-  
+  out << h_entries(h_entries.extent(0) - 1) << "]" << ::std::endl;
 
-  out<<A.values.label()<<": ";
-  out<<"[";
-  for(std::size_t i=0;i<h_vals.extent(0)-1;++i){
-     out<<h_vals(i)<<",";
+  out << A.values.label() << ": ";
+  out << "[";
+  for (::std::size_t i = 0; i < h_vals.extent(0) - 1; ++i) {
+    out << h_vals(i) << ",";
   }
-  out<<h_vals(h_vals.extent(0)-1)<<"]"<<std::endl;
+  out << h_vals(h_vals.extent(0) - 1) << "]" << ::std::endl;
 }
 
-
-template <typename ScalarType,typename SizeType,typename ...Props>
+template <typename ScalarType, typename SizeType, typename... Props>
 /**
  * @description: 打印出稀疏矩阵的数据信息，多用于调试
  * @param {*} A 稀疏矩阵
@@ -230,42 +222,116 @@ template <typename ScalarType,typename SizeType,typename ...Props>
  */
 CHIPSUM_FUNCTION_INLINE void
 PrintPattern(KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
-      std::ostream &out) 
-{
-  using crs_t = typename KokkosSparse::CrsMatrix<ScalarType,SizeType,default_device>;
-  
+             ::std::ostream &out) {
+  using crs_t =
+      typename KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device>;
+
   using row_map_t = typename crs_t::row_map_type::HostMirror;
   using entries_t = typename crs_t::index_type::HostMirror;
 
   row_map_t h_row_map = Kokkos::create_mirror_view(A.graph.row_map);
   entries_t h_entries = Kokkos::create_mirror_view(A.graph.entries);
 
-  Kokkos::deep_copy(h_row_map,A.graph.row_map);
-  Kokkos::deep_copy(h_entries,A.graph.entries);
+  Kokkos::deep_copy(h_row_map, A.graph.row_map);
+  Kokkos::deep_copy(h_entries, A.graph.entries);
 
-  std::size_t M = h_row_map.extent(0)-1;
-  std::size_t N = A.numCols();
+  ::std::size_t M = h_row_map.extent(0) - 1;
+  ::std::size_t N = A.numCols();
 
+  ::std::size_t entry_cnt = 0;
 
-  std::size_t entry_cnt = 0;
-   
-  for (std::size_t i = 0; i < M; ++i) {
-    std::size_t start = h_row_map[i];
-    for (std::size_t j = 0; j < N; ++j) {
+  for (::std::size_t i = 0; i < M; ++i) {
+    ::std::size_t start = h_row_map[i];
+    ::std::size_t end = h_row_map[i + 1];
+    for (::std::size_t j = 0; j < N; ++j) {
+
       char info = 'o';
-      if(h_entries[start+entry_cnt]==j){
-         info = '+';
-         ++entry_cnt;
+      if (entry_cnt < end - start) {
+        if (h_entries[start + entry_cnt] == j) {
+          info = '+';
+          ++entry_cnt;
+        }
       }
-      out<<info<<" ";
+      out << info << " ";
     }
     entry_cnt = 0;
-    out<<::std::endl;
+    out << ::std::endl;
   }
-  
 }
 
+template <typename ScalarType, typename SizeType, typename... Props>
+/**
+ * @description: 打印出稀疏矩阵的数据信息，多用于调试
+ * @param {*} A 稀疏矩阵
+ * @param {*} out 输出流（in/out）
+ * @return {*}
+ * @author: Li Kunyun
+ */
+CHIPSUM_FUNCTION_INLINE void
+SaveFigure(KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
+           const char *filename) {
+  using crs_t =
+      typename KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device>;
 
+  using row_map_t = typename crs_t::row_map_type::HostMirror;
+  using entries_t = typename crs_t::index_type::HostMirror;
+
+  row_map_t h_row_map = Kokkos::create_mirror_view(A.graph.row_map);
+  entries_t h_entries = Kokkos::create_mirror_view(A.graph.entries);
+
+  Kokkos::deep_copy(h_row_map, A.graph.row_map);
+  Kokkos::deep_copy(h_entries, A.graph.entries);
+
+  ::std::size_t M = h_row_map.extent(0) - 1;
+  ::std::size_t N = A.numCols();
+
+  ::std::size_t entry_cnt = 0;
+
+  unsigned char *img = static_cast<unsigned char *>(
+      ::std::malloc(M * N * 3 * sizeof(unsigned char)));
+
+  char color = 0;
+
+  for (::std::size_t i = 0; i < M; ++i) {
+    ::std::size_t start = h_row_map[i];
+    ::std::size_t end = h_row_map[i + 1];
+    for (::std::size_t j = 0; j < N; ++j) {
+
+      color = 0;
+      if (entry_cnt < end - start) {
+        if (h_entries[start + entry_cnt] == j) {
+          color = 255;
+          ++entry_cnt;
+        }
+      }
+
+      img[i * N * 3 + j * 3] = color;
+      img[i * N * 3 + j * 3 + 1] = color;
+      img[i * N * 3 + j * 3 + 2] = color;
+    }
+    entry_cnt = 0;
+  }
+  ::std::string file_string(filename);
+
+  file_string = &file_string[file_string.find_last_of(".")];
+
+  // ::std::transform(file_string.begin(),
+  // file_string.end(),file_string.begin(),::std::toupper); /* 通不过编译，说明我用得不对，暂时还没找到原因. */
+
+  if (file_string == ".bmp" || file_string == ".BMP"/* 补丁写法 */) {
+    // 有一些已知的BUG，见用户接口
+    ChipSum::Common::FlipBMP(M, N, img);
+    ChipSum::Common::WriteBMP(M, N, img, filename);
+  } else if (file_string == ".png" || file_string == ".PNG"/* 补丁写法 */) {
+    ::std::FILE *fp = ::std::fopen(filename, "wb");
+    svpng(fp, M, N, img, 0);
+    ::std::fclose(fp);
+  } else {
+    ::std::cerr << "No such format support: " << file_string << endl;
+    ::std::cerr << "Saving figure " << filename << " failed!" << endl;
+  }
+  ::std::free(img);
+}
 
 } // End namespace Sparse
 } // End namespace Impl
