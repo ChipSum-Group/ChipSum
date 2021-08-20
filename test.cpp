@@ -1,7 +1,7 @@
 /*
  * @Author       : your name
  * @Date         : 2021-08-10 15:35:49
- * @LastEditTime: 2021-08-19 09:09:36
+ * @LastEditTime: 2021-08-20 11:36:30
  * @LastEditors: Li Kunyun
  * @Description  : In User Settings Edit
  * @FilePath     : \\lky\\ChipSum\\test.cpp
@@ -128,7 +128,7 @@ int main(int argc, char *argv[]) {
     // values[12] = 9;
 
     const size_t m = 111;
-    const size_t n = 25;
+    const size_t n = 111;
     size_t nrows = m;
     size_t ncols = n;
     size_t annz = std::min(m,n);
