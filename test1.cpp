@@ -1,17 +1,19 @@
 /*
  * @Author       : your name
  * @Date         : 2021-08-10 15:35:49
- * @LastEditTime: 2021-08-19 09:09:36
+ * @LastEditTime: 2021-08-18 13:42:37
  * @LastEditors: Li Kunyun
  * @Description  : In User Settings Edit
  * @FilePath     : \\lky\\ChipSum\\test.cpp
  */
-
+/* * * * * * * * * * * * * * * * * * * * *
+ *   File:     test.cpp
+ *   Author:   Li Kunyun
+ *   group:    CDCS-HPC
+ *   Time:     2021-07-28
+ * * * * * * * * * * * * * * * * * * * * * */
 #include <iostream>
 using namespace std;
-
-// #include <KokkosKernels_IOUtils.hpp>
-// #include <KokkosSparse_CrsMatrix.hpp>
 
 #include <type_traits>
 #include <vector>
@@ -20,7 +22,7 @@ using namespace std;
 #include "chipsum/backend/backend.hpp"
 #include "chipsum/common/enviroment.hpp"
 #include "chipsum/numeric/dense_matrix.hpp"
-
+#include "chipsum/numeric/impl/vector_serial_impl.hpp"
 #include "chipsum/numeric/scalar.hpp"
 #include "chipsum/numeric/sparse_matrix.hpp"
 #include "chipsum/numeric/vector.hpp"
@@ -70,10 +72,6 @@ int main(int argc, char *argv[]) {
 
     Matrix A(10, 10);
     A.Print();
-
-    Matrix X(10,5);
-
-    (A*X).Print();
 
     //        /*
     //        *
@@ -127,11 +125,11 @@ int main(int argc, char *argv[]) {
     // values[11] = 7;
     // values[12] = 9;
 
-    const size_t m = 111;
-    const size_t n = 25;
+    const size_t m = 500;
+    const size_t n = 500;
     size_t nrows = m;
     size_t ncols = n;
-    size_t annz = std::min(m,n);
+    size_t annz = m;
     size_t *row_map = (size_t *)malloc((m + 1) * sizeof(size_t));
     size_t *col_map = (size_t *)malloc(std::min(m,n) * sizeof(size_t));
     double *values = (double *)malloc(std::min(m,n) * sizeof(double));
@@ -149,11 +147,9 @@ int main(int argc, char *argv[]) {
 
     CSR B(nrows, ncols, annz, row_map, col_map, values);
 
-    B.PrintPattern();
-    B.Print();
-
-    // B.SavePatternFig("sparse.bmp"); /* Has BUGs */
-    B.SavePatternFig("sparse.png");
+    // B.PrintPattern();
+    // B.Print();
+    B.SavePatternFig(argv[1]);
 
     // (B * a).Print(); // spmv通过{39,57,120,87,150}
     // (B * m1).Print(); // spgemm的KokkosKernels通过，但是Serial版本还存在问题
@@ -217,8 +213,6 @@ int main(int argc, char *argv[]) {
 
     //        std::free(mat_data);
 
-
-    
     std::free(v1);
     std::free(v2);
   }

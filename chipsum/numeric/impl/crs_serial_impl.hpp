@@ -4,7 +4,7 @@
  * @Autor: Li Kunyun
  * @Date: 2021-08-09 12:20:42
  * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-17 15:54:57
+ * @LastEditTime: 2021-08-18 16:35:03
  */
 
 #ifndef __CHIPSUM_CRS_SERIAL_IMPL_HPP__
@@ -12,10 +12,14 @@
 
 #include <fstream>
 #include <vector>
+#include <cstdlib>
 
 #include "../../chipsum_macro.h"
 #include "../numeric_traits.hpp"
 #include "../sparse_matrix_types.h"
+
+#include "../../common/png_writer.hpp"
+#include "../../common/bmp_writer.h"
 
 namespace ChipSum {
 namespace Numeric {
@@ -193,21 +197,95 @@ CHIPSUM_FUNCTION_INLINE void PrintPattern(CrsFormat<ScalarType, SizeType> &A,
   ::std::size_t M = A.graph.row_map.size()-1;
   ::std::size_t N = A.col_num;
 
+  
+  ::std::size_t row_entry_cnt = 0;
   ::std::size_t entry_cnt = 0;
 
   for (::std::size_t i = 0; i < M; ++i) {
     ::std::size_t start = A.graph.row_map[i];
+    ::std::size_t end = A.graph.row_map[i+1];
     for (::std::size_t j = 0; j < N; ++j) {
       char info = 'o';
-      if(A.graph.col_map[start+entry_cnt]==j){
+      if(row_entry_cnt < end - start && entry_cnt < A.graph.col_map.size())
+      {
+      if(A.graph.col_map[start+row_entry_cnt]==j ){
          info = '+';
+         ++row_entry_cnt;
          ++entry_cnt;
+         
+      }
       }
       out<<info<<" ";
     }
-    entry_cnt = 0;
+    row_entry_cnt = 0;
     out<<::std::endl;
   }
+}
+
+
+template <typename ScalarType, typename SizeType, typename... Props>
+/**
+ * @description: 打印出稀疏矩阵的数据信息，多用于调试
+ * @param {*} A 稀疏矩阵
+ * @param {*} out 输出流（in/out）
+ * @return {*}
+ * @author: Li Kunyun
+ */
+CHIPSUM_FUNCTION_INLINE void
+SaveFigure(CrsFormat<ScalarType,SizeType> &A,
+           const char *filename) {
+
+  ::std::size_t M = A.graph.row_map.size() - 1;
+  ::std::size_t N = A.col_num;
+
+  ::std::size_t row_entry_cnt = 0;
+  ::std::size_t entry_cnt = 0;
+
+  unsigned char *img = static_cast<unsigned char *>(
+      ::std::malloc(M * N * 3 * sizeof(unsigned char)));
+
+  char color = 0;
+
+  for (::std::size_t i = 0; i < M; ++i) {
+    ::std::size_t start = A.graph.row_map[i];
+    ::std::size_t end = A.graph.row_map[i + 1];
+    for (::std::size_t j = 0; j < N; ++j) {
+
+      color = 0;
+      if (row_entry_cnt < end - start && entry_cnt < A.graph.col_map.size()) {
+        if (A.graph.col_map[start + row_entry_cnt] == j) {
+          color = 255;
+          ++row_entry_cnt;
+          ++entry_cnt;
+        }
+      }
+
+      img[i * N * 3 + j * 3] = color;
+      img[i * N * 3 + j * 3 + 1] = color;
+      img[i * N * 3 + j * 3 + 2] = color;
+    }
+    row_entry_cnt = 0;
+  }
+  ::std::string file_string(filename);
+
+  file_string = &file_string[file_string.find_last_of(".")];
+
+  // ::std::transform(file_string.begin(),
+  // file_string.end(),file_string.begin(),::std::toupper); /* 通不过编译，说明我用得不对，暂时还没找到原因. */
+
+  if (file_string == ".bmp" || file_string == ".BMP"/* 补丁写法 */) {
+    // 有一些已知的BUG，见用户接口
+    ChipSum::Common::FlipBMP(N, M, img);
+    ChipSum::Common::WriteBMP(N, M, img, filename);
+  } else if (file_string == ".png" || file_string == ".PNG"/* 补丁写法 */) {
+    ::std::FILE *fp = ::std::fopen(filename, "wb");
+    svpng(fp, N, M, img, 0);
+    ::std::fclose(fp);
+  } else {
+    ::std::cerr << "No such format support: " << file_string << endl;
+    ::std::cerr << "Saving figure " << filename << " failed!" << endl;
+  }
+  ::std::free(img);
 }
 
 

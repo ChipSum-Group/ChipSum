@@ -4,7 +4,7 @@
  * @Autor: Li Kunyun
  * @Date: 2021-08-09 12:20:42
  * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-16 15:59:45
+ * @LastEditTime: 2021-08-19 09:10:23
  */
 
 #ifndef __CHIPSUM_DENSEMAT_SERIAL_IMPL_HPP__
@@ -184,7 +184,7 @@ CHIPSUM_FUNCTION_INLINE void Print(const std::size_t M, const std::size_t N,
 
     out << " "
         << "[";
-    for (std::size_t j = 0; j < M - 1; ++j) {
+    for (std::size_t j = 0; j < N - 1; ++j) {
       out << A[i * N + j] << ", ";
     }
     out << A[i * N + M - 1] << "]" << endl;
