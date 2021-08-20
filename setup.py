@@ -151,14 +151,14 @@ tpl_source_flags = [
         ]
 
 
-tpl_lib_flags = [
-        "./tpl/kokkos-build/lib/cmake/Kokkos/KokkosConfig.cmake",
-        "./tpl/kokkos-kernels-build/lib/cmake/KokkosKernels/KokkosKernelsConfig.cmake"
-        ]
-        
 tpl_lib64_flags = [
         "./tpl/kokkos-build/lib64/cmake/Kokkos/KokkosConfig.cmake",
         "./tpl/kokkos-kernels-build/lib64/cmake/KokkosKernels/KokkosKernelsConfig.cmake"
+        ]
+        
+tpl_lib_flags = [
+        "./tpl/kokkos-build/lib/cmake/Kokkos/KokkosConfig.cmake",
+        "./tpl/kokkos-kernels-build/lib/cmake/KokkosKernels/KokkosKernelsConfig.cmake"
         ]
 
 
@@ -169,7 +169,7 @@ tpl_lib64_flags = [
 def build_all():
     
     for i in range(len(tpl_lib_flags)):
-        if os.path.exists(tpl_lib_flags[i]) or os.path.exists(tpl_lib64_flags[i]):
+        if os.path.exists(tpl_lib_flags[i]) :
             pass
         else:
             
@@ -193,12 +193,10 @@ def build_all():
     if chipsum_prefix!=None:
         build_prefix = "-DCMAKE_INSTALL_PREFIX="+chipsum_prefix+" "
    
-    if os.path.exists(tpl_lib_flags[0]): 
-        os.chdir("build")
-        os.system("cmake -DChipSum_ENABLE_KokkosKernels=yes "+ build_prefix+"..")
-    elif os.path.exists(tpl_lib64_flags[0]): 
-        os.chdir("build")
-        os.system("cmake -DChipSum_ENABLE_KokkosKernels64=yes "+ build_prefix+"..")
+    if os.path.exists(tpl_lib_flags[0]) or os.path.exists(tpl_lib64_flags[0]):
+        if(os.path.exists(tpl_lib_flags[1]) or os.path.exists(tpl_lib64_flags[1])): 
+            os.chdir("build")
+            os.system("cmake -DChipSum_ENABLE_KokkosKernels=On " + build_prefix+"..")
     os.system("make -j"+str(make_procs))
     if build_prefix != "":
         os.system("make install")
@@ -208,4 +206,5 @@ def build_all():
         
             
 build_all()
+
 
