@@ -58,8 +58,8 @@ python3 setup.py cuda=/Path/To/Your/Cuda arch=Pascal61
 
 - If you want to specify an install path, use `prefix`
 ```
-mkdir ./ChipSumApp
-python3 setup.py prefix=./ChipSumApp 
+mkdir /any/path/you/like
+python3 setup.py prefix=/any/path/you/like 
 ```
 
 - If you want to specify compile cores, use `j`
