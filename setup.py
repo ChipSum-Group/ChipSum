@@ -195,10 +195,10 @@ def build_all():
    
     if os.path.exists(tpl_lib_flags[0]): 
         os.chdir("build")
-        os.system("cmake -DChipSum_USE_KokkosKernels=yes "+ build_prefix+"..")
+        os.system("cmake -DChipSum_ENABLE_KokkosKernels=yes "+ build_prefix+"..")
     elif os.path.exists(tpl_lib64_flags[0]): 
         os.chdir("build")
-        os.system("cmake -DChipSum_USE_KokkosKernels64=yes "+ build_prefix+"..")
+        os.system("cmake -DChipSum_ENABLE_KokkosKernels64=yes "+ build_prefix+"..")
     os.system("make -j"+str(make_procs))
     if build_prefix != "":
         os.system("make install")
