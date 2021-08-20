@@ -127,7 +127,7 @@ int main(int argc, char *argv[]) {
     // values[11] = 7;
     // values[12] = 9;
 
-    const size_t m = 111;
+    const size_t m = 25;
     const size_t n = 25;
     size_t nrows = m;
     size_t ncols = n;
