@@ -19,29 +19,22 @@ add_subdirectory("chipsum")
 set(CMAKE_INCLUDE_DIRECTORIES_BEFORE on)
 
 option (ChipSum_ENABLE_KokkosKernels "Use provided Kokkos implementation" OFF)
-
-
-
 if(ChipSum_ENABLE_KokkosKernels)
+    if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/tpl/kokkos-build/lib)
+        set(Kokkos_LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tpl/kokkos-build/lib)
+    elseif(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/tpl/kokkos-build/lib64)
+        set(Kokkos_LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tpl/kokkos-build/lib64)
+    endif()
+
+    if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/tpl/kokkos-kernels-build/lib)
+        set(KokkosKernels_LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tpl/kokkos-kernels-build/lib)
+    elseif(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/tpl/kokkos-kernels-build/lib64)
+        set(KokkosKernels_LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tpl/kokkos-kernels-build/lib64)
+    endif()
+
     add_definitions("-DChipSum_USE_KokkosKernels=on")
-    set(Kokkos_DIR ./tpl/kokkos-build/lib/cmake/Kokkos)
-    set(KokkosKernels_DIR ./tpl/kokkos-kernels-build/lib/cmake/KokkosKernels)
-
-    find_package(Kokkos REQUIRED)
-    find_package(KokkosKernels REQUIRED)
-
-    set(CMAKE_CXX_COMPILER ${Kokkos_CXX_COMPILER})
-
-    list(APPEND CHIPSUM_LIBS  "Kokkos::kokkos")
-    list(APPEND CHIPSUM_LIBS "Kokkos::kokkoskernels")
-
-endif()
-
-
-if(ChipSum_USE_KokkosKernels64)
-
-    set(Kokkos_DIR ./tpl/kokkos-build/lib64/cmake/Kokkos)
-    set(KokkosKernels_DIR ./tpl/kokkos-kernels-build/lib64/cmake/KokkosKernels)
+    set(Kokkos_DIR ${Kokkos_LIB_DIR}/cmake/Kokkos)
+    set(KokkosKernels_DIR ${KokkosKernels_LIB_DIR}/cmake/KokkosKernels)
 
     find_package(Kokkos REQUIRED)
     find_package(KokkosKernels REQUIRED)
