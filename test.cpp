@@ -1,7 +1,7 @@
 /*
  * @Author       : your name
  * @Date         : 2021-08-10 15:35:49
- * @LastEditTime: 2021-08-18 16:29:57
+ * @LastEditTime: 2021-08-19 09:09:36
  * @LastEditors: Li Kunyun
  * @Description  : In User Settings Edit
  * @FilePath     : \\lky\\ChipSum\\test.cpp
@@ -70,6 +70,10 @@ int main(int argc, char *argv[]) {
 
     Matrix A(10, 10);
     A.Print();
+
+    Matrix X(10,5);
+
+    (A*X).Print();
 
     //        /*
     //        *
