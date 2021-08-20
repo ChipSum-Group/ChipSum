@@ -13,7 +13,6 @@
 |Level 3|ChipSum's application code|[ChipSum.MD](https://github.com/CDCS-HPC/ChipSum.MD)|
 |Level 2|ChipSum's foundation code|[ChipSum.Solver](https://github.com/CDCS-HPC/ChipSum.Solver), [ChipSum.AI](https://github.com/CDCS-HPC/ChipSum.AI)|
 |Level 1|ChipSum's core code|[ChipSum](https://github.com/CDCS-HPC/ChipSum)|
-ChipSum is a main framework intigrating HPC libraries using C++ template programming.
 
 ChipSum is a main framework intigrating HPC libraries using C++ template programming.
 
@@ -86,7 +85,8 @@ Kokkos::OpenMP::initialize WARNING: OMP_PROC_BIND environment variable not set
   In general, for best performance with OpenMP 4.0 or better set OMP_PROC_BIND=spread and OMP_PLACES=threads
   For best performance with OpenMP 3.1 set OMP_PROC_BIND=true
   For unit testing set OMP_PROC_BIND=false
-vector_0: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-3.3
-scalar_1: [0, 3.3, 6.6, 9.9, 13.2, 16.5, 19.8, 23.1, 26.4, 29.7]
+
+(test.cpp output)
+
 ```
+
