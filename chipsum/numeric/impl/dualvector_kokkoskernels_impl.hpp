@@ -4,7 +4,7 @@
  * @Autor: Li Kunyun
  * @Date: 2021-08-09 12:20:42
  * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-09-01 15:50:37
+ * @LastEditTime: 2021-09-06 09:02:26
  */
 
 #ifndef __CHIPSUM_VECTOR_KOKKOSKERNELS_IMPL_HPP__
@@ -31,11 +31,11 @@ namespace ChipSum {
 namespace Numeric {
 
 template <typename ScalarType, typename SizeType, typename... Props>
-struct Vector_Traits<ScalarType, SizeType, ChipSum::Backend::KokkosKernels,
+struct Vector_Traits<ScalarType, SizeType, ChipSum::Backend::Kokkos,
                      Props...>
     : public Operator_Traits<ScalarType, SizeType,
-                             ChipSum::Backend::KokkosKernels> {
-  using vector_type = typename Kokkos::View<ScalarType *>;
+                             ChipSum::Backend::Kokkos> {
+  using vector_type = typename Kokkos::vector<ScalarType>;
   using size_type = std::size_t;
 
   using device_scalar_value_type = typename Kokkos::View<ScalarType>;
@@ -53,10 +53,9 @@ template <typename ScalarType, typename SizeType, typename... Props>
  * @return {*}
  */
 CHIPSUM_FUNCTION_INLINE void Create(const SizeType n,
-                                    Kokkos::View<ScalarType *> &x) {
+                                    Kokkos::vector<ScalarType> &x) {
 
-  x = Kokkos::View<ScalarType *>("vector_" + std::to_string(vector_name++),
-                                   static_cast<size_t>(n));
+  x = Kokkos::vector<ScalarType>(static_cast<size_t>(n));
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
@@ -69,13 +68,11 @@ template <typename ScalarType, typename SizeType, typename... Props>
  * @return {*}
  */
 CHIPSUM_FUNCTION_INLINE void Create(ScalarType *src, const std::size_t n,
-                                    Kokkos::View<ScalarType *> &x) {
-  typename Kokkos::View<ScalarType *>::HostMirror h_x(src, n);
+                                    Kokkos::vector<ScalarType> &x) {
+  typename Kokkos::View<ScalarType*>::HostMirror h_x(src, n);
 
-  if(x.extent(0)==0){
-    x = Kokkos::View<ScalarType*>("vector_"+std::to_string(vector_name++),n);
-  }
-  Kokkos::deep_copy(x, h_x);
+  x.h_view = h_x;
+  x.on_host();
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
@@ -87,11 +84,11 @@ template <typename ScalarType, typename SizeType, typename... Props>
  * @param {*} r 结果（out）
  * @return {*}
  */
-CHIPSUM_FUNCTION_INLINE ScalarType Dot(const Kokkos::View<ScalarType *> &a,
-                                 const Kokkos::View<ScalarType *> &b,
+CHIPSUM_FUNCTION_INLINE ScalarType Dot(const Kokkos::vector<ScalarType> &a,
+                                 const Kokkos::vector<ScalarType> &b,
                                  const SizeType n) {
 
-  return KokkosBlas::dot(a, b);
+  return KokkosBlas::dot(a.d_view, b.d_view);
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
@@ -104,10 +101,10 @@ template <typename ScalarType, typename SizeType, typename... Props>
  * @return {*}
  */
 CHIPSUM_FUNCTION_INLINE void
-Dot(const Kokkos::View<ScalarType *> &x, const Kokkos::View<ScalarType *> &y,
+Dot(const Kokkos::vector<ScalarType> &x, const Kokkos::vector<ScalarType> &y,
     const SizeType n, Kokkos::View<ScalarType> &r) {
 
-  KokkosBlas::dot(r, x, y);
+  KokkosBlas::dot(r, x.d_view, y.d_view);
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
@@ -116,21 +113,21 @@ template <typename ScalarType, typename SizeType, typename... Props>
  * @author: Li Kunyun
  */
 struct Scal_Functor {
-  Scal_Functor(Kokkos::View<ScalarType> ai, Kokkos::View<ScalarType *> xi,
-               Kokkos::View<ScalarType *> yi) {
+  Scal_Functor(Kokkos::View<ScalarType> ai, Kokkos::vector<ScalarType> xi,
+               Kokkos::vector<ScalarType> yi) {
     a = ai;
     x = xi;
     y = yi;
   }
 
   KOKKOS_INLINE_FUNCTION void operator()(const int i) const {
-    y(i) = a() * x(i);
+    y.d_view(i) = a() * x.d_view(i);
   }
 
 private:
   Kokkos::View<ScalarType> a;
-  Kokkos::View<ScalarType *> x;
-  Kokkos::View<ScalarType *> y;
+  Kokkos::vector<ScalarType> x;
+  Kokkos::vector<ScalarType> y;
 };
 
 template <typename ScalarType, typename SizeType, typename... Props>
@@ -141,11 +138,13 @@ template <typename ScalarType, typename SizeType, typename... Props>
  * @param {*} X 向量
  * @return {*}
  */
-CHIPSUM_FUNCTION_INLINE void Scal(Kokkos::View<ScalarType *> &R,
+CHIPSUM_FUNCTION_INLINE void Scal(Kokkos::vector<ScalarType> &R,
                                   const Kokkos::View<ScalarType> &a,
-                                  const Kokkos::View<ScalarType *> &X) {
+                                  const Kokkos::vector<ScalarType> &X) {
   Kokkos::parallel_for(R.extent(0),
                        Scal_Functor<ScalarType, SizeType>(a, X, R));
+
+  R.on_device();
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
@@ -157,10 +156,11 @@ template <typename ScalarType, typename SizeType, typename... Props>
  * @param {*} X 向量
  * @return {*}
  */
-CHIPSUM_FUNCTION_INLINE void Scal(Kokkos::View<ScalarType *> &R,
+CHIPSUM_FUNCTION_INLINE void Scal(Kokkos::vector<ScalarType> &R,
                                   const ScalarType &a,
-                                  const Kokkos::View<ScalarType *> &X) {
-  KokkosBlas::scal(R, a, X);
+                                  const Kokkos::vector<ScalarType> &X) {
+  KokkosBlas::scal(R.d_view, a, X.d_view);
+  R.on_device();
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
@@ -169,8 +169,8 @@ template <typename ScalarType, typename SizeType, typename... Props>
  * @param {*} X 向量
  * @return {*}
  */
-CHIPSUM_FUNCTION_INLINE ScalarType Norm1(const Kokkos::View<ScalarType *> &X) {
-  return KokkosBlas::nrm1(X);
+CHIPSUM_FUNCTION_INLINE ScalarType Norm1(const Kokkos::vector<ScalarType> &X) {
+  return KokkosBlas::nrm1(X.d_view);
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
@@ -179,8 +179,8 @@ template <typename ScalarType, typename SizeType, typename... Props>
  * @param {*} X 向量
  * @return {*}
  */
-CHIPSUM_FUNCTION_INLINE ScalarType Norm2(const Kokkos::View<ScalarType *> &X) {
-  return KokkosBlas::nrm2(X);
+CHIPSUM_FUNCTION_INLINE ScalarType Norm2(const Kokkos::vector<ScalarType> &X) {
+  return KokkosBlas::nrm2(X.d_view);
 }
 
 
@@ -191,8 +191,8 @@ template <typename ScalarType, typename SizeType, typename Arg,typename... Props
  * @param {*} X 向量
  * @return {*}
  */
-CHIPSUM_FUNCTION_INLINE void Norm1(Arg& r,const Kokkos::View<ScalarType *> &X) {
-  KokkosBlas::nrm1(r,X);
+CHIPSUM_FUNCTION_INLINE void Norm1(Arg& r,const Kokkos::vector<ScalarType> &X) {
+  KokkosBlas::nrm1(r,X.d_view);
 }
 
 template <typename ScalarType, typename SizeType, typename Arg,typename... Props>
@@ -202,8 +202,8 @@ template <typename ScalarType, typename SizeType, typename Arg,typename... Props
  * @param {*} X 向量
  * @return {*}
  */
-CHIPSUM_FUNCTION_INLINE void Norm2(Arg& r,const Kokkos::View<ScalarType *> &X) {
-  KokkosBlas::nrm2(r,X);
+CHIPSUM_FUNCTION_INLINE void Norm2(Arg& r,const Kokkos::vector<ScalarType> &X) {
+  KokkosBlas::nrm2(r,X.d_view);
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
@@ -215,9 +215,10 @@ template <typename ScalarType, typename SizeType, typename... Props>
  * @return {*}
  */
 CHIPSUM_FUNCTION_INLINE void Axpy(ScalarType a,
-                                  const Kokkos::View<ScalarType *> &X,
-                                  const Kokkos::View<ScalarType *> &Y) {
-  KokkosBlas::axpy(a, X, Y);
+                                  const Kokkos::vector<ScalarType> &X,
+                                  const Kokkos::vector<ScalarType> &Y) {
+  KokkosBlas::axpy(a, X.d_view, Y.d_view);
+  Y.on_device();
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
@@ -230,8 +231,8 @@ template <typename ScalarType, typename SizeType, typename... Props>
  * @return {*}
  */
 CHIPSUM_FUNCTION_INLINE void
-Axpby(ScalarType a, const Kokkos::View<ScalarType *> &X, ScalarType b,
-      const Kokkos::View<ScalarType *> &Y) {
+Axpby(ScalarType a, const Kokkos::vector<ScalarType> &X, ScalarType b,
+      const Kokkos::vector<ScalarType> &Y) {
   KokkosBlas::axpby(a, X, b, Y);
 }
 
@@ -242,8 +243,8 @@ template <typename ScalarType, typename SizeType, typename... Props>
  * @param {*} src 原数据
  * @return {*}
  */
-CHIPSUM_FUNCTION_INLINE void DeepCopy(const Kokkos::View<ScalarType *> &dst,
-                                      const Kokkos::View<ScalarType *> &src) {
+CHIPSUM_FUNCTION_INLINE void DeepCopy(const Kokkos::vector<ScalarType> &dst,
+                                      const Kokkos::vector<ScalarType> &src) {
 
   Kokkos::deep_copy(dst, src);
 }
@@ -256,8 +257,8 @@ template <typename ScalarType, typename SizeType, typename... Props>
  * @return {*}
  */
 CHIPSUM_FUNCTION_INLINE void
-ShallowCopy(const Kokkos::View<ScalarType *> &dst,
-            const Kokkos::View<ScalarType *> &src) {
+ShallowCopy(const Kokkos::vector<ScalarType> &dst,
+            const Kokkos::vector<ScalarType> &src) {
   dst = src;
 }
 
@@ -270,7 +271,7 @@ template <typename ScalarType, typename SizeType, typename... Props>
  * @author: Li Kunyun
  */
 CHIPSUM_FUNCTION_INLINE ScalarType &GetItem(const std::size_t index,
-                                            Kokkos::View<ScalarType *> &vec) {
+                                            Kokkos::vector<ScalarType> &vec) {
 
   return vec(index);
 }
@@ -282,10 +283,10 @@ template <typename ScalarType, typename SizeType, typename... Props>
  * @param {*} out 输出流
  * @return {*}
  */
-CHIPSUM_FUNCTION_INLINE void Print(const Kokkos::View<ScalarType *> &vec,
+CHIPSUM_FUNCTION_INLINE void Print(const Kokkos::vector<ScalarType> &vec,
   std::ostream &out
                                    ) {
-  typename Kokkos::View<ScalarType *>::HostMirror h_vec("h_vector",
+  typename Kokkos::vector<ScalarType>::HostMirror h_vec("h_vector",
                                                         vec.extent(0));
   Kokkos::deep_copy(h_vec, vec);
 

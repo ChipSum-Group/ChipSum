@@ -1,7 +1,7 @@
 /*
  * @Author       : your name
  * @Date         : 2021-08-10 15:35:49
- * @LastEditTime: 2021-08-20 11:36:30
+ * @LastEditTime: 2021-08-31 14:14:56
  * @LastEditors: Li Kunyun
  * @Description  : In User Settings Edit
  * @FilePath     : \\lky\\ChipSum\\test.cpp
@@ -32,48 +32,48 @@ int main(int argc, char *argv[]) {
   ChipSum::Common::Init(argc, argv);
   {
 
-    double *v1 = static_cast<double *>(std::malloc(N * sizeof(double)));
-    double *v2 = static_cast<double *>(std::malloc(N * sizeof(double)));
+    // double *v1 = static_cast<double *>(std::malloc(N * sizeof(double)));
+    // double *v2 = static_cast<double *>(std::malloc(N * sizeof(double)));
 
-    for (int i = 0; i < N; ++i) {
-      v1[i] = double(i);
-      v2[i] = double(i);
-    }
+    // for (int i = 0; i < N; ++i) {
+    //   v1[i] = double(i);
+    //   v2[i] = double(i);
+    // }
 
-    Vector a(v1, N); // a = {0,1,2,3,4}
-    a.Print();
-    Vector b(v2, N); // b = {0,1,2,3,4}
+    // Vector a(v1, N); // a = {0,1,2,3,4}
+    // a.Print();
+    // Vector b(v2, N); // b = {0,1,2,3,4}
 
-    a += b; // a = {0,2,4,6,8}
+    // a += b; // a = {0,2,4,6,8}
 
-    a += b; // a = {0,3,6,9,12}
+    // a += b; // a = {0,3,6,9,12}
 
-    a *= 1.0; // a = {0,3,6,9,12}
+    // a *= 1.0; // a = {0,3,6,9,12}
 
-    a.Print();
+    // a.Print();
 
-    //    for(std::size_t i=0;i<N;++i) b(i) = 0.0; /* for operator()
-    b *= 0.0;  /*  */
-    b.Print(); // b = {0.,0.,0., ... ,0.}
+    // //    for(std::size_t i=0;i<N;++i) b(i) = 0.0; /* for operator()
+    // b *= 0.0;  /*  */
+    // b.Print(); // b = {0.,0.,0., ... ,0.}
 
-    //    a -= a; // if uncomment, all results below turns 0
+    // //    a -= a; // if uncomment, all results below turns 0
 
-    //    auto c = a+b;
+    // //    auto c = a+b;
 
-    cout << a.Norm1() << endl; // 30
+    // cout << a.Norm1() << endl; // 30
 
-    cout << a.Norm2() << endl; // 16.4317
-    Scalar r;
-    a.Dot(a, r);
+    // cout << a.Norm2() << endl; // 16.4317
+    // Scalar r;
+    // a.Dot(a, r);
 
-    cout << r() * r() << endl; // r = 270
+    // cout << r() * r() << endl; // r = 270
 
-    Matrix A(10, 10);
-    A.Print();
+    // Matrix A(10, 10);
+    // A.Print();
 
-    Matrix X(10,5);
+    // Matrix X(10,5);
 
-    (A*X).Print();
+    // (A*X).Print();
 
     //        /*
     //        *
@@ -127,40 +127,40 @@ int main(int argc, char *argv[]) {
     // values[11] = 7;
     // values[12] = 9;
 
-    const size_t m = 111;
-    const size_t n = 111;
-    size_t nrows = m;
-    size_t ncols = n;
-    size_t annz = std::min(m,n);
-    size_t *row_map = (size_t *)malloc((m + 1) * sizeof(size_t));
-    size_t *col_map = (size_t *)malloc(std::min(m,n) * sizeof(size_t));
-    double *values = (double *)malloc(std::min(m,n) * sizeof(double));
+    // const size_t m = 111;
+    // const size_t n = 111;
+    // size_t nrows = m;
+    // size_t ncols = n;
+    // size_t annz = std::min(m,n);
+    // size_t *row_map = (size_t *)malloc((m + 1) * sizeof(size_t));
+    // size_t *col_map = (size_t *)malloc(std::min(m,n) * sizeof(size_t));
+    // double *values = (double *)malloc(std::min(m,n) * sizeof(double));
 
-    for (size_t i = 0; i < std::min(m,n); ++i) {
+    // for (size_t i = 0; i < std::min(m,n); ++i) {
       
-      col_map[i] = i;
-      values[i] = 1;
-    }
-     for (size_t i = 0; i <= m; ++i) {
+    //   col_map[i] = i;
+    //   values[i] = 1;
+    // }
+    //  for (size_t i = 0; i <= m; ++i) {
       
-       row_map[i] = i;
-    }
+    //    row_map[i] = i;
+    // }
    
 
-    CSR B(nrows, ncols, annz, row_map, col_map, values);
+    // CSR B(nrows, ncols, annz, row_map, col_map, values);
 
-    B.PrintPattern();
-    B.Print();
+    // B.PrintPattern();
+    // B.Print();
 
-    // B.SavePatternFig("sparse.bmp"); /* Has BUGs */
-    B.SavePatternFig("sparse.png");
+    // // B.SavePatternFig("sparse.bmp"); /* Has BUGs */
+    // B.SavePatternFig("sparse.png");
 
-    // (B * a).Print(); // spmv通过{39,57,120,87,150}
-    // (B * m1).Print(); // spgemm的KokkosKernels通过，但是Serial版本还存在问题
+    // // (B * a).Print(); // spmv通过{39,57,120,87,150}
+    // // (B * m1).Print(); // spgemm的KokkosKernels通过，但是Serial版本还存在问题
 
-    std::free(row_map);
-    std::free(col_map);
-    std::free(values);
+    // std::free(row_map);
+    // std::free(col_map);
+    // std::free(values);
 
     //        bb.Print(); // {13,15,40,24,50}
 
@@ -219,8 +219,25 @@ int main(int argc, char *argv[]) {
 
 
     
-    std::free(v1);
-    std::free(v2);
+    // std::free(v1);
+    // std::free(v2);
+
+
+
+    Kokkos::vector<double> da(10,2.0);
+    Kokkos::vector<double> db(10,3.0);
+
+    cout<<KokkosBlas::dot(da.d_view,db.d_view)<<endl;
+
+    Kokkos::parallel_for(10,
+    KOKKOS_LAMBDA(const int i){
+      da.d_view(i) = 4.0;
+    }
+    );
+
+
+    cout<<KokkosBlas::dot(da.d_view,db.d_view)<<endl;
+    cout<<KokkosBlas::dot(da.h_view,db.h_view)<<endl;
   }
   ChipSum::Common::Finalize();
 }

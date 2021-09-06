@@ -4,7 +4,7 @@
  * @Autor: Li Kunyun
  * @Date: 2021-08-09 12:20:42
  * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-16 15:40:31
+ * @LastEditTime: 2021-08-31 12:14:51
  */
 
 #ifndef __CHIPSUM_VECTOR_SERIAL_IMPL_HPP__
@@ -137,6 +137,34 @@ CHIPSUM_FUNCTION_INLINE ScalarType Norm2(const std::vector<ScalarType> &X) {
   }
 
   return std::sqrt(acc);
+}
+
+template <typename ScalarType, typename SizeType, typename... Props>
+/**
+ * @description: X的1范数
+ * @param {*} X 向量
+ * @return {*}
+ */
+CHIPSUM_FUNCTION_INLINE ScalarType Norm1(ScalarType& r,const std::vector<ScalarType> &X) {
+  r = 0;
+  for (size_t i = 0; i < X.size(); ++i) {
+    r += X[i];
+  }
+  
+}
+
+template <typename ScalarType, typename SizeType, typename... Props>
+/**
+ * @description: X的2范数
+ * @param {*} X 向量
+ * @return {*}
+ */
+CHIPSUM_FUNCTION_INLINE ScalarType Norm2(ScalarType& r,const std::vector<ScalarType> &X) {
+  r = 0.0;
+  for (std::size_t i = 0; i < X.size(); ++i) {
+    r += X[i] * X[i];
+  }
+
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
