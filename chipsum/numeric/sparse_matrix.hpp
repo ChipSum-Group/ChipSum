@@ -4,7 +4,7 @@
  * @Autor: Li Kunyun
  * @Date: 2021-08-09 12:20:42
  * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-18 13:56:46
+ * @LastEditTime: 2021-10-26 15:18:14
  */
 
 #ifndef __CHIPSUM_NUMERIC_SPARSE_MATRIX_HPP__
@@ -62,7 +62,7 @@ public:
   CHIPSUM_DECLARED_FUNCTION SparseMatrix(size_type nrow, size_type ncol,
                                          size_type annz, Args... args)
       : __nrow(nrow), __ncol(ncol), __annz(annz) {
-    ChipSum::Numeric::Impl::Sparse::Create<ScalarType, SizeType>(
+    ChipSum::Numeric::Impl::Sparse::create<ScalarType, SizeType>(
         nrow, ncol, annz, __data, args...);
   }
   
@@ -88,7 +88,7 @@ public:
    */
   CHIPSUM_FUNCTION_INLINE vector_type operator*(vector_type &v) {
     vector_type ret(v.GetSize());
-    ChipSum::Numeric::Impl::Sparse::Mult<ScalarType, SizeType>(
+    ChipSum::Numeric::Impl::Sparse::mult<ScalarType, SizeType>(
         __nrow,__ncol,__data, v.GetData(), ret.GetData());
     return ret;
   }
@@ -100,7 +100,7 @@ public:
    */
   CHIPSUM_FUNCTION_INLINE dense_type operator*(dense_type &m) {
     dense_type ret(__nrow, m.GetColNum());
-    ChipSum::Numeric::Impl::Sparse::Mult<ScalarType, SizeType>(
+    ChipSum::Numeric::Impl::Sparse::mult<ScalarType, SizeType>(
         __nrow,m.GetColNum(),__ncol,__data, m.GetData(), ret.GetData());
     return ret;
   }
@@ -114,7 +114,7 @@ public:
    */
   CHIPSUM_FUNCTION_INLINE void Print(std::ostream& out=std::cout)
   {
-    ChipSum::Numeric::Impl::Sparse::Print<ScalarType,SizeType>(__data,out);
+    ChipSum::Numeric::Impl::Sparse::print<ScalarType,SizeType>(__data,out);
   }
 
 
@@ -127,13 +127,13 @@ public:
    */
   CHIPSUM_FUNCTION_INLINE void PrintPattern(std::ostream& out=std::cout)
   {
-    ChipSum::Numeric::Impl::Sparse::PrintPattern<ScalarType,SizeType>(__data,out);
+    ChipSum::Numeric::Impl::Sparse::print_pattern<ScalarType,SizeType>(__data,out);
   }
 
 
   
   /**
-   * @description: 打印pattern（调试用）
+   * @description: 保存pattern为图片（调试用）
    * @param {std::ostream&} 输出流
    * @return {*}
    * @author: Li Kunyun
@@ -141,7 +141,7 @@ public:
   CHIPSUM_FUNCTION_INLINE void SavePatternFig(const char* filename)
   {
     // 还有一些BUG:BMP格式的稀疏矩阵必须是方阵，且行列数必须是4的倍数。（待修复）
-    ChipSum::Numeric::Impl::Sparse::SaveFigure<ScalarType,SizeType>(__data,filename);
+    ChipSum::Numeric::Impl::Sparse::save_figure<ScalarType,SizeType>(__data,filename);
   }
 
 };

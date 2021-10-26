@@ -4,7 +4,7 @@
  * @Autor: Li Kunyun
  * @Date: 2021-08-09 12:20:42
  * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-18 16:36:50
+ * @LastEditTime: 2021-10-26 15:36:55
  */
 
 #ifndef __CHIPSUM_CRS_KOKKOSKERNELS_IMPL_HPP__
@@ -26,6 +26,10 @@
 #include "../../common/png_writer.hpp"
 #include "../numeric_traits.hpp"
 #include "../sparse_matrix_types.h"
+
+/*
+//  这一部分实现的接口与crs_serial_impl.hpp中类似，不再反复添加注释
+*/
 
 static int spm_name = 0;
 
@@ -52,20 +56,9 @@ namespace Impl {
 namespace Sparse {
 
 template <typename ScalarType, typename SizeType, typename... Props>
-/**
- * @description: 创建初始化的CRS矩阵
- * @param {*} nrows 行数
- * @param {*} ncols 列数
- * @param {*} annz 非零元数
- * @param {*} A 稀疏矩阵（out）
- * @param {*} row_map 行邻接表
- * @param {*} col_map 列邻接表
- * @param {*} values 非零元
- * @return {*}
- * @author: Li Kunyun
- */
+// kokkos实现的创建CSR矩阵
 CHIPSUM_FUNCTION_INLINE void
-Create(const SizeType nrows, const SizeType ncols, const SizeType annz,
+create(const SizeType nrows, const SizeType ncols, const SizeType annz,
        KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
        SizeType *row_map, SizeType *col_map, ScalarType *values) {
 
@@ -80,16 +73,9 @@ Create(const SizeType nrows, const SizeType ncols, const SizeType annz,
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
-/**
- * @description: 创建未初始化的CRS矩阵
- * @param {*} A 稀疏矩阵（out）
- * @param {*} row_map_size 行邻接表长度
- * @param {*} col_map_size 列邻接表长度
- * @return {*}
- * @author: Li Kunyun
- */
+
 CHIPSUM_FUNCTION_INLINE void
-Create(KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
+create(KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
        const ::std::size_t row_map_size, const ::std::size_t col_map_size) {
 
   using sp_t = KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device>;
@@ -107,16 +93,9 @@ Create(KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
-/**
- * @description: b=Ax（SpMV）
- * @param {*} A 稀疏矩阵
- * @param {*} x 向量
- * @param {*} b 向量（out）
- * @return {*}
- * @author: Li Kunyun
- */
+
 CHIPSUM_FUNCTION_INLINE void
-Mult(SizeType M, SizeType N,
+mult(SizeType M, SizeType N,
      KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
      const Kokkos::View<ScalarType *> &x, Kokkos::View<ScalarType *> &b) {
   KokkosSparse::spmv("N", static_cast<ScalarType>(1.0), A, x,
@@ -124,19 +103,9 @@ Mult(SizeType M, SizeType N,
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
-/**
- * @description: SpGEMM（稀疏X稠密）
- * @param {*} M A/C的行数
- * @param {*} N B/C的列数
- * @param {*} K A的列数，B的行数
- * @param {*} A 稀疏矩阵
- * @param {*} B 稠密矩阵
- * @param {*} C 稠密矩阵（out）
- * @return {*}
- * @author: Li Kunyun
- */
+
 CHIPSUM_FUNCTION_INLINE void
-Mult(SizeType M, SizeType N, SizeType K,
+mult(SizeType M, SizeType N, SizeType K,
      KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
      const Kokkos::View<ScalarType **> &B, Kokkos::View<ScalarType **> &C) {
   KokkosSparse::spmv("N", static_cast<ScalarType>(1.0), A, B,
@@ -144,18 +113,9 @@ Mult(SizeType M, SizeType N, SizeType K,
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
-/**
- * @description: b = alpha*Ax+beta*b
- * @param {*} alpha 稀疏矩阵A的系数
- * @param {*} A 稀疏矩阵
- * @param {*} x 向量
- * @param {*} beta 向量b的系数
- * @param {*} b 向量（in/out）
- * @return {*}
- * @author: Li Kunyun
- */
+
 CHIPSUM_FUNCTION_INLINE void
-Mult(ScalarType alpha,
+mult(ScalarType alpha,
      KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
      Kokkos::View<ScalarType *> &x, ScalarType beta,
      Kokkos::View<ScalarType *> &b) {
@@ -163,15 +123,9 @@ Mult(ScalarType alpha,
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
-/**
- * @description: 打印出稀疏矩阵的数据信息，多用于调试
- * @param {*} A 稀疏矩阵
- * @param {*} out 输出流（in/out）
- * @return {*}
- * @author: Li Kunyun
- */
+
 CHIPSUM_FUNCTION_INLINE void
-Print(KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
+print(KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
       ::std::ostream &out) {
   using crs_t =
       typename KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device>;
@@ -216,15 +170,9 @@ Print(KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
-/**
- * @description: 打印出稀疏矩阵的数据信息，多用于调试
- * @param {*} A 稀疏矩阵
- * @param {*} out 输出流（in/out）
- * @return {*}
- * @author: Li Kunyun
- */
+
 CHIPSUM_FUNCTION_INLINE void
-PrintPattern(KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
+print_pattern(KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
              ::std::ostream &out) {
   using crs_t =
       typename KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device>;
@@ -264,16 +212,15 @@ PrintPattern(KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
   }
 }
 
+
+
+
+
+
 template <typename ScalarType, typename SizeType, typename... Props>
-/**
- * @description: 打印出稀疏矩阵的数据信息，多用于调试
- * @param {*} A 稀疏矩阵
- * @param {*} out 输出流（in/out）
- * @return {*}
- * @author: Li Kunyun
- */
+
 CHIPSUM_FUNCTION_INLINE void
-SaveFigure(KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
+save_figure(KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
            const char *filename) {
   using crs_t =
       typename KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device>;

@@ -100,7 +100,8 @@ template <typename ScalarType, typename SizeType, typename... Props>
  * @author: Li Kunyun
  */
 CHIPSUM_FUNCTION_INLINE void GetItem(const Kokkos::View<ScalarType> &s,
-                                     ScalarType &r) {
+                                     ScalarType &r)
+{
   typename Kokkos::View<ScalarType>::HostMirror h_s =
       Kokkos::create_mirror_view(s);
   Kokkos::deep_copy(h_s, s);
@@ -123,9 +124,6 @@ CHIPSUM_FUNCTION_INLINE void Print(const Kokkos::View<ScalarType> &s,
   out << s.label() << ": ";
   out << h_s() << endl;
 }
-
-
-
 
 
 } // namespace Scalar

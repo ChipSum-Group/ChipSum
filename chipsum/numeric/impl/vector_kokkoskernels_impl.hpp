@@ -4,7 +4,7 @@
  * @Autor: Li Kunyun
  * @Date: 2021-08-09 12:20:42
  * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-17 15:14:04
+ * @LastEditTime: 2021-10-26 16:17:59
  */
 
 #ifndef __CHIPSUM_VECTOR_KOKKOSKERNELS_IMPL_HPP__
@@ -17,14 +17,24 @@
 #include <KokkosBlas1_fill.hpp>
 #include <KokkosBlas1_nrm1.hpp>
 #include <KokkosBlas1_nrm2.hpp>
+#include <KokkosBlas1_nrminf.hpp>
 #include <KokkosBlas1_scal.hpp>
 #include <Kokkos_Vector.hpp>
+
 
 #include <iostream>
 using namespace std;
 
 #include "../../chipsum_macro.h"
 #include "../numeric_traits.hpp"
+
+
+/// 一个不幸的消息是vector的实现需要大改。
+/// 由于直接用view<type*>作为vector的数据底层，导致了数据无法灵活在
+/// device和host之间流转。所以这部分的底层数据类型需要替换为dualview
+/// 这个改动将会带来整个kokkos实现的大改，但好在接口本就不多。
+
+/// 这部分工作不会太复杂。
 
 static int vector_name = 0;
 namespace ChipSum {
@@ -46,13 +56,8 @@ namespace Impl {
 namespace Vector {
 
 template <typename ScalarType, typename SizeType, typename... Props>
-/**
- * @description: 创建未初始化的向量
- * @param {*} n 向量长度 
- * @param {*} x 向量（out）
- * @return {*}
- */
-CHIPSUM_FUNCTION_INLINE void Create(const SizeType n,
+
+CHIPSUM_FUNCTION_INLINE void create(const SizeType n,
                                     Kokkos::View<ScalarType *> &x) {
 
   x = Kokkos::View<ScalarType *>("vector_" + std::to_string(vector_name++),
@@ -61,14 +66,8 @@ CHIPSUM_FUNCTION_INLINE void Create(const SizeType n,
 
 template <typename ScalarType, typename SizeType, typename... Props>
 
-/**
- * @description: 创建初始化的向量
- * @param {*} src POD数据源
- * @param {*} n 向量长度
- * @param {*} x 向量（out）
- * @return {*}
- */
-CHIPSUM_FUNCTION_INLINE void Create(ScalarType *src, const std::size_t n,
+
+CHIPSUM_FUNCTION_INLINE void create(ScalarType *src, const std::size_t n,
                                     Kokkos::View<ScalarType *> &x) {
   typename Kokkos::View<ScalarType *>::HostMirror h_x(src, n);
 
@@ -79,15 +78,8 @@ CHIPSUM_FUNCTION_INLINE void Create(ScalarType *src, const std::size_t n,
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
-/**
- * @description: 向量dot运算（by reference）
- * @param {*} a 向量
- * @param {*} b 向量
- * @param {*} n 向量长度 
- * @param {*} r 结果（out）
- * @return {*}
- */
-CHIPSUM_FUNCTION_INLINE ScalarType Dot(const Kokkos::View<ScalarType *> &a,
+
+CHIPSUM_FUNCTION_INLINE ScalarType dot(const Kokkos::View<ScalarType *> &a,
                                  const Kokkos::View<ScalarType *> &b,
                                  const SizeType n) {
 
@@ -95,26 +87,15 @@ CHIPSUM_FUNCTION_INLINE ScalarType Dot(const Kokkos::View<ScalarType *> &a,
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
-/**
- * @description: 向量dot运算（by reference）
- * @param {*} a 向量
- * @param {*} b 向量
- * @param {*} n 向量长度 
- * @param {*} r 结果（out）
- * @return {*}
- */
 CHIPSUM_FUNCTION_INLINE void
-Dot(const Kokkos::View<ScalarType *> &x, const Kokkos::View<ScalarType *> &y,
+dot(const Kokkos::View<ScalarType *> &x, const Kokkos::View<ScalarType *> &y,
     const SizeType n, Kokkos::View<ScalarType> &r) {
 
   KokkosBlas::dot(r, x, y);
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
-/**
- * @description: 函数子，用于响亮的scal操作（为满足Device端接口）
- * @author: Li Kunyun
- */
+/// x = a*x 的函数子
 struct Scal_Functor {
   Scal_Functor(Kokkos::View<ScalarType> ai, Kokkos::View<ScalarType *> xi,
                Kokkos::View<ScalarType *> yi) {
@@ -134,14 +115,8 @@ private:
 };
 
 template <typename ScalarType, typename SizeType, typename... Props>
-/**
- * @description: R=a*X
- * @param {*} R Scal结果（out）
- * @param {*} a X的系数
- * @param {*} X 向量
- * @return {*}
- */
-CHIPSUM_FUNCTION_INLINE void Scal(Kokkos::View<ScalarType *> &R,
+
+CHIPSUM_FUNCTION_INLINE void scal(Kokkos::View<ScalarType *> &R,
                                   const Kokkos::View<ScalarType> &a,
                                   const Kokkos::View<ScalarType *> &X) {
   Kokkos::parallel_for(R.extent(0),
@@ -150,139 +125,80 @@ CHIPSUM_FUNCTION_INLINE void Scal(Kokkos::View<ScalarType *> &R,
 
 template <typename ScalarType, typename SizeType, typename... Props>
 
-/**
- * @description: R=a*X
- * @param {*} R Scal结果（out）
- * @param {*} a X的系数
- * @param {*} X 向量
- * @return {*}
- */
-CHIPSUM_FUNCTION_INLINE void Scal(Kokkos::View<ScalarType *> &R,
+CHIPSUM_FUNCTION_INLINE void scal(Kokkos::View<ScalarType *> &R,
                                   const ScalarType &a,
                                   const Kokkos::View<ScalarType *> &X) {
   KokkosBlas::scal(R, a, X);
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
-/**
- * @description: X的1范数
- * @param {*} X 向量
- * @return {*}
- */
-CHIPSUM_FUNCTION_INLINE ScalarType Norm1(const Kokkos::View<ScalarType *> &X) {
+
+CHIPSUM_FUNCTION_INLINE ScalarType norm1(const Kokkos::View<ScalarType *> &X) {
   return KokkosBlas::nrm1(X);
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
-/**
- * @description: X的2范数
- * @param {*} X 向量
- * @return {*}
- */
-CHIPSUM_FUNCTION_INLINE ScalarType Norm2(const Kokkos::View<ScalarType *> &X) {
+
+CHIPSUM_FUNCTION_INLINE ScalarType norm2(const Kokkos::View<ScalarType *> &X) {
   return KokkosBlas::nrm2(X);
 }
 
 
-template <typename ScalarType, typename SizeType, typename Arg,typename... Props>
-/**
- * @description: X的1范数
- * @param {*} r 结果
- * @param {*} X 向量
- * @return {*}
- */
-CHIPSUM_FUNCTION_INLINE void Norm1(Arg& r,const Kokkos::View<ScalarType *> &X) {
-  KokkosBlas::nrm1(r,X);
-}
 
-template <typename ScalarType, typename SizeType, typename Arg,typename... Props>
-/**
- * @description: X的2范数
- * @param {*} r 结果
- * @param {*} X 向量
- * @return {*}
- */
-CHIPSUM_FUNCTION_INLINE void Norm2(Arg& r,const Kokkos::View<ScalarType *> &X) {
-  KokkosBlas::nrm2(r,X);
-}
 
 template <typename ScalarType, typename SizeType, typename... Props>
-/**
- * @description: Y=Y+a*X
- * @param {*} a 系数
- * @param {*} X 向量
- * @param {*} Y 向量
- * @return {*}
- */
-CHIPSUM_FUNCTION_INLINE void Axpy(ScalarType a,
+
+CHIPSUM_FUNCTION_INLINE ScalarType norminf(const Kokkos::View<ScalarType *> &X) {
+  return KokkosBlas::nrminf(X);
+}
+
+
+
+
+
+template <typename ScalarType, typename SizeType, typename... Props>
+
+CHIPSUM_FUNCTION_INLINE void axpy(ScalarType a,
                                   const Kokkos::View<ScalarType *> &X,
                                   const Kokkos::View<ScalarType *> &Y) {
   KokkosBlas::axpy(a, X, Y);
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
-/**
- * @description: Y=b*Y+a*X
- * @param {*} a 系数
- * @param {*} X 向量
- * @param {*} b 系数
- * @param {*} Y 向量
- * @return {*}
- */
+
 CHIPSUM_FUNCTION_INLINE void
-Axpby(ScalarType a, const Kokkos::View<ScalarType *> &X, ScalarType b,
+axpby(ScalarType a, const Kokkos::View<ScalarType *> &X, ScalarType b,
       const Kokkos::View<ScalarType *> &Y) {
   KokkosBlas::axpby(a, X, b, Y);
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
-/**
- * @description: 深拷贝
- * @param {*} dst 目标数据
- * @param {*} src 原数据
- * @return {*}
- */
-CHIPSUM_FUNCTION_INLINE void DeepCopy(const Kokkos::View<ScalarType *> &dst,
+
+CHIPSUM_FUNCTION_INLINE void deep_copy(const Kokkos::View<ScalarType *> &dst,
                                       const Kokkos::View<ScalarType *> &src) {
 
   Kokkos::deep_copy(dst, src);
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
-/**
- * @description: 浅拷贝
- * @param {*} dst 目标数据
- * @param {*} src 原数据
- * @return {*}
- */
+
 CHIPSUM_FUNCTION_INLINE void
-ShallowCopy(const Kokkos::View<ScalarType *> &dst,
+shallow_copy(const Kokkos::View<ScalarType *> &dst,
             const Kokkos::View<ScalarType *> &src) {
   dst = src;
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
-/**
- * @description: 获取向量元素（GPU端该函数会报错） 
- * @param {*} index 索引
- * @param {*} vec 向量
- * @return {*} 元素值
- * @author: Li Kunyun
- */
-CHIPSUM_FUNCTION_INLINE ScalarType &GetItem(const std::size_t index,
+
+CHIPSUM_FUNCTION_INLINE ScalarType &get_item(const std::size_t index,
                                             Kokkos::View<ScalarType *> &vec) {
 
   return vec(index);
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
-/**
- * @description: 打印向量，一般用于调试
- * @param {*} vec 向量
- * @param {*} out 输出流
- * @return {*}
- */
-CHIPSUM_FUNCTION_INLINE void Print(const Kokkos::View<ScalarType *> &vec,
+
+CHIPSUM_FUNCTION_INLINE void print(const Kokkos::View<ScalarType *> &vec,
   std::ostream &out
                                    ) {
   typename Kokkos::View<ScalarType *>::HostMirror h_vec("h_vector",

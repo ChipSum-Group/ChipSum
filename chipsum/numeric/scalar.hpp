@@ -4,7 +4,7 @@
  * @Autor: lhl
  * @Date: 2021-08-09 12:27:29
  * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-16 16:18:46
+ * @LastEditTime: 2021-10-11 09:09:30
  */
 
 
@@ -15,11 +15,15 @@
 #include "../chipsum_macro.h"
 
 #include "numeric_traits.hpp"
+#include "impl/scalar_cuda_impl.hpp"
 #include "impl/scalar_serial_impl.hpp"
 
 #if defined(ChipSum_USE_KokkosKernels) || defined(ChipSum_USE_KokkosKernels64)
 #include "impl/scalar_kokkoskernels_impl.hpp"
+// #include "impl/scalar_kokkos_impl.hpp"
 #endif
+
+
 
 namespace ChipSum {
 namespace Numeric {
@@ -91,6 +95,17 @@ public:
     return *this;
   }
 
+    /**
+   * @description: 赋值
+   * @param {scalar_type} 标量值
+   * @return {Scalar} 
+   * @author: Li Kunyun
+   */
+  CHIPSUM_FUNCTION_INLINE Scalar& operator=(const scalar_type& s) {
+    ChipSum::Numeric::Impl::Scalar::DeepCopy<ScalarType, SizeType>(s, __data);
+    return *this;
+  }
+
   /**
    * @description: 获取标量值
    * @param {*} 
@@ -126,6 +141,9 @@ public:
 
 } // End namespace Numeric
 } // End namespace ChipSum
+
+
+
 
 typedef ChipSum::Numeric::Scalar<double, std::size_t,
                                  ChipSum::Backend::DefaultBackend>

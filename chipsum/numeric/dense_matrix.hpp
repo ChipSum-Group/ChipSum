@@ -4,7 +4,7 @@
  * @Autor: Li Kunyun
  * @Date: 2021-08-09 12:20:42
  * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-16 16:05:08
+ * @LastEditTime: 2021-10-26 16:03:13
  */
 
 
@@ -60,7 +60,7 @@ public:
    */
   CHIPSUM_DECLARED_FUNCTION DenseMatrix(const_size_type M, const_size_type N)
       : __nrow(M), __ncol(N) {
-    ChipSum::Numeric::Impl::DenseMat::Create<ScalarType, SizeType>(M, N,
+    ChipSum::Numeric::Impl::DenseMat::create<ScalarType, SizeType>(M, N,
                                                                    __data);
   }
 
@@ -74,9 +74,9 @@ public:
   CHIPSUM_DECLARED_FUNCTION DenseMatrix(const_size_type M, const_size_type N,
                                         ScalarType *src)
       : __nrow(M), __ncol(N) {
-    ChipSum::Numeric::Impl::DenseMat::Create<ScalarType, SizeType>(M, N,
+    ChipSum::Numeric::Impl::DenseMat::create<ScalarType, SizeType>(M, N,
                                                                    __data);
-    ChipSum::Numeric::Impl::DenseMat::Fill<ScalarType, SizeType>(M, N, src,
+    ChipSum::Numeric::Impl::DenseMat::fill<ScalarType, SizeType>(M, N, src,
                                                                  __data);
                                                                 
   }
@@ -111,7 +111,7 @@ public:
    */
   CHIPSUM_FUNCTION_INLINE DenseMatrix operator*(DenseMatrix &m) {
     DenseMatrix ret(__nrow, m.GetColNum());
-    ChipSum::Numeric::Impl::DenseMat::Mult<ScalarType, SizeType>(
+    ChipSum::Numeric::Impl::DenseMat::mult<ScalarType, SizeType>(
         __nrow,m.GetColNum(),m.GetRowNum(), __data,m.GetData(), ret.GetData());
     return ret;
   }
@@ -124,7 +124,7 @@ public:
    */
   CHIPSUM_FUNCTION_INLINE vector_type operator*(vector_type &v) {
     vector_type ret(__ncol);
-    ChipSum::Numeric::Impl::DenseMat::Mult<ScalarType, SizeType>(
+    ChipSum::Numeric::Impl::DenseMat::mult<ScalarType, SizeType>(
         __nrow, __ncol, __data, v.GetData(), ret.GetData());
     return ret;
   }
@@ -135,7 +135,7 @@ public:
    * @return {*} A（结果）
    */
   CHIPSUM_FUNCTION_INLINE matrix_type operator*=(const ScalarType a) {
-    ChipSum::Numeric::Impl::DenseMat::Scal<ScalarType, SizeType>(a, __data);
+    ChipSum::Numeric::Impl::DenseMat::scal<ScalarType, SizeType>(a, __data);
     return *this;
   }
   /**
@@ -147,7 +147,7 @@ public:
    */
   CHIPSUM_FUNCTION_INLINE ScalarType &operator()(const_size_type i,
                                                  const_size_type j) {
-    return ChipSum::Numeric::Impl::DenseMat::GetItem<ScalarType, SizeType>(
+    return ChipSum::Numeric::Impl::DenseMat::get_item<ScalarType, SizeType>(
         i, j, __nrow, __ncol, __data);
   }
 
@@ -160,7 +160,7 @@ public:
    */
   CHIPSUM_FUNCTION_INLINE const ScalarType &operator()(const_size_type i,
                                                  const_size_type j) const{
-    return ChipSum::Numeric::Impl::DenseMat::GetItem<ScalarType, SizeType>(
+    return ChipSum::Numeric::Impl::DenseMat::get_item<ScalarType, SizeType>(
         i, j, __nrow, __ncol, __data);
   }
 
@@ -170,7 +170,7 @@ public:
    * @return {*}
    */
   CHIPSUM_FUNCTION_INLINE void Print(std::ostream &out = std::cout) {
-    ChipSum::Numeric::Impl::DenseMat::Print<ScalarType, SizeType>(
+    ChipSum::Numeric::Impl::DenseMat::print<ScalarType, SizeType>(
         __nrow, __ncol, __data, out);
   }
 };

@@ -4,7 +4,7 @@
  * @Autor: Li Kunyun
  * @Date: 2021-08-09 12:20:42
  * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-19 09:10:23
+ * @LastEditTime: 2021-10-26 15:57:04
  */
 
 #ifndef __CHIPSUM_DENSEMAT_SERIAL_IMPL_HPP__
@@ -16,6 +16,23 @@
 
 #include "../../chipsum_macro.h"
 #include "../numeric_traits.hpp"
+
+
+/// 该头文件包含了稠密矩阵的算子实现。
+/// 由于一些前期失误，dense matrix被设计成了类似blas的集合接口
+/// 似乎是适合于处理小规模稠密矩阵运算的，这样的功能不太具有现实意义
+/// 希望后续维护者能进行一些改进，改进建议如下：
+
+/// 我希望dense matrix实际上依旧是面向代数系统求解的，
+/// 所以它应当被设计成非常适合LU分解等操作的数据结构。
+/// 也就是说矩阵的每一行要抽象为一个向量vector
+/// 这样做的目的是为了能兼容如axpby操作，实现可分析扩展的算子组合
+/// 例如高斯消元实际上就是不断地做axpby，最终形成三角阵
+/// serial实现似乎不需要大规模变动底层数据结构，
+/// 但kokkos后端的实现可能需要将view<ScalarType**>变为MultiVector，
+/// 这部分工作我应该会亲自去实现，但后续的集成工作需要注意兼容。
+
+/* 根据chipsum目前的工作来看，数据结构设计的重要性是远远大于算法创新的。 */
 
 namespace ChipSum {
 
@@ -36,49 +53,25 @@ namespace Impl {
 namespace DenseMat {
 
 template <typename ScalarType, typename SizeType, typename... Props>
-/**
- * @description: 创建未初始化的稠密矩阵
- * @param {*} M 行数
- * @param {*} N 列数
- * @param {*} A 稠密矩阵（out）
- * @return {*}
- * @author: Li Kunyun
- */
-CHIPSUM_FUNCTION_INLINE void Create(const std::size_t M, const std::size_t N,
+// 创建未初始化的矩阵
+CHIPSUM_FUNCTION_INLINE void create(const std::size_t M, const std::size_t N,
                                     std::vector<ScalarType> &A) {
 
   A = std::vector<ScalarType>(M * N);
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
-/**
- * @description: 创建初始化的稠密矩阵
- * @param {*} M 行数
- * @param {*} N 列数
- * @param {*} src POD数据源
- * @param {*} dst 稠密矩阵（out）
- * @return {*}
- * @author: Li Kunyun
- */
-CHIPSUM_FUNCTION_INLINE void Fill(const std::size_t M, const std::size_t N,
+// 将POD数据填入矩阵
+CHIPSUM_FUNCTION_INLINE void fill(const std::size_t M, const std::size_t N,
                                   ScalarType *src,
                                   std::vector<ScalarType> &dst) {
   dst = std::vector<ScalarType>(src, src + M * N);
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
-/**
- * @description: y=Ax
- * @param {*} M A的行数
- * @param {*} N A的列数
- * @param {*} A 稠密矩阵
- * @param {*} x 向量
- * @param {*} y 向量
- * @return {*}
- * @author: Li Kunyun
- */
+// gemv
 CHIPSUM_FUNCTION_INLINE void
-Mult(const std::size_t M, const std::size_t N, const std::vector<ScalarType> &A,
+mult(const std::size_t M, const std::size_t N, const std::vector<ScalarType> &A,
      const std::vector<ScalarType> &x, std::vector<ScalarType> &b) {
 
   for (std::size_t i = 0; i < M; ++i)
@@ -92,19 +85,9 @@ Mult(const std::size_t M, const std::size_t N, const std::vector<ScalarType> &A,
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
-/**
- * @description: C=AB
- * @param {*} M A/C的行数
- * @param {*} N B/C的列数
- * @param {*} K A的列数，B的行数
- * @param {*} A 稠密矩阵
- * @param {*} B 稠密矩阵
- * @param {*} C 稠密矩阵（out）
- * @return {*}
- * @author: Li Kunyun
- */
+// gemm
 CHIPSUM_FUNCTION_INLINE void
-Mult(const std::size_t M, const std::size_t N, const std::size_t K,
+mult(const std::size_t M, const std::size_t N, const std::size_t K,
      const std::vector<ScalarType> &A, const std::vector<ScalarType> &B,
      std::vector<ScalarType> &C) {
 
@@ -124,16 +107,8 @@ Mult(const std::size_t M, const std::size_t N, const std::size_t K,
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
-/**
- * @description: A = alpha*A
- * @param {*} alpha A的系数
- * @param {*} M A的行数
- * @param {*} N A的列数
- * @param {*} A 稠密矩阵（out）
- * @return {*}
- * @author: Li Kunyun
- */
-CHIPSUM_FUNCTION_INLINE void Scal(const ScalarType alpha, const std::size_t M,
+// A = alpha*A
+CHIPSUM_FUNCTION_INLINE void scal(const ScalarType alpha, const std::size_t M,
                                   const std::size_t N,
                                   std::vector<ScalarType> &A) {
   assert(A.size() == M * N);
@@ -143,18 +118,9 @@ CHIPSUM_FUNCTION_INLINE void Scal(const ScalarType alpha, const std::size_t M,
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
-/**
- * @description: 获取矩阵元素A(i,j)
- * @param {*} i 行索引
- * @param {*} j 列索引
- * @param {*} M 行数
- * @param {*} N 列数
- * @param {*} A 稠密矩阵
- * @return {*}
- * @author: Li Kunyun
- */
+// 获取A(i,j)
 CHIPSUM_FUNCTION_INLINE ScalarType &
-GetItem(const std::size_t i, const std::size_t j, const std::size_t M,
+get_item(const std::size_t i, const std::size_t j, const std::size_t M,
         const std::size_t N, std::vector<ScalarType> &A) {
   assert(i < M && j < N);
 
@@ -162,16 +128,8 @@ GetItem(const std::size_t i, const std::size_t j, const std::size_t M,
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
-/**
- * @description: 打印矩阵A信息，一般用于调试
- * @param {*} M 行数
- * @param {*} N 列数
- * @param {*} A 稠密矩阵
- * @param {*} out 输出流（in/out）
- * @return {*}
- * @author: Li Kunyun
- */
-CHIPSUM_FUNCTION_INLINE void Print(const std::size_t M, const std::size_t N,
+// 打印矩阵信息
+CHIPSUM_FUNCTION_INLINE void print(const std::size_t M, const std::size_t N,
                                    std::vector<ScalarType> &A,
                                    std::ostream &out) {
 

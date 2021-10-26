@@ -4,35 +4,42 @@
  * @Autor: Li Kunyun
  * @Date: 2021-08-09 12:20:42
  * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-10-26 16:11:28
+ * @LastEditTime: 2021-10-26 16:16:28
  */
 
-#ifndef __CHIPSUM_VECTOR_SERIAL_IMPL_HPP__
-#define __CHIPSUM_VECTOR_SERIAL_IMPL_HPP__
+#ifndef __CHIPSUM_VECTOR_CUDA_IMPL_HPP__
+#define __CHIPSUM_VECTOR_CUDA_IMPL_HPP__
 
 #include <cassert>
-#include <cmath>
 #include <vector>
 
+
 #include <fstream>
+#include <cuda_runtime.h>
 
 #include "../../chipsum_macro.h"
 #include "../numeric_traits.hpp"
 
-
-/// 很抱歉的是vector的设计出现了失误，而且出现在比较棘手的kokkos后端上
-/// 这部分工作我自己不会去做，主要的原因是暂时没有时间。
-/// 这部分工作将交给后来的参与者。
-
-/// 对于vector的具体修改内容介绍我会放在vector_kokkoskernels_impl.hpp里面
-
 namespace ChipSum {
 namespace Numeric {
 
+
+template<typename ScalarType>
+struct CudaVector{
+  ScalarType* d_val;
+  std::vector<ScalarType> h_val;
+
+  std::size_t size;
+
+  ~CudaVector(){
+    cudaFree(d_val);  
+  }
+};
+
 template <typename ScalarType, typename SizeType, typename... Props>
-struct Vector_Traits<ScalarType, SizeType, ChipSum::Backend::Serial, Props...>
-    : public Operator_Traits<ScalarType, SizeType, ChipSum::Backend::Serial> {
-  using vector_type = typename std::vector<ScalarType>;
+struct Vector_Traits<ScalarType, SizeType, ChipSum::Backend::Cuda, Props...>
+    : public Operator_Traits<ScalarType, SizeType, ChipSum::Backend::Cuda> {
+  using vector_type = CudaVector;
   using size_type = typename std::vector<ScalarType>::size_type;
   using device_scalar_value_type = ScalarType;
 };
@@ -44,22 +51,39 @@ namespace Vector {
 template <typename ScalarType, typename SizeType, typename... Props>
 
 CHIPSUM_FUNCTION_INLINE void create(const SizeType n,
-                                    std::vector<ScalarType> &dst) {
-  dst.resize(n);
+                                    CudaVector<ScalarType> &dst) {
+  
+  std::size_t vec_size = static_cast<std::size_t>(n);
+  cudaMalloc((void**)&dst.d_val,vec_size*sizeof(ScalarType));
+  dst.size = vec_size;
+  dst.h_val.resize(vec_size,0);
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
 
 CHIPSUM_FUNCTION_INLINE void create(const ScalarType *src, const SizeType n,
-                                    std::vector<ScalarType> &dst) {
-  dst = std::vector<ScalarType>(src, src + n);
+                                    CudaVector<ScalarType> &dst) {
+  std::size_t vec_size = static_cast<std::size_t>(n);
+  dst.h_val = std::vector<ScalarType>(src, src + vec_size);
+  cudaMalloc((void**)&dst.d_val,vec_size*sizeof(ScalarType));
+  cudaMemcpy(dst.d_val,src,vec_size*sizeof(ScalarType),cudaMemcpyHostToDevice);
+
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
 
 CHIPSUM_FUNCTION_INLINE void fill(const ScalarType val, const SizeType n,
-                                  std::vector<ScalarType> &dst) {
-  dst = std::vector<ScalarType>(n, val);
+                                  CudaVector<ScalarType> &dst) {
+  std::size_t vec_size = static_cast<std::size_t>(n);
+  dst.h_val = std::vector<ScalarType>(vec_size,val);
+  cudaMalloc((void**)&dst.d_val,vec_size*sizeof(ScalarType));
+  cudaMemcpy(dst.d_val,dst.h_val.data(),vec_size*sizeof(ScalarType),cudaMemcpyHostToDevice);
+}
+
+
+template <typename ScalarType>
+__global__ void dot(ScalarType* x,ScalarType* y,std::size_t n){
+  
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
