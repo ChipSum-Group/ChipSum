@@ -66,7 +66,7 @@ int main(int argc, char *argv[]) {
 
     cout << a.Norm2() << endl; // 16.4317
     Scalar r;
-    a.Dot(a, r);
+
 
     cout << r() * r() << endl; // r = 270
 

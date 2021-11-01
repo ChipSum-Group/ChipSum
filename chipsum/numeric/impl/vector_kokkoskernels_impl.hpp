@@ -96,8 +96,8 @@ dot(const Kokkos::View<ScalarType *> &x, const Kokkos::View<ScalarType *> &y,
 
 template <typename ScalarType, typename SizeType, typename... Props>
 /// x = a*x 的函数子
-struct Scal_Functor {
-  Scal_Functor(Kokkos::View<ScalarType> ai, Kokkos::View<ScalarType *> xi,
+struct scal_functor {
+  scal_functor(Kokkos::View<ScalarType> ai, Kokkos::View<ScalarType *> xi,
                Kokkos::View<ScalarType *> yi) {
     a = ai;
     x = xi;
@@ -120,7 +120,7 @@ CHIPSUM_FUNCTION_INLINE void scal(Kokkos::View<ScalarType *> &R,
                                   const Kokkos::View<ScalarType> &a,
                                   const Kokkos::View<ScalarType *> &X) {
   Kokkos::parallel_for(R.extent(0),
-                       Scal_Functor<ScalarType, SizeType>(a, X, R));
+                       scal_functor<ScalarType, SizeType>(a, X, R));
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
@@ -191,7 +191,7 @@ shallow_copy(const Kokkos::View<ScalarType *> &dst,
 template <typename ScalarType, typename SizeType, typename... Props>
 
 CHIPSUM_FUNCTION_INLINE ScalarType &get_item(const std::size_t index,
-                                            Kokkos::View<ScalarType *> &vec) {
+                                            const Kokkos::View<ScalarType *> &vec) {
 
   return vec(index);
 }

@@ -1,11 +1,9 @@
-/*
- * @Description: 标量scalar的用户接口
- * @Version: 2.0
- * @Autor: lhl
- * @Date: 2021-08-09 12:27:29
- * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-10-11 09:09:30
- */
+///
+/// \file     scalar.hpp
+/// \author   Riiiichman-Li
+/// \group    CDCS-HPC
+/// \date     2021-10-27
+///
 
 
 #ifndef __CHIPSUM_NUMERIC_SCALAR_HPP_
@@ -28,7 +26,7 @@
 namespace ChipSum {
 namespace Numeric {
 
-template <typename... Props> class Scalar;
+
 
 template <typename ScalarType, typename SizeType, typename BackendType,
           typename... Props>
@@ -54,88 +52,85 @@ private:
 
 public:
 
-  /**
-   * @description: 构造函数
-   * @param {*}
-   * @return {*}
-   * @author: Li Kunyun
-   */
-  CHIPSUM_DECLARED_FUNCTION Scalar() {
-    ChipSum::Numeric::Impl::Scalar::Create<ScalarType, SizeType>(__data);
+
+
+  CHIPSUM_DECLARED_FUNCTION
+  ///
+  /// \brief Scalar 构造函数
+  ///
+  Scalar() {
+    ChipSum::Numeric::Impl::Scalar::create<ScalarType, SizeType>(__data);
   }
 
-  /**
-   * @description: 构造函数（初始化）
-   * @param {const ScalarType} s 初始值
-   * @return {*}
-   * @author: Li Kunyun
-   */
-  CHIPSUM_DECLARED_FUNCTION Scalar(const ScalarType s) {
-    ChipSum::Numeric::Impl::Scalar::Create<ScalarType, SizeType>(s, __data);
+
+  CHIPSUM_DECLARED_FUNCTION
+  ///
+  /// \brief Scalar 构造函数
+  ///
+  Scalar(const ScalarType s) {
+    ChipSum::Numeric::Impl::Scalar::create<ScalarType, SizeType>(s, __data);
   }
 
-  /**
-   * @description: 获取数据
-   * @param {*}
-   * @return {const_scalar_type_reference} 数据
-   * @author: Li Kunyun
-   */
-  CHIPSUM_FUNCTION_INLINE const_scalar_type_reference GetData() {
+
+  CHIPSUM_FUNCTION_INLINE
+  ///
+  /// \brief GetData 获取后端底层，如Kokkos::View<double>
+  /// \return 后端数据引用
+  ///
+  const_scalar_type_reference GetData() {
     return __data;
   }
 
-  /**
-   * @description: 赋值
-   * @param {const ScalarType} 标量值
-   * @return {Scalar} 
-   * @author: Li Kunyun
-   */
-  CHIPSUM_FUNCTION_INLINE Scalar& operator=(const ScalarType s) {
-    ChipSum::Numeric::Impl::Scalar::DeepCopy<ScalarType, SizeType>(s, __data);
+
+  CHIPSUM_FUNCTION_INLINE
+
+  ///
+  /// \brief operator = 赋值操作符
+  /// \param s POD类型
+  /// \return Scalar数据对象引用（*this）
+  ///
+  Scalar& operator=(const ScalarType s) {
+    ChipSum::Numeric::Impl::Scalar::deep_copy<ScalarType, SizeType>(s, __data);
     return *this;
   }
 
-    /**
-   * @description: 赋值
-   * @param {scalar_type} 标量值
-   * @return {Scalar} 
-   * @author: Li Kunyun
-   */
-  CHIPSUM_FUNCTION_INLINE Scalar& operator=(const scalar_type& s) {
-    ChipSum::Numeric::Impl::Scalar::DeepCopy<ScalarType, SizeType>(s, __data);
+  CHIPSUM_FUNCTION_INLINE
+  ///
+  /// \brief operator = 赋值操作符
+  /// \param s 后端数据类型
+  /// \return
+  ///
+  Scalar& operator=(const scalar_type& s) {
+    ChipSum::Numeric::Impl::Scalar::deep_copy<ScalarType, SizeType>(s, __data);
     return *this;
   }
 
-  /**
-   * @description: 获取标量值
-   * @param {*} 
-   * @return {const ScalarType} 标量值
-   * @author: Li Kunyun
-   */
-  CHIPSUM_FUNCTION_INLINE const ScalarType operator()() {
-    return ChipSum::Numeric::Impl::Scalar::GetItem<ScalarType, SizeType>(
+  CHIPSUM_FUNCTION_INLINE
+  ///
+  /// \brief operator ()
+  /// \return
+  ///
+  const ScalarType operator()() {
+    return ChipSum::Numeric::Impl::Scalar::get_item<ScalarType, SizeType>(
         __data);
   }
 
-  /**
-   * @description: 隐式转换
-   * @param {*} 
-   * @return {*}
-   * @author: Li Kunyun
-   */
-  CHIPSUM_FUNCTION_INLINE operator ScalarType() const {
-    return ChipSum::Numeric::Impl::Scalar::GetItem<ScalarType, SizeType>(
+  CHIPSUM_FUNCTION_INLINE
+  ///
+  /// \brief operator ScalarType
+  ///
+  operator ScalarType() const {
+    return ChipSum::Numeric::Impl::Scalar::get_item<ScalarType, SizeType>(
         __data);
   }
 
-  /**
-   * @description: 打印（方便调试）
-   * @param {ostream} &out 输出流
-   * @return {*}
-   * @author: Li Kunyun
-   */
-  CHIPSUM_FUNCTION_INLINE void Print(std::ostream &out = std::cout) {
-    ChipSum::Numeric::Impl::Scalar::Print<ScalarType, SizeType>(__data, out);
+  CHIPSUM_FUNCTION_INLINE
+  ///
+  /// \brief Print
+  /// \param out
+  ///
+  void Print(std::ostream &out = std::cout) {
+    ChipSum::Numeric::Impl::Scalar::print<ScalarType, SizeType>(__data, out);
   }
 };
 

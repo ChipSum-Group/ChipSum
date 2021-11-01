@@ -43,7 +43,7 @@ template <typename ScalarType, typename SizeType, typename... Props>
  * @return {*}
  * @author: Li Kunyun
  */
-CHIPSUM_FUNCTION_INLINE void Create(CudaScalar<ScalarType>& s) {
+CHIPSUM_FUNCTION_INLINE void create(CudaScalar<ScalarType>& s) {
 
   cudaMalloc((void**)&s.val,sizeof (ScalarType));
 
@@ -58,7 +58,7 @@ template <typename ScalarType, typename SizeType, typename... Props>
  * @return {*}
  * @author: Li Kunyun
  */
-CHIPSUM_FUNCTION_INLINE void Create(const ScalarType s, CudaScalar<ScalarType>& r) {
+CHIPSUM_FUNCTION_INLINE void create(const ScalarType s, CudaScalar<ScalarType>& r) {
   cudaMalloc((void**)&r.val,sizeof (ScalarType));
   cudaMemcpy(r.val,&s,sizeof (ScalarType),cudaMemcpyHostToDevice);
 }
@@ -71,7 +71,7 @@ template <typename ScalarType, typename SizeType, typename... Props>
  * @return {*}
  * @author: Li Kunyun
  */
-CHIPSUM_FUNCTION_INLINE void DeepCopy(const ScalarType s, CudaScalar<ScalarType>& r) {
+CHIPSUM_FUNCTION_INLINE void deep_copy(const ScalarType s, CudaScalar<ScalarType>& r) {
   cudaMemcpy(r.val,&s,sizeof (ScalarType),cudaMemcpyHostToDevice);
 }
 
@@ -83,7 +83,7 @@ template <typename ScalarType, typename SizeType, typename... Props>
  * @return {*}
  * @author: Li Kunyun
  */
-CHIPSUM_FUNCTION_INLINE ScalarType GetItem(CudaScalar<ScalarType>& r) {
+CHIPSUM_FUNCTION_INLINE ScalarType get_item(CudaScalar<ScalarType>& r) {
   ScalarType s;
   cudaMemcpy(&s,r.val,sizeof (ScalarType),cudaMemcpyDeviceToHost);
   return s;
@@ -100,7 +100,7 @@ template <typename ScalarType, typename SizeType, typename... Props>
  * @return {*}
  * @author: Li Kunyun
  */
-CHIPSUM_FUNCTION_INLINE void Print(const CudaScalar<ScalarType>& r, std::ostream &out) {
+CHIPSUM_FUNCTION_INLINE void print(const CudaScalar<ScalarType>& r, std::ostream &out) {
 
   ScalarType s;
   cudaMemcpy(&s,r.val,sizeof (ScalarType),cudaMemcpyDeviceToHost);

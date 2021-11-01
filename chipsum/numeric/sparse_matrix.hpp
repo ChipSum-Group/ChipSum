@@ -26,9 +26,9 @@
 namespace ChipSum {
 namespace Numeric {
 
-template <typename... Props> class SparseMatrix;
 
-enum GSAlgorithm { DEFAULT, PERMUTED, TEAM, CLUSTER, TWOSTAGE };
+
+
 
 template <typename ScalarType, typename SizeType, typename SpFormat,
           typename BackendType, typename... Props>
@@ -51,14 +51,14 @@ private:
 
 public:
   template <typename... Args> // 用于应对不同格式稀疏矩阵的创建
-  /**
-   * @description:
-   * @param {size_type} nrow 行数
-   * @param {size_type} ncol 列数
-   * @param {size_type} annz 非零元数
-   * @param {Args} 稀疏矩阵所需的其他数据
-   * @return {*}
-   */
+
+  ///
+  /// \brief SparseMatrix 稀疏矩阵模板。SpFormat表示稀疏矩阵的储存格式，至少会支持CSC/CSR/COO，后续会添加一些新的后端。
+  /// \param nrow 行数
+  /// \param ncol 列数
+  /// \param annz 非零元数
+  /// \param args 稀疏矩阵所需的其他数据
+  ///
   CHIPSUM_DECLARED_FUNCTION SparseMatrix(size_type nrow, size_type ncol,
                                          size_type annz, Args... args)
       : __nrow(nrow), __ncol(ncol), __annz(annz) {
@@ -67,25 +67,23 @@ public:
   }
   
 
-  /**
-   * @description:
-   * @param {*}
-   * @return {size_type} 获取列数
-   */
+  ///
+  /// \brief GetColNum 获取列数
+  /// \return 列数
+  ///
   CHIPSUM_FUNCTION_INLINE size_type GetColNum() { return __ncol; }
 
-  /**
-   * @description:
-   * @param {*}
-   * @return {size_type} 获取行数
-   */
+  ///
+  /// \brief GetRowNum 获取行数
+  /// \return 行数
+  ///
   CHIPSUM_FUNCTION_INLINE size_type GetRowNum() { return __nrow; }
 
-  /**
-   * @description: SpMV
-   * @param {vector_type} 向量
-   * @return {*} 向量（结果）
-   */
+  ///
+  /// \brief operator * SpMV
+  /// \param v 向量
+  /// \return 向量（结果）
+  ///
   CHIPSUM_FUNCTION_INLINE vector_type operator*(vector_type &v) {
     vector_type ret(v.GetSize());
     ChipSum::Numeric::Impl::Sparse::mult<ScalarType, SizeType>(
@@ -93,11 +91,12 @@ public:
     return ret;
   }
 
-  /**
-   * @description: SpMD（稀疏矩阵乘稠密矩阵）
-   * @param {dense_type} 稠密矩阵
-   * @return {*}
-   */
+
+  ///
+  /// \brief operator * SpMV（稀疏矩阵乘稠密矩阵）
+  /// \param m 稠密矩阵
+  /// \return
+  ///
   CHIPSUM_FUNCTION_INLINE dense_type operator*(dense_type &m) {
     dense_type ret(__nrow, m.GetColNum());
     ChipSum::Numeric::Impl::Sparse::mult<ScalarType, SizeType>(
@@ -106,38 +105,42 @@ public:
   }
 
 
-  /**
-   * @description: 打印（调试用）
-   * @param {std::ostream&} 输出流
-   * @return {*}
-   * @author: Li Kunyun
-   */
+  ///
+  /// \brief operator * SPGEMM（稀疏矩阵乘稀疏矩阵）
+  /// \param m
+  /// \return
+  ///
+  CHIPSUM_FUNCTION_INLINE SparseMatrix operator*(SparseMatrix& m) {
+
+      return nullptr;
+  }
+
+
+
+  ///
+  /// \brief Print 打印（调试用）
+  /// \param out 输出流
+  ///
   CHIPSUM_FUNCTION_INLINE void Print(std::ostream& out=std::cout)
   {
     ChipSum::Numeric::Impl::Sparse::print<ScalarType,SizeType>(__data,out);
   }
 
 
-
-  /**
-   * @description: 打印pattern（调试用）
-   * @param {std::ostream&} 输出流
-   * @return {*}
-   * @author: Li Kunyun
-   */
+  ///
+  /// \brief PrintPattern 打印pattern（调试用）
+  /// \param out 输出流
+  ///
   CHIPSUM_FUNCTION_INLINE void PrintPattern(std::ostream& out=std::cout)
   {
     ChipSum::Numeric::Impl::Sparse::print_pattern<ScalarType,SizeType>(__data,out);
   }
 
-
   
-  /**
-   * @description: 保存pattern为图片（调试用）
-   * @param {std::ostream&} 输出流
-   * @return {*}
-   * @author: Li Kunyun
-   */
+  ///
+  /// \brief SavePatternFig 保存pattern为图片（调试用）
+  /// \param filename 文件名
+  ///
   CHIPSUM_FUNCTION_INLINE void SavePatternFig(const char* filename)
   {
     // 还有一些BUG:BMP格式的稀疏矩阵必须是方阵，且行列数必须是4的倍数。（待修复）

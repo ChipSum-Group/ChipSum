@@ -22,7 +22,7 @@ list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/impl/scalar_serial_impl.hpp")
 
 list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/impl/vector_serial_impl.hpp")
 list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/impl/vector_kokkoskernels_impl.hpp")
-list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/impl/vector_dual_kokkos_impl.hpp")
+
 
 
 list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/impl/crs_kokkoskernels_impl.hpp")

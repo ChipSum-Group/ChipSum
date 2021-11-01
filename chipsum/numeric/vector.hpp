@@ -1,12 +1,12 @@
-/*
- * @Description: 向量vector用户接口
- * @Version: 2.0
- * @Autor: Li Kunyun
- * @Date: 2021-08-09 12:20:42
- * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-10-26 16:14:14
- */
+///
+/// \file     vector.hpp
+/// \author   Riiiichman-Li
+/// \group    CDCS-HPC
+/// \date     2021-10-27
+///
 
+
+/// \addtogroup 用户接口
 #ifndef __CHIPSUM_NUMERIC_VECTOR_HPP__
 #define __CHIPSUM_NUMERIC_VECTOR_HPP__
 
@@ -24,7 +24,6 @@
 namespace ChipSum {
 namespace Numeric {
 
-template <typename... Props> class Vector;
 
 template <typename ScalarType, typename SizeType, typename BackendType,
           typename... Props>
@@ -68,13 +67,9 @@ protected:
 public:
   //    void PublicSample(){}
 
-  /**
-   * @description: 构造函数
-   * @param {*}
-   * @return {*}
-   * @author: Li Kunyun
-   */
-  CHIPSUM_DECLARED_FUNCTION Vector() = default;
+
+  CHIPSUM_DECLARED_FUNCTION
+  Vector() = default;
 
   // 拷贝构造函数
   CHIPSUM_DECLARED_FUNCTION Vector(const Vector &) = default;
@@ -82,141 +77,133 @@ public:
   // 拷贝构造函数
   CHIPSUM_DECLARED_FUNCTION Vector(Vector &&) = default;
 
-  /**
-   * @description: 创建长度为size的Vector
-   * @param {const_size_type} size
-   * @return {*}
-   */
+
+  ///
+  /// \brief Vector 构造函数
+  /// \param size 向量维度
+  ///
   CHIPSUM_DECLARED_FUNCTION Vector(const_size_type size) : __size(size) {
-    ChipSum::Numeric::Impl::Vector::Create<ScalarType, SizeType>(__size,
+    ChipSum::Numeric::Impl::Vector::create<ScalarType, SizeType>(__size,
                                                                  __data);
   }
 
-  /**
-   * @description: 构造函数
-   * @param {const vector_type} &data
-   * @param {const_size_type} size
-   * @return {*}
-   */
+
+  ///
+  /// \brief Vector 构造函数
+  /// \param data 后端数据类型的源数据
+  /// \param size 向量维度
+  ///
   CHIPSUM_DECLARED_FUNCTION Vector(const vector_type &data,
                                    const_size_type size)
       : __size(size) {
 
-    ChipSum::Numeric::Impl::Vector::Create<ScalarType, SizeType>(__size,
+    ChipSum::Numeric::Impl::Vector::create<ScalarType, SizeType>(__size,
                                                                  __data);
 
-    ChipSum::Numeric::Impl::Vector::DeepCopy<ScalarType, SizeType>(__data,
+    ChipSum::Numeric::Impl::Vector::deep_copy<ScalarType, SizeType>(__data,
                                                                    data);
   }
 
-  /**
-   * @description: 拷贝构造函数
-   * @param {nonconst_scalar_type} data POD数据
-   * @param {const_size_type} size 向量长度
-   * @return {*}
-   */
+
+  ///
+  /// \brief Vector 构造函数
+  /// \param data POD类型的数据源
+  /// \param size 向量维度
+  ///
   CHIPSUM_DECLARED_FUNCTION Vector(typename traits::nonconst_scalar_type *data,
                                    const_size_type size)
       : __size(size) {
 
-    ChipSum::Numeric::Impl::Vector::Create<ScalarType, SizeType>(data, size,
+    ChipSum::Numeric::Impl::Vector::create<ScalarType, SizeType>(data, size,
                                                                  __data);
   }
 
-  /**
-   * @description: 获取向量数据
-   * @param {*}
-   * @return {const_vector_type_reference} 数据
-   */
+
+  ///
+  /// \brief GetData 获取后端数据类型
+  /// \return
+  ///
   CHIPSUM_FUNCTION_INLINE const_vector_type_reference GetData() {
     return __data;
   }
 
-  /**
-   * @description: 获取向量长度
-   * @param {*}
-   * @return {const_size_type_reference} 向量长度
-   */
+  ///
+  /// \brief GetSize 获取向量维度
+  /// \return
+  ///
   CHIPSUM_FUNCTION_INLINE const_size_type_reference GetSize() { return __size; }
 
   template <typename Arg>
-  /**
-   * @description: dot运算
-   * @param {Vector} v 向量
-   * @param {Arg} r 标量
-   * @return {*}
-   */
+  ///
+  /// \brief Dot 莫版化向量点积
+  /// \param v 右端项
+  /// \param r 点积结果
+  ///
   CHIPSUM_FUNCTION_INLINE void Dot(Vector &v, Arg &r) {
-    ChipSum::Numeric::Impl::Vector::Dot<ScalarType, SizeType>(
+    ChipSum::Numeric::Impl::Vector::dot<ScalarType, SizeType>(
         GetData(), v.GetData(), __size, r);
   }
 
-  /**
-   * @description: dot运算
-   * @param {Vector} v 向量
-   * @param {scalar_type} r 标量
-   * @return {*}
-   */
+  ///
+  /// \brief Dot 向量点积
+  /// \param v 右端项
+  /// \param r 点积结果
+  ///
   CHIPSUM_FUNCTION_INLINE void Dot(Vector &v, scalar_type &r) {
     Dot(v, r.GetData());
   }
 
   template <typename RetType>
-  /**
-   * @description: dot运算
-   * @param {Vector} v 向量
-   * @return {RetType} 标量
-   */
+  ///
+  /// \brief Dot 向量点积
+  /// \param v 右端项
+  /// \return 点积结果
+  ///
   CHIPSUM_FUNCTION_INLINE RetType Dot(Vector &v) {
     RetType r;
     Dot(v, r);
     return r;
   }
 
-  /**
-   * @description: dot运算
-   * @param {Vector} v 向量
-   * @return {scalar_type} 标量
-   */
+  ///
+  /// \brief Dot 向量点积
+  /// \param v 右端项
+  /// \return 点积结果
+  ///
   CHIPSUM_FUNCTION_INLINE scalar_type Dot(Vector &v) {
     Scalar<ScalarType, SizeType, BackendType> r;
     Dot(v, r.GetData());
     return r;
   }
 
-  /**
-   * @description: y=a*x
-   * @param {const ScalarType} a 系数
-   * @return {Vector} 结果
-   */
+  ///
+  /// \brief operator *  y = a*x
+  /// \param a 系数
+  /// \return y
+  ///
   CHIPSUM_FUNCTION_INLINE Vector operator*(const ScalarType a) {
 
     Vector ret(__size);
 
-    ChipSum::Numeric::Impl::Vector::Scal<ScalarType, SizeType>(ret.GetData(), a,
+    ChipSum::Numeric::Impl::Vector::scal<ScalarType, SizeType>(ret.GetData(), a,
                                                                GetData());
     return ret;
   }
 
-  /**
-   * @description: 赋值拷贝运算符
-   * @param {const Vector&}
-   * @return {Vector&}
-   * @author: Li Kunyun
-   */
+
   CHIPSUM_FUNCTION_INLINE Vector &operator=(const Vector &) = default;
 
-  /**
-   * @description: y=a*x
-   * @param {Scalar<...>} a 系数
-   * @return {Vector} 向量
-   */
+  ///
+  /// \brief operator * y = a*x
+  /// \param a 系数(后端Scalar类型)
+  /// \return y
+  ///
   CHIPSUM_FUNCTION_INLINE Vector
   operator*(Scalar<ScalarType, SizeType, BackendType> &a) {
 
     Vector ret(__size);
 
-    ChipSum::Numeric::Impl::Vector::Scal<
+    ChipSum::Numeric::Impl::Vector::scal<
         ScalarType, SizeType,
         typename Scalar<ScalarType, SizeType, BackendType>::device_scalar_type>(
         ret.GetData(), a.GetData(), __data);
@@ -224,80 +211,79 @@ public:
     return ret;
   }
 
-  /**
-   * @description: x*=a
-   * @param {ScalarType} a 系数
-   * @return {Vector&} 向量
-   */
+  ///
+  /// \brief operator *=  x = a*x
+  /// \param a 系数
+  /// \return (*this)
+  ///
   CHIPSUM_FUNCTION_INLINE Vector &operator*=(ScalarType a) {
     ChipSum::Numeric::Impl::Vector::scal<ScalarType, SizeType>(__data, a,
                                                                GetData());
     return *this;
   }
 
-  /**
-   * @description: c=a+b
-   * @param {Vector&} b
-   * @return {Vector} 向量
-   */
-  CHIPSUM_FUNCTION_INLINE Vector operator+(Vector &b) {
+  ///
+  /// \brief operator +  z=x+y
+  /// \param y 右端项
+  /// \return  结果
+  ///
+  CHIPSUM_FUNCTION_INLINE Vector operator+(Vector &y) {
     Vector ret(__data, __size);
     ChipSum::Numeric::Impl::Vector::axpy<ScalarType, SizeType>(
-        static_cast<ScalarType>(1), b.GetData(), ret.GetData());
+        static_cast<ScalarType>(1), y.GetData(), ret.GetData());
 
     return ret;
   }
 
-  /**
-   * @description: x+=y
-   * @param {Vector&} y 向量
-   * @return {Vector&} 向量
-   */
+  ///
+  /// \brief operator +=  x+=y
+  /// \param y 右端项
+  /// \return 结果
+  ///
   CHIPSUM_FUNCTION_INLINE Vector &operator+=(Vector &y) {
     ChipSum::Numeric::Impl::Vector::axpy<ScalarType, SizeType>(
         static_cast<ScalarType>(1), y.GetData(), __data);
     return *this;
   }
 
-  /**
-   * @description: c = a-b
-   * @param {Vector&} b 向量
-   * @return {Vector} 向量
-   */
-  CHIPSUM_FUNCTION_INLINE Vector operator-(Vector &b) {
+  ///
+  /// \brief operator -  z=x-y
+  /// \param y
+  /// \return
+  ///
+  CHIPSUM_FUNCTION_INLINE Vector operator-(Vector &y) {
 
     Vector ret(__data, __size);
     ChipSum::Numeric::Impl::Vector::axpy<ScalarType, SizeType>(
-        static_cast<ScalarType>(-1), b.GetData(), ret.GetData());
+        static_cast<ScalarType>(-1), y.GetData(), ret.GetData());
     return ret;
   }
 
-  /**
-   * @description: -x
-   * @param {*}
-   * @return {Vector} 结果
-   */
+  ///
+  /// \brief operator -  y=-x
+  /// \return y
+  ///
   CHIPSUM_FUNCTION_INLINE Vector operator-() {
 
     return static_cast<ScalarType>(-1) * (*this);
   }
 
-  /**
-   * @description: x-=y
-   * @param {Vector} y 向量
-   * @return {Vector} 向量
-   */
+  ///
+  /// \brief operator -= x=x-y
+  /// \param y
+  /// \return
+  ///
   CHIPSUM_FUNCTION_INLINE Vector &operator-=(Vector &y) {
     ChipSum::Numeric::Impl::Vector::axpy<ScalarType, SizeType>(
         static_cast<ScalarType>(-1), y.GetData(), __data);
     return *this;
   }
 
-  /**
-   * @description: 下标取值
-   * @param {const SizeType} i 下标索引
-   * @return {ScalarType &} 标量（POD）
-   */
+  ///
+  /// \brief operator () x(i)
+  /// \param i 下标索引
+  /// \return
+  ///
   CHIPSUM_FUNCTION_INLINE ScalarType &operator()(const SizeType i) {
     return ChipSum::Numeric::Impl::Vector::get_item<ScalarType, SizeType>(
         i, __data);
@@ -305,41 +291,40 @@ public:
 
 
 
-  /**
-   * @description: x的1范数
-   * @param {*}
-   * @return {*} 标量（POD）
-   */
+  ///
+  /// \brief Norm2 x的1范数
+  /// \return 标量（POD）
+  ///
   CHIPSUM_FUNCTION_INLINE ScalarType Norm1() {
     return ChipSum::Numeric::Impl::Vector::norm1<ScalarType, SizeType,
                                                  Props...>(__data);
   }
 
-  /**
-   * @description: x的2范数
-   * @param {*}
-   * @return {*} 标量（POD）
-   */
+
+  ///
+  /// \brief Norm2 x的2范数
+  /// \return 标量（POD）
+  ///
   CHIPSUM_FUNCTION_INLINE ScalarType Norm2() {
     return ChipSum::Numeric::Impl::Vector::norm2<ScalarType, SizeType,
                                                  Props...>(__data);
   }
 
-  /**
-   * @description: x的Inf范数
-   * @param {*}
-   * @return {*} 标量（POD）
-   */
+
+  ///
+  /// \brief NormInf x的Inf范数
+  /// \return 标量（POD）
+  ///
   CHIPSUM_FUNCTION_INLINE ScalarType NormInf() {
     return ChipSum::Numeric::Impl::Vector::norminf<ScalarType, SizeType,
                                                  Props...>(__data);
   }
 
-  /**
-   * @description: 打印（一般用于调试）
-   * @param {std::ostream&} out 输出流
-   * @return {*}
-   */
+
+  ///
+  /// \brief Print 打印（一般用于调试）
+  /// \param out 输出流
+  ///
   CHIPSUM_FUNCTION_INLINE void Print(std::ostream &out = std::cout) {
     ChipSum::Numeric::Impl::Vector::print<ScalarType, SizeType, Props...>(
         __data, out);
@@ -348,12 +333,14 @@ public:
 
 template <typename ScalarType, typename SizeType, typename BackendType,
           typename... Props>
-/**
- * @description: y=a*x
- * @param {const ScalarType} 系数（POD）
- * @param {Vector} 向量
- * @return {*} 向量
- */
+
+
+///
+/// \brief operator * y=a*x
+/// \param a 系数（POD）
+/// \param x 向量
+/// \return y
+///
 CHIPSUM_FUNCTION_INLINE Vector<ScalarType, SizeType, BackendType, Props...>
 operator*(const ScalarType a,
           Vector<ScalarType, SizeType, BackendType, Props...> &x) {
@@ -362,12 +349,12 @@ operator*(const ScalarType a,
 
 template <typename ScalarType, typename SizeType, typename BackendType,
           typename... Props>
-/**
- * @description: y=a*x
- * @param {Scalar} 标量（ChipSum）
- * @param {Vector} 向量
- * @return {*} 向量
- */
+///
+/// \brief operator * y=a*x
+/// \param a 标量（后端数据类型）
+/// \param x 向量x
+/// \return
+///
 CHIPSUM_FUNCTION_INLINE Vector<ScalarType, SizeType, BackendType, Props...>
 operator*(Scalar<ScalarType, SizeType, BackendType, Props...> &a,
           Vector<ScalarType, SizeType, BackendType, Props...> &x) {

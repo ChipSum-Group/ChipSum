@@ -275,8 +275,8 @@ save_figure(KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
 
   if (file_string == ".bmp" || file_string == ".BMP"/* 补丁写法 */) {
     // 有一些已知的BUG，见用户接口
-    ChipSum::Common::FlipBMP(N, M, img);
-    ChipSum::Common::WriteBMP(N, M, img, filename);
+    ChipSum::Common::flip_bmp(N, M, img);
+    ChipSum::Common::write_bmp(N, M, img, filename);
   } else if (file_string == ".png" || file_string == ".PNG"/* 补丁写法 */) {
     ::std::FILE *fp = ::std::fopen(filename, "wb");
     svpng(fp, N, M, img, 0);

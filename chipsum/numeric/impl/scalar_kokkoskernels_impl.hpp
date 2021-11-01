@@ -42,7 +42,7 @@ template <typename ScalarType, typename SizeType, typename... Props>
  * @return {*}
  * @author: Li Kunyun
  */
-CHIPSUM_FUNCTION_INLINE void Create(Kokkos::View<ScalarType> &r) {
+CHIPSUM_FUNCTION_INLINE void create(Kokkos::View<ScalarType> &r) {
   r = Kokkos::View<ScalarType>("scalar_" + std::to_string(scalar_name++));
 }
 
@@ -54,7 +54,7 @@ template <typename ScalarType, typename SizeType, typename... Props>
  * @return {*}
  * @author: Li Kunyun
  */
-CHIPSUM_FUNCTION_INLINE void DeepCopy(const ScalarType s,
+CHIPSUM_FUNCTION_INLINE void deep_copy(const ScalarType s,
                                       Kokkos::View<ScalarType> &r) {
 
   typename Kokkos::View<ScalarType>::HostMirror h_r =
@@ -71,9 +71,9 @@ template <typename ScalarType, typename SizeType, typename... Props>
  * @return {*}
  * @author: Li Kunyun
  */
-CHIPSUM_FUNCTION_INLINE void Create(const ScalarType s,
+CHIPSUM_FUNCTION_INLINE void create(const ScalarType s,
                                     Kokkos::View<ScalarType> &r) {
-  DeepCopy<ScalarType, SizeType>(s, r);
+  deep_copy<ScalarType, SizeType>(s, r);
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
@@ -84,7 +84,7 @@ template <typename ScalarType, typename SizeType, typename... Props>
  * @author: Li Kunyun
  */
 CHIPSUM_FUNCTION_INLINE const ScalarType
-GetItem(const Kokkos::View<ScalarType> &s) {
+get_item(const Kokkos::View<ScalarType> &s) {
   typename Kokkos::View<ScalarType>::HostMirror h_s =
       Kokkos::create_mirror_view(s);
   Kokkos::deep_copy(h_s, s);
@@ -99,7 +99,7 @@ template <typename ScalarType, typename SizeType, typename... Props>
  * @return {*}
  * @author: Li Kunyun
  */
-CHIPSUM_FUNCTION_INLINE void GetItem(const Kokkos::View<ScalarType> &s,
+CHIPSUM_FUNCTION_INLINE void get_item(const Kokkos::View<ScalarType> &s,
                                      ScalarType &r)
 {
   typename Kokkos::View<ScalarType>::HostMirror h_s =
@@ -116,7 +116,7 @@ template <typename ScalarType, typename SizeType, typename... Props>
  * @return {*}
  * @author: Li Kunyun
  */
-CHIPSUM_FUNCTION_INLINE void Print(const Kokkos::View<ScalarType> &s,
+CHIPSUM_FUNCTION_INLINE void print(const Kokkos::View<ScalarType> &s,
                                    std::ostream &out) {
   typename Kokkos::View<ScalarType>::HostMirror h_s =
       Kokkos::create_mirror_view(s);

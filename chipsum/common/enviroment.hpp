@@ -16,12 +16,22 @@
 namespace ChipSum {
 namespace Common {
 
+
+///
+/// \brief Init ChipSum环境初始化
+/// \param argc 命令行参数argc
+/// \param argv 命令行参数argv
+///
 void Init(int &argc, char *argv[]) {
 #if defined(ChipSum_USE_KokkosKernels) || defined(ChipSum_USE_KokkosKernels64)
   Kokkos::initialize(argc, argv);
 #endif
 }
 
+
+///
+/// \brief Finalize 安全退出ChipSum环境
+///
 void Finalize() {
 #if defined(ChipSum_USE_KokkosKernels) || defined(ChipSum_USE_KokkosKernels64)
   Kokkos::finalize();

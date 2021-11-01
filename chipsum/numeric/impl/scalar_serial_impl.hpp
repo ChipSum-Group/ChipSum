@@ -32,74 +32,39 @@ struct Scalar_Traits<ScalarType, SizeType, ChipSum::Backend::Serial, Props...>
 namespace Impl {
 namespace Scalar {
 template <typename ScalarType, typename SizeType, typename... Props>
-/**
- * @description: 创建标量
- * @param {View<ScalarType>} &r 标量（out）
- * @return {*}
- * @author: Li Kunyun
- */
-CHIPSUM_FUNCTION_INLINE void Create(ScalarType &) {
+
+CHIPSUM_FUNCTION_INLINE void create(ScalarType &) {
   return;
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
-/**
- * @description: 创建标量
- * @param {*} s 数据源
- * @param {*} r 标量（out）
- * @return {*}
- * @author: Li Kunyun
- */
-CHIPSUM_FUNCTION_INLINE void Create(const ScalarType s, ScalarType &r) {
+
+CHIPSUM_FUNCTION_INLINE void create(const ScalarType s, ScalarType &r) {
   r = s;
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
-/**
- * @description: 标量深拷贝
- * @param {*} s 数据源
- * @param {*} r 标量（out）
- * @return {*}
- * @author: Li Kunyun
- */
-CHIPSUM_FUNCTION_INLINE void DeepCopy(const ScalarType s, ScalarType &r) {
+
+CHIPSUM_FUNCTION_INLINE void deep_copy(const ScalarType s, ScalarType &r) {
   r = s;
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
-/**
- * @description: 获取标量（by return）
- * @param {*} s 标量
- * @param {*} r 标量（out）
- * @return {*}
- * @author: Li Kunyun
- */
-CHIPSUM_FUNCTION_INLINE ScalarType GetItem(ScalarType s) {
+
+CHIPSUM_FUNCTION_INLINE ScalarType get_item(ScalarType s) {
   return s;
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
-/**
- * @description: 获取标量（by reference）
- * @param {*} s 标量
- * @param {*} r 标量（out）
- * @return {*}
- * @author: Li Kunyun
- */
-CHIPSUM_FUNCTION_INLINE void GetItem(const ScalarType s, ScalarType &r) {
+
+CHIPSUM_FUNCTION_INLINE void get_item(const ScalarType s, ScalarType &r) {
   r = s;
 }
 
 
 template <typename ScalarType, typename SizeType, typename... Props>
-/**
- * @description: 打印标量，一般用于调试
- * @param {*} s 标量
- * @param {*} out 输出流（in/out）
- * @return {*}
- * @author: Li Kunyun
- */
-CHIPSUM_FUNCTION_INLINE void Print(const ScalarType s, std::ostream &out) {
+
+CHIPSUM_FUNCTION_INLINE void print(const ScalarType s, std::ostream &out) {
 
   cout << "scalar_serial: " << s << endl;
 }

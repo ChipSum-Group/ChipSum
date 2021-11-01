@@ -61,7 +61,7 @@ install(FILES ${CHIPSUM_HEADERS}  DESTINATION include)
 
 
 add_executable(ChipSum
-    "test.cpp"
+    "test1.cpp"
     )
 install(TARGETS ChipSum  DESTINATION bin)
 
