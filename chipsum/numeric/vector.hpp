@@ -2,11 +2,13 @@
 /// \file     vector.hpp
 /// \author   Riiiichman-Li
 /// \group    CDCS-HPC
-/// \date     2021-10-27
+/// \date     2021-11-01
+/// \brief    向量类用户接口
+
 ///
 
 
-/// \addtogroup 用户接口
+
 #ifndef __CHIPSUM_NUMERIC_VECTOR_HPP__
 #define __CHIPSUM_NUMERIC_VECTOR_HPP__
 
@@ -18,15 +20,19 @@
 
 #if defined(ChipSum_USE_KokkosKernels) || defined(ChipSum_USE_KokkosKernels64)
 #include "impl/vector_kokkoskernels_impl.hpp"
-#include "impl/vector_dual_kokkos_impl.hpp"
+//#include "impl/vector_dual_kokkos_impl.hpp"
 #endif
 
 namespace ChipSum {
 namespace Numeric {
 
+template<typename ...Props>
+class Vector;
 
 template <typename ScalarType, typename SizeType, typename BackendType,
           typename... Props>
+
+
 class Vector<ScalarType, SizeType, BackendType, Props...> {
 
 public:
@@ -364,7 +370,7 @@ operator*(Scalar<ScalarType, SizeType, BackendType, Props...> &a,
 } // End namespace Numeric
 } // End namespace ChipSum
 
-typedef ChipSum::Numeric::Vector<double, std::size_t,
+typedef ChipSum::Numeric::Vector<double, CSInt_t,
                                  ChipSum::Backend::DefaultBackend>
     Vector;
 typedef ChipSum::Numeric::Vector<double, std::size_t, ChipSum::Backend::Serial>

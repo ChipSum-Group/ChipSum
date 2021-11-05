@@ -7,8 +7,8 @@
  * @LastEditTime: 2021-10-26 15:34:57
  */
 
-#ifndef __CHIPSUM_CRS_SERIAL_IMPL_HPP__
-#define __CHIPSUM_CRS_SERIAL_IMPL_HPP__
+#ifndef __CHIPSUM_CSR_SERIAL_IMPL_HPP__
+#define __CHIPSUM_CSR_SERIAL_IMPL_HPP__
 
 #include <fstream>
 #include <vector>
@@ -24,7 +24,7 @@
 namespace ChipSum {
 namespace Numeric {
 
-template <typename SizeType, typename... Props> struct StaticGraph {
+template <typename SizeType, typename... Props> struct serial_static_graph {
   ::std::vector<SizeType> row_map;
   ::std::vector<SizeType> col_map;
 };
@@ -32,7 +32,7 @@ template <typename SizeType, typename... Props> struct StaticGraph {
 template <typename ScalarType, typename SizeType, typename... Props>
 struct csr_format {
   ::std::vector<ScalarType> vals;
-  StaticGraph<SizeType> graph;
+  serial_static_graph<SizeType> graph;
   ::std::size_t col_num;
 };
 
@@ -46,7 +46,7 @@ struct Sparse_Traits<ScalarType, SizeType, SparseTypes::Csr,
   using sp_type = csr_format<ScalarType, SizeType>;
   using size_type = ::std::size_t;
 
-  using graph_type = StaticGraph<SizeType>;
+  using graph_type = serial_static_graph<SizeType>;
   using row_map_type = ::std::vector<SizeType>;
   using col_map_type = ::std::vector<SizeType>;
   using values_type = ::std::vector<ScalarType>;
@@ -72,8 +72,8 @@ create(const SizeType nrows, const SizeType ncols, const SizeType annz,
 template <typename ScalarType, typename SizeType, typename... Props>
 // 创建未初始化的CSR格式矩阵
 CHIPSUM_FUNCTION_INLINE void create(csr_format<ScalarType, SizeType> &A,
-                                    const ::std::size_t row_map_size,
-                                    const ::std::size_t col_map_size) {
+                                    const SizeType row_map_size,
+                                    const SizeType col_map_size) {
   CHIPSUM_UNUSED(row_map_size);
   A.vals.resize(col_map_size);
   A.graph.row_map.resize(col_map_size);
@@ -202,7 +202,7 @@ save_figure(csr_format<ScalarType,SizeType> &A,
       color = 0;
       if (row_entry_cnt < end - start && entry_cnt < A.graph.col_map.size()) {
         if (A.graph.col_map[start + row_entry_cnt] == j) {
-          color = 255;
+          color = 120;
           ++row_entry_cnt;
           ++entry_cnt;
         }

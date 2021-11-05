@@ -1,11 +1,4 @@
-/*
- * @Author       : your name
- * @Date         : 2021-08-10 15:35:49
- * @LastEditTime: 2021-08-18 13:42:37
- * @LastEditors: Li Kunyun
- * @Description  : In User Settings Edit
- * @FilePath     : \\lky\\ChipSum\\test.cpp
- */
+
 /* * * * * * * * * * * * * * * * * * * * *
  *   File:     test.cpp
  *   Author:   Li Kunyun
@@ -125,21 +118,21 @@ int main(int argc, char *argv[]) {
     // values[11] = 7;
     // values[12] = 9;
 
-    const size_t m = 500;
-    const size_t n = 500;
-    size_t nrows = m;
-    size_t ncols = n;
-    size_t annz = m;
-    size_t *row_map = (size_t *)malloc((m + 1) * sizeof(size_t));
-    size_t *col_map = (size_t *)malloc(std::min(m,n) * sizeof(size_t));
+    const CSInt_t m = 500;
+    const CSInt_t n = 500;
+    CSInt_t nrows = m;
+    CSInt_t ncols = n;
+    CSInt_t annz = m;
+    CSInt_t *row_map = (CSInt_t *)malloc((m + 1) * sizeof(CSInt_t));
+    CSInt_t *col_map = (CSInt_t *)malloc(std::min(m,n) * sizeof(CSInt_t));
     double *values = (double *)malloc(std::min(m,n) * sizeof(double));
 
-    for (size_t i = 0; i < std::min(m,n); ++i) {
+    for (CSInt_t i = 0; i < std::min(m,n); ++i) {
       
       col_map[i] = i;
       values[i] = 1;
     }
-     for (size_t i = 0; i <= m; ++i) {
+     for (CSInt_t i = 0; i <= m; ++i) {
       
        row_map[i] = i;
     }
@@ -149,7 +142,12 @@ int main(int argc, char *argv[]) {
 
     // B.PrintPattern();
     // B.Print();
-    B.SavePatternFig(argv[1]);
+
+    string filename = "1.png";
+
+    if(argc > 1) filename = string(argv[1]);
+
+    B.SavePatternFig(filename.data());
 
     // (B * a).Print(); // spmv通过{39,57,120,87,150}
     // (B * m1).Print(); // spgemm的KokkosKernels通过，但是Serial版本还存在问题

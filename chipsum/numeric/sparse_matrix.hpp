@@ -1,11 +1,10 @@
-/*
- * @Description: 稀疏矩阵用户接口
- * @Version: 2.0
- * @Autor: Li Kunyun
- * @Date: 2021-08-09 12:20:42
- * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-10-26 15:18:14
- */
+///
+/// \file     sparse_matrix.hpp
+/// \author   Riiiichman-Li
+/// \group    CDCS-HPC
+/// \date     2021-11-01
+/// \brief    稀疏矩阵用户接口
+///
 
 #ifndef __CHIPSUM_NUMERIC_SPARSE_MATRIX_HPP__
 #define __CHIPSUM_NUMERIC_SPARSE_MATRIX_HPP__
@@ -16,10 +15,10 @@
 #include "dense_matrix.hpp"
 #include "vector.hpp"
 
-#include "impl/crs_serial_impl.hpp"
+#include "impl/csr_serial_impl.hpp"
 
 #if defined(ChipSum_USE_KokkosKernels) || defined(ChipSum_USE_KokkosKernels64)
-#include "impl/crs_kokkoskernels_impl.hpp"
+#include "impl/csr_kokkoskernels_impl.hpp"
 #endif
 
 
@@ -27,7 +26,8 @@ namespace ChipSum {
 namespace Numeric {
 
 
-
+template<typename ...Props>
+class SparseMatrix;
 
 
 template <typename ScalarType, typename SizeType, typename SpFormat,
@@ -105,15 +105,15 @@ public:
   }
 
 
-  ///
-  /// \brief operator * SPGEMM（稀疏矩阵乘稀疏矩阵）
-  /// \param m
-  /// \return
-  ///
-  CHIPSUM_FUNCTION_INLINE SparseMatrix operator*(SparseMatrix& m) {
+//  ///
+//  /// \brief operator * SPGEMM（稀疏矩阵乘稀疏矩阵）
+//  /// \param m
+//  /// \return
+//  ///
+//  CHIPSUM_FUNCTION_INLINE SparseMatrix operator*(SparseMatrix& m) {
 
-      return nullptr;
-  }
+//      return nullptr;
+//  }
 
 
 
@@ -151,7 +151,7 @@ public:
 
 } // End namespace Numeric
 } // End namespace ChipSum
-typedef ChipSum::Numeric::SparseMatrix<double, size_t,
+typedef ChipSum::Numeric::SparseMatrix<double, CSInt_t,
                                        ChipSum::Numeric::SparseTypes::Csr,
                                        ChipSum::Backend::DefaultBackend>
     CSR;

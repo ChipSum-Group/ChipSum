@@ -1,11 +1,10 @@
-/*
- * @Description:
- * @Version: 2.0
- * @Autor: Li Kunyun
- * @Date: 2021-08-17 10:00:16
- * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-18 12:31:41
- */
+///
+/// \file     bmp_writer.cpp
+/// \author   Riiiichman-Li
+/// \group    CDCS-HPC
+/// \date     2021-11-05
+/// \brief    %stuff%
+///
 
 #include <cstdio>
 #include <cstdlib>

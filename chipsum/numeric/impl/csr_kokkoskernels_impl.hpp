@@ -7,8 +7,8 @@
  * @LastEditTime: 2021-10-26 15:36:55
  */
 
-#ifndef __CHIPSUM_CRS_KOKKOSKERNELS_IMPL_HPP__
-#define __CHIPSUM_CRS_KOKKOSKERNELS_IMPL_HPP__
+#ifndef __CHIPSUM_CSR_KOKKOSKERNELS_IMPL_HPP__
+#define __CHIPSUM_CSR_KOKKOSKERNELS_IMPL_HPP__
 
 
 #include <algorithm>
@@ -42,8 +42,8 @@ struct Sparse_Traits<ScalarType, SizeType, SparseTypes::Csr,
     : public Operator_Traits<ScalarType, SizeType,
                              ChipSum::Backend::KokkosKernels, Props...> {
 
-  using sp_type = KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device>;
-  using size_type = ::std::size_t;
+  using sp_type = KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device,void,SizeType>;
+  using size_type = SizeType;
 
   using graph_type = typename sp_type::staticcrsgraph_type;
   using row_map_type = typename sp_type::row_map_type;
@@ -55,14 +55,17 @@ namespace Impl {
 
 namespace Sparse {
 
+
+#define matrix_type KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device,void,SizeType>
+
 template <typename ScalarType, typename SizeType, typename... Props>
 // kokkos实现的创建CSR矩阵
 CHIPSUM_FUNCTION_INLINE void
 create(const SizeType nrows, const SizeType ncols, const SizeType annz,
-       KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
+       matrix_type &A,
        SizeType *row_map, SizeType *col_map, ScalarType *values) {
 
-  using crs_t = KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device>;
+  using crs_t = matrix_type;
 
   A = crs_t("spm_" + ::std::to_string(spm_name),
             static_cast<typename crs_t::ordinal_type>(nrows),
@@ -75,10 +78,10 @@ create(const SizeType nrows, const SizeType ncols, const SizeType annz,
 template <typename ScalarType, typename SizeType, typename... Props>
 
 CHIPSUM_FUNCTION_INLINE void
-create(KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
-       const ::std::size_t row_map_size, const ::std::size_t col_map_size) {
+create(matrix_type &A,
+       const SizeType row_map_size, const SizeType col_map_size) {
 
-  using sp_t = KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device>;
+  using sp_t = matrix_type;
 
   typename sp_t::row_map_type row_map(
       "row_map_" + A.label(),
@@ -96,7 +99,7 @@ template <typename ScalarType, typename SizeType, typename... Props>
 
 CHIPSUM_FUNCTION_INLINE void
 mult(SizeType M, SizeType N,
-     KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
+     matrix_type &A,
      const Kokkos::View<ScalarType *> &x, Kokkos::View<ScalarType *> &b) {
   KokkosSparse::spmv("N", static_cast<ScalarType>(1.0), A, x,
                      static_cast<ScalarType>(0.0), b);
@@ -106,7 +109,7 @@ template <typename ScalarType, typename SizeType, typename... Props>
 
 CHIPSUM_FUNCTION_INLINE void
 mult(SizeType M, SizeType N, SizeType K,
-     KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
+     matrix_type &A,
      const Kokkos::View<ScalarType **> &B, Kokkos::View<ScalarType **> &C) {
   KokkosSparse::spmv("N", static_cast<ScalarType>(1.0), A, B,
                      static_cast<ScalarType>(0.0), C);
@@ -116,7 +119,7 @@ template <typename ScalarType, typename SizeType, typename... Props>
 
 CHIPSUM_FUNCTION_INLINE void
 mult(ScalarType alpha,
-     KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
+     matrix_type &A,
      Kokkos::View<ScalarType *> &x, ScalarType beta,
      Kokkos::View<ScalarType *> &b) {
   KokkosSparse::spmv("N", alpha, A, x, beta, b);
@@ -125,10 +128,10 @@ mult(ScalarType alpha,
 template <typename ScalarType, typename SizeType, typename... Props>
 
 CHIPSUM_FUNCTION_INLINE void
-print(KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
+print(matrix_type &A,
       ::std::ostream &out) {
   using crs_t =
-      typename KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device>;
+      typename matrix_type;
 
   using row_map_t = typename crs_t::row_map_type::HostMirror;
   using entries_t = typename crs_t::index_type::HostMirror;
@@ -172,10 +175,10 @@ print(KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
 template <typename ScalarType, typename SizeType, typename... Props>
 
 CHIPSUM_FUNCTION_INLINE void
-print_pattern(KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
+print_pattern(matrix_type &A,
              ::std::ostream &out) {
   using crs_t =
-      typename KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device>;
+      typename matrix_type;
 
   using row_map_t = typename crs_t::row_map_type::HostMirror;
   using entries_t = typename crs_t::index_type::HostMirror;
@@ -220,10 +223,10 @@ print_pattern(KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
 template <typename ScalarType, typename SizeType, typename... Props>
 
 CHIPSUM_FUNCTION_INLINE void
-save_figure(KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
+save_figure(matrix_type &A,
            const char *filename) {
   using crs_t =
-      typename KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device>;
+      typename matrix_type;
 
   using row_map_t = typename crs_t::row_map_type::HostMirror;
   using entries_t = typename crs_t::index_type::HostMirror;
@@ -234,11 +237,11 @@ save_figure(KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
   Kokkos::deep_copy(h_row_map, A.graph.row_map);
   Kokkos::deep_copy(h_entries, A.graph.entries);
 
-  ::std::size_t M = h_row_map.extent(0) - 1;
-  ::std::size_t N = A.numCols();
+  SizeType M = h_row_map.extent(0) - 1;
+  SizeType N = A.numCols();
 
-  ::std::size_t row_entry_cnt = 0;
-  ::std::size_t entry_cnt = 0;
+  SizeType row_entry_cnt = 0;
+  decltype (h_entries.extent(0)) entry_cnt = 0;
 
   unsigned char *img = static_cast<unsigned char *>(
       ::std::malloc(M * N * 3 * sizeof(unsigned char)));
@@ -246,15 +249,15 @@ save_figure(KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device> &A,
 
   char color = 0;
 
-  for (::std::size_t i = 0; i < M; ++i) {
-    ::std::size_t start = h_row_map[i];
-    ::std::size_t end = h_row_map[i + 1];
-    for (::std::size_t j = 0; j < N; ++j) {
+  for (SizeType i = 0; i < M; ++i) {
+    SizeType start = h_row_map[i];
+    SizeType end = h_row_map[i + 1];
+    for (SizeType j = 0; j < N; ++j) {
 
       color = 0;
       if (row_entry_cnt < end - start && entry_cnt < h_entries.extent(0)) {
         if (h_entries[start + row_entry_cnt] == j) {
-          color = 255;
+          color = 120;
           ++row_entry_cnt;
           ++entry_cnt;
         }

@@ -1,11 +1,11 @@
-/*
- * @Description: 
- * @Version: 2.0
- * @Autor: Li Kunyun
- * @Date: 2021-08-17 09:59:56
- * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-18 11:38:48
- */
+///
+/// \file     bmp_writer.h
+/// \author   Riiiichman-Li
+/// \group    CDCS-HPC
+/// \date     2021-11-01
+/// \brief    BMP图片功能类，目前我们用这两个接口实现对线性系统
+///           pattern的可视化输出.
+///
 #ifndef __CHIPSUM_BMP_WRITER_H__
 #define __CHIPSUM_BMP_WRITER_H__
 

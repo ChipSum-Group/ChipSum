@@ -1,9 +1,9 @@
-# ChipSum文档子目录
-===
+#ChipSum文档子目录
+
 
 
 ##一、Doxygen文档
-==
+
 
 如需要用户文档，我们提供了doxygen文档生成接口：
 
@@ -19,4 +19,7 @@ GENERATE_LATEX         = NO
 
 将NO改为YES
 
-#二、//TODO
+
+##二、PDF文档
+
+

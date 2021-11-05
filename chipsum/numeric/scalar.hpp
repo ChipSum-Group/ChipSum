@@ -2,12 +2,14 @@
 /// \file     scalar.hpp
 /// \author   Riiiichman-Li
 /// \group    CDCS-HPC
-/// \date     2021-10-27
+/// \date     2021-11-01
+/// \brief    标量用户接口，主要是为了衔接类似点积一类
+///           操作的Device端实现。
 ///
 
 
-#ifndef __CHIPSUM_NUMERIC_SCALAR_HPP_
-#define __CHIPSUM_NUMERIC_SCALAR_HPP_
+#ifndef __CHIPSUM_NUMERIC_SCALAR_HPP__
+#define __CHIPSUM_NUMERIC_SCALAR_HPP__
 
 #include "../backend/backend.hpp"
 #include "../chipsum_macro.h"
@@ -26,6 +28,9 @@
 namespace ChipSum {
 namespace Numeric {
 
+
+template <typename... Props>
+class Scalar;
 
 
 template <typename ScalarType, typename SizeType, typename BackendType,
@@ -140,7 +145,7 @@ public:
 
 
 
-typedef ChipSum::Numeric::Scalar<double, std::size_t,
+typedef ChipSum::Numeric::Scalar<double, CSInt_t,
                                  ChipSum::Backend::DefaultBackend>
     Scalar;
 

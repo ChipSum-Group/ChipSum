@@ -1,12 +1,11 @@
-/*
- * @Description: 稠密矩阵dense_matrix的串行实现
- * @Version: 2.0
- * @Autor: Li Kunyun
- * @Date: 2021-08-09 12:20:42
- * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-10-26 15:57:04
- */
 
+///
+/// \file     densemat_serial_impl.hpp
+/// \author   Riiiichman-Li
+/// \group    CDCS-HPC
+/// \date     2021-11-05
+/// \brief    %stuff%
+///
 #ifndef __CHIPSUM_DENSEMAT_SERIAL_IMPL_HPP__
 #define __CHIPSUM_DENSEMAT_SERIAL_IMPL_HPP__
 
@@ -32,7 +31,7 @@
 /// 但kokkos后端的实现可能需要将view<ScalarType**>变为MultiVector，
 /// 这部分工作我应该会亲自去实现，但后续的集成工作需要注意兼容。
 
-/* 根据chipsum目前的工作来看，数据结构设计的重要性是远远大于算法创新的。 */
+/* 根据chipsum目前的工作来看，数据结构设计的重要性是远远大于算法的。 */
 
 namespace ChipSum {
 

@@ -1,11 +1,10 @@
-/*
- * @Description: 稠密矩阵dense_matrix的KokkosKernels实现
- * @Version: 2.0
- * @Autor: Li Kunyun
- * @Date: 2021-08-09 12:20:42
- * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-10-26 16:02:43
- */
+///
+/// \file     densemat_kokkoskernels_impl.hpp
+/// \author   Riiiichman-Li
+/// \group    CDCS-HPC
+/// \date     2021-11-05
+/// \brief    %stuff%
+///
 
 #ifndef __CHIPSUM_DENSEMAT_KOKKOEKERNELS_IMPL_HPP__
 #define __CHIPSUM_DENSEMAT_KOKKOEKERNELS_IMPL_HPP__
