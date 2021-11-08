@@ -17,8 +17,8 @@
 
 
 /// \brief 默认的宏定义类型
-#define CSInt_t __int32_t
-#define CSFloat_t double
+#define CSInt __int32_t
+#define CSFloat double
 
 
 

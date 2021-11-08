@@ -371,10 +371,10 @@ operator*(Scalar<ScalarType, SizeType, BackendType, Props...> &a,
 } // End namespace Numeric
 } // End namespace ChipSum
 
-typedef ChipSum::Numeric::Vector<typename ChipSum::DataTypes::float64,typename ChipSum::DataTypes::int32,
+typedef ChipSum::Numeric::Vector<CSFloat,CSInt,
                                  ChipSum::Backend::DefaultBackend>
     Vector;
-typedef ChipSum::Numeric::Vector<double, std::size_t, ChipSum::Backend::Serial>
+typedef ChipSum::Numeric::Vector<CSFloat, CSInt, ChipSum::Backend::Serial>
     SerialVector;
 
 #endif // VECTOR_HPP

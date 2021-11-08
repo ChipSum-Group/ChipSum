@@ -145,7 +145,7 @@ public:
 
 
 
-typedef ChipSum::Numeric::Scalar<double, CSInt_t,
+typedef ChipSum::Numeric::Scalar<CSFloat, CSInt,
                                  ChipSum::Backend::DefaultBackend>
     Scalar;
 

@@ -1,6 +1,0 @@
-var searchData=
-[
-  ['vector_29',['Vector',['../classChipSum_1_1Numeric_1_1Vector.html',1,'ChipSum::Numeric::Vector&lt; Props &gt;'],['../classChipSum_1_1Numeric_1_1Vector_3_01ScalarType_00_01SizeType_00_01BackendType_00_01Props_8_8_8_01_4.html#a94570b9794b7d2162ede820f9535d48a',1,'ChipSum::Numeric::Vector&lt; ScalarType, SizeType, BackendType, Props... &gt;::Vector(const_size_type size)'],['../classChipSum_1_1Numeric_1_1Vector_3_01ScalarType_00_01SizeType_00_01BackendType_00_01Props_8_8_8_01_4.html#ade81bf8273b79e27ef3bc55505603460',1,'ChipSum::Numeric::Vector&lt; ScalarType, SizeType, BackendType, Props... &gt;::Vector(const vector_type &amp;data, const_size_type size)'],['../classChipSum_1_1Numeric_1_1Vector_3_01ScalarType_00_01SizeType_00_01BackendType_00_01Props_8_8_8_01_4.html#a3968e168e37d01f16f11ddb920351262',1,'ChipSum::Numeric::Vector&lt; ScalarType, SizeType, BackendType, Props... &gt;::Vector(typename traits::nonconst_scalar_type *data, const_size_type size)']]],
-  ['vector_2ehpp_30',['vector.hpp',['../vector_8hpp.html',1,'']]],
-  ['vector_3c_20scalartype_2c_20sizetype_2c_20backendtype_2c_20props_2e_2e_2e_20_3e_31',['Vector&lt; ScalarType, SizeType, BackendType, Props... &gt;',['../classChipSum_1_1Numeric_1_1Vector_3_01ScalarType_00_01SizeType_00_01BackendType_00_01Props_8_8_8_01_4.html',1,'ChipSum::Numeric']]]
-];

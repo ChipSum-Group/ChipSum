@@ -151,7 +151,7 @@ public:
 
 } // End namespace Numeric
 } // End namespace ChipSum
-typedef ChipSum::Numeric::SparseMatrix<double, CSInt_t,
+typedef ChipSum::Numeric::SparseMatrix<CSFloat, CSInt,
                                        ChipSum::Numeric::SparseTypes::Csr,
                                        ChipSum::Backend::DefaultBackend>
     CSR;

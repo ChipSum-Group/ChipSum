@@ -20,6 +20,7 @@ using namespace std;
 #include "chipsum/numeric/sparse_matrix.hpp"
 #include "chipsum/numeric/vector.hpp"
 
+
 #define N 5
 
 int main(int argc, char *argv[]) {
@@ -68,7 +69,7 @@ int main(int argc, char *argv[]) {
         
         Matrix A(10, 10);
         A.Print();
-        
+
         //        /*
         //        *
         //        *  |  1  0  2  3  0  |
@@ -88,14 +89,14 @@ int main(int argc, char *argv[]) {
         //        *  y = {6,9,15,16,16}
         //        *
         //       */
-        // const CSInt_t m = 5;
-        // const CSInt_t n = 5;
+        // const CSInt m = 5;
+        // const CSInt n = 5;
         
-        // CSInt_t nrows = m;
-        // CSInt_t ncols = n;
-        // CSInt_t annz = 13;
-        // CSInt_t *row_map = (size_t *)malloc(6 * sizeof(size_t));
-        // CSInt_t *col_map = (size_t *)malloc(13 * sizeof(size_t));
+        // CSInt nrows = m;
+        // CSInt ncols = n;
+        // CSInt annz = 13;
+        // CSInt *row_map = (size_t *)malloc(6 * sizeof(size_t));
+        // CSInt *col_map = (size_t *)malloc(13 * sizeof(size_t));
         // double *values = (double *)malloc(13 * sizeof(double));
         // row_map[0] = 0;
         // row_map[1] = 3;
@@ -121,21 +122,21 @@ int main(int argc, char *argv[]) {
         // values[11] = 7;
         // values[12] = 9;
         
-        const CSInt_t m = 500;
-        const CSInt_t n = 500;
-        CSInt_t nrows = m;
-        CSInt_t ncols = n;
-        CSInt_t annz = m;
-        CSInt_t *row_map = (CSInt_t *)malloc((m + 1) * sizeof(CSInt_t));
-        CSInt_t *col_map = (CSInt_t *)malloc(std::min(m,n) * sizeof(CSInt_t));
+        const CSInt m = 500;
+        const CSInt n = 500;
+        CSInt nrows = m;
+        CSInt ncols = n;
+        CSInt annz = m;
+        CSInt *row_map = (CSInt *)malloc((m + 1) * sizeof(CSInt));
+        CSInt *col_map = (CSInt *)malloc(std::min(m,n) * sizeof(CSInt));
         double *values = (double *)malloc(std::min(m,n) * sizeof(double));
         
-        for (CSInt_t i = 0; i < std::min(m,n); ++i) {
+        for (CSInt i = 0; i < std::min(m,n); ++i) {
             
             col_map[i] = i;
             values[i] = 1;
         }
-        for (CSInt_t i = 0; i <= m; ++i) {
+        for (CSInt i = 0; i <= m; ++i) {
             
             row_map[i] = i;
         }

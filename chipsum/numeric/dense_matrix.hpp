@@ -185,8 +185,8 @@ public:
 ///
 /// \brief Matrix 默认的
 ///
-typedef ChipSum::Numeric::DenseMatrix<ChipSum::DataTypes::float64,
-                                      ChipSum::DataTypes::int32,
+typedef ChipSum::Numeric::DenseMatrix<CSFloat,
+                                      CSInt,
                                       ChipSum::Backend::DefaultBackend>
     Matrix;
 
