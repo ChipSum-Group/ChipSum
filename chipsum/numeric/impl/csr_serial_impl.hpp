@@ -27,14 +27,15 @@ namespace Numeric {
 template <typename SizeType, typename... Props> struct serial_static_graph {
   ::std::vector<SizeType> row_map;
   ::std::vector<SizeType> col_map;
-};
+}__attribute__((aligned));
 
 template <typename ScalarType, typename SizeType, typename... Props>
 struct csr_format {
   ::std::vector<ScalarType> vals;
   serial_static_graph<SizeType> graph;
   ::std::size_t col_num;
-};
+}__attribute__((aligned));
+
 
 template <typename ScalarType, typename SizeType, typename... Props>
 
@@ -88,6 +89,8 @@ mult(::std::size_t M, ::std::size_t N, csr_format<ScalarType, SizeType> &A,
 
   assert(M == b.size());
 
+
+
   for (::std::size_t i = 0; i < M; ++i)
     b[i] = 0;
 
@@ -118,7 +121,7 @@ mult(ScalarType alpha, csr_format<ScalarType, SizeType> &A,
 
 template <typename ScalarType, typename SizeType, typename... Props>
 // 命令行打印CSR矩阵的信息。
-CHIPSUM_FUNCTION_INLINE void Print(csr_format<ScalarType, SizeType> &A,
+CHIPSUM_FUNCTION_INLINE void print(csr_format<ScalarType, SizeType> &A,
                                    ::std::ostream &out) {
   out << "spm_serial:"
       << "(rows=" << A.graph.row_map.size() - 1 << ", entries=" << A.vals.size()

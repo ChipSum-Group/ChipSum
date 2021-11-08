@@ -1,22 +1,26 @@
 #ifndef __CHIPSUM_MACRO_H__
 #define __CHIPSUM_MACRO_H__
 
+#include <cctype>
 
 
-#define CHIPSUM_FUNCTION_INLINE inline /**<---根据需求修改*/
-#define CHIPSUM_DECLARED_FUNCTION inline /**<---根据需求修改*/
+/// \brief 根据需求修改
+#define CHIPSUM_FUNCTION_INLINE inline
+
+/// \brief 根据需求修改
+#define CHIPSUM_DECLARED_FUNCTION inline
 
 
 #define CHIPSUM_UNUSED(x) (void)x;
 
+#define CSErr_t __int32_t
 
-#define CSERR_t int
 
-#define CSInt_t int
+/// \brief 默认的宏定义类型
+#define CSInt_t __int32_t
+#define CSFloat_t double
 
-//#ifdef USE_CUDA
-//#define CHIPSUM_FUNCTION_INLINE __global__ __device__
-//#endif
+
 
 #endif
 

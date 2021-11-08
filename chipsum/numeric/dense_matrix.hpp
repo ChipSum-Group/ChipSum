@@ -20,6 +20,7 @@
 
 
 
+
 namespace ChipSum {
 namespace Numeric {
 
@@ -181,7 +182,11 @@ public:
 } // End namespace Numeric
 } // End namespace ChipSum
 
-typedef ChipSum::Numeric::DenseMatrix<double, CSInt_t,
+///
+/// \brief Matrix 默认的
+///
+typedef ChipSum::Numeric::DenseMatrix<ChipSum::DataTypes::float64,
+                                      ChipSum::DataTypes::int32,
                                       ChipSum::Backend::DefaultBackend>
     Matrix;
 

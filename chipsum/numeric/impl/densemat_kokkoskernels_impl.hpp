@@ -67,7 +67,6 @@ CHIPSUM_FUNCTION_INLINE void fill(const std::size_t M, const std::size_t N,
 }
 
 template <typename ScalarType, typename SizeType, typename... Props>
-
 CHIPSUM_FUNCTION_INLINE void
 mult(const std::size_t M, const std::size_t N, const std::size_t K,
      const Kokkos::View<double **> &A, const Kokkos::View<double **> &B,

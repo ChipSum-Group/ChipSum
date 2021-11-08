@@ -19,6 +19,7 @@ add_subdirectory("chipsum")
 set(CMAKE_INCLUDE_DIRECTORIES_BEFORE on)
 
 #option (ChipSum_ENABLE_KokkosKernels "Use provided Kokkos implementation" ON)
+
 set(ChipSum_ENABLE_KokkosKernels ON)
 if(ChipSum_ENABLE_KokkosKernels)
     if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/tpl/kokkos-build/lib)

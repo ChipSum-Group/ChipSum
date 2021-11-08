@@ -17,6 +17,7 @@
 #include "impl/vector_serial_impl.hpp"
 #include "numeric_traits.hpp"
 #include "scalar.hpp"
+#include "../common/data_types.hpp"
 
 #if defined(ChipSum_USE_KokkosKernels) || defined(ChipSum_USE_KokkosKernels64)
 #include "impl/vector_kokkoskernels_impl.hpp"
@@ -370,7 +371,7 @@ operator*(Scalar<ScalarType, SizeType, BackendType, Props...> &a,
 } // End namespace Numeric
 } // End namespace ChipSum
 
-typedef ChipSum::Numeric::Vector<double, CSInt_t,
+typedef ChipSum::Numeric::Vector<typename ChipSum::DataTypes::float64,typename ChipSum::DataTypes::int32,
                                  ChipSum::Backend::DefaultBackend>
     Vector;
 typedef ChipSum::Numeric::Vector<double, std::size_t, ChipSum::Backend::Serial>
