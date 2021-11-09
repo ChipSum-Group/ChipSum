@@ -16,7 +16,6 @@ list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/dense_matrix.hpp")
 
 # Core implementation code
 list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/impl/scalar_kokkoskernels_impl.hpp")
-list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/impl/scalar_cuda_impl.hpp")
 list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/impl/scalar_serial_impl.hpp")
 
 

@@ -15,7 +15,7 @@
 #include "../chipsum_macro.h"
 
 #include "numeric_traits.hpp"
-#include "impl/scalar_cuda_impl.hpp"
+
 #include "impl/scalar_serial_impl.hpp"
 
 #if defined(ChipSum_USE_KokkosKernels) || defined(ChipSum_USE_KokkosKernels64)
