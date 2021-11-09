@@ -24,8 +24,6 @@
 namespace ChipSum {
 namespace Numeric {
 
-template<typename ...Props>
-class DenseMatrix;
 
 template <typename ScalarType, typename SizeType, typename BackendType,
           typename... Props>
@@ -115,6 +113,17 @@ public:
     ChipSum::Numeric::Impl::DenseMat::mult<ScalarType, SizeType>(
         __nrow,m.GetColNum(),m.GetRowNum(), __data,m.GetData(), ret.GetData());
     return ret;
+  }
+
+  ///
+  /// \brief GEMM C=A*B 当C为已初始化的矩阵时，强烈建议采用此接口进行GEMM运算
+  /// \param B  参与运算的另一矩阵
+  /// \param C  结果
+  ///
+  CHIPSUM_FUNCTION_INLINE void GEMM(DenseMatrix &B,DenseMatrix& C) {
+    ChipSum::Numeric::Impl::DenseMat::mult<ScalarType, SizeType>(
+        __nrow,B.GetColNum(),B.GetRowNum(), __data,B.GetData(), C.GetData());
+
   }
 
   template <typename... Args>

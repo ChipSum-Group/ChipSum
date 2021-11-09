@@ -27,8 +27,7 @@
 namespace ChipSum {
 namespace Numeric {
 
-template<typename ...Props>
-class Vector;
+
 
 template <typename ScalarType, typename SizeType, typename BackendType,
           typename... Props>

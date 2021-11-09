@@ -29,8 +29,7 @@ namespace ChipSum {
 namespace Numeric {
 
 
-template <typename... Props>
-class Scalar;
+
 
 
 template <typename ScalarType, typename SizeType, typename BackendType,

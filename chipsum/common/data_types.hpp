@@ -6,9 +6,6 @@
 namespace ChipSum {
 struct DataTypes{
 
-
-
-
     using float64 = double;
     using float32 = float;
 

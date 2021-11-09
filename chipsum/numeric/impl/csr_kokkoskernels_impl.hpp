@@ -65,7 +65,7 @@ create(const SizeType nrows, const SizeType ncols, const SizeType annz,
        matrix_type &A,
        SizeType *row_map, SizeType *col_map, ScalarType *values) {
 
-    A = matrix_type("spm_" + ::std::to_string(spm_name),
+    A = matrix_type("spm_" + ::std::to_string(spm_name++),
               static_cast<typename matrix_type::ordinal_type>(nrows),
               static_cast<typename matrix_type::ordinal_type>(ncols),
               static_cast<typename matrix_type::size_type>(annz), values,

@@ -106,6 +106,19 @@ struct Sparse_Traits: public Operator_Traits<ScalarType,SizeType,BackendType,Pro
 
 
 
+
+template <typename... Props>
+class Scalar;
+
+template<typename ...Props>
+class Vector;
+
+template<typename ...Props>
+class DenseMatrix;
+
+template<typename ...Props>
+class SparseMatrix;
+
 }
 }
 
