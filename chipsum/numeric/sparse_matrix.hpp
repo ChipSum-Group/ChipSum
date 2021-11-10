@@ -100,7 +100,7 @@ public:
     /// \return 向量（结果）
     ///
     CHIPSUM_FUNCTION_INLINE vector_type operator*(vector_type &x) {
-        vector_type ret(v.GetSize());
+        vector_type ret(x.GetSize());
         ChipSum::Numeric::Impl::Sparse::mult<ScalarType, SizeType>(
                     __nrow,__ncol,__data, x.GetData(), ret.GetData());
         return ret;
@@ -136,13 +136,22 @@ public:
     /// \param x 左端项
     /// \param y 右端项
     ///
-    CHIPSUM_FUNCTION_INLINE void SpMV(vector_type &x,vector_type &y)
+    CHIPSUM_FUNCTION_INLINE void Multiply(vector_type &x,vector_type &y)
     {
         ChipSum::Numeric::Impl::Sparse::mult<ScalarType, SizeType>(
                     __nrow,__ncol,__data, x.GetData(), y.GetData());
     }
 
-
+    ///
+    /// \brief SpMV 在需要考虑性能的时候，强烈建议采用此接口进行稀疏矩阵乘矩阵
+    /// \param x 左端项
+    /// \param y 右端项
+    ///
+    CHIPSUM_FUNCTION_INLINE void Multiply(dense_type &x,dense_type &y)
+    {
+        ChipSum::Numeric::Impl::Sparse::mult<ScalarType, SizeType>(
+                    __nrow,__ncol,__data, x.GetData(), y.GetData());
+    }
 
     ///
     /// \brief Print 打印（调试用）

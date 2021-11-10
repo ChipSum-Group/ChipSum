@@ -91,7 +91,7 @@ int main(int argc, char *argv[]) {
             /// \brief 采用此接口免去一个Vector的构造调用，
             ///        性能更优。（6-10x spmv带宽提升）
             ///        构造函数和析构函数开销真的挺大的。。
-            spm.SpMV(x,b);
+            spm.Multiply(x,b);
         }
         double time = timer.seconds();
 
@@ -106,6 +106,8 @@ int main(int argc, char *argv[]) {
 
         /// \brief Pascal61 (MX350)有46——50 GFlops左右的吞吐量
         ///        这个数据应算不错了。
+        ///
+        ///        DCU能达到205 GFlops以上，芜湖。
         cout<<Gbytes<<" GFlops"<<endl;
     }
 
