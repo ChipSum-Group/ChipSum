@@ -47,52 +47,53 @@ int main(int argc, char *argv[]) {
         ///        o  o  o  o  o  +  o  +  +
         Kokkos::View<Ordinal* [3], Kokkos::HostSpace> mat_structure(
                     "Matrix Structure", 2);
-        mat_structure(0, 0) = 50;
+        mat_structure(0, 0) = 700;
         mat_structure(0, 1) = 0;
         mat_structure(0, 2) = 0;
-        mat_structure(1, 0) = 50;
+        mat_structure(1, 0) = 700;
         mat_structure(1, 1) = 0;
         mat_structure(1, 2) = 0;
 
-        mat_type A =
+        mat_type h_A =
                 Test::generate_structured_matrix2D<mat_type>("FD", mat_structure);
 
         using row_map_t = typename mat_type::row_map_type::HostMirror;
         using entries_t = typename mat_type::index_type::HostMirror;
         using values_t = typename mat_type::values_type::HostMirror;
 
-        row_map_t h_row_map = Kokkos::create_mirror_view(A.graph.row_map);
-        values_t h_vals = Kokkos::create_mirror_view(A.values);
-        entries_t h_entries = Kokkos::create_mirror_view(A.graph.entries);
+        row_map_t h_row_map = Kokkos::create_mirror_view(h_A.graph.row_map);
+        values_t h_vals = Kokkos::create_mirror_view(h_A.values);
+        entries_t h_entries = Kokkos::create_mirror_view(h_A.graph.entries);
 
-        Kokkos::deep_copy(h_row_map, A.graph.row_map);
-        Kokkos::deep_copy(h_vals, A.values);
-        Kokkos::deep_copy(h_entries, A.graph.entries);
+        Kokkos::deep_copy(h_row_map, h_A.graph.row_map);
+        Kokkos::deep_copy(h_vals, h_A.values);
+        Kokkos::deep_copy(h_entries, h_A.graph.entries);
 
-        auto nrow = A.numRows();
-        auto ncol = A.numCols();
-        auto nnz = A.nnz();
+        auto nrow = h_A.numRows();
+        auto ncol = h_A.numCols();
+        auto nnz = h_A.nnz();
 
-        CSR spm(nrow,ncol,nnz,h_row_map.data(),h_entries.data(),h_vals.data());
+        CSR A(nrow,ncol,nnz,h_row_map.data(),h_entries.data(),h_vals.data());
 
-        std::vector<Scal> h_v(spm.GetRowNum(),1);
+        std::vector<Scal> h_v(A.GetRowNum(),1);
 
-        Vector x(h_v.data(),spm.GetRowNum());
+        Vector x(h_v.data(),A.GetRowNum());
 
-        /// \brief 此处用的是spm.operator*()，此接口性能不好，但是很方便，
-        ///        不用再构造b。如果b已经构造好了，建议调用spm.SpMV接口，类
+        /// \brief 此处用的是A.operator*()，此接口性能不好，但是很方便，
+        ///        不用再构造b。如果b已经构造好了，建议调用A.SpMV接口，类
         ///        似接口后续会增添algorithm模块完成。目前先凑合吧。
-        Vector b = spm*x;
+        Vector b = A*x;
 
         int repeat = 100;
         /// \brief 暂时用Kokkos的Timer充数吧
         Kokkos::Timer timer;
         for(int i=0;i<repeat;++i){
             /// \brief 采用此接口免去一个Vector的构造调用，
-            ///        性能更优。（6-10x spmv带宽提升）
+            ///        性能更优。（6-10x Av带宽提升）
             ///        构造函数和析构函数开销真的挺大的。。
-            spm.Multiply(x,b);
+            A.Multiply(x,b);
         }
+        Kokkos::fence();
         double time = timer.seconds();
 
 
@@ -104,11 +105,42 @@ int main(int argc, char *argv[]) {
                                 sizeof(Scal)*nnz +
                                 sizeof(Scal)*ncol*2)/time;
 
+
+
+
+        Kokkos::DefaultExecutionSpace::print_configuration(cout,true);
+
         /// \brief Pascal61 (MX350)有46——50 GFlops左右的吞吐量
         ///        这个数据应算不错了。
         ///
         ///        DCU能达到205 GFlops以上，芜湖。
-        cout<<Gbytes<<" GFlops"<<endl;
+        ///
+        cout<<"SpMV performance : "<<Gbytes<<" GFlops"<<endl;
+
+
+
+        mat_type h_B =
+                Test::generate_structured_matrix2D<mat_type>("FE", mat_structure);
+
+        h_row_map = Kokkos::create_mirror_view(h_B.graph.row_map);
+        h_vals = Kokkos::create_mirror_view(h_B.values);
+        h_entries = Kokkos::create_mirror_view(h_B.graph.entries);
+
+        Kokkos::deep_copy(h_row_map, h_B.graph.row_map);
+        Kokkos::deep_copy(h_vals, h_B.values);
+        Kokkos::deep_copy(h_entries, h_B.graph.entries);
+
+        nrow = h_B.numRows();
+        ncol = h_B.numCols();
+        nnz = h_B.nnz();
+
+        CSR B(nrow,ncol,nnz,h_row_map.data(),h_entries.data(),h_vals.data());
+
+        CSR C;
+        A.Multiply(B,C);
+
+
+
     }
 
     ChipSum::Common::Finalize();

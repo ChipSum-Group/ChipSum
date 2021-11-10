@@ -1,11 +1,10 @@
-/*
- * @Description: CRS矩阵的串行实现
- * @Version: 2.0
- * @Autor: Li Kunyun
- * @Date: 2021-08-09 12:20:42
- * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-10-26 15:34:57
- */
+///
+/// \file     csr_serial_impl.hpp
+/// \author   Riiiichman-Li
+/// \group    CDCS-HPC
+/// \date     2021-11-10
+/// \brief    %stuff%
+///
 
 #ifndef __CHIPSUM_CSR_SERIAL_IMPL_HPP__
 #define __CHIPSUM_CSR_SERIAL_IMPL_HPP__
@@ -24,30 +23,39 @@
 namespace ChipSum {
 namespace Numeric {
 
-template <typename SizeType, typename... Props> struct serial_static_graph {
+template <typename OrdinalType,
+          typename SizeType,
+          typename... Props>
+struct serial_static_graph {
   ::std::vector<SizeType> row_map;
-  ::std::vector<SizeType> col_map;
+  ::std::vector<OrdinalType> col_map;
 }__attribute__((aligned));
 
-template <typename ScalarType, typename SizeType, typename... Props>
-struct csr_format {
+template <typename ScalarType,
+          typename OrdinalType ,
+          typename SizeType,
+          typename... Props>
+struct serial_csr_format {
   ::std::vector<ScalarType> vals;
-  serial_static_graph<SizeType> graph;
+  serial_static_graph<OrdinalType,SizeType> graph;
   ::std::size_t col_num;
 }__attribute__((aligned));
 
 
-template <typename ScalarType, typename SizeType, typename... Props>
+template <typename ScalarType,
+          typename OrdinalType,
+          typename SizeType,
+          typename... Props>
 
-struct Sparse_Traits<ScalarType, SizeType, SparseTypes::Csr,
+struct Sparse_Traits<ScalarType, OrdinalType,SizeType, SparseTypes::Csr,
                      ChipSum::Backend::Serial, Props...>
     : public Operator_Traits<ScalarType, SizeType, ChipSum::Backend::Serial,
                              Props...> {
 
-  using sp_type = csr_format<ScalarType, SizeType>;
+  using sp_type = serial_csr_format<ScalarType,OrdinalType, SizeType>;
   using size_type = ::std::size_t;
 
-  using graph_type = serial_static_graph<SizeType>;
+  using graph_type = serial_static_graph<OrdinalType,SizeType>;
   using row_map_type = ::std::vector<SizeType>;
   using col_map_type = ::std::vector<SizeType>;
   using values_type = ::std::vector<ScalarType>;
@@ -57,11 +65,14 @@ namespace Impl {
 
 namespace Sparse {
 
-template <typename ScalarType, typename SizeType, typename... Props>
+template <typename ScalarType,
+          typename OrdinalType,
+          typename SizeType,
+          typename... Props>
 // 通过POD数据创建CSR格式矩阵
 CHIPSUM_FUNCTION_INLINE void
-create(const SizeType nrows, const SizeType ncols, const SizeType annz,
-       csr_format<ScalarType, SizeType> &A, SizeType *row_map, SizeType *col_map,
+create(const OrdinalType nrows, const OrdinalType ncols, const SizeType annz,
+       serial_csr_format<ScalarType,OrdinalType, SizeType> &A, SizeType *row_map, OrdinalType *col_map,
        ScalarType *values) {
   CHIPSUM_UNUSED(ncols);
   A.vals = ::std::vector<ScalarType>(values, values + annz);
@@ -70,9 +81,12 @@ create(const SizeType nrows, const SizeType ncols, const SizeType annz,
   A.col_num = ncols;
 }
 
-template <typename ScalarType, typename SizeType, typename... Props>
+template <typename ScalarType,
+          typename OrdinalType,
+          typename SizeType,
+          typename... Props>
 // 创建未初始化的CSR格式矩阵
-CHIPSUM_FUNCTION_INLINE void create(csr_format<ScalarType, SizeType> &A,
+CHIPSUM_FUNCTION_INLINE void create(serial_csr_format<ScalarType,OrdinalType, SizeType> &A,
                                     const SizeType row_map_size,
                                     const SizeType col_map_size) {
   CHIPSUM_UNUSED(row_map_size);
@@ -81,10 +95,13 @@ CHIPSUM_FUNCTION_INLINE void create(csr_format<ScalarType, SizeType> &A,
   A.graph.col_map.resize(col_map_size);
 }
 
-template <typename ScalarType, typename SizeType, typename... Props>
+template <typename ScalarType,
+          typename OrdinalType,
+          typename SizeType,
+          typename... Props>
 // b=Ax 一种常用的SpMV接口
 CHIPSUM_FUNCTION_INLINE void
-mult(::std::size_t M, ::std::size_t N, csr_format<ScalarType, SizeType> &A,
+mult(::std::size_t M, ::std::size_t N, serial_csr_format<ScalarType, OrdinalType,SizeType> &A,
      ::std::vector<ScalarType> &x, ::std::vector<ScalarType> &b) {
 
   assert(M == b.size());
@@ -103,10 +120,13 @@ mult(::std::size_t M, ::std::size_t N, csr_format<ScalarType, SizeType> &A,
   }
 }
 
-template <typename ScalarType, typename SizeType, typename... Props>
+template <typename ScalarType,
+          typename OrdinalType,
+          typename SizeType,
+          typename... Props>
 // b = beta*b+alpha*A*x 完整的SpMV
 CHIPSUM_FUNCTION_INLINE void
-mult(ScalarType alpha, csr_format<ScalarType, SizeType> &A,
+mult(ScalarType alpha, serial_csr_format<ScalarType, OrdinalType,SizeType> &A,
      ::std::vector<ScalarType> &x, ScalarType beta, ::std::vector<ScalarType> &b) {
 
   for (::std::size_t i = 0; i < b.size(); ++i) {
@@ -119,9 +139,12 @@ mult(ScalarType alpha, csr_format<ScalarType, SizeType> &A,
   }
 }
 
-template <typename ScalarType, typename SizeType, typename... Props>
+template <typename ScalarType,
+          typename OrdinalType,
+          typename SizeType,
+          typename... Props>
 // 命令行打印CSR矩阵的信息。
-CHIPSUM_FUNCTION_INLINE void print(csr_format<ScalarType, SizeType> &A,
+CHIPSUM_FUNCTION_INLINE void print(serial_csr_format<ScalarType, OrdinalType,SizeType> &A,
                                    ::std::ostream &out) {
   out << "spm_serial:"
       << "(rows=" << A.graph.row_map.size() - 1 << ", entries=" << A.vals.size()
@@ -146,9 +169,12 @@ CHIPSUM_FUNCTION_INLINE void print(csr_format<ScalarType, SizeType> &A,
   out << A.vals[A.vals.size() - 1] << "]" << ::std::endl;
 }
 
-template <typename ScalarType, typename SizeType, typename... Props>
+template <typename ScalarType,
+          typename OrdinalType,
+          typename SizeType,
+          typename... Props>
 // 命令行打印CSR矩阵的pattern，这个接口适合用来打印些很小的矩阵
-CHIPSUM_FUNCTION_INLINE void print_pattern(csr_format<ScalarType, SizeType> &A,
+CHIPSUM_FUNCTION_INLINE void print_pattern(serial_csr_format<ScalarType, OrdinalType,SizeType> &A,
                                    ::std::ostream &out) {
   
   ::std::size_t M = A.graph.row_map.size()-1;
@@ -180,10 +206,13 @@ CHIPSUM_FUNCTION_INLINE void print_pattern(csr_format<ScalarType, SizeType> &A,
 }
 
 
-template <typename ScalarType, typename SizeType, typename... Props>
+template <typename ScalarType,
+          typename OrdinalType,
+          typename SizeType,
+          typename... Props>
 // 将稀疏矩阵pattern保存为图片，方便调试和写论文用
 CHIPSUM_FUNCTION_INLINE void
-save_figure(csr_format<ScalarType,SizeType> &A,
+save_figure(serial_csr_format<ScalarType,OrdinalType,SizeType> &A,
            const char *filename) {
 
   ::std::size_t M = A.graph.row_map.size() - 1;

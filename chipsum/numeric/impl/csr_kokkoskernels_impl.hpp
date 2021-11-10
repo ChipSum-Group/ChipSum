@@ -35,14 +35,17 @@ static int spm_name = 0;
 namespace ChipSum {
 namespace Numeric {
 
-template <typename ScalarType, typename SizeType, typename... Props>
-struct Sparse_Traits<ScalarType, SizeType, SparseTypes::Csr,
+template <typename ScalarType, typename OrdinalType,typename SizeType, typename... Props>
+struct Sparse_Traits<ScalarType, OrdinalType,SizeType, SparseTypes::Csr,
         ChipSum::Backend::KokkosKernels, Props...>
         : public Operator_Traits<ScalarType, SizeType,
         ChipSum::Backend::KokkosKernels, Props...> {
 
-    using sp_type = KokkosSparse::CrsMatrix<ScalarType, SizeType, default_device,void,SizeType>;
+    using sp_type = KokkosSparse::CrsMatrix<ScalarType, OrdinalType, default_device,void,SizeType>;
+
+    using ordinal_type = OrdinalType;
     using size_type = SizeType;
+
 
     using graph_type = typename sp_type::staticcrsgraph_type;
     using row_map_type = typename sp_type::row_map_type;
@@ -56,28 +59,31 @@ namespace Sparse {
 
 
 #define matrix_type KokkosSparse::CrsMatrix \
-    <ScalarType, SizeType, default_device,void,SizeType>
+    <ScalarType, OrdinalType, default_device,void,SizeType>
 
-template <typename ScalarType, typename SizeType, typename... Props>
+template <typename ScalarType, typename OrdinalType, typename SizeType,typename... Props>
 // kokkos实现的创建CSR矩阵
 CHIPSUM_FUNCTION_INLINE void
-create(const SizeType nrows, const SizeType ncols, const SizeType annz,
+create(const OrdinalType nrows, const OrdinalType ncols, const SizeType annz,
        matrix_type &A,
-       SizeType *row_map, SizeType *col_map, ScalarType *values) {
+       SizeType *row_map, OrdinalType *col_map, ScalarType *values) {
 
     A = matrix_type("spm_" + ::std::to_string(spm_name++),
-              static_cast<typename matrix_type::ordinal_type>(nrows),
-              static_cast<typename matrix_type::ordinal_type>(ncols),
-              static_cast<typename matrix_type::size_type>(annz), values,
-              static_cast<typename matrix_type::ordinal_type *>(row_map),
-              static_cast<typename matrix_type::ordinal_type *>(col_map));
+                    static_cast<typename matrix_type::ordinal_type>(nrows),
+                    static_cast<typename matrix_type::ordinal_type>(ncols),
+                    static_cast<typename matrix_type::size_type>(annz), values,
+                    static_cast<typename matrix_type::size_type *>(row_map),
+                    static_cast<typename matrix_type::ordinal_type *>(col_map));
 }
 
-template <typename ScalarType, typename SizeType, typename... Props>
+template <typename ScalarType,
+          typename OrdinalType,
+          typename SizeType,
+          typename... Props>
 
 CHIPSUM_FUNCTION_INLINE void
 create(matrix_type &A,
-       const SizeType row_map_size, const SizeType col_map_size) {
+       const OrdinalType row_map_size, const OrdinalType col_map_size) {
 
     typename matrix_type::row_map_type row_map(
                 "row_map_" + A.label(),
@@ -91,28 +97,31 @@ create(matrix_type &A,
     A = matrix_type(A.label(), graph);
 }
 
-template <typename ScalarType, typename SizeType, typename... Props>
-
+template <typename ScalarType, typename OrdinalType, typename SizeType,typename... Props>
 CHIPSUM_FUNCTION_INLINE void
-mult(SizeType M, SizeType N,
+mult(OrdinalType M, OrdinalType N,
      matrix_type &A,
      const Kokkos::View<ScalarType *> &x, Kokkos::View<ScalarType *> &b) {
-    KokkosSparse::spmv("N", static_cast<ScalarType>(1.0), A, x,
-                       static_cast<ScalarType>(0.0), b);
+    KokkosSparse::spmv("N", static_cast<ScalarType>(1), A, x,
+                       static_cast<ScalarType>(0), b);
 }
 
-template <typename ScalarType, typename SizeType, typename... Props>
-
+template <typename ScalarType,
+          typename OrdinalType,
+          typename SizeType,
+          typename... Props>
 CHIPSUM_FUNCTION_INLINE void
-mult(SizeType M, SizeType N, SizeType K,
+mult(OrdinalType M, OrdinalType N, OrdinalType K,
      matrix_type &A,
      const Kokkos::View<ScalarType **> &B, Kokkos::View<ScalarType **> &C) {
-    KokkosSparse::spmv("N", static_cast<ScalarType>(1.0), A, B,
-                       static_cast<ScalarType>(0.0), C);
+    KokkosSparse::spmv("N", static_cast<ScalarType>(1), A, B,
+                       static_cast<ScalarType>(0), C);
 }
 
-template <typename ScalarType, typename SizeType, typename... Props>
-
+template <typename ScalarType,
+          typename OrdinalType,
+          typename SizeType,
+          typename... Props>
 CHIPSUM_FUNCTION_INLINE void
 mult(ScalarType alpha,
      matrix_type &A,
@@ -121,7 +130,10 @@ mult(ScalarType alpha,
     KokkosSparse::spmv("N", alpha, A, x, beta, b);
 }
 
-template <typename ScalarType, typename SizeType, typename... Props>
+template <typename ScalarType,
+          typename OrdinalType,
+          typename SizeType,
+          typename... Props>
 
 CHIPSUM_FUNCTION_INLINE void
 print(matrix_type &A,
@@ -168,7 +180,10 @@ print(matrix_type &A,
     out << h_vals(h_vals.extent(0) - 1) << "]" << ::std::endl;
 }
 
-template <typename ScalarType, typename SizeType, typename... Props>
+template <typename ScalarType,
+          typename OrdinalType,
+          typename SizeType,
+          typename... Props>
 
 CHIPSUM_FUNCTION_INLINE void
 print_pattern(matrix_type &A,
@@ -216,7 +231,10 @@ print_pattern(matrix_type &A,
 
 
 
-template <typename ScalarType, typename SizeType, typename... Props>
+template <typename ScalarType,
+          typename OrdinalType,
+          typename SizeType,
+          typename... Props>
 
 CHIPSUM_FUNCTION_INLINE void
 save_figure(matrix_type &A,
@@ -285,6 +303,42 @@ save_figure(matrix_type &A,
         ::std::cerr << "Saving figure " << filename << " failed!" << endl;
     }
     ::std::free(img);
+}
+
+
+template <typename ScalarType,
+          typename OrdinalType,
+          typename SizeType>
+CHIPSUM_FUNCTION_INLINE void
+spgemm(
+       matrix_type &A,
+       matrix_type &B,
+       matrix_type &C) {
+    using device_type = typename Kokkos::Device<
+    Kokkos::DefaultExecutionSpace,
+    typename Kokkos::DefaultExecutionSpace::memory_space>;
+    using execution_space = typename device_type::execution_space;
+    using memory_space    = typename device_type::memory_space;
+
+    using KernelHandle = KokkosKernels::Experimental::KokkosKernelsHandle<
+    SizeType, OrdinalType, ScalarType, execution_space, memory_space, memory_space>;
+    KernelHandle kh;
+    kh.set_team_work_size(16);
+    kh.set_dynamic_scheduling(true);
+
+    // Select an spgemm algorithm, limited by configuration at compile-time and
+    // set via the handle Some options: {SPGEMM_KK_MEMORY, SPGEMM_KK_SPEED,
+    // SPGEMM_KK_MEMSPEED, /*SPGEMM_CUSPARSE, */ SPGEMM_MKL}
+    std::string myalg("SPGEMM_KK_MEMORY");
+    KokkosSparse::SPGEMMAlgorithm spgemm_algorithm =
+            KokkosSparse::StringToSPGEMMAlgorithm(myalg);
+    kh.create_spgemm_handle(spgemm_algorithm);
+
+    KokkosSparse::spgemm_symbolic(kh, A, false, B, false, C);
+    KokkosSparse::spgemm_numeric(kh, A, false, B, false, C);
+
+
+
 }
 
 } // End namespace Sparse

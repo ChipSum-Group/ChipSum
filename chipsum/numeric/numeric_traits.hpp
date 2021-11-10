@@ -26,7 +26,8 @@ struct Operator_Traits;
 template <typename ScalarType,typename SizeType,typename BackendType,typename ...Props >
 struct Operator_Traits<ScalarType,SizeType,BackendType,Props...>{
 
-    static_assert (std::is_scalar<ScalarType>::value,"[ERR] scalar type error" );
+    static_assert (std::is_scalar<ScalarType>::value,"[ERR] template parameter ScalarType error" );
+    static_assert (std::is_integral<SizeType>::value,"[ERR] template parameter SizeType error" );
 
     using nonconst_scalar_type = typename std::remove_const<ScalarType>::type;
 
