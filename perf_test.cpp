@@ -24,6 +24,9 @@ int main(int argc, char *argv[]) {
 
     ChipSum::Common::Init(argc, argv);
 
+    int N = 50;
+    if(argc > 1)    N = atoi(argv[1]);
+
     using device_type = typename Kokkos::Device<
     Kokkos::DefaultExecutionSpace,
     typename Kokkos::DefaultExecutionSpace::memory_space>;
@@ -47,10 +50,10 @@ int main(int argc, char *argv[]) {
         ///        o  o  o  o  o  +  o  +  +
         Kokkos::View<Ordinal* [3], Kokkos::HostSpace> mat_structure(
                     "Matrix Structure", 2);
-        mat_structure(0, 0) = 700;
+        mat_structure(0, 0) = N;
         mat_structure(0, 1) = 0;
         mat_structure(0, 2) = 0;
-        mat_structure(1, 0) = 700;
+        mat_structure(1, 0) = N;
         mat_structure(1, 1) = 0;
         mat_structure(1, 2) = 0;
 
@@ -106,7 +109,8 @@ int main(int argc, char *argv[]) {
                                 sizeof(Scal)*ncol*2)/time;
 
 
-
+        cout<<"---------------------ChipSum Perf Test"
+              "---------------------"<<endl;
 
         Kokkos::DefaultExecutionSpace::print_configuration(cout,true);
 
@@ -115,6 +119,11 @@ int main(int argc, char *argv[]) {
         ///
         ///        DCU能达到205 GFlops以上，芜湖。
         ///
+        cout<<"CSR matrix info: "<<endl<<
+              "rows = "<<nrow<<" , columns = "<<ncol;
+
+        cout<<" , nnz = "<<nnz<<endl;
+
         cout<<"SpMV performance : "<<Gbytes<<" GFlops"<<endl;
 
 
