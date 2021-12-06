@@ -7,7 +7,11 @@ project(ChipSum VERSION 1.0)
 
 configure_file(ChipSumConfig.h.in ChipSumConfig.h)
 
+
+
 set(CMAKE_CXX_FLAGS "-Wall"${CMAKE_CXX_FLAGS})
+
+set(CHIPSUM_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
 set(CHIPSUM_SOURCES "")
 
@@ -58,11 +62,12 @@ add_library(chipsum ${CHIPSUM_SOURCES} ${CHIPSUM_HEADERS})
 list(APPEND CHIPSUM_LIBS chipsum)
 
 install(TARGETS chipsum DESTINATION lib)
-install(FILES ${CHIPSUM_HEADERS}  DESTINATION include)
+install(FILES ChipSum.hpp DESTINATION include)
+
 
 
 add_executable(ChipSum
-    "perf_test.cpp"
+    "test1.cpp"
     "ChipSum.hpp"
     )
 install(TARGETS ChipSum  DESTINATION bin)

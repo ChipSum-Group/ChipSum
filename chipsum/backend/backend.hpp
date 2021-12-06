@@ -1,12 +1,10 @@
-/*
- * @Description: 后端模板参数
- * @Version: 2.0
- * @Autor: Li Kunyun
- * @Date: 2021-08-09 12:20:42
- * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-16 10:30:02
- */
-
+///
+/// \file     backend.hpp
+/// \author   Riiiichman-Li
+/// \group    CDCS-HPC
+/// \date     2021-12-02
+/// \brief    %stuff%
+///
 
 #ifndef __CHIPSUM_BACKEND_HPP__
 #define __CHIPSUM_BACKEND_HPP__
@@ -32,7 +30,7 @@ struct Cuda:public BackendBase{/*TODO*/};
 struct OpenBlas:public BackendBase{/*TODO*/};
 
 #if defined(ChipSum_USE_KokkosKernels) || defined(ChipSum_USE_KokkosKernels64)
-typedef KokkosKernels DefaultBackend;
+typedef Serial DefaultBackend;
 
 #else
 

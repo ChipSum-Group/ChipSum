@@ -15,11 +15,10 @@
 #include "dense_matrix.hpp"
 #include "vector.hpp"
 
-#include "impl/csr_serial_impl.hpp"
+#include "impl/serial/csr_serial_impl.hpp"
 
-#if defined(ChipSum_USE_KokkosKernels) || defined(ChipSum_USE_KokkosKernels64)
-#include "impl/csr_kokkoskernels_impl.hpp"
-#endif
+
+#include "impl/kokkoskernels/csr_kokkoskernels_impl.hpp"
 
 
 namespace ChipSum {
@@ -47,24 +46,24 @@ namespace Numeric {
 ///
 /// \tparam BackendType 后端类型。参考ChipSum User Manual
 ///
-template <typename ScalarType, typename OrdinalType,
-          typename SizeType, typename SpFormat,
-          typename BackendType, typename... Props>
-
-class SparseMatrix<ScalarType, OrdinalType,SizeType,
-        SpFormat, BackendType, Props...>
+template <typename... Props>
+class SparseMatrix
 {
 
 public:
     using traits =
-    Sparse_Traits<ScalarType, OrdinalType, SizeType, SpFormat, BackendType, Props...>;
+    Sparse_Traits<Props...>;
     using sp_type = typename traits::sp_type;
     using size_type = typename traits::size_type;
 
-    using ordinal_type = OrdinalType;
+    using ordinal_type = typename traits::ordinal_type;
+    using value_type = typename traits::value_type;
 
-    using vector_type = Vector<ScalarType, SizeType, BackendType, Props...>;
-    using dense_type = DenseMatrix<ScalarType, SizeType, BackendType, Props...>;
+    using backend_type = typename traits::backend_type;
+    using format_type = typename traits::format_type;
+
+    using vector_type = Vector<value_type,backend_type>;
+    using dense_type = DenseMatrix<value_type,backend_type>;
 
 private:
 
@@ -74,6 +73,8 @@ private:
     size_type __annz;
 
 public:
+
+    /// \brief 该不该delete掉？
 
     SparseMatrix()=default;
 
@@ -89,8 +90,8 @@ public:
     CHIPSUM_DECLARED_FUNCTION SparseMatrix(ordinal_type nrow, ordinal_type ncol,
                                            size_type annz, Args... args)
         : __nrow(nrow), __ncol(ncol), __annz(annz) {
-        ChipSum::Numeric::Impl::Sparse::create<ScalarType,OrdinalType, SizeType>(
-                    nrow, ncol, annz, __data, args...);
+        ChipSum::Numeric::Impl::Sparse::create(
+                    __data, nrow, ncol, annz,  args...);
     }
 
 
@@ -118,7 +119,7 @@ public:
     /// \brief GetNNZ 获取非零元数
     /// \return 非零元数
     ///
-    CHIPSUM_FUNCTION_INLINE size_type& GetNNZ() {return __annz;}
+    CHIPSUM_FUNCTION_INLINE size_type GetNNZ() {return __annz;}
 
     ///
     /// \brief operator * SpMV operator*版SpMV主要是
@@ -129,8 +130,8 @@ public:
     ///
     CHIPSUM_FUNCTION_INLINE vector_type operator*(vector_type &x) {
         vector_type ret(x.GetSize());
-        ChipSum::Numeric::Impl::Sparse::mult<ScalarType,OrdinalType, SizeType>(
-                    __nrow,__ncol,__data, x.GetData(), ret.GetData());
+        ChipSum::Numeric::Impl::Sparse::spmv(
+                    __data, x.GetData(), ret.GetData());
         return ret;
     }
 
@@ -142,8 +143,8 @@ public:
     ///
     CHIPSUM_FUNCTION_INLINE dense_type operator*(dense_type &m) {
         dense_type ret(__nrow, m.GetColNum());
-        ChipSum::Numeric::Impl::Sparse::mult<ScalarType, OrdinalType,SizeType>(
-                    __nrow,m.GetColNum(),__ncol,__data, m.GetData(), ret.GetData());
+        ChipSum::Numeric::Impl::Sparse::spmv(
+                    __data, m.GetData(), ret.GetData());
         return ret;
     }
 
@@ -161,15 +162,16 @@ public:
     //  }
 
 
+    template<typename V,typename ...Args>
     ///
     /// \brief SpMV 在需要考虑性能的时候，强烈建议采用此接口进行稀疏矩阵乘向量
     /// \param x 左端项
     /// \param y 右端项
     ///
-    CHIPSUM_FUNCTION_INLINE void Multiply(vector_type &x,vector_type &y)
+    CHIPSUM_FUNCTION_INLINE void SPMV(V &x,V &y,Args ... args)
     {
-        ChipSum::Numeric::Impl::Sparse::mult<ScalarType,OrdinalType, SizeType>(
-                    __nrow,__ncol,__data, x.GetData(), y.GetData());
+        ChipSum::Numeric::Impl::Sparse::spmv(
+                    __data, x.GetData(), y.GetData(),args...);
     }
 
     ///
@@ -189,7 +191,7 @@ public:
     ///
     CHIPSUM_FUNCTION_INLINE void Print(std::ostream& out=std::cout)
     {
-        ChipSum::Numeric::Impl::Sparse::print<ScalarType,SizeType>(__data,out);
+        ChipSum::Numeric::Impl::Sparse::print(__data,out);
     }
 
 
@@ -199,7 +201,7 @@ public:
     ///
     CHIPSUM_FUNCTION_INLINE void PrintPattern(std::ostream& out=std::cout)
     {
-        ChipSum::Numeric::Impl::Sparse::print_pattern<ScalarType,SizeType>(__data,out);
+        ChipSum::Numeric::Impl::Sparse::print_pattern(__data,out);
     }
 
 
@@ -210,17 +212,18 @@ public:
     CHIPSUM_FUNCTION_INLINE void SavePatternFig(const char* filename)
     {
         // 还有一些BUG:BMP格式的稀疏矩阵必须是方阵，且行列数必须是4的倍数。（待修复）
-        ChipSum::Numeric::Impl::Sparse::save_figure<ScalarType,SizeType>(__data,filename);
+        ChipSum::Numeric::Impl::Sparse::save_figure(__data,filename);
     }
 
 
     ///
+    /// \brief AKA: Experimental
     /// \brief Multiply SPGEMM C=A*B 算子有待测试
     /// \param B [IN]
     /// \param C [OUT]
     ///
-    CHIPSUM_FUNCTION_INLINE void Multiply(SparseMatrix& B,SparseMatrix& C){
-        ChipSum::Numeric::Impl::Sparse::spgemm<ScalarType,OrdinalType,SizeType>
+    CHIPSUM_FUNCTION_INLINE void SPGEMM(SparseMatrix& B,SparseMatrix& C){
+        ChipSum::Numeric::Impl::Sparse::spgemm
                 (__data,B.GetData(),C.GetData());
 
     }
@@ -230,8 +233,10 @@ public:
 } // End namespace Numeric
 } // End namespace ChipSum
 typedef
-ChipSum::Numeric::SparseMatrix<CSFloat, CSInt, CSInt,
+ChipSum::Numeric::SparseMatrix<CSFloat,
+ChipSum::Backend::DefaultBackend,
 ChipSum::Numeric::SparseTypes::Csr,
-ChipSum::Backend::DefaultBackend>
-CSR;
+CSInt,
+CSInt
+>       CSR;
 #endif // SPARSEMATRIX_HPP

@@ -16,32 +16,16 @@ using namespace std;
 #include <type_traits>
 #include <vector>
 
-#include "ChipSumConfig.h"
-#include "chipsum/backend/backend.hpp"
-#include "chipsum/common/enviroment.hpp"
-#include "chipsum/numeric/dense_matrix.hpp"
-
-#include "chipsum/numeric/scalar.hpp"
-#include "chipsum/numeric/sparse_matrix.hpp"
-#include "chipsum/numeric/vector.hpp"
+#include "ChipSum.hpp"
 
 
-
-#define N 5
-
-typedef ChipSum::Numeric::Vector<double, std::size_t,
-                                 ChipSum::Backend::Kokkos>
-    dVector;
-
-typedef ChipSum::Numeric::Scalar<double,std::size_t,ChipSum::Backend::Cuda> tScalar;
 
 int main(int argc, char *argv[]) {
 
-  ChipSum::Common::Init(argc, argv);
-  {
-      tScalar s(3.2);
+    ChipSum::Common::Init(argc, argv);
+    {
 
-      cout<<s()<<endl;
-  }
-  ChipSum::Common::Finalize();
+
+    }
+    ChipSum::Common::Finalize();
 }

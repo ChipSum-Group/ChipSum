@@ -24,7 +24,7 @@ int main(int argc, char *argv[]) {
 
     ChipSum::Common::Init(argc, argv);
 
-    int N = 50;
+    int N = 500;
     if(argc > 1)    N = atoi(argv[1]);
 
     using device_type = typename Kokkos::Device<
@@ -92,7 +92,7 @@ int main(int argc, char *argv[]) {
         Kokkos::Timer timer;
         for(int i=0;i<repeat;++i){
             /// \brief 采用此接口免去一个Vector的构造调用，
-            ///        性能更优。（6-10x Av带宽提升）
+            ///        性能更优。（6-10x 带宽提升）
             ///        构造函数和析构函数开销真的挺大的。。
             A.Multiply(x,b);
         }
@@ -103,11 +103,13 @@ int main(int argc, char *argv[]) {
 
 
         /// \brief 带宽计算公式
-        double Gbytes = repeat*1.0e-9*(sizeof(Ordinal)*nrow +
-                                sizeof(Ordinal)*nnz +
-                                sizeof(Scal)*nnz +
-                                sizeof(Scal)*ncol*2)/time;
+//        double Gbytes = repeat*1.0e-9*(sizeof(Ordinal)*nrow +
+//                                sizeof(Ordinal)*nnz +
+//                                sizeof(Scal)*nnz +
+//                                sizeof(Scal)*ncol*2)/time;
 
+
+        double Gbytes = repeat*1.0e-9*(2*nnz)/time;
 
         cout<<"---------------------ChipSum Perf Test"
               "---------------------"<<endl;
@@ -126,27 +128,6 @@ int main(int argc, char *argv[]) {
 
         cout<<"SpMV performance : "<<Gbytes<<" GFlops"<<endl;
 
-
-
-        mat_type h_B =
-                Test::generate_structured_matrix2D<mat_type>("FE", mat_structure);
-
-        h_row_map = Kokkos::create_mirror_view(h_B.graph.row_map);
-        h_vals = Kokkos::create_mirror_view(h_B.values);
-        h_entries = Kokkos::create_mirror_view(h_B.graph.entries);
-
-        Kokkos::deep_copy(h_row_map, h_B.graph.row_map);
-        Kokkos::deep_copy(h_vals, h_B.values);
-        Kokkos::deep_copy(h_entries, h_B.graph.entries);
-
-        nrow = h_B.numRows();
-        ncol = h_B.numCols();
-        nnz = h_B.nnz();
-
-        CSR B(nrow,ncol,nnz,h_row_map.data(),h_entries.data(),h_vals.data());
-
-        CSR C;
-        A.Multiply(B,C);
 
 
 
