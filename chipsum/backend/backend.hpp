@@ -30,7 +30,7 @@ struct Cuda:public BackendBase{/*TODO*/};
 struct OpenBlas:public BackendBase{/*TODO*/};
 
 #if defined(ChipSum_USE_KokkosKernels) || defined(ChipSum_USE_KokkosKernels64)
-typedef Serial DefaultBackend;
+typedef KokkosKernels DefaultBackend;
 
 #else
 

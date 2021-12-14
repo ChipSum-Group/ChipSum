@@ -1,0 +1,661 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.17"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>ChipSum: ChipSum::Numeric::SparseMatrix&lt; Props &gt; 模板类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">ChipSum
+   &#160;<span id="projectnumber">1.0.0</span>
+   </div>
+   <div id="projectbrief">面向性能可移植的稠密、稀疏代数调用接口</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.8.17 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'搜索');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><b>ChipSum</b></li><li class="navelem"><b>Numeric</b></li><li class="navelem"><a class="el" href="classChipSum_1_1Numeric_1_1SparseMatrix.html">SparseMatrix</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-types">Public 类型</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="classChipSum_1_1Numeric_1_1SparseMatrix-members.html">所有成员列表</a>  </div>
+  <div class="headertitle">
+<div class="title">ChipSum::Numeric::SparseMatrix&lt; Props &gt; 模板类 参考</div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p>稀疏矩阵用户接口  
+ <a href="classChipSum_1_1Numeric_1_1SparseMatrix.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="sparse__matrix_8hpp_source.html">sparse_matrix.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public 类型</h2></td></tr>
+<tr class="memitem:a2f4674197a386eeac24138af811c0fbf"><td class="memItemLeft" align="right" valign="top"><a id="a2f4674197a386eeac24138af811c0fbf"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>traits</b> = Sparse_Traits&lt; Props... &gt;</td></tr>
+<tr class="separator:a2f4674197a386eeac24138af811c0fbf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae60e28fb7be888440cf66ca6f20f74f4"><td class="memItemLeft" align="right" valign="top"><a id="ae60e28fb7be888440cf66ca6f20f74f4"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>sp_type</b> = typename traits::sp_type</td></tr>
+<tr class="separator:ae60e28fb7be888440cf66ca6f20f74f4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6019355f866dc1098d3ca3f5d89a6104"><td class="memItemLeft" align="right" valign="top"><a id="a6019355f866dc1098d3ca3f5d89a6104"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>size_type</b> = typename traits::size_type</td></tr>
+<tr class="separator:a6019355f866dc1098d3ca3f5d89a6104"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac781a043353ee4b6fe7a00a244cce0c6"><td class="memItemLeft" align="right" valign="top"><a id="ac781a043353ee4b6fe7a00a244cce0c6"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>ordinal_type</b> = typename traits::ordinal_type</td></tr>
+<tr class="separator:ac781a043353ee4b6fe7a00a244cce0c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb67c8915bce43d0e3894c2a9e12e998"><td class="memItemLeft" align="right" valign="top"><a id="abb67c8915bce43d0e3894c2a9e12e998"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>value_type</b> = typename traits::value_type</td></tr>
+<tr class="separator:abb67c8915bce43d0e3894c2a9e12e998"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aae18e9fb1499efdc71caaf6f2f0f98d8"><td class="memItemLeft" align="right" valign="top"><a id="aae18e9fb1499efdc71caaf6f2f0f98d8"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>backend_type</b> = typename traits::backend_type</td></tr>
+<tr class="separator:aae18e9fb1499efdc71caaf6f2f0f98d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a82f8217b6a104ea047ea6dcce2c92d23"><td class="memItemLeft" align="right" valign="top"><a id="a82f8217b6a104ea047ea6dcce2c92d23"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>format_type</b> = typename traits::format_type</td></tr>
+<tr class="separator:a82f8217b6a104ea047ea6dcce2c92d23"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada601c0326528366e7bb204047464de0"><td class="memItemLeft" align="right" valign="top"><a id="ada601c0326528366e7bb204047464de0"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>vector_type</b> = <a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">Vector</a>&lt; value_type, backend_type &gt;</td></tr>
+<tr class="separator:ada601c0326528366e7bb204047464de0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80fedf20a0f33833a83d664baa3ffe56"><td class="memItemLeft" align="right" valign="top"><a id="a80fedf20a0f33833a83d664baa3ffe56"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>dense_type</b> = <a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html">DenseMatrix</a>&lt; value_type, backend_type &gt;</td></tr>
+<tr class="separator:a80fedf20a0f33833a83d664baa3ffe56"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a67f60224c12042993623b40bda72ceab"><td class="memItemLeft" align="right" valign="top"><a id="a67f60224c12042993623b40bda72ceab"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1SparseMatrix.html#a67f60224c12042993623b40bda72ceab">SparseMatrix</a> ()=default</td></tr>
+<tr class="memdesc:a67f60224c12042993623b40bda72ceab"><td class="mdescLeft">&#160;</td><td class="mdescRight">该不该delete掉？ <br /></td></tr>
+<tr class="separator:a67f60224c12042993623b40bda72ceab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a658dc2afb4b63797b4bdff7b269f2fec"><td class="memTemplParams" colspan="2">template&lt;typename... Args&gt; </td></tr>
+<tr class="memitem:a658dc2afb4b63797b4bdff7b269f2fec"><td class="memTemplItemLeft" align="right" valign="top">CHIPSUM_DECLARED_FUNCTION&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1SparseMatrix.html#a658dc2afb4b63797b4bdff7b269f2fec">SparseMatrix</a> (ordinal_type nrow, ordinal_type ncol, size_type annz, Args... args)</td></tr>
+<tr class="memdesc:a658dc2afb4b63797b4bdff7b269f2fec"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classChipSum_1_1Numeric_1_1SparseMatrix.html" title="稀疏矩阵用户接口">SparseMatrix</a> 稀疏矩阵模板。SpFormat表示稀疏矩阵的储存格式，至少会支持CSC/CSR/COO，后续会添加一些新的后端。  <a href="classChipSum_1_1Numeric_1_1SparseMatrix.html#a658dc2afb4b63797b4bdff7b269f2fec">更多...</a><br /></td></tr>
+<tr class="separator:a658dc2afb4b63797b4bdff7b269f2fec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe694cf87b634f26851efa72c98088c0"><td class="memItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE sp_type &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1SparseMatrix.html#abe694cf87b634f26851efa72c98088c0">GetData</a> ()</td></tr>
+<tr class="memdesc:abe694cf87b634f26851efa72c98088c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">GetData 获取后端类型数据  <a href="classChipSum_1_1Numeric_1_1SparseMatrix.html#abe694cf87b634f26851efa72c98088c0">更多...</a><br /></td></tr>
+<tr class="separator:abe694cf87b634f26851efa72c98088c0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7b64a71597fa19ed2df79c94376eff0e"><td class="memItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE ordinal_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1SparseMatrix.html#a7b64a71597fa19ed2df79c94376eff0e">GetColNum</a> ()</td></tr>
+<tr class="memdesc:a7b64a71597fa19ed2df79c94376eff0e"><td class="mdescLeft">&#160;</td><td class="mdescRight">GetColNum 获取列数  <a href="classChipSum_1_1Numeric_1_1SparseMatrix.html#a7b64a71597fa19ed2df79c94376eff0e">更多...</a><br /></td></tr>
+<tr class="separator:a7b64a71597fa19ed2df79c94376eff0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a361e0612dd0786200b183333ec94fada"><td class="memItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE ordinal_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1SparseMatrix.html#a361e0612dd0786200b183333ec94fada">GetRowNum</a> ()</td></tr>
+<tr class="memdesc:a361e0612dd0786200b183333ec94fada"><td class="mdescLeft">&#160;</td><td class="mdescRight">GetRowNum 获取行数  <a href="classChipSum_1_1Numeric_1_1SparseMatrix.html#a361e0612dd0786200b183333ec94fada">更多...</a><br /></td></tr>
+<tr class="separator:a361e0612dd0786200b183333ec94fada"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a200e4c17bfd16346fbbfb4956dec2de4"><td class="memItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE size_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1SparseMatrix.html#a200e4c17bfd16346fbbfb4956dec2de4">GetNNZ</a> ()</td></tr>
+<tr class="memdesc:a200e4c17bfd16346fbbfb4956dec2de4"><td class="mdescLeft">&#160;</td><td class="mdescRight">GetNNZ 获取非零元数  <a href="classChipSum_1_1Numeric_1_1SparseMatrix.html#a200e4c17bfd16346fbbfb4956dec2de4">更多...</a><br /></td></tr>
+<tr class="separator:a200e4c17bfd16346fbbfb4956dec2de4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a2227d3a1d093ed72623c9ac725e82a"><td class="memItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE <a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">vector_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1SparseMatrix.html#a9a2227d3a1d093ed72623c9ac725e82a">operator*</a> (<a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">vector_type</a> &amp;x)</td></tr>
+<tr class="memdesc:a9a2227d3a1d093ed72623c9ac725e82a"><td class="mdescLeft">&#160;</td><td class="mdescRight">operator * SpMV operator*版SpMV主要是 方便用户创造结果向量，性能并不 好  <a href="classChipSum_1_1Numeric_1_1SparseMatrix.html#a9a2227d3a1d093ed72623c9ac725e82a">更多...</a><br /></td></tr>
+<tr class="separator:a9a2227d3a1d093ed72623c9ac725e82a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a352a1ed4a29df2880574f870e52ac869"><td class="memItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE <a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html">dense_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1SparseMatrix.html#a352a1ed4a29df2880574f870e52ac869">operator*</a> (<a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html">dense_type</a> &amp;m)</td></tr>
+<tr class="memdesc:a352a1ed4a29df2880574f870e52ac869"><td class="mdescLeft">&#160;</td><td class="mdescRight">operator * SpMV（稀疏矩阵乘稠密矩阵）  <a href="classChipSum_1_1Numeric_1_1SparseMatrix.html#a352a1ed4a29df2880574f870e52ac869">更多...</a><br /></td></tr>
+<tr class="separator:a352a1ed4a29df2880574f870e52ac869"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec489e0f3f4f0e62ded81a6a36b70003"><td class="memTemplParams" colspan="2">template&lt;typename V , typename ... Args&gt; </td></tr>
+<tr class="memitem:aec489e0f3f4f0e62ded81a6a36b70003"><td class="memTemplItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1SparseMatrix.html#aec489e0f3f4f0e62ded81a6a36b70003">SPMV</a> (V &amp;x, V &amp;y, Args ... args)</td></tr>
+<tr class="memdesc:aec489e0f3f4f0e62ded81a6a36b70003"><td class="mdescLeft">&#160;</td><td class="mdescRight">SpMV 在需要考虑性能的时候，强烈建议采用此接口进行稀疏矩阵乘向量  <a href="classChipSum_1_1Numeric_1_1SparseMatrix.html#aec489e0f3f4f0e62ded81a6a36b70003">更多...</a><br /></td></tr>
+<tr class="separator:aec489e0f3f4f0e62ded81a6a36b70003"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2293eaf43f7a0d563a2c41098ac4cd59"><td class="memItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1SparseMatrix.html#a2293eaf43f7a0d563a2c41098ac4cd59">Print</a> (std::ostream &amp;out=std::cout)</td></tr>
+<tr class="memdesc:a2293eaf43f7a0d563a2c41098ac4cd59"><td class="mdescLeft">&#160;</td><td class="mdescRight">SpMV 在需要考虑性能的时候，强烈建议采用此接口进行稀疏矩阵乘矩阵  <a href="classChipSum_1_1Numeric_1_1SparseMatrix.html#a2293eaf43f7a0d563a2c41098ac4cd59">更多...</a><br /></td></tr>
+<tr class="separator:a2293eaf43f7a0d563a2c41098ac4cd59"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31dbb332f5e8be6c3da9554c976438ed"><td class="memItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1SparseMatrix.html#a31dbb332f5e8be6c3da9554c976438ed">PrintPattern</a> (std::ostream &amp;out=std::cout)</td></tr>
+<tr class="memdesc:a31dbb332f5e8be6c3da9554c976438ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">PrintPattern 打印pattern（调试用）  <a href="classChipSum_1_1Numeric_1_1SparseMatrix.html#a31dbb332f5e8be6c3da9554c976438ed">更多...</a><br /></td></tr>
+<tr class="separator:a31dbb332f5e8be6c3da9554c976438ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a96c794a4ee7f89d650436f3e981a3043"><td class="memItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1SparseMatrix.html#a96c794a4ee7f89d650436f3e981a3043">SavePatternFig</a> (const char *filename)</td></tr>
+<tr class="memdesc:a96c794a4ee7f89d650436f3e981a3043"><td class="mdescLeft">&#160;</td><td class="mdescRight">SavePatternFig 保存pattern为图片（调试用）  <a href="classChipSum_1_1Numeric_1_1SparseMatrix.html#a96c794a4ee7f89d650436f3e981a3043">更多...</a><br /></td></tr>
+<tr class="separator:a96c794a4ee7f89d650436f3e981a3043"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add24373ee1f8e0cc6c0f20f1aaf5926e"><td class="memItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1SparseMatrix.html#add24373ee1f8e0cc6c0f20f1aaf5926e">SPGEMM</a> (<a class="el" href="classChipSum_1_1Numeric_1_1SparseMatrix.html">SparseMatrix</a> &amp;B, <a class="el" href="classChipSum_1_1Numeric_1_1SparseMatrix.html">SparseMatrix</a> &amp;C)</td></tr>
+<tr class="memdesc:add24373ee1f8e0cc6c0f20f1aaf5926e"><td class="mdescLeft">&#160;</td><td class="mdescRight">AKA: Experimental  <a href="classChipSum_1_1Numeric_1_1SparseMatrix.html#add24373ee1f8e0cc6c0f20f1aaf5926e">更多...</a><br /></td></tr>
+<tr class="separator:add24373ee1f8e0cc6c0f20f1aaf5926e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><h3>template&lt;typename... Props&gt;<br />
+class ChipSum::Numeric::SparseMatrix&lt; Props &gt;</h3>
+
+<p>稀疏矩阵用户接口 </p>
+<dl class="tparams"><dt>模板参数</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">ScalarType</td><td>元素的数据类型，一般为浮点数或者整数。 暂时不支持内置的Scalar和complex类型</td></tr>
+    <tr><td class="paramname">OrdinalType</td><td>行、列所用的整数描述类型。一般来说单 节点的行数和列数不会比行邻接表大，常见情况是小很多。 所以在这里我参考Trilinos对他们的整型描述符进行了 参数分离</td></tr>
+    <tr><td class="paramname">SizeType</td><td>Row Map在可能会很大，甚至比行、列大很多 。（参考Trilinos）</td></tr>
+    <tr><td class="paramname">SpFormat</td><td>稀疏矩阵的类型。可以参考sparse_matrix_types.h</td></tr>
+    <tr><td class="paramname">BackendType</td><td>后端类型。参考ChipSum User Manual </td></tr>
+  </table>
+  </dd>
+</dl>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a658dc2afb4b63797b4bdff7b269f2fec"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a658dc2afb4b63797b4bdff7b269f2fec">&#9670;&nbsp;</a></span>SparseMatrix()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Props&gt; </div>
+<div class="memtemplate">
+template&lt;typename... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">CHIPSUM_DECLARED_FUNCTION <a class="el" href="classChipSum_1_1Numeric_1_1SparseMatrix.html">ChipSum::Numeric::SparseMatrix</a>&lt; Props &gt;::<a class="el" href="classChipSum_1_1Numeric_1_1SparseMatrix.html">SparseMatrix</a> </td>
+          <td>(</td>
+          <td class="paramtype">ordinal_type&#160;</td>
+          <td class="paramname"><em>nrow</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">ordinal_type&#160;</td>
+          <td class="paramname"><em>ncol</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_type&#160;</td>
+          <td class="paramname"><em>annz</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args...&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><a class="el" href="classChipSum_1_1Numeric_1_1SparseMatrix.html" title="稀疏矩阵用户接口">SparseMatrix</a> 稀疏矩阵模板。SpFormat表示稀疏矩阵的储存格式，至少会支持CSC/CSR/COO，后续会添加一些新的后端。 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">nrow</td><td>行数 </td></tr>
+    <tr><td class="paramname">ncol</td><td>列数 </td></tr>
+    <tr><td class="paramname">annz</td><td>非零元数 </td></tr>
+    <tr><td class="paramname">args</td><td>稀疏矩阵所需的其他数据 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="a7b64a71597fa19ed2df79c94376eff0e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7b64a71597fa19ed2df79c94376eff0e">&#9670;&nbsp;</a></span>GetColNum()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Props&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">CHIPSUM_FUNCTION_INLINE ordinal_type <a class="el" href="classChipSum_1_1Numeric_1_1SparseMatrix.html">ChipSum::Numeric::SparseMatrix</a>&lt; Props &gt;::GetColNum </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>GetColNum 获取列数 </p>
+<dl class="section return"><dt>返回</dt><dd>列数 </dd></dl>
+
+</div>
+</div>
+<a id="abe694cf87b634f26851efa72c98088c0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe694cf87b634f26851efa72c98088c0">&#9670;&nbsp;</a></span>GetData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Props&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">CHIPSUM_FUNCTION_INLINE sp_type&amp; <a class="el" href="classChipSum_1_1Numeric_1_1SparseMatrix.html">ChipSum::Numeric::SparseMatrix</a>&lt; Props &gt;::GetData </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>GetData 获取后端类型数据 </p>
+<dl class="section return"><dt>返回</dt><dd>后端类型数据 </dd></dl>
+
+</div>
+</div>
+<a id="a200e4c17bfd16346fbbfb4956dec2de4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a200e4c17bfd16346fbbfb4956dec2de4">&#9670;&nbsp;</a></span>GetNNZ()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Props&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">CHIPSUM_FUNCTION_INLINE size_type <a class="el" href="classChipSum_1_1Numeric_1_1SparseMatrix.html">ChipSum::Numeric::SparseMatrix</a>&lt; Props &gt;::GetNNZ </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>GetNNZ 获取非零元数 </p>
+<dl class="section return"><dt>返回</dt><dd>非零元数 </dd></dl>
+
+</div>
+</div>
+<a id="a361e0612dd0786200b183333ec94fada"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a361e0612dd0786200b183333ec94fada">&#9670;&nbsp;</a></span>GetRowNum()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Props&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">CHIPSUM_FUNCTION_INLINE ordinal_type <a class="el" href="classChipSum_1_1Numeric_1_1SparseMatrix.html">ChipSum::Numeric::SparseMatrix</a>&lt; Props &gt;::GetRowNum </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>GetRowNum 获取行数 </p>
+<dl class="section return"><dt>返回</dt><dd>行数 </dd></dl>
+
+</div>
+</div>
+<a id="a352a1ed4a29df2880574f870e52ac869"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a352a1ed4a29df2880574f870e52ac869">&#9670;&nbsp;</a></span>operator*() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Props&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">CHIPSUM_FUNCTION_INLINE <a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html">dense_type</a> <a class="el" href="classChipSum_1_1Numeric_1_1SparseMatrix.html">ChipSum::Numeric::SparseMatrix</a>&lt; Props &gt;::operator* </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html">dense_type</a> &amp;&#160;</td>
+          <td class="paramname"><em>m</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>operator * SpMV（稀疏矩阵乘稠密矩阵） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">m</td><td>稠密矩阵 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd></dd></dl>
+
+</div>
+</div>
+<a id="a9a2227d3a1d093ed72623c9ac725e82a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a2227d3a1d093ed72623c9ac725e82a">&#9670;&nbsp;</a></span>operator*() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Props&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">CHIPSUM_FUNCTION_INLINE <a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">vector_type</a> <a class="el" href="classChipSum_1_1Numeric_1_1SparseMatrix.html">ChipSum::Numeric::SparseMatrix</a>&lt; Props &gt;::operator* </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">vector_type</a> &amp;&#160;</td>
+          <td class="paramname"><em>x</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>operator * SpMV operator*版SpMV主要是 方便用户创造结果向量，性能并不 好 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>向量 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>向量（结果） </dd></dl>
+
+</div>
+</div>
+<a id="a2293eaf43f7a0d563a2c41098ac4cd59"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2293eaf43f7a0d563a2c41098ac4cd59">&#9670;&nbsp;</a></span>Print()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Props&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">CHIPSUM_FUNCTION_INLINE void <a class="el" href="classChipSum_1_1Numeric_1_1SparseMatrix.html">ChipSum::Numeric::SparseMatrix</a>&lt; Props &gt;::Print </td>
+          <td>(</td>
+          <td class="paramtype">std::ostream &amp;&#160;</td>
+          <td class="paramname"><em>out</em> = <code>std::cout</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>SpMV 在需要考虑性能的时候，强烈建议采用此接口进行稀疏矩阵乘矩阵 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>左端项 </td></tr>
+    <tr><td class="paramname">y</td><td>右端项</td></tr>
+  </table>
+  </dd>
+</dl>
+<p>Print 打印（调试用） </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">out</td><td>输出流 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a31dbb332f5e8be6c3da9554c976438ed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a31dbb332f5e8be6c3da9554c976438ed">&#9670;&nbsp;</a></span>PrintPattern()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Props&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">CHIPSUM_FUNCTION_INLINE void <a class="el" href="classChipSum_1_1Numeric_1_1SparseMatrix.html">ChipSum::Numeric::SparseMatrix</a>&lt; Props &gt;::PrintPattern </td>
+          <td>(</td>
+          <td class="paramtype">std::ostream &amp;&#160;</td>
+          <td class="paramname"><em>out</em> = <code>std::cout</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>PrintPattern 打印pattern（调试用） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">out</td><td>输出流 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a96c794a4ee7f89d650436f3e981a3043"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a96c794a4ee7f89d650436f3e981a3043">&#9670;&nbsp;</a></span>SavePatternFig()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Props&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">CHIPSUM_FUNCTION_INLINE void <a class="el" href="classChipSum_1_1Numeric_1_1SparseMatrix.html">ChipSum::Numeric::SparseMatrix</a>&lt; Props &gt;::SavePatternFig </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>filename</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>SavePatternFig 保存pattern为图片（调试用） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">filename</td><td>文件名 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="add24373ee1f8e0cc6c0f20f1aaf5926e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add24373ee1f8e0cc6c0f20f1aaf5926e">&#9670;&nbsp;</a></span>SPGEMM()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Props&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">CHIPSUM_FUNCTION_INLINE void <a class="el" href="classChipSum_1_1Numeric_1_1SparseMatrix.html">ChipSum::Numeric::SparseMatrix</a>&lt; Props &gt;::SPGEMM </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classChipSum_1_1Numeric_1_1SparseMatrix.html">SparseMatrix</a>&lt; Props &gt; &amp;&#160;</td>
+          <td class="paramname"><em>B</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classChipSum_1_1Numeric_1_1SparseMatrix.html">SparseMatrix</a>&lt; Props &gt; &amp;&#160;</td>
+          <td class="paramname"><em>C</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>AKA: Experimental </p>
+<p>Multiply SPGEMM C=A*B 算子有待测试 </p><dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">B</td><td>[IN] </td></tr>
+    <tr><td class="paramname">C</td><td>[OUT] </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="aec489e0f3f4f0e62ded81a6a36b70003"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec489e0f3f4f0e62ded81a6a36b70003">&#9670;&nbsp;</a></span>SPMV()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Props&gt; </div>
+<div class="memtemplate">
+template&lt;typename V , typename ... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">CHIPSUM_FUNCTION_INLINE void <a class="el" href="classChipSum_1_1Numeric_1_1SparseMatrix.html">ChipSum::Numeric::SparseMatrix</a>&lt; Props &gt;::SPMV </td>
+          <td>(</td>
+          <td class="paramtype">V &amp;&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">V &amp;&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args ...&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>SpMV 在需要考虑性能的时候，强烈建议采用此接口进行稀疏矩阵乘向量 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>左端项 </td></tr>
+    <tr><td class="paramname">y</td><td>右端项 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>/home/lky/code/git/ChipSum/chipsum/numeric/<a class="el" href="sparse__matrix_8hpp_source.html">sparse_matrix.hpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者 &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.17
+</small></address>
+</body>
+</html>

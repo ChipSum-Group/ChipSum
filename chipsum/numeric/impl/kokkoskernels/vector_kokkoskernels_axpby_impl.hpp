@@ -18,7 +18,14 @@ namespace Vector {
 template <typename ValueType>
 CHIPSUM_FUNCTION_INLINE void add(
         const Kokkos::View<ValueType*>& X,
-        const Kokkos::View<ValueType*>& Y) {
+        Kokkos::View<ValueType*>& Y) {
+    KokkosBlas::axpy(1, X, Y);
+}
+
+template <typename ValueType>
+CHIPSUM_FUNCTION_INLINE void axpby(
+        const Kokkos::View<ValueType*>& X,
+        Kokkos::View<ValueType*>& Y) {
     KokkosBlas::axpy(1, X, Y);
 }
 
@@ -26,7 +33,7 @@ CHIPSUM_FUNCTION_INLINE void add(
 template <typename ValueType,typename AlphaT>
 CHIPSUM_FUNCTION_INLINE void axpby(
         const Kokkos::View<ValueType*>& X,
-        const Kokkos::View<ValueType*>& Y,
+        Kokkos::View<ValueType*>& Y,
         const AlphaT& A) {
     KokkosBlas::axpy(A, X, Y);
 }
@@ -34,7 +41,7 @@ CHIPSUM_FUNCTION_INLINE void axpby(
 template <typename ValueType, typename AlphaT, typename BetaT>
 CHIPSUM_FUNCTION_INLINE void
 axpby(const Kokkos::View<ValueType*>& X,
-      const Kokkos::View<ValueType*>& Y,
+      Kokkos::View<ValueType*>& Y,
       const AlphaT& A,
       const BetaT& B
       ) {

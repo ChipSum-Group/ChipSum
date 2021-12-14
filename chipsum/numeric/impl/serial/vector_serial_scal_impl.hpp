@@ -20,10 +20,10 @@ namespace Vector {
 
 
 
-template <typename ValueType>
+template <typename ValueType,typename AT>
 
 CHIPSUM_FUNCTION_INLINE void scal(const ::std::vector<ValueType> &X,
-                                  const ValueType a,
+                                  const AT& a,
                                   ::std::vector<ValueType> &R) {
     assert(R.size() == X.size());
     for (::std::size_t i = 0; i < X.size(); ++i) {

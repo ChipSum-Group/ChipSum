@@ -14,6 +14,8 @@ using namespace std;
 #include "ChipSum.hpp"
 
 
+#include <KokkosKernels_IOUtils.hpp>
+
 #define N 5
 #define M 3
 
@@ -194,88 +196,24 @@ int main(int argc, char *argv[]) {
 
         b.Print();
         (s_A*b).Print();
+/*
+        CSInt nv = 0, ne = 0;
+          CSInt *xadj, *adj;
+          CSFloat *ew;
 
+        std::string mtx_file("/home/lky/bin/1.mtx");
+        KokkosKernels::Impl::read_matrix<CSInt,CSInt,CSFloat>(&nv,&ne,&xadj,&adj,&ew,mtx_file.data());
+
+        CSR s_M(nv,nv,ne,xadj,adj,ew);
+
+        s_M.SavePatternFig("mtx.PNG");
+*/
 
         std::free(row_map);
         std::free(col_map);
         std::free(values);
         
-        //        const CSInt m = 500;
-        //        const CSInt n = 500;
-        //        CSInt nrows = m;
-        //        CSInt ncols = n;
-        //        CSInt annz = m;
-        //        CSInt *row_map = (CSInt *)malloc((m + 1) * sizeof(CSInt));
-        //        CSInt *col_map = (CSInt *)malloc(std::min(m,n) * sizeof(CSInt));
-        //        double *values = (double *)malloc(std::min(m,n) * sizeof(double));
-        
-        //        for (CSInt i = 0; i < std::min(m,n); ++i) {
 
-        //            col_map[i] = i;
-        //            values[i] = 1;
-        //        }
-        //        for (CSInt i = 0; i <= m; ++i) {
-
-        //            row_map[i] = i;
-        //        }
-        
-
-        
-        //        bb.Print(); // {13,15,40,24,50}
-        
-        //        Kokkos::fence();
-        
-        //        cout<<endl;
-        
-        //        free(row_map);
-        //        free(col_map);
-        //        free(values);
-        
-        //        //    for(size_t i=0;i<5;++i){ /* for operator() test */
-        //        //        mat(i,i) = 1.0;
-        //        //    }
-        
-        //        double* mat_data = static_cast<double*>(std::malloc(25*sizeof
-        //        (double)));
-        
-        //        for(int i=0;i<25;++i){
-        //            mat_data[i] = 0.0;
-        //        }
-        
-        //        for(int i=0;i<5;++i){
-        //            mat_data[5*i+i] = 1.0;
-        //        }
-        
-        //        mat_data[0] = 2.0;
-        
-        //        Matrix mat(5,5,mat_data);
-        
-        //        mat.Print();
-        
-        //        /*     ↑
-        //        *
-        //        *  |  2  0  0  0  0  |
-        //        *  |  0  1  0  0  0  |
-        //        *  |  0  0  1  0  0  |
-        //        *  |  0  0  0  1  0  |
-        //        *  |  0  0  0  0  1  |
-        //        */
-        
-        //        (mat*bb).Print(); // {13,15,40,24,50}
-        
-        //        (B*mat).Print();
-        
-        //        /*     ↑
-        //        *
-        //        *  |  2  0  2  3  0  |
-        //        *  |  0  4  0  5  0  |
-        //        *  |  4  0  6  0  7  |
-        //        *  |  6  5  0  8  0  |
-        //        *  |  0  0  7  0  9  |
-        //        */
-        
-        //        std::free(mat_data);
-        
         std::free(v1);
         std::free(v2);
         std::free(A1);

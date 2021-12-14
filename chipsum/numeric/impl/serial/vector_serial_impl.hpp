@@ -10,7 +10,7 @@
 #ifndef __CHIPSUM_VECTOR_SERIAL_IMPL_HPP__
 #define __CHIPSUM_VECTOR_SERIAL_IMPL_HPP__
 
-#include <cassert>
+
 
 #include <fstream>
 
@@ -78,12 +78,14 @@ CHIPSUM_FUNCTION_INLINE void create(::std::vector<ValueType> &dst,
     dst.resize(n);
 }
 
-template <typename ValueType>
+template <typename ST,typename ValueType>
 
 CHIPSUM_FUNCTION_INLINE void create(::std::vector<ValueType> &dst,
-                                    const ::std::size_t n,
+                                    const ST& n,
                                     const ValueType *src
                                     ) {
+
+
     dst = ::std::vector<ValueType>(src, src + n);
 }
 
@@ -99,8 +101,7 @@ template <typename ValueType>
 
 CHIPSUM_FUNCTION_INLINE void deep_copy(::std::vector<ValueType> &dst,
                                        const ::std::vector<ValueType> &src) {
-    dst.resize(src.size());
-    for (::std::size_t i = 0; i < dst.size(); ++i) {
+    for(::std::size_t i=0;i<dst.size();++i){
         dst[i] = src[i];
     }
 }
@@ -113,9 +114,9 @@ CHIPSUM_FUNCTION_INLINE void shallow_copy(::std::vector<ValueType> &dst,
 }
 
 
-template <typename ValueType>
+template <typename ValueType,typename ST>
 
-CHIPSUM_FUNCTION_INLINE ValueType &get_item(const ::std::size_t index,
+CHIPSUM_FUNCTION_INLINE ValueType &get_item(const ST& index,
                                             ::std::vector<ValueType> &vec) {
 
 

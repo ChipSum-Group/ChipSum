@@ -14,7 +14,7 @@ namespace Impl {
 namespace Vector {
 
 template <typename ValueType>
-CHIPSUM_FUNCTION_INLINE auto dot(
+CHIPSUM_FUNCTION_INLINE ValueType dot(
         const Kokkos::View<ValueType*>& x,
         const Kokkos::View<ValueType*>& y
         )

@@ -28,14 +28,18 @@ spmv(ST &A,::std::vector<ValueType> &x, ::std::vector<ValueType> &b) {
 }
 
 template <typename ValueType,
-          typename ST>
+          typename ST,
+          typename AlphaT,
+          typename BetaT
+          >
 // b = beta*b+alpha*A*x 完整的SpMV
 CHIPSUM_FUNCTION_INLINE void
 spmv( ST &A,
      ::std::vector<ValueType> &x,
-      ValueType alpha,
-      ValueType beta,
-      ::std::vector<ValueType> &b) {
+      ::std::vector<ValueType> &b,
+      const AlphaT& alpha,
+      const BetaT& beta
+      ) {
 
   for (::std::size_t i = 0; i < b.size(); ++i) {
     ::std::size_t start = A.graph.row_map[i];

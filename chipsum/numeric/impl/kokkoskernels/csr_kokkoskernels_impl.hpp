@@ -74,15 +74,22 @@ namespace Sparse {
 #define matrix_type KokkosSparse::CrsMatrix \
     <ValueType, OrdinalType, default_device,void,SizeType>
 
-template <typename ValueType,typename OrdinalType,typename SizeType>
+template <typename ValueType,
+          typename OrdinalType,
+          typename SizeType,
+          typename S1,
+          typename S2,
+          typename S3,
+          typename S4,
+          typename S5 >
 // kokkos实现的创建CSR矩阵
 CHIPSUM_FUNCTION_INLINE void
 create(matrix_type &A,
-       const OrdinalType nrows,
-       const OrdinalType ncols,
-       const SizeType annz,
-       SizeType *row_map,
-       OrdinalType *col_map,
+       const S1& nrows,
+       const S2& ncols,
+       const S3& annz,
+       S4 *row_map,
+       S5 *col_map,
        ValueType *values) {
 
     A = matrix_type("spm_" + ::std::to_string(spm_name++),
@@ -112,6 +119,9 @@ create(matrix_type &A,
 
     A = matrix_type(A.label(), graph);
 }
+
+
+
 
 
 
@@ -253,7 +263,7 @@ save_figure(matrix_type &A,
             color = 0;
             if (row_entry_cnt < end - start && entry_cnt < h_entries.extent(0)) {
                 if (h_entries[start + row_entry_cnt] == j) {
-                    color = 254;
+                    color = static_cast<char>(250);
                     ++row_entry_cnt;
                     ++entry_cnt;
                 }

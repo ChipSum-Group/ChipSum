@@ -86,11 +86,11 @@ namespace Vector {
 
 template <typename ValueType> using traits = Vector_Traits<ValueType,ChipSum::Backend::KokkosKernels>;
 
-template<typename ValueType>
+template<typename ValueType,typename ST>
 
 CHIPSUM_FUNCTION_INLINE void create(
         Kokkos::View<ValueType*>& x,
-        const ::std::size_t n
+        const ST& n
         )
 {
 
@@ -98,10 +98,10 @@ CHIPSUM_FUNCTION_INLINE void create(
                                                 n);
 }
 
-template <typename ValueType>
+template <typename ValueType,typename ST>
 CHIPSUM_FUNCTION_INLINE void create(
         Kokkos::View<ValueType*>& x,
-        const ::std::size_t n,
+        const ST& n,
         ValueType* src
         ) {
     typename traits<ValueType>::vector_type::HostMirror h_x(src, n);
@@ -120,17 +120,18 @@ deep_copy(
         const Kokkos::View<ValueType*>& dst,
         const Kokkos::View<ValueType*>& src)
 {
+
     Kokkos::deep_copy(dst, src);
 }
 
-template <typename ValueType>
+template <typename ValueType,typename ST>
 CHIPSUM_FUNCTION_INLINE
 typename ::std::add_lvalue_reference<
 typename traits<ValueType>::vector_type::value_type
 >::type
 get_item(
         const Kokkos::View<ValueType*>& vec,
-        const ::std::size_t index
+        const ST& index
         )
 {
     return vec(index);
@@ -155,6 +156,12 @@ void print(const Kokkos::View<ValueType*>& vec,
 
     out << h_vec(h_vec.extent(0) - 1) << "]" << std::endl;
 }
+
+
+
+
+
+
 
 
 

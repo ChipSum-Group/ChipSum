@@ -18,8 +18,7 @@
 
 #include "../common/data_types.hpp"
 
-#include "impl/serial/vector_serial_impl.hpp"
-#include "impl/kokkoskernels/vector_kokkoskernels_impl.hpp"
+#include "impl/vector_impl.hpp"
 
 #include "impl/impl_abstract.hpp"
 
@@ -82,9 +81,12 @@ public:
 
 
 
-    template<typename ...Args>
 
-    CHIPSUM_DECLARED_FUNCTION Vector(size_t size,Args... args)
+
+
+    template<typename ST,typename ...Args>
+
+    CHIPSUM_DECLARED_FUNCTION Vector(const ST& size,Args... args)
         :__size(size)
     {
         ChipSum::Numeric::Impl::Vector::create(__data,size,args...);
@@ -94,7 +96,9 @@ public:
 
 
 
-
+    CHIPSUM_FUNCTION_INLINE void DeepCopy(Vector& y){
+        ChipSum::Numeric::Impl::Vector::deep_copy(__data,y.GetData());
+    }
 
 
     ///
@@ -133,10 +137,9 @@ public:
     /// \param v 右端项
     /// \return 点积结果
     ///
-    CHIPSUM_FUNCTION_INLINE RetType Dot(Vector &v) {
-        RetType r;
-        Dot(v, r);
-        return r;
+    CHIPSUM_FUNCTION_INLINE value_type Dot(Vector &v) {
+
+        return ChipSum::Numeric::Impl::Vector::dot(__data,v.GetData());
     }
 
     ///
@@ -164,7 +167,32 @@ public:
     }
 
 
-    CHIPSUM_FUNCTION_INLINE Vector &operator=(Vector &) = default;
+
+    template<typename VT>
+    ///
+    /// \brief Mult y=a*(*this)
+    /// \param a
+    /// \param y
+    ///
+    CHIPSUM_FUNCTION_INLINE void Mult(const VT& a,Vector& y) {
+
+        ChipSum::Numeric::Impl::Vector::scal(__data, a, y.GetData());
+    }
+
+
+    CHIPSUM_FUNCTION_INLINE Vector &operator=(Vector& y){
+
+        DeepCopy(y);
+        return (*this);
+
+    }
+
+
+
+
+
+
+
 
 
     ///
@@ -172,15 +200,15 @@ public:
     /// \param a 系数(后端Scalar类型)
     /// \return y
     ///
-    CHIPSUM_FUNCTION_INLINE Vector
-    operator*(Scalar<Props...> &a) {
+    CHIPSUM_FUNCTION_INLINE void
+    Mult(Scalar<Props...> &a,Vector& y) {
 
-        Vector ret(__size);
+
 
         ChipSum::Numeric::Impl::Vector::scal(
-                     __data,a.GetData(),ret.GetData());
+                     __data,a.GetData(),y.GetData());
 
-        return ret;
+
     }
 
     ///
@@ -207,18 +235,36 @@ public:
         return *this;
     }
 
+
+
     ///
     /// \brief operator +  z=x+y
     /// \param y 右端项
     /// \return  结果
     ///
-    CHIPSUM_FUNCTION_INLINE Vector operator+(Vector &y) {
-        Vector ret(y.GetData(), __size);
+    CHIPSUM_FUNCTION_INLINE Vector Add(Vector &y) {
+        Vector ret( __size,y.GetData());
         ChipSum::Numeric::Impl::Vector::add(
                     __data, ret.GetData());
 
         return ret;
     }
+
+    ///
+    /// \brief operator +  z=x+y
+    /// \param y 右端项
+    /// \return  结果
+    ///
+    CHIPSUM_FUNCTION_INLINE void Add(Vector &y,Vector &z) {
+
+        ChipSum::Numeric::Impl::Vector::add(
+                    __data, z.GetData());
+
+
+    }
+
+
+
 
     ///
     /// \brief operator +=  x+=y
@@ -231,17 +277,38 @@ public:
         return *this;
     }
 
+
+
     ///
     /// \brief operator -  z=x-y
     /// \param y
     /// \return
     ///
-    CHIPSUM_FUNCTION_INLINE Vector operator-(Vector &y) {
+    CHIPSUM_FUNCTION_INLINE void Sub(Vector &y) {
 
-        Vector ret(__data, __size);
+
+
         ChipSum::Numeric::Impl::Vector::axpby(
-                    -1, y.GetData(), ret.GetData());
-        return ret;
+                    y.GetData(), GetData(),-1,1);
+
+    }
+
+    ///
+    /// \brief Sub 减法接口 z = (*this)-y
+    /// \param y 输入 y
+    /// \param z 输出 z
+    ///
+    CHIPSUM_FUNCTION_INLINE void Sub(Vector &y,Vector &z) {
+
+
+
+
+        ChipSum::Numeric::Impl::Vector::deep_copy(z.GetData(),__data);
+
+
+        ChipSum::Numeric::Impl::Vector::axpby(
+                    y.GetData(), z.GetData(),-1,1);
+
     }
 
     ///
@@ -251,6 +318,15 @@ public:
     CHIPSUM_FUNCTION_INLINE Vector operator-() {
 
         return -1 * (*this);
+    }
+
+    ///
+    /// \brief operator -  y=-x
+    /// \return y
+    ///
+    CHIPSUM_FUNCTION_INLINE Vector Neg() {
+
+        return Mult(-1);
     }
 
     ///
@@ -353,10 +429,15 @@ public:
 
 
     template<typename ...Args>
+    ///
+    /// \brief AXPBY 模板化接口
+    /// \param y  输出，可能为 y += x  y += a*x y = a*x+b*y
+    /// \param args
+    ///
     CHIPSUM_FUNCTION_INLINE void AXPBY(Vector& y,Args ...args)
     {
 
-        ChipSum::Numeric::Impl::Vector::axpby(y.GetData(),GetData(),args...);
+        ChipSum::Numeric::Impl::Vector::axpby(GetData(),y.GetData(),args...);
     }
 };
 
@@ -372,6 +453,9 @@ operator*(const ValueType& a,
           Vector<ValueType,Props...> &x) {
     return x * a;
 }
+
+
+
 
 template <typename... Props>
 ///

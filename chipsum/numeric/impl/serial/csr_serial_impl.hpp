@@ -184,7 +184,7 @@ save_figure(serial_csr_format<ValueType> &A,
       color = 0;
       if (row_entry_cnt < end - start && entry_cnt < A.graph.col_map.size()) {
         if (A.graph.col_map[start + row_entry_cnt] == j) {
-          color = 120;
+          color = static_cast<char>(250);
           ++row_entry_cnt;
           ++entry_cnt;
         }

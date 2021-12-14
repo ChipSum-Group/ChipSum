@@ -10,22 +10,102 @@
 #include <iostream>
 using namespace std;
 
-// #include <KokkosKernels_IOUtils.hpp>
-// #include <KokkosSparse_CrsMatrix.hpp>
+#include <KokkosKernels_IOUtils.hpp>
+#include <KokkosSparse_CrsMatrix.hpp>
+#include <KokkosKernels_default_types.hpp>
 
 #include <type_traits>
 #include <vector>
 
+
+
+
 #include "ChipSum.hpp"
+#include "chipsum/chipsum_macro.h"
 
 
+
+
+
+
+
+using Scal  = default_scalar;
+using Ordinal = default_lno_t;
+using Offset  = default_size_type;
+using Layout  = default_layout;
+
+
+CHIPSUM_FUNCTION_INLINE void run_pcg(CSR& A,Vector& b,Vector& x,double tol=10e-12,int max_it=200)
+{
+
+    //    x0 = np.zeros(len(b))
+    //    r0 = b-np.dot(A,x0)
+    //    p0 = r0
+    Vector x0(x.GetSize());
+
+    Vector r0(x.GetSize());
+
+    A.SPMV(x0,r0);
+
+    b.AXPBY(r0,1.,-1.);
+
+    Vector p0(x.GetSize());
+
+    p0.DeepCopy(r0);
+
+    Vector Ap(x.GetSize());
+
+
+    for(int i=0;i<max_it;++i){
+        //        alpha = np.dot(r0.T,r0)/np.dot(p0.T,np.dot(A,p0.T))
+        double alpha=r0.Dot(r0);
+
+        A.SPMV(p0,Ap);
+        alpha /= p0.Dot(Ap);
+
+        //        x1 = x0+alpha*p0
+        x.DeepCopy(x0);
+        p0.AXPBY(x,alpha);
+
+        //        r1 = r0-alpha*np.dot(A,p0)
+        Vector r1(r0.GetSize());
+        r1.DeepCopy(r0);
+        Ap.AXPBY(r1,-alpha,1);
+
+        //        beta = np.dot(r1.T,r1)/np.dot(r0.T,r0)
+        double beta = r1.Dot(r1);
+        beta /= r0.Dot(r0);
+
+        //        p0 = r1+beta*p0
+        r1.AXPBY(p0,1.,beta);
+
+        //        x0 = x1;r0 = r1
+        x0.DeepCopy(x);
+        r0.DeepCopy(r1);
+        cout<<r1.Dot(r1)<<endl;
+    }
+}
 
 int main(int argc, char *argv[]) {
+
 
     ChipSum::Common::Init(argc, argv);
     {
 
+        CSInt nv = 0, ne = 0;
+        CSInt *xadj, *adj;
+        double *ew;
 
+        KokkosKernels::Impl::read_matrix<default_lno_t,default_lno_t, default_scalar> (&nv, &ne, &xadj, &adj, &ew, "/home/lky/bin/1.mtx");
+
+        CSR A(nv,ne,ne,xadj,adj,nv);
+
+        A.SavePatternFig("A.PNG");
+
+
+        delete xadj;
+        delete adj;
+        delete ew;
     }
     ChipSum::Common::Finalize();
 }

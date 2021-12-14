@@ -113,7 +113,7 @@ public:
     ///
     /// \brief operator ScalarType
     ///
-    operator value_type() const {
+    operator value_type()  {
         return ChipSum::Numeric::Impl::Scalar::get_item(
                     __data);
     }
