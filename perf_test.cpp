@@ -80,7 +80,7 @@ int main(int argc, char *argv[]) {
 
         std::vector<Scal> h_v(A.GetRowNum(),1);
 
-        Vector x(h_v.data(),A.GetRowNum());
+        Vector x(A.GetRowNum(),h_v.data());
 
         /// \brief 此处用的是A.operator*()，此接口性能不好，但是很方便，
         ///        不用再构造b。如果b已经构造好了，建议调用A.SpMV接口，类
@@ -94,7 +94,7 @@ int main(int argc, char *argv[]) {
             /// \brief 采用此接口免去一个Vector的构造调用，
             ///        性能更优。（6-10x 带宽提升）
             ///        构造函数和析构函数开销真的挺大的。。
-            A.Multiply(x,b);
+            A.SPMV(x,b);
         }
         Kokkos::fence();
         double time = timer.seconds();

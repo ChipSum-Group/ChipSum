@@ -1,11 +1,10 @@
-/*
- * @Author       : your name
- * @Date         : 2021-08-10 15:35:49
- * @LastEditTime: 2021-10-11 09:06:48
- * @LastEditors: Li Kunyun
- * @Description  : In User Settings Edit
- * @FilePath     : \\lky\\ChipSum\\test.cpp
- */
+///
+/// \file     test.cpp
+/// \author   Riiiichman-Li
+/// \group    CDCS-HPC
+/// \date     2021-12-15
+/// \brief    %stuff%
+///
 
 #include <iostream>
 using namespace std;
@@ -13,6 +12,8 @@ using namespace std;
 #include <KokkosKernels_IOUtils.hpp>
 #include <KokkosSparse_CrsMatrix.hpp>
 #include <KokkosKernels_default_types.hpp>
+
+
 
 #include <type_traits>
 #include <vector>
@@ -35,7 +36,7 @@ using Offset  = default_size_type;
 using Layout  = default_layout;
 
 
-CHIPSUM_FUNCTION_INLINE void run_pcg(CSR& A,Vector& b,Vector& x,double tol=10e-12,int max_it=200)
+CHIPSUM_FUNCTION_INLINE void run_cg(CSR& A,Vector& b,Vector& x,double tol=10e-12,int max_it=200)
 {
 
     //    x0 = np.zeros(len(b))
@@ -54,6 +55,8 @@ CHIPSUM_FUNCTION_INLINE void run_pcg(CSR& A,Vector& b,Vector& x,double tol=10e-1
     p0.DeepCopy(r0);
 
     Vector Ap(x.GetSize());
+
+    Vector err(x.GetSize());
 
 
     for(int i=0;i<max_it;++i){
@@ -82,12 +85,37 @@ CHIPSUM_FUNCTION_INLINE void run_pcg(CSR& A,Vector& b,Vector& x,double tol=10e-1
         //        x0 = x1;r0 = r1
         x0.DeepCopy(x);
         r0.DeepCopy(r1);
-        cout<<r1.Dot(r1)<<endl;
+
+        A.SPMV(x0,err);
+        b.AXPBY(err,1,-1);
+
+        printf("%.16f\n",err.Norm2());
+
+        if(err.Dot(err)<tol) {
+
+            cout<<"Converged!"<<endl;
+            return;
+        }
+
+
     }
+
+    cout<<"Not gonna make it..."<<endl;
 }
+typedef ChipSum::Numeric::DenseMatrix<CSFloat,ChipSum::Backend::Serial>
+SerialMatrix;
+inline void ApplyPlaneRotation(double &dx, double &dy, double &cs, double &sn)
+{
+   double temp = cs * dx + sn * dy;
+   dy = -sn * dx + cs * dy;
+   dx = temp;
+}
+
 
 int main(int argc, char *argv[]) {
 
+    char* filename_A = argv[1];
+    char* filename_b = argv[2];
 
     ChipSum::Common::Init(argc, argv);
     {
@@ -96,11 +124,31 @@ int main(int argc, char *argv[]) {
         CSInt *xadj, *adj;
         double *ew;
 
-        KokkosKernels::Impl::read_matrix<default_lno_t,default_lno_t, default_scalar> (&nv, &ne, &xadj, &adj, &ew, "/home/lky/bin/1.mtx");
+        KokkosKernels::Impl::read_matrix<CSInt,CSInt, double> (&nv, &ne, &xadj, &adj, &ew, filename_A);
 
-        CSR A(nv,ne,ne,xadj,adj,nv);
+        CSR A(nv,nv,ne,xadj,adj,ew);
 
         A.SavePatternFig("A.PNG");
+
+
+        vector<double> b_data;
+        double temp;
+
+        ifstream IN(filename_b);
+
+        for(int i=0;i<nv;++i){
+            temp=1;
+            b_data.push_back(temp);
+        }
+
+
+        IN.close();
+
+        Vector b(nv,b_data.data());
+
+        Vector x(nv);
+
+        run_cg(A,b,x,10e-12,2000);
 
 
         delete xadj;

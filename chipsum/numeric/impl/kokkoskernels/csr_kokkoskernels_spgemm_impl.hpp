@@ -22,8 +22,7 @@ template <typename ValueType,
           typename OrdinalType,
           typename SizeType>
 CHIPSUM_FUNCTION_INLINE void
-spgemm(
-       KokkosSparse::CrsMatrix<ValueType,OrdinalType, default_device,void,SizeType> &A,
+spgemm(KokkosSparse::CrsMatrix<ValueType,OrdinalType, default_device,void,SizeType> &A,
        KokkosSparse::CrsMatrix<ValueType,OrdinalType, default_device,void,SizeType> &B,
        KokkosSparse::CrsMatrix<ValueType,OrdinalType, default_device,void,SizeType> &C) {
     using device_type = typename Kokkos::Device<

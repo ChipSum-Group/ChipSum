@@ -1,11 +1,10 @@
-/*
- * @Author       : your name
- * @Date         : 2021-08-10 15:35:49
- * @LastEditTime: 2021-10-11 09:06:48
- * @LastEditors: Li Kunyun
- * @Description  : In User Settings Edit
- * @FilePath     : \\lky\\ChipSum\\test.cpp
- */
+///
+/// \file     test2.cpp
+/// \author   Riiiichman-Li
+/// \group    CDCS-HPC
+/// \date     2021-12-14
+/// \brief    %stuff%
+///
 
 #include <iostream>
 using namespace std;

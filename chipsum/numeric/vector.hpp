@@ -243,25 +243,14 @@ public:
     /// \return  结果
     ///
     CHIPSUM_FUNCTION_INLINE Vector Add(Vector &y) {
-        Vector ret( __size,y.GetData());
-        ChipSum::Numeric::Impl::Vector::add(
-                    __data, ret.GetData());
-
-        return ret;
-    }
-
-    ///
-    /// \brief operator +  z=x+y
-    /// \param y 右端项
-    /// \return  结果
-    ///
-    CHIPSUM_FUNCTION_INLINE void Add(Vector &y,Vector &z) {
 
         ChipSum::Numeric::Impl::Vector::add(
-                    __data, z.GetData());
+                    __data, y.GetData());
 
 
     }
+
+
 
 
 
