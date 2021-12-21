@@ -89,18 +89,18 @@ CHIPSUM_FUNCTION_INLINE void run_cg(CSR& A,Vector& b,Vector& x,double tol=10e-12
         A.SPMV(x0,err);
         b.AXPBY(err,1,-1);
 
-        printf("%.16f\n",err.Norm2());
+        printf("%.28f\n",err.Norm2());
 
-        if(err.Dot(err)<tol) {
+        if(err.Norm2()<tol) {
 
-            cout<<"Converged!"<<endl;
+
             return;
         }
 
 
     }
 
-    cout<<"Not gonna make it..."<<endl;
+
 }
 typedef ChipSum::Numeric::DenseMatrix<CSFloat,ChipSum::Backend::Serial>
 SerialMatrix;
@@ -137,7 +137,7 @@ int main(int argc, char *argv[]) {
         ifstream IN(filename_b);
 
         for(int i=0;i<nv;++i){
-            temp=1;
+            temp = 1.0;
             b_data.push_back(temp);
         }
 
@@ -148,7 +148,9 @@ int main(int argc, char *argv[]) {
 
         Vector x(nv);
 
-        run_cg(A,b,x,10e-12,2000);
+
+
+        run_cg(A,b,x,10e-5,1477);
 
 
         delete xadj;

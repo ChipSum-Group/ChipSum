@@ -12,6 +12,7 @@
 #include <cassert>
 #include <fstream>
 #include <vector>
+#include <algorithm>
 
 #include "../../../chipsum_macro.h"
 #include "../../numeric_traits.hpp"
@@ -83,11 +84,13 @@ CHIPSUM_FUNCTION_INLINE void create(
 template <typename ValueType>
 // 将POD数据填入矩阵
 CHIPSUM_FUNCTION_INLINE void create(serial_densemat<ValueType> &A,
-                                  const ::std::size_t M,
-                                  const ::std::size_t N,
-                                  ValueType *src
-                                  ) {
-    A.data = ::std::vector<ValueType>(src, src + M * N);
+                                    const ::std::size_t M,
+                                    const ::std::size_t N,
+                                    ValueType *src
+                                    ) {
+    for(std::size_t i=0;i<M*N;++i){
+        A.data[i] = src[i];
+    }
     A.nrow = M;
     A.ncol = N;
 }
@@ -105,6 +108,28 @@ get_item(serial_densemat<ValueType> &A,
 
     return A.data[i * A.ncol + j];
 }
+
+template <typename ValueType,typename IDT>
+CHIPSUM_FUNCTION_INLINE void
+set_row(serial_densemat<ValueType>& A,
+        ::std::vector<ValueType>& a,
+        const IDT i
+        ){
+
+
+    ::std::copy_n(&a[0],a.size(),&A.data[i*A.ncol]);
+}
+
+
+
+template <typename ValueType,typename IDT>
+CHIPSUM_FUNCTION_INLINE void
+get_row_copy(serial_densemat<ValueType>& A,
+        ::std::vector<ValueType>& a,
+        const IDT i){
+    ::std::copy_n(&A.data[i*A.ncol],A.ncol,&a[0]);
+}
+
 
 template <typename ValueType,typename OStreamT>
 // 打印矩阵信息

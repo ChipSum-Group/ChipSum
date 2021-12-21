@@ -98,6 +98,36 @@ get_item(Kokkos::View<ValueType **> &A,
     return A(i, j);
 }
 
+
+
+
+template <typename ValueType,typename IDT>
+CHIPSUM_FUNCTION_INLINE void
+set_row(const Kokkos::View<ValueType**>& A,
+          const Kokkos::View<ValueType*>& a,
+          const IDT&  i
+          ){
+
+    auto A_sub = Kokkos::subview(A,i,Kokkos::ALL());
+
+    Kokkos::deep_copy(A_sub,a);
+
+}
+
+
+template <typename ValueType,typename IDT>
+CHIPSUM_FUNCTION_INLINE void
+set_items(const Kokkos::View<ValueType**>& A,
+          const Kokkos::View<ValueType*>& a,
+          const IDT&  i
+          ){
+
+    auto A_sub = Kokkos::subview(A,i,Kokkos::ALL());
+
+    Kokkos::deep_copy(A_sub,a);
+
+}
+
 template <typename ValueType>
 
 CHIPSUM_FUNCTION_INLINE void print(Kokkos::View<ValueType **> &A,

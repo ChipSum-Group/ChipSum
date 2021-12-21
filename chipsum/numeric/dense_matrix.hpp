@@ -102,6 +102,27 @@ public:
     CHIPSUM_FUNCTION_INLINE size_type GetColNum() { return __ncol; }
 
 
+    template<typename IDT>
+    ///
+    /// \brief SetRow
+    /// \param i 航索引
+    /// \param x
+    ///
+    CHIPSUM_FUNCTION_INLINE void SetRow(IDT i,vector_type& x){
+        ChipSum::Numeric::Impl::DenseMat::set_row(__data,x.GetData(),i);
+    }
+
+    template<typename IDT>
+    ///
+    /// \brief GetRowPtr 获取某一行的非拷贝数据
+    /// \param i 行索引
+    /// \param x
+    ///
+    CHIPSUM_FUNCTION_INLINE void GetRowCopy(IDT i,vector_type& x){
+        ChipSum::Numeric::Impl::DenseMat::get_row_copy(__data,x.GetData(),i);
+    }
+
+
     ///
     /// \brief operator * GEMM
     /// \param m 稠密矩阵
@@ -221,5 +242,8 @@ public:
 ///
 typedef ChipSum::Numeric::DenseMatrix<CSFloat,ChipSum::Backend::DefaultBackend>
 Matrix;
+
+typedef ChipSum::Numeric::DenseMatrix<CSFloat,ChipSum::Backend::Serial>
+SerialMatrix;
 
 #endif // __CHIPSUM_DENSE_MATRIX_HPP__
