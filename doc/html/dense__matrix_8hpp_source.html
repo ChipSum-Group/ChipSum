@@ -1,0 +1,245 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.17"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>ChipSum: /home/xyk/work/ChipSum/chipsum/numeric/dense_matrix.hpp 源文件</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">ChipSum
+   &#160;<span id="projectnumber">0.2.1</span>
+   </div>
+   <div id="projectbrief">一种性能可移植的异构并行C++模板元编程框架</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.8.17 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'搜索');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_54ac3ba0e3f7485103657d31d30bbd18.html">chipsum</a></li><li class="navelem"><a class="el" href="dir_49b6ae40baffd9a0c743bf66376aed33.html">numeric</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">dense_matrix.hpp</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="dense__matrix_8hpp.html">浏览该文件的文档.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160; </div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#ifndef __CHIPSUM_DENSE_MATRIX_HPP__</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#define __CHIPSUM_DENSE_MATRIX_HPP__</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#if defined(ChipSum_USE_KokkosKernels) || defined(ChipSum_USE_KokkosKernels64)</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;impl/kokkoskernels/densemat_kokkoskernels_impl.hpp&quot;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;impl/serial/densemat_serial_impl.hpp&quot;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &quot;numeric_traits.hpp&quot;</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="scalar_8hpp.html">scalar.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="vector_8hpp.html">vector.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">namespace </span>ChipSum {</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">namespace </span>Numeric {</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span>... Props&gt;</div>
+<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="classChipSum_1_1Numeric_1_1DenseMatrix.html">   28</a></span>&#160;<span class="keyword">class </span><a class="code" href="classChipSum_1_1Numeric_1_1DenseMatrix.html">DenseMatrix</a> {</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">using</span> traits =</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    DenseMatrix_Traits&lt; Props...&gt;;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keyword">using</span> matrix_type = <span class="keyword">typename</span> traits::matrix_type;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keyword">using</span> matrix_type_ref =</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keyword">typename</span> std::add_lvalue_reference&lt;matrix_type&gt;::type;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keyword">using</span> const_matrix_type_ref =</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keyword">typename</span> std::add_const&lt;matrix_type_ref&gt;::type;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">using</span> size_type = <span class="keyword">typename</span> traits::size_type;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keyword">using</span> const_size_type = <span class="keyword">const</span> size_type;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">using</span> const_size_type_ref = <span class="keyword">const</span> size_type&amp;;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keyword">using</span> value_type = <span class="keyword">typename</span> traits::value_type;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keyword">using</span> <a class="code" href="classChipSum_1_1Numeric_1_1Vector.html">vector_type</a> =</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <a class="code" href="classChipSum_1_1Numeric_1_1Vector.html">ChipSum::Numeric::Vector</a>&lt; Props...&gt;;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    matrix_type __data;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    size_type __nrow;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    size_type __ncol;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a07e524df63d57a5337f1d3d7d70bb1c3">   60</a></span>&#160;    CHIPSUM_DECLARED_FUNCTION <a class="code" href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a07e524df63d57a5337f1d3d7d70bb1c3">DenseMatrix</a>(const_size_type M, const_size_type N)</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        : __nrow(M), __ncol(N) {</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        ChipSum::Numeric::Impl::DenseMat::create(__data,M,N);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    }</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    </div>
+<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a3de24cac95080c56ca29bb989f0db75a">   73</a></span>&#160;    CHIPSUM_DECLARED_FUNCTION <a class="code" href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a3de24cac95080c56ca29bb989f0db75a">DenseMatrix</a>(const_size_type M, const_size_type N,</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                                          value_type *src)</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        : __nrow(M), __ncol(N) {</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        ChipSum::Numeric::Impl::DenseMat::create(__data,M, N, src);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    }</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
+<div class="line"><a name="l00086"></a><span class="lineno"><a class="line" href="classChipSum_1_1Numeric_1_1DenseMatrix.html#aecd1a25e811848edb82f2f2b26fd644d">   86</a></span>&#160;    CHIPSUM_FUNCTION_INLINE matrix_type_ref <a class="code" href="classChipSum_1_1Numeric_1_1DenseMatrix.html#aecd1a25e811848edb82f2f2b26fd644d">GetData</a>() {</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <span class="keywordflow">return</span> __data;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    }</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
+<div class="line"><a name="l00095"></a><span class="lineno"><a class="line" href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a148e0b9ea151c0eed5e1fe7a8dac0cf8">   95</a></span>&#160;    CHIPSUM_FUNCTION_INLINE size_type <a class="code" href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a148e0b9ea151c0eed5e1fe7a8dac0cf8">GetRowNum</a>() { <span class="keywordflow">return</span> __nrow; }</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160; </div>
+<div class="line"><a name="l00102"></a><span class="lineno"><a class="line" href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a99cca9a0d78b5bf39ccde74134615ac7">  102</a></span>&#160;    CHIPSUM_FUNCTION_INLINE size_type <a class="code" href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a99cca9a0d78b5bf39ccde74134615ac7">GetColNum</a>() { <span class="keywordflow">return</span> __ncol; }</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160; </div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
+<div class="line"><a name="l00110"></a><span class="lineno"><a class="line" href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a11c5924c54a4614688e791ca7c600ab4">  110</a></span>&#160;    CHIPSUM_FUNCTION_INLINE <a class="code" href="classChipSum_1_1Numeric_1_1DenseMatrix.html">DenseMatrix</a> <a class="code" href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a11c5924c54a4614688e791ca7c600ab4">operator*</a>(<a class="code" href="classChipSum_1_1Numeric_1_1DenseMatrix.html">DenseMatrix</a> &amp;m) {</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        <a class="code" href="classChipSum_1_1Numeric_1_1DenseMatrix.html">DenseMatrix</a> ret(__nrow, m.<a class="code" href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a99cca9a0d78b5bf39ccde74134615ac7">GetColNum</a>());</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        ChipSum::Numeric::Impl::DenseMat::gemm(</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                    __data,m.<a class="code" href="classChipSum_1_1Numeric_1_1DenseMatrix.html#aecd1a25e811848edb82f2f2b26fd644d">GetData</a>(), ret.<a class="code" href="classChipSum_1_1Numeric_1_1DenseMatrix.html#aecd1a25e811848edb82f2f2b26fd644d">GetData</a>());</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        <span class="keywordflow">return</span> ret;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    }</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160; </div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> ...Args&gt;</div>
+<div class="line"><a name="l00123"></a><span class="lineno"><a class="line" href="classChipSum_1_1Numeric_1_1DenseMatrix.html#af8d84191b0a9e70a7ae5f9e6d64267e3">  123</a></span>&#160;    CHIPSUM_FUNCTION_INLINE <span class="keywordtype">void</span> <a class="code" href="classChipSum_1_1Numeric_1_1DenseMatrix.html#af8d84191b0a9e70a7ae5f9e6d64267e3">GEMM</a>(<a class="code" href="classChipSum_1_1Numeric_1_1DenseMatrix.html">DenseMatrix</a> &amp;B,<a class="code" href="classChipSum_1_1Numeric_1_1DenseMatrix.html">DenseMatrix</a>&amp; C,Args... args) {</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        ChipSum::Numeric::Impl::DenseMat::gemm(</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;                    __data,B.<a class="code" href="classChipSum_1_1Numeric_1_1DenseMatrix.html#aecd1a25e811848edb82f2f2b26fd644d">GetData</a>(), C.<a class="code" href="classChipSum_1_1Numeric_1_1DenseMatrix.html#aecd1a25e811848edb82f2f2b26fd644d">GetData</a>(),args...);</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160; </div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    }</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160; </div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160; </div>
+<div class="line"><a name="l00135"></a><span class="lineno"><a class="line" href="classChipSum_1_1Numeric_1_1DenseMatrix.html#aa995ed52190a2f3d8ee2193f1f704da5">  135</a></span>&#160;    CHIPSUM_FUNCTION_INLINE <a class="code" href="classChipSum_1_1Numeric_1_1Vector.html">vector_type</a> <a class="code" href="classChipSum_1_1Numeric_1_1DenseMatrix.html#aa995ed52190a2f3d8ee2193f1f704da5">operator*</a>(<a class="code" href="classChipSum_1_1Numeric_1_1Vector.html">vector_type</a> &amp;v) {</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        <a class="code" href="classChipSum_1_1Numeric_1_1Vector.html">vector_type</a> ret(__nrow);</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160; </div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        ChipSum::Numeric::Impl::DenseMat::gemv(</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;                    __data, v.<a class="code" href="classChipSum_1_1Numeric_1_1Vector.html#a5d0e2a21989a9e8bd3c45e75a2cffc40">GetData</a>(), ret.<a class="code" href="classChipSum_1_1Numeric_1_1Vector.html#a5d0e2a21989a9e8bd3c45e75a2cffc40">GetData</a>());</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160; </div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;        <span class="keywordflow">return</span> ret;</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    }</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160; </div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> ...Args&gt;</div>
+<div class="line"><a name="l00150"></a><span class="lineno"><a class="line" href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a7ec3f034f9f1e34e9f5c6dff0433e819">  150</a></span>&#160;    CHIPSUM_FUNCTION_INLINE <span class="keywordtype">void</span> <a class="code" href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a7ec3f034f9f1e34e9f5c6dff0433e819">GEMV</a>(<a class="code" href="classChipSum_1_1Numeric_1_1Vector.html">vector_type</a> &amp;x,<a class="code" href="classChipSum_1_1Numeric_1_1Vector.html">vector_type</a>&amp; y,Args... args) {</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;        ChipSum::Numeric::Impl::DenseMat::gemv(</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;                    __data, x.<a class="code" href="classChipSum_1_1Numeric_1_1Vector.html#a5d0e2a21989a9e8bd3c45e75a2cffc40">GetData</a>(), y.<a class="code" href="classChipSum_1_1Numeric_1_1Vector.html#a5d0e2a21989a9e8bd3c45e75a2cffc40">GetData</a>(),args...);</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160; </div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    }</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160; </div>
+<div class="line"><a name="l00161"></a><span class="lineno"><a class="line" href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a64ca7e83dea65a32953b214464e75fc8">  161</a></span>&#160;    CHIPSUM_FUNCTION_INLINE <a class="code" href="classChipSum_1_1Numeric_1_1DenseMatrix.html">DenseMatrix</a> <a class="code" href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a64ca7e83dea65a32953b214464e75fc8">operator*</a>(<span class="keyword">const</span> value_type&amp; a) {</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        <a class="code" href="classChipSum_1_1Numeric_1_1DenseMatrix.html">DenseMatrix</a>&lt;Props...&gt; ret(__nrow, __ncol);</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;        ChipSum::Numeric::Impl::DenseMat::scal( __data, ret.GetData(), a);</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;        <span class="keywordflow">return</span> ret;</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    }</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160; </div>
+<div class="line"><a name="l00172"></a><span class="lineno"><a class="line" href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a6e81829ee3a76229205956f3687f5bf0">  172</a></span>&#160;    CHIPSUM_FUNCTION_INLINE <a class="code" href="classChipSum_1_1Numeric_1_1DenseMatrix.html">DenseMatrix</a>&amp; <a class="code" href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a6e81829ee3a76229205956f3687f5bf0">operator*=</a>(<span class="keyword">const</span> value_type&amp; a) {</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;        ChipSum::Numeric::Impl::DenseMat::scal( __data, __data, a);</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;        <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    }</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160; </div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160; </div>
+<div class="line"><a name="l00184"></a><span class="lineno"><a class="line" href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a6d4e658e7319e858b4591cc9bb834083">  184</a></span>&#160;    CHIPSUM_FUNCTION_INLINE value_type &amp;<a class="code" href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a6d4e658e7319e858b4591cc9bb834083">operator()</a>(const_size_type_ref i,</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;                                                   const_size_type_ref j) {</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;        <span class="keywordflow">return</span> ChipSum::Numeric::Impl::DenseMat::get_item(</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;                    __data,i,j);</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;    }</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160; </div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160; </div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160; </div>
+<div class="line"><a name="l00198"></a><span class="lineno"><a class="line" href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a9af29b471c14cc1e45b60a656f6a0ae6">  198</a></span>&#160;    CHIPSUM_FUNCTION_INLINE <span class="keyword">const</span> value_type &amp;<a class="code" href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a9af29b471c14cc1e45b60a656f6a0ae6">operator()</a>(const_size_type_ref i,</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;                                                         const_size_type_ref j)<span class="keyword"> const</span>{</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;        <span class="keywordflow">return</span> ChipSum::Numeric::Impl::DenseMat::get_item(</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;                    __data,i,j);</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    }</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160; </div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160; </div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> OStreamT=std::ostream&gt;</div>
+<div class="line"><a name="l00210"></a><span class="lineno"><a class="line" href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a574cb3b81e7ac39eb88ee362d8cc3e37">  210</a></span>&#160;    CHIPSUM_FUNCTION_INLINE <span class="keywordtype">void</span> <a class="code" href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a574cb3b81e7ac39eb88ee362d8cc3e37">Print</a>(OStreamT &amp;out = std::cout) {</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;        ChipSum::Numeric::Impl::DenseMat::print(</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;                    __data,out);</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    }</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;};</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160; </div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;} <span class="comment">// End namespace Numeric</span></div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;} <span class="comment">// End namespace ChipSum</span></div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160; </div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;<span class="keyword">typedef</span> <a class="code" href="classChipSum_1_1Numeric_1_1DenseMatrix.html">ChipSum::Numeric::DenseMatrix&lt;CSFloat,ChipSum::Backend::DefaultBackend&gt;</a></div>
+<div class="line"><a name="l00223"></a><span class="lineno"><a class="line" href="dense__matrix_8hpp.html#ac4424dfaafd26d979d8bd09a03b9cf64">  223</a></span>&#160;<a class="code" href="dense__matrix_8hpp.html#ac4424dfaafd26d979d8bd09a03b9cf64">Matrix</a>;</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160; </div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;<span class="preprocessor">#endif // __CHIPSUM_DENSE_MATRIX_HPP__</span></div>
+</div><!-- fragment --></div><!-- contents -->
+<div class="ttc" id="aclassChipSum_1_1Numeric_1_1Vector_html"><div class="ttname"><a href="classChipSum_1_1Numeric_1_1Vector.html">ChipSum::Numeric::Vector</a></div><div class="ttdoc">向量类用户接口</div><div class="ttdef"><b>Definition:</b> vector.hpp:34</div></div>
+<div class="ttc" id="aclassChipSum_1_1Numeric_1_1DenseMatrix_html_af8d84191b0a9e70a7ae5f9e6d64267e3"><div class="ttname"><a href="classChipSum_1_1Numeric_1_1DenseMatrix.html#af8d84191b0a9e70a7ae5f9e6d64267e3">ChipSum::Numeric::DenseMatrix::GEMM</a></div><div class="ttdeci">CHIPSUM_FUNCTION_INLINE void GEMM(DenseMatrix &amp;B, DenseMatrix &amp;C, Args... args)</div><div class="ttdoc">GEMM, C=A*B 当C为已初始化的矩阵时，强烈建议采用此接口进行GEMM运算</div><div class="ttdef"><b>Definition:</b> dense_matrix.hpp:123</div></div>
+<div class="ttc" id="avector_8hpp_html"><div class="ttname"><a href="vector_8hpp.html">vector.hpp</a></div><div class="ttdoc">向量类用户接口</div></div>
+<div class="ttc" id="ascalar_8hpp_html"><div class="ttname"><a href="scalar_8hpp.html">scalar.hpp</a></div><div class="ttdoc">标量用户接口，主要是为了衔接类似点积一类 操作的Device端实现。</div></div>
+<div class="ttc" id="aclassChipSum_1_1Numeric_1_1DenseMatrix_html_a6e81829ee3a76229205956f3687f5bf0"><div class="ttname"><a href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a6e81829ee3a76229205956f3687f5bf0">ChipSum::Numeric::DenseMatrix::operator*=</a></div><div class="ttdeci">CHIPSUM_FUNCTION_INLINE DenseMatrix &amp; operator*=(const value_type &amp;a)</div><div class="ttdoc">operator *=， R*=alpha</div><div class="ttdef"><b>Definition:</b> dense_matrix.hpp:172</div></div>
+<div class="ttc" id="aclassChipSum_1_1Numeric_1_1DenseMatrix_html_a3de24cac95080c56ca29bb989f0db75a"><div class="ttname"><a href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a3de24cac95080c56ca29bb989f0db75a">ChipSum::Numeric::DenseMatrix::DenseMatrix</a></div><div class="ttdeci">CHIPSUM_DECLARED_FUNCTION DenseMatrix(const_size_type M, const_size_type N, value_type *src)</div><div class="ttdoc">DenseMatrix 构造一个M行N列的稠密矩阵，并用src赋值该矩阵</div><div class="ttdef"><b>Definition:</b> dense_matrix.hpp:73</div></div>
+<div class="ttc" id="aclassChipSum_1_1Numeric_1_1DenseMatrix_html_a11c5924c54a4614688e791ca7c600ab4"><div class="ttname"><a href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a11c5924c54a4614688e791ca7c600ab4">ChipSum::Numeric::DenseMatrix::operator*</a></div><div class="ttdeci">CHIPSUM_FUNCTION_INLINE DenseMatrix operator*(DenseMatrix &amp;m)</div><div class="ttdoc">operator *, GEMM</div><div class="ttdef"><b>Definition:</b> dense_matrix.hpp:110</div></div>
+<div class="ttc" id="aclassChipSum_1_1Numeric_1_1Vector_html_a5d0e2a21989a9e8bd3c45e75a2cffc40"><div class="ttname"><a href="classChipSum_1_1Numeric_1_1Vector.html#a5d0e2a21989a9e8bd3c45e75a2cffc40">ChipSum::Numeric::Vector::GetData</a></div><div class="ttdeci">CHIPSUM_FUNCTION_INLINE vector_type &amp; GetData()</div><div class="ttdoc">GetData 获取后端数据类型</div><div class="ttdef"><b>Definition:</b> vector.hpp:108</div></div>
+<div class="ttc" id="adense__matrix_8hpp_html_ac4424dfaafd26d979d8bd09a03b9cf64"><div class="ttname"><a href="dense__matrix_8hpp.html#ac4424dfaafd26d979d8bd09a03b9cf64">Matrix</a></div><div class="ttdeci">ChipSum::Numeric::DenseMatrix&lt; CSFloat, ChipSum::Backend::DefaultBackend &gt; Matrix</div><div class="ttdoc">Matrix 默认的</div><div class="ttdef"><b>Definition:</b> dense_matrix.hpp:223</div></div>
+<div class="ttc" id="aclassChipSum_1_1Numeric_1_1DenseMatrix_html_a9af29b471c14cc1e45b60a656f6a0ae6"><div class="ttname"><a href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a9af29b471c14cc1e45b60a656f6a0ae6">ChipSum::Numeric::DenseMatrix::operator()</a></div><div class="ttdeci">const CHIPSUM_FUNCTION_INLINE value_type &amp; operator()(const_size_type_ref i, const_size_type_ref j) const</div><div class="ttdoc">operator () 获取A(i,j)（只读）</div><div class="ttdef"><b>Definition:</b> dense_matrix.hpp:198</div></div>
+<div class="ttc" id="aclassChipSum_1_1Numeric_1_1DenseMatrix_html_a148e0b9ea151c0eed5e1fe7a8dac0cf8"><div class="ttname"><a href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a148e0b9ea151c0eed5e1fe7a8dac0cf8">ChipSum::Numeric::DenseMatrix::GetRowNum</a></div><div class="ttdeci">CHIPSUM_FUNCTION_INLINE size_type GetRowNum()</div><div class="ttdoc">GetRowNum 获取矩阵行数</div><div class="ttdef"><b>Definition:</b> dense_matrix.hpp:95</div></div>
+<div class="ttc" id="aclassChipSum_1_1Numeric_1_1DenseMatrix_html"><div class="ttname"><a href="classChipSum_1_1Numeric_1_1DenseMatrix.html">ChipSum::Numeric::DenseMatrix</a></div><div class="ttdoc">稠密矩阵用户接口</div><div class="ttdef"><b>Definition:</b> dense_matrix.hpp:28</div></div>
+<div class="ttc" id="aclassChipSum_1_1Numeric_1_1DenseMatrix_html_a7ec3f034f9f1e34e9f5c6dff0433e819"><div class="ttname"><a href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a7ec3f034f9f1e34e9f5c6dff0433e819">ChipSum::Numeric::DenseMatrix::GEMV</a></div><div class="ttdeci">CHIPSUM_FUNCTION_INLINE void GEMV(vector_type &amp;x, vector_type &amp;y, Args... args)</div><div class="ttdoc">GEMV, y=A*x 当y为已初始化的向量时，强烈建议采用此接口进行GEMV运算</div><div class="ttdef"><b>Definition:</b> dense_matrix.hpp:150</div></div>
+<div class="ttc" id="aclassChipSum_1_1Numeric_1_1DenseMatrix_html_aa995ed52190a2f3d8ee2193f1f704da5"><div class="ttname"><a href="classChipSum_1_1Numeric_1_1DenseMatrix.html#aa995ed52190a2f3d8ee2193f1f704da5">ChipSum::Numeric::DenseMatrix::operator*</a></div><div class="ttdeci">CHIPSUM_FUNCTION_INLINE vector_type operator*(vector_type &amp;v)</div><div class="ttdoc">operator *, GEMV</div><div class="ttdef"><b>Definition:</b> dense_matrix.hpp:135</div></div>
+<div class="ttc" id="aclassChipSum_1_1Numeric_1_1DenseMatrix_html_a574cb3b81e7ac39eb88ee362d8cc3e37"><div class="ttname"><a href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a574cb3b81e7ac39eb88ee362d8cc3e37">ChipSum::Numeric::DenseMatrix::Print</a></div><div class="ttdeci">CHIPSUM_FUNCTION_INLINE void Print(OStreamT &amp;out=std::cout)</div><div class="ttdoc">Print 打印函数</div><div class="ttdef"><b>Definition:</b> dense_matrix.hpp:210</div></div>
+<div class="ttc" id="aclassChipSum_1_1Numeric_1_1DenseMatrix_html_a64ca7e83dea65a32953b214464e75fc8"><div class="ttname"><a href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a64ca7e83dea65a32953b214464e75fc8">ChipSum::Numeric::DenseMatrix::operator*</a></div><div class="ttdeci">CHIPSUM_FUNCTION_INLINE DenseMatrix operator*(const value_type &amp;a)</div><div class="ttdoc">operator *， R=(*this)*alpha</div><div class="ttdef"><b>Definition:</b> dense_matrix.hpp:161</div></div>
+<div class="ttc" id="aclassChipSum_1_1Numeric_1_1DenseMatrix_html_a99cca9a0d78b5bf39ccde74134615ac7"><div class="ttname"><a href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a99cca9a0d78b5bf39ccde74134615ac7">ChipSum::Numeric::DenseMatrix::GetColNum</a></div><div class="ttdeci">CHIPSUM_FUNCTION_INLINE size_type GetColNum()</div><div class="ttdoc">GetColNum 获取矩阵列数</div><div class="ttdef"><b>Definition:</b> dense_matrix.hpp:102</div></div>
+<div class="ttc" id="aclassChipSum_1_1Numeric_1_1DenseMatrix_html_a07e524df63d57a5337f1d3d7d70bb1c3"><div class="ttname"><a href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a07e524df63d57a5337f1d3d7d70bb1c3">ChipSum::Numeric::DenseMatrix::DenseMatrix</a></div><div class="ttdeci">CHIPSUM_DECLARED_FUNCTION DenseMatrix(const_size_type M, const_size_type N)</div><div class="ttdoc">DenseMatrix 构造一个M行N列的稠密矩阵，该矩阵未初始化</div><div class="ttdef"><b>Definition:</b> dense_matrix.hpp:60</div></div>
+<div class="ttc" id="aclassChipSum_1_1Numeric_1_1DenseMatrix_html_a6d4e658e7319e858b4591cc9bb834083"><div class="ttname"><a href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a6d4e658e7319e858b4591cc9bb834083">ChipSum::Numeric::DenseMatrix::operator()</a></div><div class="ttdeci">CHIPSUM_FUNCTION_INLINE value_type &amp; operator()(const_size_type_ref i, const_size_type_ref j)</div><div class="ttdoc">operator () 获取A(i,j)</div><div class="ttdef"><b>Definition:</b> dense_matrix.hpp:184</div></div>
+<div class="ttc" id="aclassChipSum_1_1Numeric_1_1DenseMatrix_html_aecd1a25e811848edb82f2f2b26fd644d"><div class="ttname"><a href="classChipSum_1_1Numeric_1_1DenseMatrix.html#aecd1a25e811848edb82f2f2b26fd644d">ChipSum::Numeric::DenseMatrix::GetData</a></div><div class="ttdeci">CHIPSUM_FUNCTION_INLINE matrix_type_ref GetData()</div><div class="ttdoc">GetData 获取矩阵数据</div><div class="ttdef"><b>Definition:</b> dense_matrix.hpp:86</div></div>
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者 &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.17
+</small></address>
+</body>
+</html>

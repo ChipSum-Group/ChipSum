@@ -1,226 +1,161 @@
-/*
- * @Author       : your name
- * @Date         : 2021-08-10 15:35:49
- * @LastEditTime: 2021-08-19 09:09:36
- * @LastEditors: Li Kunyun
- * @Description  : In User Settings Edit
- * @FilePath     : \\lky\\ChipSum\\test.cpp
- */
+///
+/// \file     test.cpp
+/// \author   Riiiichman-Li
+/// \group    CDCS-HPC
+/// \date     2021-12-15
+/// \brief    %stuff%
+///
 
 #include <iostream>
 using namespace std;
 
-// #include <KokkosKernels_IOUtils.hpp>
-// #include <KokkosSparse_CrsMatrix.hpp>
+#include <KokkosKernels_IOUtils.hpp>
+#include <KokkosSparse_CrsMatrix.hpp>
+#include <KokkosKernels_default_types.hpp>
+
+
 
 #include <type_traits>
 #include <vector>
 
-#include "ChipSumConfig.h"
-#include "chipsum/backend/backend.hpp"
-#include "chipsum/common/enviroment.hpp"
-#include "chipsum/numeric/dense_matrix.hpp"
 
-#include "chipsum/numeric/scalar.hpp"
-#include "chipsum/numeric/sparse_matrix.hpp"
-#include "chipsum/numeric/vector.hpp"
 
-#define N 5
+
+#include "ChipSum.hpp"
+#include "chipsum/chipsum_macro.h"
+
+
+
+
+
+
+
+using Scal  = default_scalar;
+using Ordinal = default_lno_t;
+using Offset  = default_size_type;
+using Layout  = default_layout;
+
+
+CHIPSUM_FUNCTION_INLINE void run_cg(CSR& A,Vector& b,Vector& x,double tol=10e-12,int max_it=200)
+{
+
+    //    x0 = np.zeros(len(b))
+    //    r0 = b-np.dot(A,x0)
+    //    p0 = r0
+    Vector x0(x.GetSize());
+
+    Vector r0(x.GetSize());
+
+    A.SPMV(x0,r0);
+
+    b.AXPBY(r0,1.,-1.);
+
+    Vector p0(x.GetSize());
+
+    p0.DeepCopy(r0);
+
+    Vector Ap(x.GetSize());
+
+    Vector err(x.GetSize());
+
+
+    for(int i=0;i<max_it;++i){
+        //        alpha = np.dot(r0.T,r0)/np.dot(p0.T,np.dot(A,p0.T))
+        double alpha=r0.Dot(r0);
+
+        A.SPMV(p0,Ap);
+        alpha /= p0.Dot(Ap);
+
+        //        x1 = x0+alpha*p0
+        x.DeepCopy(x0);
+        p0.AXPBY(x,alpha);
+
+        //        r1 = r0-alpha*np.dot(A,p0)
+        Vector r1(r0.GetSize());
+        r1.DeepCopy(r0);
+        Ap.AXPBY(r1,-alpha,1);
+
+        //        beta = np.dot(r1.T,r1)/np.dot(r0.T,r0)
+        double beta = r1.Dot(r1);
+        beta /= r0.Dot(r0);
+
+        //        p0 = r1+beta*p0
+        r1.AXPBY(p0,1.,beta);
+
+        //        x0 = x1;r0 = r1
+        x0.DeepCopy(x);
+        r0.DeepCopy(r1);
+
+        A.SPMV(x0,err);
+        b.AXPBY(err,1,-1);
+
+        printf("%.28f\n",err.Norm2());
+
+        if(err.Norm2()<tol) {
+
+
+            return;
+        }
+
+
+    }
+
+
+}
+typedef ChipSum::Numeric::DenseMatrix<CSFloat,ChipSum::Backend::Serial>
+SerialMatrix;
+inline void ApplyPlaneRotation(double &dx, double &dy, double &cs, double &sn)
+{
+   double temp = cs * dx + sn * dy;
+   dy = -sn * dx + cs * dy;
+   dx = temp;
+}
+
 
 int main(int argc, char *argv[]) {
 
-  ChipSum::Common::Init(argc, argv);
-  {
+    char* filename_A = argv[1];
+    char* filename_b = argv[2];
 
-    double *v1 = static_cast<double *>(std::malloc(N * sizeof(double)));
-    double *v2 = static_cast<double *>(std::malloc(N * sizeof(double)));
+    ChipSum::Common::Init(argc, argv);
+    {
 
-    for (int i = 0; i < N; ++i) {
-      v1[i] = double(i);
-      v2[i] = double(i);
+        CSInt nv = 0, ne = 0;
+        CSInt *xadj, *adj;
+        double *ew;
+
+        KokkosKernels::Impl::read_matrix<CSInt,CSInt, double> (&nv, &ne, &xadj, &adj, &ew, filename_A);
+
+        CSR A(nv,nv,ne,xadj,adj,ew);
+
+        A.SavePatternFig("A.PNG");
+
+
+        vector<double> b_data;
+        double temp;
+
+        ifstream IN(filename_b);
+
+        for(int i=0;i<nv;++i){
+            temp = 1.0;
+            b_data.push_back(temp);
+        }
+
+
+        IN.close();
+
+        Vector b(nv,b_data.data());
+
+        Vector x(nv);
+
+
+
+        run_cg(A,b,x,10e-5,1477);
+
+
+        delete xadj;
+        delete adj;
+        delete ew;
     }
-
-    Vector a(v1, N); // a = {0,1,2,3,4}
-    a.Print();
-    Vector b(v2, N); // b = {0,1,2,3,4}
-
-    a += b; // a = {0,2,4,6,8}
-
-    a += b; // a = {0,3,6,9,12}
-
-    a *= 1.0; // a = {0,3,6,9,12}
-
-    a.Print();
-
-    //    for(std::size_t i=0;i<N;++i) b(i) = 0.0; /* for operator()
-    b *= 0.0;  /*  */
-    b.Print(); // b = {0.,0.,0., ... ,0.}
-
-    //    a -= a; // if uncomment, all results below turns 0
-
-    //    auto c = a+b;
-
-    cout << a.Norm1() << endl; // 30
-
-    cout << a.Norm2() << endl; // 16.4317
-    Scalar r;
-    a.Dot(a, r);
-
-    cout << r() * r() << endl; // r = 270
-
-    Matrix A(10, 10);
-    A.Print();
-
-    Matrix X(10,5);
-
-    (A*X).Print();
-
-    //        /*
-    //        *
-    //        *  |  1  0  2  3  0  |
-    //        *  |  0  4  0  5  0  |
-    //        *  |  2  0  6  0  7  |
-    //        *  |  3  5  0  8  0  |
-    //        *  |  0  0  7  0  9  |
-    //        *
-    //        *  nrows = 5
-    //        *  ncols = 5
-    //        *  annz = 13
-    //        *  row_map = {0,3,5,8,11,13}
-    //        *  col_map = {0,2,3,1,3,0,2,4,0,1,3,2,4}
-    //        *  values = {1,2,3,4,5,2,6,7,3,5,8,7,9}
-    //        *
-    //        *  x = {1,1,1,1,1}
-    //        *  y = {6,9,15,16,16}
-    //        *
-    //       */
-    // const size_t m = 5;
-    // const size_t n = 5;
-
-    // size_t nrows = m;
-    // size_t ncols = n;
-    // size_t annz = 13;
-    // size_t *row_map = (size_t *)malloc(6 * sizeof(size_t));
-    // size_t *col_map = (size_t *)malloc(13 * sizeof(size_t));
-    // double *values = (double *)malloc(13 * sizeof(double));
-    // row_map[0] = 0;
-    // row_map[1] = 3;
-    // row_map[2] = 5;
-    // row_map[3] = 8;
-    // row_map[4] = 11;
-    // row_map[5] = 13;
-    // col_map[0] = col_map[5] = col_map[8] = 0;
-    // col_map[1] = col_map[6] = col_map[11] = 2;
-    // col_map[2] = col_map[4] = col_map[10] = 3;
-    // col_map[3] = col_map[9] = 1;
-    // col_map[7] = col_map[12] = 4;
-
-    // for (int i = 0; i < 5; ++i)
-    //   values[i] = double(i + 1);
-
-    // values[5] = 2;
-    // values[6] = 6;
-    // values[7] = 7;
-    // values[8] = 3;
-    // values[9] = 5;
-    // values[10] = 8;
-    // values[11] = 7;
-    // values[12] = 9;
-
-    const size_t m = 111;
-    const size_t n = 25;
-    size_t nrows = m;
-    size_t ncols = n;
-    size_t annz = std::min(m,n);
-    size_t *row_map = (size_t *)malloc((m + 1) * sizeof(size_t));
-    size_t *col_map = (size_t *)malloc(std::min(m,n) * sizeof(size_t));
-    double *values = (double *)malloc(std::min(m,n) * sizeof(double));
-
-    for (size_t i = 0; i < std::min(m,n); ++i) {
-      
-      col_map[i] = i;
-      values[i] = 1;
-    }
-     for (size_t i = 0; i <= m; ++i) {
-      
-       row_map[i] = i;
-    }
-   
-
-    CSR B(nrows, ncols, annz, row_map, col_map, values);
-
-    B.PrintPattern();
-    B.Print();
-
-    // B.SavePatternFig("sparse.bmp"); /* Has BUGs */
-    B.SavePatternFig("sparse.png");
-
-    // (B * a).Print(); // spmv通过{39,57,120,87,150}
-    // (B * m1).Print(); // spgemm的KokkosKernels通过，但是Serial版本还存在问题
-
-    std::free(row_map);
-    std::free(col_map);
-    std::free(values);
-
-    //        bb.Print(); // {13,15,40,24,50}
-
-    //        Kokkos::fence();
-
-    //        cout<<endl;
-
-    //        free(row_map);
-    //        free(col_map);
-    //        free(values);
-
-    //        //    for(size_t i=0;i<5;++i){ /* for operator() test */
-    //        //        mat(i,i) = 1.0;
-    //        //    }
-
-    //        double* mat_data = static_cast<double*>(std::malloc(25*sizeof
-    //        (double)));
-
-    //        for(int i=0;i<25;++i){
-    //            mat_data[i] = 0.0;
-    //        }
-
-    //        for(int i=0;i<5;++i){
-    //            mat_data[5*i+i] = 1.0;
-    //        }
-
-    //        mat_data[0] = 2.0;
-
-    //        Matrix mat(5,5,mat_data);
-
-    //        mat.Print();
-
-    //        /*     ↑
-    //        *
-    //        *  |  2  0  0  0  0  |
-    //        *  |  0  1  0  0  0  |
-    //        *  |  0  0  1  0  0  |
-    //        *  |  0  0  0  1  0  |
-    //        *  |  0  0  0  0  1  |
-    //        */
-
-    //        (mat*bb).Print(); // {13,15,40,24,50}
-
-    //        (B*mat).Print();
-
-    //        /*     ↑
-    //        *
-    //        *  |  2  0  2  3  0  |
-    //        *  |  0  4  0  5  0  |
-    //        *  |  4  0  6  0  7  |
-    //        *  |  6  5  0  8  0  |
-    //        *  |  0  0  7  0  9  |
-    //        */
-
-    //        std::free(mat_data);
-
-
-    
-    std::free(v1);
-    std::free(v2);
-  }
-  ChipSum::Common::Finalize();
+    ChipSum::Common::Finalize();
 }

@@ -1,11 +1,10 @@
-/*
- * @Description:
- * @Version: 2.0
- * @Autor: Li Kunyun
- * @Date: 2021-08-17 10:00:16
- * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-18 12:31:41
- */
+///
+/// \file     bmp_writer.cpp
+/// \author   Riiiichman-Li
+/// \group    CDCS-HPC
+/// \date     2021-11-05
+/// \brief    %stuff%
+///
 
 #include <cstdio>
 #include <cstdlib>
@@ -15,7 +14,7 @@
 
 
 
-void ChipSum::Common::WriteBMP(int w, int h,unsigned char *img, const char *filename) {
+void ChipSum::Common::write_bmp(int w, int h,unsigned char *img, const char *filename) {
   int l = (w * 3 + 3) / 4 * 4;
   int bmi[] = {1 * h + 54, 0,     54, 40, w,   h, 1 | 3 * 8 << 16,
                0,          l * h, 0,  0,  100, 0};
@@ -28,7 +27,7 @@ void ChipSum::Common::WriteBMP(int w, int h,unsigned char *img, const char *file
   ::std::fclose(fp);
 }
 
-void ChipSum::Common::FlipBMP(int w, int h, unsigned char *img) {
+void ChipSum::Common::flip_bmp(int w, int h, unsigned char *img) {
   int half = h / 2;
   for (int i = 0; i < half; ++i) {
     for (int j = 0; j < w; ++j) {

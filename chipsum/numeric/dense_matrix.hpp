@@ -1,20 +1,19 @@
-/*
- * @Description: 
- * @Version: 2.0
- * @Autor: Li Kunyun
- * @Date: 2021-08-09 12:20:42
- * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-16 16:05:08
- */
-
+///
+/// \file     dense_matrix.hpp
+/// \author   Riiiichman-Li
+/// \group    CDCS-HPC
+/// \date     2021-11-01
+/// \brief    稠密矩阵用户接口
+///
 
 #ifndef __CHIPSUM_DENSE_MATRIX_HPP__
 #define __CHIPSUM_DENSE_MATRIX_HPP__
 
-#if defined(ChipSum_USE_KokkosKernels) || defined(ChipSum_USE_KokkosKernels64)
-#include "impl/densemat_kokkoskernels_impl.hpp"
-#endif
-#include "impl/densemat_serial_impl.hpp"
+
+#include "impl/kokkoskernels/densemat_kokkoskernels_impl.hpp"
+
+#include "impl/serial/densemat_serial_impl.hpp"
+
 #include "numeric_traits.hpp"
 #include "scalar.hpp"
 #include "vector.hpp"
@@ -22,164 +21,242 @@
 
 
 
+
 namespace ChipSum {
 namespace Numeric {
 
-template <typename... Props> class DenseMatrix;
 
-template <typename ScalarType, typename SizeType, typename BackendType,
-          typename... Props>
-class DenseMatrix<ScalarType, SizeType, BackendType, Props...> {
+template <typename... Props>
+class DenseMatrix {
 
 public:
-  using traits =
-      DenseMatrix_Traits<ScalarType, SizeType, BackendType, Props...>;
-  using matrix_type = typename traits::matrix_type;
-  using matrix_type_reference =
-      typename std::add_lvalue_reference<matrix_type>::type;
-  using const_matrix_type_reference =
-      typename std::add_const<matrix_type_reference>::type;
+    using traits =
+    DenseMatrix_Traits< Props...>;
+    using matrix_type = typename traits::matrix_type;
+    using matrix_type_ref =
+    typename std::add_lvalue_reference<matrix_type>::type;
+    using const_matrix_type_ref =
+    typename std::add_const<matrix_type_ref>::type;
 
-  using size_type = typename traits::size_type;
-  using const_size_type = typename traits::const_size_type;
+    using size_type = typename traits::size_type;
+    using const_size_type = const size_type;
+    using const_size_type_ref = const size_type&;
 
-  using vector_type =
-      ChipSum::Numeric::Vector<ScalarType, SizeType, BackendType, Props...>;
+    using value_type = typename traits::value_type;
+
+    using vector_type =
+    ChipSum::Numeric::Vector< Props...>;
 
 private:
-  matrix_type __data;
-  size_type __nrow;
-  size_type __ncol;
+    matrix_type __data;
+    size_type __nrow;
+    size_type __ncol;
 
 public:
-  /**
-   * @description: 构造一个M行N列的稠密矩阵，该矩阵未初始化
-   * @param {size_type} M 行数
-   * @param {size_type} N 列数
-   * @return {*}
-   */
-  CHIPSUM_DECLARED_FUNCTION DenseMatrix(const_size_type M, const_size_type N)
-      : __nrow(M), __ncol(N) {
-    ChipSum::Numeric::Impl::DenseMat::Create<ScalarType, SizeType>(M, N,
-                                                                   __data);
-  }
 
-  /**
-   * @description: 构造一个M行N列的稠密矩阵，并用src赋值该矩阵
-   * @param {size_type} M 行数
-   * @param {size_type} N 列数
-   * @param {ScalarType*} src 原数据
-   * @return {*}
-   */
-  CHIPSUM_DECLARED_FUNCTION DenseMatrix(const_size_type M, const_size_type N,
-                                        ScalarType *src)
-      : __nrow(M), __ncol(N) {
-    ChipSum::Numeric::Impl::DenseMat::Create<ScalarType, SizeType>(M, N,
-                                                                   __data);
-    ChipSum::Numeric::Impl::DenseMat::Fill<ScalarType, SizeType>(M, N, src,
-                                                                 __data);
-                                                                
-  }
+    ///
+    /// \brief DenseMatrix 构造一个M行N列的稠密矩阵，该矩阵未初始化
+    /// \param M M 行数
+    /// \param N N 列数
+    ///
+    CHIPSUM_DECLARED_FUNCTION DenseMatrix(const_size_type M, const_size_type N)
+        : __nrow(M), __ncol(N) {
+        ChipSum::Numeric::Impl::DenseMat::create(__data,M,N);
+    }
 
-  /**
-   * @description: 获取矩阵数据
-   * @param {*}
-   * @return {const_matrix_type_reference} 稠密矩阵数据
-   */
-  CHIPSUM_FUNCTION_INLINE const_matrix_type_reference GetData() {
-    return __data;
-  }
 
-  /**
-   * @description: 获取矩阵行数
-   * @param {*}
-   * @return {size_type} 矩阵行数
-   */
-  CHIPSUM_FUNCTION_INLINE size_type GetRowNum() { return __nrow; }
+    ///
+    /// \brief DenseMatrix 构造一个M行N列的稠密矩阵，并用src赋值该矩阵
+    /// \param M M 行数
+    /// \param N N 列数
+    /// \param src 原数据
+    ///
+    CHIPSUM_DECLARED_FUNCTION DenseMatrix(const_size_type M, const_size_type N,
+                                          value_type *src)
+        : __nrow(M), __ncol(N) {
 
-  /**
-   * @description: 获取矩阵列数
-   * @param {*} 
-   * @return {*} 矩阵列数
-   */
-  CHIPSUM_FUNCTION_INLINE size_type GetColNum() { return __ncol; }
+        ChipSum::Numeric::Impl::DenseMat::create(__data,M, N, src);
 
-  /**
-   * @description: GEMM
-   * @param {DenseMatrix} m 稠密矩阵 
-   * @return {*} 稠密矩阵（结果）
-   */
-  CHIPSUM_FUNCTION_INLINE DenseMatrix operator*(DenseMatrix &m) {
-    DenseMatrix ret(__nrow, m.GetColNum());
-    ChipSum::Numeric::Impl::DenseMat::Mult<ScalarType, SizeType>(
-        __nrow,m.GetColNum(),m.GetRowNum(), __data,m.GetData(), ret.GetData());
-    return ret;
-  }
+    }
 
-  template <typename... Args>
-  /**
-   * @description: GEMV
-   * @param {vector_type} v 向量
-   * @return {*} 向量（结果）
-   */
-  CHIPSUM_FUNCTION_INLINE vector_type operator*(vector_type &v) {
-    vector_type ret(__ncol);
-    ChipSum::Numeric::Impl::DenseMat::Mult<ScalarType, SizeType>(
-        __nrow, __ncol, __data, v.GetData(), ret.GetData());
-    return ret;
-  }
 
-  /**
-   * @description: A*=a
-   * @param {const ScalarType} a 系数
-   * @return {*} A（结果）
-   */
-  CHIPSUM_FUNCTION_INLINE matrix_type operator*=(const ScalarType a) {
-    ChipSum::Numeric::Impl::DenseMat::Scal<ScalarType, SizeType>(a, __data);
-    return *this;
-  }
-  /**
-   * @description: 获取Aij
-   * @param {const_size_type} i 行索引
-   * @param {const_size_type} j 列索引
-   * @return {*} Aij
-   * @author: Li Kunyun
-   */
-  CHIPSUM_FUNCTION_INLINE ScalarType &operator()(const_size_type i,
-                                                 const_size_type j) {
-    return ChipSum::Numeric::Impl::DenseMat::GetItem<ScalarType, SizeType>(
-        i, j, __nrow, __ncol, __data);
-  }
+    ///
+    /// \brief GetData 获取矩阵数据
+    /// \return 后端数据
+    ///
+    CHIPSUM_FUNCTION_INLINE matrix_type_ref GetData() {
+        return __data;
+    }
 
-    /**
-   * @description: 获取Aij（只读）
-   * @param {*} i 行数
-   * @param {*} j 列数
-   * @return {*} Aij
-   * @author: Li Kunyun
-   */
-  CHIPSUM_FUNCTION_INLINE const ScalarType &operator()(const_size_type i,
-                                                 const_size_type j) const{
-    return ChipSum::Numeric::Impl::DenseMat::GetItem<ScalarType, SizeType>(
-        i, j, __nrow, __ncol, __data);
-  }
 
-  /**
-   * @description: 打印函数
-   * @param {std::ostream&} 输出流
-   * @return {*}
-   */
-  CHIPSUM_FUNCTION_INLINE void Print(std::ostream &out = std::cout) {
-    ChipSum::Numeric::Impl::DenseMat::Print<ScalarType, SizeType>(
-        __nrow, __ncol, __data, out);
-  }
+    ///
+    /// \brief GetRowNum 获取矩阵行数
+    /// \return  矩阵行数
+    ///
+    CHIPSUM_FUNCTION_INLINE size_type GetRowNum() { return __nrow; }
+
+
+    ///
+    /// \brief GetColNum 获取矩阵列数
+    /// \return 矩阵列数
+    ///
+    CHIPSUM_FUNCTION_INLINE size_type GetColNum() { return __ncol; }
+
+
+    template<typename IDT>
+    ///
+    /// \brief SetRow
+    /// \param i 航索引
+    /// \param x
+    ///
+    CHIPSUM_FUNCTION_INLINE void SetRow(IDT i,vector_type& x){
+        ChipSum::Numeric::Impl::DenseMat::set_row(__data,x.GetData(),i);
+    }
+
+    template<typename IDT>
+    ///
+    /// \brief GetRowPtr 获取某一行的非拷贝数据
+    /// \param i 行索引
+    /// \param x
+    ///
+    CHIPSUM_FUNCTION_INLINE void GetRowCopy(IDT i,vector_type& x){
+        ChipSum::Numeric::Impl::DenseMat::get_row_copy(__data,x.GetData(),i);
+    }
+
+
+    ///
+    /// \brief operator * GEMM
+    /// \param m 稠密矩阵
+    /// \return 稠密矩阵（结果）
+    ///
+    CHIPSUM_FUNCTION_INLINE DenseMatrix operator*(DenseMatrix &m) {
+        DenseMatrix ret(__nrow, m.GetColNum());
+        ChipSum::Numeric::Impl::DenseMat::gemm(
+                    __data,m.GetData(), ret.GetData());
+        return ret;
+    }
+
+    template<typename ...Args>
+    ///
+    /// \brief GEMM C=A*B 当C为已初始化的矩阵时，强烈建议采用此接口进行GEMM运算
+    /// \param B  参与运算的另一矩阵
+    /// \param C  结果
+    ///
+    CHIPSUM_FUNCTION_INLINE void GEMM(DenseMatrix &B,DenseMatrix& C,Args... args) {
+        ChipSum::Numeric::Impl::DenseMat::gemm(
+                    __data,B.GetData(), C.GetData(),args...);
+
+    }
+
+
+    ///
+    /// \brief operator * GEMV
+    /// \param v 向量
+    /// \return 向量（结果）
+    ///
+    CHIPSUM_FUNCTION_INLINE vector_type operator*(vector_type &v) {
+        vector_type ret(__nrow);
+
+
+        ChipSum::Numeric::Impl::DenseMat::gemv(
+                    __data, v.GetData(), ret.GetData());
+        return ret;
+    }
+
+    template<typename ...Args>
+    ///
+    /// \brief GEMM C=A*B 当C为已初始化的矩阵时，强烈建议采用此接口进行GEMM运算
+    /// \param B  参与运算的另一矩阵
+    /// \param C  结果
+    ///
+    CHIPSUM_FUNCTION_INLINE void GEMV(vector_type &x,vector_type& y,Args... args) {
+        ChipSum::Numeric::Impl::DenseMat::gemv(
+                    __data,x.GetData(), y.GetData(),args...);
+
+    }
+
+    ///
+    /// \brief operator *= A*=a
+    /// \param a 系数
+    /// \return A（结果）
+    ///
+    CHIPSUM_FUNCTION_INLINE DenseMatrix operator*(const value_type& a) {
+        DenseMatrix<Props...> ret(__nrow,__ncol);
+        ChipSum::Numeric::Impl::DenseMat::scal( __data,ret.GetData(),a);
+        return ret;
+    }
+
+    ///
+    /// \brief operator *= A*=a
+    /// \param a 系数
+    /// \return A（结果）
+    ///
+    CHIPSUM_FUNCTION_INLINE DenseMatrix& operator*=(const value_type& a) {
+        ChipSum::Numeric::Impl::DenseMat::scal( __data,__data,a);
+        return *this;
+    }
+
+    ///
+    /// \brief operator /= A/=a
+    /// \attention 后续希望将1/a变为类似ChipSum::Numeric::Const<ValueType>::one()/a;
+    /// \param a 系数
+    /// \return A（结果）
+    ///
+    CHIPSUM_FUNCTION_INLINE DenseMatrix& operator/=(const value_type& a) {
+        value_type one = static_cast<value_type>(1);
+        ChipSum::Numeric::Impl::DenseMat::scal( __data,__data,(one/a));
+        return *this;
+    }
+
+
+    ///
+    /// \brief operator () 获取A(i,j)
+    /// \param i 行索引
+    /// \param j 列索引
+    /// \return A(i,j)
+    ///
+    CHIPSUM_FUNCTION_INLINE value_type &operator()(const_size_type_ref i,
+                                                   const_size_type_ref j) {
+        return ChipSum::Numeric::Impl::DenseMat::get_item(
+                    __data,i,j);
+    }
+
+
+
+    ///
+    /// \brief operator () 获取A(i,j)（只读）
+    /// \param i 行数
+    /// \param j 列数
+    /// \return A(i,j)
+    ///
+    CHIPSUM_FUNCTION_INLINE const value_type &operator()(const_size_type_ref i,
+                                                         const_size_type_ref j) const{
+        return ChipSum::Numeric::Impl::DenseMat::get_item(
+                    __data,i,j);
+    }
+
+
+    template<typename OStreamT=std::ostream>
+    ///
+    /// \brief Print 打印函数
+    /// \param out 输出流
+    ///
+    CHIPSUM_FUNCTION_INLINE void Print(OStreamT &out = std::cout) {
+        ChipSum::Numeric::Impl::DenseMat::print(
+                    __data,out);
+    }
 };
 
 } // End namespace Numeric
 } // End namespace ChipSum
 
-typedef ChipSum::Numeric::DenseMatrix<double, std::size_t,
-                                      ChipSum::Backend::DefaultBackend>
-    Matrix;
+///
+/// \brief Matrix 默认的
+///
+typedef ChipSum::Numeric::DenseMatrix<CSFloat,ChipSum::Backend::DefaultBackend>
+Matrix;
+
+typedef ChipSum::Numeric::DenseMatrix<CSFloat,ChipSum::Backend::Serial>
+SerialMatrix;
 
 #endif // __CHIPSUM_DENSE_MATRIX_HPP__

@@ -2,7 +2,7 @@
 
 
 
-list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/numeric_traits.hpp")
+#list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/numeric_traits.hpp")
 
 list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/scalar.hpp")
 
@@ -16,23 +16,10 @@ list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/dense_matrix.hpp")
 
 
 
-
-# Core implementation code
-list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/impl/vector_serial_impl.hpp")
-list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/impl/vector_kokkoskernels_impl.hpp")
-
-
-list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/impl/crs_kokkoskernels_impl.hpp")
-list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/impl/crs_serial_impl.hpp")
-
-
-list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/impl/densemat_serial_impl.hpp")
-list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/impl/densemat_kokkoskernels_impl.hpp")
-
-
-include_directories("../backend")
-
 add_subdirectory("impl")
+
+install(FILES ${HDRS} DESTINATION  ${CMAKE_INSTALL_PREFIX}/include/chipsum/numeric)
+
 
 set(SOURCES ${SOURCES} ${SRCS} PARENT_SCOPE)
 set(HEADERS ${HEADERS} ${HDRS} PARENT_SCOPE)

@@ -1,13 +1,4 @@
 /*
- * @Description: 
- * @Version: 2.0
- * @Autor: Li Kunyun
- * @Date: 2021-08-18 11:31:50
- * @LastEditors: Li Kunyun
- * @LastEditTime: 2021-08-18 11:32:52
- */
-
-/*
 Copyright (C) 2017 Milo Yip. All rights reserved.
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:

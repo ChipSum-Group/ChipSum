@@ -1,0 +1,763 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.17"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>ChipSum: ChipSum::Numeric::DenseMatrix&lt; Props &gt; 模板类 参考</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">ChipSum
+   &#160;<span id="projectnumber">0.2.1</span>
+   </div>
+   <div id="projectbrief">一种性能可移植的异构并行C++模板元编程框架</div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- 制作者 Doxygen 1.8.17 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'搜索');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','搜索');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><b>ChipSum</b></li><li class="navelem"><b>Numeric</b></li><li class="navelem"><a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html">DenseMatrix</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-types">Public 类型</a> &#124;
+<a href="#pub-methods">Public 成员函数</a> &#124;
+<a href="classChipSum_1_1Numeric_1_1DenseMatrix-members.html">所有成员列表</a>  </div>
+  <div class="headertitle">
+<div class="title">ChipSum::Numeric::DenseMatrix&lt; Props &gt; 模板类 参考</div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p>稠密矩阵用户接口  
+ <a href="classChipSum_1_1Numeric_1_1DenseMatrix.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="dense__matrix_8hpp_source.html">dense_matrix.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public 类型</h2></td></tr>
+<tr class="memitem:a599464b717e75e6f029e62232f86c7a4"><td class="memItemLeft" align="right" valign="top"><a id="a599464b717e75e6f029e62232f86c7a4"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>traits</b> = DenseMatrix_Traits&lt; Props... &gt;</td></tr>
+<tr class="separator:a599464b717e75e6f029e62232f86c7a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0780aa2eedc29e82a755a4dc41415b60"><td class="memItemLeft" align="right" valign="top"><a id="a0780aa2eedc29e82a755a4dc41415b60"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>matrix_type</b> = typename traits::matrix_type</td></tr>
+<tr class="separator:a0780aa2eedc29e82a755a4dc41415b60"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ac7121a6fb08c79efa3bacd5632bc89"><td class="memItemLeft" align="right" valign="top"><a id="a5ac7121a6fb08c79efa3bacd5632bc89"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>matrix_type_ref</b> = typename std::add_lvalue_reference&lt; matrix_type &gt;::type</td></tr>
+<tr class="separator:a5ac7121a6fb08c79efa3bacd5632bc89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb7578ef162c25a37614232ea54c6946"><td class="memItemLeft" align="right" valign="top"><a id="acb7578ef162c25a37614232ea54c6946"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>const_matrix_type_ref</b> = typename std::add_const&lt; matrix_type_ref &gt;::type</td></tr>
+<tr class="separator:acb7578ef162c25a37614232ea54c6946"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72d6b31c4f338b433c4222ffb140200e"><td class="memItemLeft" align="right" valign="top"><a id="a72d6b31c4f338b433c4222ffb140200e"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>size_type</b> = typename traits::size_type</td></tr>
+<tr class="separator:a72d6b31c4f338b433c4222ffb140200e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a711ffc150d043a07a2956830d8acb16a"><td class="memItemLeft" align="right" valign="top"><a id="a711ffc150d043a07a2956830d8acb16a"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>const_size_type</b> = const size_type</td></tr>
+<tr class="separator:a711ffc150d043a07a2956830d8acb16a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f95d1e490825288c6e86c0ae70cc54e"><td class="memItemLeft" align="right" valign="top"><a id="a1f95d1e490825288c6e86c0ae70cc54e"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>const_size_type_ref</b> = const size_type &amp;</td></tr>
+<tr class="separator:a1f95d1e490825288c6e86c0ae70cc54e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68cb4bc0360395631a00b6ec969070ed"><td class="memItemLeft" align="right" valign="top"><a id="a68cb4bc0360395631a00b6ec969070ed"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>value_type</b> = typename traits::value_type</td></tr>
+<tr class="separator:a68cb4bc0360395631a00b6ec969070ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c49a57177511834c33ea96ad68f0ec8"><td class="memItemLeft" align="right" valign="top"><a id="a5c49a57177511834c33ea96ad68f0ec8"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>vector_type</b> = <a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">ChipSum::Numeric::Vector</a>&lt; Props... &gt;</td></tr>
+<tr class="separator:a5c49a57177511834c33ea96ad68f0ec8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public 成员函数</h2></td></tr>
+<tr class="memitem:a07e524df63d57a5337f1d3d7d70bb1c3"><td class="memItemLeft" align="right" valign="top">CHIPSUM_DECLARED_FUNCTION&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a07e524df63d57a5337f1d3d7d70bb1c3">DenseMatrix</a> (const_size_type M, const_size_type N)</td></tr>
+<tr class="memdesc:a07e524df63d57a5337f1d3d7d70bb1c3"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html" title="稠密矩阵用户接口">DenseMatrix</a> 构造一个M行N列的稠密矩阵，该矩阵未初始化  <a href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a07e524df63d57a5337f1d3d7d70bb1c3">更多...</a><br /></td></tr>
+<tr class="separator:a07e524df63d57a5337f1d3d7d70bb1c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3de24cac95080c56ca29bb989f0db75a"><td class="memItemLeft" align="right" valign="top">CHIPSUM_DECLARED_FUNCTION&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a3de24cac95080c56ca29bb989f0db75a">DenseMatrix</a> (const_size_type M, const_size_type N, value_type *src)</td></tr>
+<tr class="memdesc:a3de24cac95080c56ca29bb989f0db75a"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html" title="稠密矩阵用户接口">DenseMatrix</a> 构造一个M行N列的稠密矩阵，并用src赋值该矩阵  <a href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a3de24cac95080c56ca29bb989f0db75a">更多...</a><br /></td></tr>
+<tr class="separator:a3de24cac95080c56ca29bb989f0db75a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aecd1a25e811848edb82f2f2b26fd644d"><td class="memItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE matrix_type_ref&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html#aecd1a25e811848edb82f2f2b26fd644d">GetData</a> ()</td></tr>
+<tr class="memdesc:aecd1a25e811848edb82f2f2b26fd644d"><td class="mdescLeft">&#160;</td><td class="mdescRight">GetData 获取矩阵数据  <a href="classChipSum_1_1Numeric_1_1DenseMatrix.html#aecd1a25e811848edb82f2f2b26fd644d">更多...</a><br /></td></tr>
+<tr class="separator:aecd1a25e811848edb82f2f2b26fd644d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a148e0b9ea151c0eed5e1fe7a8dac0cf8"><td class="memItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE size_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a148e0b9ea151c0eed5e1fe7a8dac0cf8">GetRowNum</a> ()</td></tr>
+<tr class="memdesc:a148e0b9ea151c0eed5e1fe7a8dac0cf8"><td class="mdescLeft">&#160;</td><td class="mdescRight">GetRowNum 获取矩阵行数  <a href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a148e0b9ea151c0eed5e1fe7a8dac0cf8">更多...</a><br /></td></tr>
+<tr class="separator:a148e0b9ea151c0eed5e1fe7a8dac0cf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99cca9a0d78b5bf39ccde74134615ac7"><td class="memItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE size_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a99cca9a0d78b5bf39ccde74134615ac7">GetColNum</a> ()</td></tr>
+<tr class="memdesc:a99cca9a0d78b5bf39ccde74134615ac7"><td class="mdescLeft">&#160;</td><td class="mdescRight">GetColNum 获取矩阵列数  <a href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a99cca9a0d78b5bf39ccde74134615ac7">更多...</a><br /></td></tr>
+<tr class="separator:a99cca9a0d78b5bf39ccde74134615ac7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11c5924c54a4614688e791ca7c600ab4"><td class="memItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE <a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html">DenseMatrix</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a11c5924c54a4614688e791ca7c600ab4">operator*</a> (<a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html">DenseMatrix</a> &amp;m)</td></tr>
+<tr class="memdesc:a11c5924c54a4614688e791ca7c600ab4"><td class="mdescLeft">&#160;</td><td class="mdescRight">operator *, GEMM  <a href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a11c5924c54a4614688e791ca7c600ab4">更多...</a><br /></td></tr>
+<tr class="separator:a11c5924c54a4614688e791ca7c600ab4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af8d84191b0a9e70a7ae5f9e6d64267e3"><td class="memTemplParams" colspan="2">template&lt;typename ... Args&gt; </td></tr>
+<tr class="memitem:af8d84191b0a9e70a7ae5f9e6d64267e3"><td class="memTemplItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html#af8d84191b0a9e70a7ae5f9e6d64267e3">GEMM</a> (<a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html">DenseMatrix</a> &amp;B, <a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html">DenseMatrix</a> &amp;C, Args... args)</td></tr>
+<tr class="memdesc:af8d84191b0a9e70a7ae5f9e6d64267e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">GEMM, C=A*B 当C为已初始化的矩阵时，强烈建议采用此接口进行GEMM运算  <a href="classChipSum_1_1Numeric_1_1DenseMatrix.html#af8d84191b0a9e70a7ae5f9e6d64267e3">更多...</a><br /></td></tr>
+<tr class="separator:af8d84191b0a9e70a7ae5f9e6d64267e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa995ed52190a2f3d8ee2193f1f704da5"><td class="memItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE <a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">vector_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html#aa995ed52190a2f3d8ee2193f1f704da5">operator*</a> (<a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">vector_type</a> &amp;v)</td></tr>
+<tr class="memdesc:aa995ed52190a2f3d8ee2193f1f704da5"><td class="mdescLeft">&#160;</td><td class="mdescRight">operator *, GEMV  <a href="classChipSum_1_1Numeric_1_1DenseMatrix.html#aa995ed52190a2f3d8ee2193f1f704da5">更多...</a><br /></td></tr>
+<tr class="separator:aa995ed52190a2f3d8ee2193f1f704da5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7ec3f034f9f1e34e9f5c6dff0433e819"><td class="memTemplParams" colspan="2">template&lt;typename ... Args&gt; </td></tr>
+<tr class="memitem:a7ec3f034f9f1e34e9f5c6dff0433e819"><td class="memTemplItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a7ec3f034f9f1e34e9f5c6dff0433e819">GEMV</a> (<a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">vector_type</a> &amp;x, <a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">vector_type</a> &amp;y, Args... args)</td></tr>
+<tr class="memdesc:a7ec3f034f9f1e34e9f5c6dff0433e819"><td class="mdescLeft">&#160;</td><td class="mdescRight">GEMV, y=A*x 当y为已初始化的向量时，强烈建议采用此接口进行GEMV运算  <a href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a7ec3f034f9f1e34e9f5c6dff0433e819">更多...</a><br /></td></tr>
+<tr class="separator:a7ec3f034f9f1e34e9f5c6dff0433e819"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64ca7e83dea65a32953b214464e75fc8"><td class="memItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE <a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html">DenseMatrix</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a64ca7e83dea65a32953b214464e75fc8">operator*</a> (const value_type &amp;a)</td></tr>
+<tr class="memdesc:a64ca7e83dea65a32953b214464e75fc8"><td class="mdescLeft">&#160;</td><td class="mdescRight">operator *， R=(*this)*alpha  <a href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a64ca7e83dea65a32953b214464e75fc8">更多...</a><br /></td></tr>
+<tr class="separator:a64ca7e83dea65a32953b214464e75fc8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e81829ee3a76229205956f3687f5bf0"><td class="memItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE <a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html">DenseMatrix</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a6e81829ee3a76229205956f3687f5bf0">operator*=</a> (const value_type &amp;a)</td></tr>
+<tr class="memdesc:a6e81829ee3a76229205956f3687f5bf0"><td class="mdescLeft">&#160;</td><td class="mdescRight">operator *=， R*=alpha  <a href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a6e81829ee3a76229205956f3687f5bf0">更多...</a><br /></td></tr>
+<tr class="separator:a6e81829ee3a76229205956f3687f5bf0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6d4e658e7319e858b4591cc9bb834083"><td class="memItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE value_type &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a6d4e658e7319e858b4591cc9bb834083">operator()</a> (const_size_type_ref i, const_size_type_ref j)</td></tr>
+<tr class="memdesc:a6d4e658e7319e858b4591cc9bb834083"><td class="mdescLeft">&#160;</td><td class="mdescRight">operator () 获取A(i,j)  <a href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a6d4e658e7319e858b4591cc9bb834083">更多...</a><br /></td></tr>
+<tr class="separator:a6d4e658e7319e858b4591cc9bb834083"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9af29b471c14cc1e45b60a656f6a0ae6"><td class="memItemLeft" align="right" valign="top">const CHIPSUM_FUNCTION_INLINE value_type &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a9af29b471c14cc1e45b60a656f6a0ae6">operator()</a> (const_size_type_ref i, const_size_type_ref j) const</td></tr>
+<tr class="memdesc:a9af29b471c14cc1e45b60a656f6a0ae6"><td class="mdescLeft">&#160;</td><td class="mdescRight">operator () 获取A(i,j)（只读）  <a href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a9af29b471c14cc1e45b60a656f6a0ae6">更多...</a><br /></td></tr>
+<tr class="separator:a9af29b471c14cc1e45b60a656f6a0ae6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a574cb3b81e7ac39eb88ee362d8cc3e37"><td class="memTemplParams" colspan="2">template&lt;typename OStreamT  = std::ostream&gt; </td></tr>
+<tr class="memitem:a574cb3b81e7ac39eb88ee362d8cc3e37"><td class="memTemplItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a574cb3b81e7ac39eb88ee362d8cc3e37">Print</a> (OStreamT &amp;out=std::cout)</td></tr>
+<tr class="memdesc:a574cb3b81e7ac39eb88ee362d8cc3e37"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print 打印函数  <a href="classChipSum_1_1Numeric_1_1DenseMatrix.html#a574cb3b81e7ac39eb88ee362d8cc3e37">更多...</a><br /></td></tr>
+<tr class="separator:a574cb3b81e7ac39eb88ee362d8cc3e37"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><h3>template&lt;typename... Props&gt;<br />
+class ChipSum::Numeric::DenseMatrix&lt; Props &gt;</h3>
+
+<p>稠密矩阵用户接口 </p>
+</div><h2 class="groupheader">构造及析构函数说明</h2>
+<a id="a07e524df63d57a5337f1d3d7d70bb1c3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a07e524df63d57a5337f1d3d7d70bb1c3">&#9670;&nbsp;</a></span>DenseMatrix() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Props&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">CHIPSUM_DECLARED_FUNCTION <a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html">ChipSum::Numeric::DenseMatrix</a>&lt; Props &gt;::<a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html">DenseMatrix</a> </td>
+          <td>(</td>
+          <td class="paramtype">const_size_type&#160;</td>
+          <td class="paramname"><em>M</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const_size_type&#160;</td>
+          <td class="paramname"><em>N</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html" title="稠密矩阵用户接口">DenseMatrix</a> 构造一个M行N列的稠密矩阵，该矩阵未初始化 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">M</td><td>M 行数 </td></tr>
+    <tr><td class="paramname">N</td><td>N 列数 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a3de24cac95080c56ca29bb989f0db75a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3de24cac95080c56ca29bb989f0db75a">&#9670;&nbsp;</a></span>DenseMatrix() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Props&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">CHIPSUM_DECLARED_FUNCTION <a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html">ChipSum::Numeric::DenseMatrix</a>&lt; Props &gt;::<a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html">DenseMatrix</a> </td>
+          <td>(</td>
+          <td class="paramtype">const_size_type&#160;</td>
+          <td class="paramname"><em>M</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const_size_type&#160;</td>
+          <td class="paramname"><em>N</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">value_type *&#160;</td>
+          <td class="paramname"><em>src</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p><a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html" title="稠密矩阵用户接口">DenseMatrix</a> 构造一个M行N列的稠密矩阵，并用src赋值该矩阵 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">M</td><td>M 行数 </td></tr>
+    <tr><td class="paramname">N</td><td>N 列数 </td></tr>
+    <tr><td class="paramname">src</td><td>原数据 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">成员函数说明</h2>
+<a id="af8d84191b0a9e70a7ae5f9e6d64267e3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af8d84191b0a9e70a7ae5f9e6d64267e3">&#9670;&nbsp;</a></span>GEMM()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Props&gt; </div>
+<div class="memtemplate">
+template&lt;typename ... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">CHIPSUM_FUNCTION_INLINE void <a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html">ChipSum::Numeric::DenseMatrix</a>&lt; Props &gt;::GEMM </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html">DenseMatrix</a>&lt; Props &gt; &amp;&#160;</td>
+          <td class="paramname"><em>B</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html">DenseMatrix</a>&lt; Props &gt; &amp;&#160;</td>
+          <td class="paramname"><em>C</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args...&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>GEMM, C=A*B 当C为已初始化的矩阵时，强烈建议采用此接口进行GEMM运算 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">B</td><td>稠密矩阵 </td></tr>
+    <tr><td class="paramname">C</td><td>结果，稠密矩阵 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a7ec3f034f9f1e34e9f5c6dff0433e819"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7ec3f034f9f1e34e9f5c6dff0433e819">&#9670;&nbsp;</a></span>GEMV()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Props&gt; </div>
+<div class="memtemplate">
+template&lt;typename ... Args&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">CHIPSUM_FUNCTION_INLINE void <a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html">ChipSum::Numeric::DenseMatrix</a>&lt; Props &gt;::GEMV </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">vector_type</a> &amp;&#160;</td>
+          <td class="paramname"><em>x</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">vector_type</a> &amp;&#160;</td>
+          <td class="paramname"><em>y</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args...&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>GEMV, y=A*x 当y为已初始化的向量时，强烈建议采用此接口进行GEMV运算 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">x</td><td>参与运算的向量 </td></tr>
+    <tr><td class="paramname">y</td><td>结果 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a99cca9a0d78b5bf39ccde74134615ac7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a99cca9a0d78b5bf39ccde74134615ac7">&#9670;&nbsp;</a></span>GetColNum()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Props&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">CHIPSUM_FUNCTION_INLINE size_type <a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html">ChipSum::Numeric::DenseMatrix</a>&lt; Props &gt;::GetColNum </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>GetColNum 获取矩阵列数 </p>
+<dl class="section return"><dt>返回</dt><dd>矩阵列数 </dd></dl>
+
+</div>
+</div>
+<a id="aecd1a25e811848edb82f2f2b26fd644d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aecd1a25e811848edb82f2f2b26fd644d">&#9670;&nbsp;</a></span>GetData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Props&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">CHIPSUM_FUNCTION_INLINE matrix_type_ref <a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html">ChipSum::Numeric::DenseMatrix</a>&lt; Props &gt;::GetData </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>GetData 获取矩阵数据 </p>
+<dl class="section return"><dt>返回</dt><dd>后端数据 </dd></dl>
+
+</div>
+</div>
+<a id="a148e0b9ea151c0eed5e1fe7a8dac0cf8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a148e0b9ea151c0eed5e1fe7a8dac0cf8">&#9670;&nbsp;</a></span>GetRowNum()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Props&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">CHIPSUM_FUNCTION_INLINE size_type <a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html">ChipSum::Numeric::DenseMatrix</a>&lt; Props &gt;::GetRowNum </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>GetRowNum 获取矩阵行数 </p>
+<dl class="section return"><dt>返回</dt><dd>矩阵行数 </dd></dl>
+
+</div>
+</div>
+<a id="a6d4e658e7319e858b4591cc9bb834083"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6d4e658e7319e858b4591cc9bb834083">&#9670;&nbsp;</a></span>operator()() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Props&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">CHIPSUM_FUNCTION_INLINE value_type&amp; <a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html">ChipSum::Numeric::DenseMatrix</a>&lt; Props &gt;::operator() </td>
+          <td>(</td>
+          <td class="paramtype">const_size_type_ref&#160;</td>
+          <td class="paramname"><em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const_size_type_ref&#160;</td>
+          <td class="paramname"><em>j</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>operator () 获取A(i,j) </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>行索引 </td></tr>
+    <tr><td class="paramname">j</td><td>列索引 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>A(i,j) </dd></dl>
+
+</div>
+</div>
+<a id="a9af29b471c14cc1e45b60a656f6a0ae6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9af29b471c14cc1e45b60a656f6a0ae6">&#9670;&nbsp;</a></span>operator()() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Props&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const CHIPSUM_FUNCTION_INLINE value_type&amp; <a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html">ChipSum::Numeric::DenseMatrix</a>&lt; Props &gt;::operator() </td>
+          <td>(</td>
+          <td class="paramtype">const_size_type_ref&#160;</td>
+          <td class="paramname"><em>i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const_size_type_ref&#160;</td>
+          <td class="paramname"><em>j</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>operator () 获取A(i,j)（只读） </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">i</td><td>行数 </td></tr>
+    <tr><td class="paramname">j</td><td>列数 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>A(i,j) </dd></dl>
+
+</div>
+</div>
+<a id="a64ca7e83dea65a32953b214464e75fc8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a64ca7e83dea65a32953b214464e75fc8">&#9670;&nbsp;</a></span>operator*() <span class="overload">[1/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Props&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">CHIPSUM_FUNCTION_INLINE <a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html">DenseMatrix</a> <a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html">ChipSum::Numeric::DenseMatrix</a>&lt; Props &gt;::operator* </td>
+          <td>(</td>
+          <td class="paramtype">const value_type &amp;&#160;</td>
+          <td class="paramname"><em>a</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>operator *， R=(*this)*alpha </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">alpha</td><td>系数 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>R（结果） </dd></dl>
+
+</div>
+</div>
+<a id="a11c5924c54a4614688e791ca7c600ab4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a11c5924c54a4614688e791ca7c600ab4">&#9670;&nbsp;</a></span>operator*() <span class="overload">[2/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Props&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">CHIPSUM_FUNCTION_INLINE <a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html">DenseMatrix</a> <a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html">ChipSum::Numeric::DenseMatrix</a>&lt; Props &gt;::operator* </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html">DenseMatrix</a>&lt; Props &gt; &amp;&#160;</td>
+          <td class="paramname"><em>m</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>operator *, GEMM </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">m</td><td>稠密矩阵 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>稠密矩阵（结果） </dd></dl>
+
+</div>
+</div>
+<a id="aa995ed52190a2f3d8ee2193f1f704da5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa995ed52190a2f3d8ee2193f1f704da5">&#9670;&nbsp;</a></span>operator*() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Props&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">CHIPSUM_FUNCTION_INLINE <a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">vector_type</a> <a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html">ChipSum::Numeric::DenseMatrix</a>&lt; Props &gt;::operator* </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">vector_type</a> &amp;&#160;</td>
+          <td class="paramname"><em>v</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>operator *, GEMV </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">v</td><td>向量 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>R 向量（结果） </dd></dl>
+
+</div>
+</div>
+<a id="a6e81829ee3a76229205956f3687f5bf0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6e81829ee3a76229205956f3687f5bf0">&#9670;&nbsp;</a></span>operator*=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Props&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">CHIPSUM_FUNCTION_INLINE <a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html">DenseMatrix</a>&amp; <a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html">ChipSum::Numeric::DenseMatrix</a>&lt; Props &gt;::operator*= </td>
+          <td>(</td>
+          <td class="paramtype">const value_type &amp;&#160;</td>
+          <td class="paramname"><em>a</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>operator *=， R*=alpha </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">alpha</td><td>系数 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>R（结果） </dd></dl>
+
+</div>
+</div>
+<a id="a574cb3b81e7ac39eb88ee362d8cc3e37"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a574cb3b81e7ac39eb88ee362d8cc3e37">&#9670;&nbsp;</a></span>Print()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Props&gt; </div>
+<div class="memtemplate">
+template&lt;typename OStreamT  = std::ostream&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">CHIPSUM_FUNCTION_INLINE void <a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html">ChipSum::Numeric::DenseMatrix</a>&lt; Props &gt;::Print </td>
+          <td>(</td>
+          <td class="paramtype">OStreamT &amp;&#160;</td>
+          <td class="paramname"><em>out</em> = <code>std::cout</code></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Print 打印函数 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">out</td><td>输出流 </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<hr/>该类的文档由以下文件生成:<ul>
+<li>/home/xyk/work/ChipSum/chipsum/numeric/<a class="el" href="dense__matrix_8hpp_source.html">dense_matrix.hpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+制作者 &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.17
+</small></address>
+</body>
+</html>
