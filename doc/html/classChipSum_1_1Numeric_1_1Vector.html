@@ -22,9 +22,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ChipSum
-   &#160;<span id="projectnumber">1.0.0</span>
+   &#160;<span id="projectnumber">0.2.1</span>
    </div>
-   <div id="projectbrief">面向性能可移植的稠密、稀疏代数调用接口</div>
+   <div id="projectbrief">一种性能可移植的异构并行C++模板元编程框架</div>
   </td>
  </tr>
  </tbody>
@@ -75,6 +75,11 @@ $(function() {
 <div class="title">ChipSum::Numeric::Vector&lt; Props &gt; 模板类 参考</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>向量类用户接口  
+ <a href="classChipSum_1_1Numeric_1_1Vector.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="vector_8hpp_source.html">vector.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public 类型</h2></td></tr>
@@ -122,7 +127,8 @@ CHIPSUM_DECLARED_FUNCTION&#160;</td><td class="memItemRight" valign="bottom"><b>
 <tr class="separator:a6fb36dc348b125c2c7965223fff33e8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a99b0911db7e706487b1a388307800b86"><td class="memTemplParams" colspan="2"><a id="a99b0911db7e706487b1a388307800b86"></a>
 template&lt;typename ST , typename ... Args&gt; </td></tr>
-<tr class="memitem:a99b0911db7e706487b1a388307800b86"><td class="memTemplItemLeft" align="right" valign="top">CHIPSUM_DECLARED_FUNCTION&#160;</td><td class="memTemplItemRight" valign="bottom"><b>Vector</b> (const ST &amp;size, Args... args)</td></tr>
+<tr class="memitem:a99b0911db7e706487b1a388307800b86"><td class="memTemplItemLeft" align="right" valign="top">CHIPSUM_DECLARED_FUNCTION&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1Vector.html#a99b0911db7e706487b1a388307800b86">Vector</a> (const ST &amp;size, Args... args)</td></tr>
+<tr class="memdesc:a99b0911db7e706487b1a388307800b86"><td class="mdescLeft">&#160;</td><td class="mdescRight">创建Vector <br /></td></tr>
 <tr class="separator:a99b0911db7e706487b1a388307800b86"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0e9617de34181accd91c5f6ad019580c"><td class="memItemLeft" align="right" valign="top"><a id="a0e9617de34181accd91c5f6ad019580c"></a>
 CHIPSUM_FUNCTION_INLINE void&#160;</td><td class="memItemRight" valign="bottom"><b>DeepCopy</b> (<a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">Vector</a> &amp;y)</td></tr>
@@ -133,9 +139,9 @@ CHIPSUM_FUNCTION_INLINE void&#160;</td><td class="memItemRight" valign="bottom">
 <tr class="memitem:aa793c67e4b9d422e22ff1351085cb4f3"><td class="memItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE const_size_type_ref&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1Vector.html#aa793c67e4b9d422e22ff1351085cb4f3">GetSize</a> ()</td></tr>
 <tr class="memdesc:aa793c67e4b9d422e22ff1351085cb4f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">GetSize 获取向量维度  <a href="classChipSum_1_1Numeric_1_1Vector.html#aa793c67e4b9d422e22ff1351085cb4f3">更多...</a><br /></td></tr>
 <tr class="separator:aa793c67e4b9d422e22ff1351085cb4f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a673a1a4c720ff812451f7478b4c24fbd"><td class="memTemplParams" colspan="2"><a id="a673a1a4c720ff812451f7478b4c24fbd"></a>
-template&lt;typename Arg &gt; </td></tr>
-<tr class="memitem:a673a1a4c720ff812451f7478b4c24fbd"><td class="memTemplItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE void&#160;</td><td class="memTemplItemRight" valign="bottom"><b>Dot</b> (<a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">Vector</a> &amp;v, Arg &amp;r)</td></tr>
+<tr class="memitem:a673a1a4c720ff812451f7478b4c24fbd"><td class="memTemplParams" colspan="2">template&lt;typename Arg &gt; </td></tr>
+<tr class="memitem:a673a1a4c720ff812451f7478b4c24fbd"><td class="memTemplItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1Vector.html#a673a1a4c720ff812451f7478b4c24fbd">Dot</a> (<a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">Vector</a> &amp;v, Arg &amp;r)</td></tr>
+<tr class="memdesc:a673a1a4c720ff812451f7478b4c24fbd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dot 向量点积  <a href="classChipSum_1_1Numeric_1_1Vector.html#a673a1a4c720ff812451f7478b4c24fbd">更多...</a><br /></td></tr>
 <tr class="separator:a673a1a4c720ff812451f7478b4c24fbd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1a0ac4739a10d470baaacbce3e56a634"><td class="memItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1Vector.html#a1a0ac4739a10d470baaacbce3e56a634">Dot</a> (<a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">Vector</a> &amp;v, <a class="el" href="classChipSum_1_1Numeric_1_1Scalar.html">scalar_type</a> &amp;r)</td></tr>
 <tr class="memdesc:a1a0ac4739a10d470baaacbce3e56a634"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dot 向量点积  <a href="classChipSum_1_1Numeric_1_1Vector.html#a1a0ac4739a10d470baaacbce3e56a634">更多...</a><br /></td></tr>
@@ -148,77 +154,74 @@ template&lt;typename Arg &gt; </td></tr>
 <tr class="memdesc:a5491149b6fe6a1179a765ecd56de6695"><td class="mdescLeft">&#160;</td><td class="mdescRight">Dot 向量点积  <a href="classChipSum_1_1Numeric_1_1Vector.html#a5491149b6fe6a1179a765ecd56de6695">更多...</a><br /></td></tr>
 <tr class="separator:a5491149b6fe6a1179a765ecd56de6695"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae7473325c55150d8f48e2bf443bae9b3"><td class="memItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE <a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">Vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1Vector.html#ae7473325c55150d8f48e2bf443bae9b3">operator*</a> (value_type a)</td></tr>
-<tr class="memdesc:ae7473325c55150d8f48e2bf443bae9b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">operator * y = a*x  <a href="classChipSum_1_1Numeric_1_1Vector.html#ae7473325c55150d8f48e2bf443bae9b3">更多...</a><br /></td></tr>
+<tr class="memdesc:ae7473325c55150d8f48e2bf443bae9b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">operator *, ret = alpha*(*this)  <a href="classChipSum_1_1Numeric_1_1Vector.html#ae7473325c55150d8f48e2bf443bae9b3">更多...</a><br /></td></tr>
 <tr class="separator:ae7473325c55150d8f48e2bf443bae9b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5c342c126ed80ed7e8ea2d4b6818f5cb"><td class="memTemplParams" colspan="2">template&lt;typename VT &gt; </td></tr>
 <tr class="memitem:a5c342c126ed80ed7e8ea2d4b6818f5cb"><td class="memTemplItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1Vector.html#a5c342c126ed80ed7e8ea2d4b6818f5cb">Mult</a> (const VT &amp;a, <a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">Vector</a> &amp;y)</td></tr>
-<tr class="memdesc:a5c342c126ed80ed7e8ea2d4b6818f5cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mult y=a*(*this)  <a href="classChipSum_1_1Numeric_1_1Vector.html#a5c342c126ed80ed7e8ea2d4b6818f5cb">更多...</a><br /></td></tr>
+<tr class="memdesc:a5c342c126ed80ed7e8ea2d4b6818f5cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mult, y=alpha*(*this)  <a href="classChipSum_1_1Numeric_1_1Vector.html#a5c342c126ed80ed7e8ea2d4b6818f5cb">更多...</a><br /></td></tr>
 <tr class="separator:a5c342c126ed80ed7e8ea2d4b6818f5cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acd16718cd5f6c92ed7b28f0ca008e052"><td class="memItemLeft" align="right" valign="top"><a id="acd16718cd5f6c92ed7b28f0ca008e052"></a>
-CHIPSUM_FUNCTION_INLINE <a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">Vector</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (<a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">Vector</a> &amp;y)</td></tr>
+<tr class="memitem:acd16718cd5f6c92ed7b28f0ca008e052"><td class="memItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE <a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">Vector</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1Vector.html#acd16718cd5f6c92ed7b28f0ca008e052">operator=</a> (<a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">Vector</a> &amp;y)</td></tr>
+<tr class="memdesc:acd16718cd5f6c92ed7b28f0ca008e052"><td class="mdescLeft">&#160;</td><td class="mdescRight">operator =，重载 =运算符, 深拷贝  <a href="classChipSum_1_1Numeric_1_1Vector.html#acd16718cd5f6c92ed7b28f0ca008e052">更多...</a><br /></td></tr>
 <tr class="separator:acd16718cd5f6c92ed7b28f0ca008e052"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7c385a1855103927f9f0da2c20f21a9f"><td class="memItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1Vector.html#a7c385a1855103927f9f0da2c20f21a9f">Mult</a> (<a class="el" href="classChipSum_1_1Numeric_1_1Scalar.html">Scalar</a>&lt; Props... &gt; &amp;a, <a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">Vector</a> &amp;y)</td></tr>
-<tr class="memdesc:a7c385a1855103927f9f0da2c20f21a9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">operator * y = a*x  <a href="classChipSum_1_1Numeric_1_1Vector.html#a7c385a1855103927f9f0da2c20f21a9f">更多...</a><br /></td></tr>
+<tr class="memdesc:a7c385a1855103927f9f0da2c20f21a9f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mult， y = alpha*(*this)  <a href="classChipSum_1_1Numeric_1_1Vector.html#a7c385a1855103927f9f0da2c20f21a9f">更多...</a><br /></td></tr>
 <tr class="separator:a7c385a1855103927f9f0da2c20f21a9f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad97e1eaffe6e3c9a2d18672bb1e69a5d"><td class="memItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE <a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">Vector</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1Vector.html#ad97e1eaffe6e3c9a2d18672bb1e69a5d">operator*=</a> (<a class="el" href="classChipSum_1_1Numeric_1_1Scalar.html">Scalar</a>&lt; Props... &gt; &amp;a)</td></tr>
-<tr class="memdesc:ad97e1eaffe6e3c9a2d18672bb1e69a5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">operator * y = a*x  <a href="classChipSum_1_1Numeric_1_1Vector.html#ad97e1eaffe6e3c9a2d18672bb1e69a5d">更多...</a><br /></td></tr>
+<tr class="memdesc:ad97e1eaffe6e3c9a2d18672bb1e69a5d"><td class="mdescLeft">&#160;</td><td class="mdescRight">operator *=， (<em>this) = alpha</em>(*this)  <a href="classChipSum_1_1Numeric_1_1Vector.html#ad97e1eaffe6e3c9a2d18672bb1e69a5d">更多...</a><br /></td></tr>
 <tr class="separator:ad97e1eaffe6e3c9a2d18672bb1e69a5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a761aa973c4bd553b31e6e835e7445a64"><td class="memItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE <a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">Vector</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1Vector.html#a761aa973c4bd553b31e6e835e7445a64">operator*=</a> (value_type a)</td></tr>
-<tr class="memdesc:a761aa973c4bd553b31e6e835e7445a64"><td class="mdescLeft">&#160;</td><td class="mdescRight">operator *= x = a*x  <a href="classChipSum_1_1Numeric_1_1Vector.html#a761aa973c4bd553b31e6e835e7445a64">更多...</a><br /></td></tr>
+<tr class="memdesc:a761aa973c4bd553b31e6e835e7445a64"><td class="mdescLeft">&#160;</td><td class="mdescRight">operator *=, (<em>this) = alpha</em>(*this)  <a href="classChipSum_1_1Numeric_1_1Vector.html#a761aa973c4bd553b31e6e835e7445a64">更多...</a><br /></td></tr>
 <tr class="separator:a761aa973c4bd553b31e6e835e7445a64"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:add88b12cac56efa9386aa03aba0c3b76"><td class="memItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE <a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">Vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1Vector.html#add88b12cac56efa9386aa03aba0c3b76">Add</a> (<a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">Vector</a> &amp;y)</td></tr>
-<tr class="memdesc:add88b12cac56efa9386aa03aba0c3b76"><td class="mdescLeft">&#160;</td><td class="mdescRight">operator + z=x+y  <a href="classChipSum_1_1Numeric_1_1Vector.html#add88b12cac56efa9386aa03aba0c3b76">更多...</a><br /></td></tr>
+<tr class="memdesc:add88b12cac56efa9386aa03aba0c3b76"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add， y=(*this)+y  <a href="classChipSum_1_1Numeric_1_1Vector.html#add88b12cac56efa9386aa03aba0c3b76">更多...</a><br /></td></tr>
 <tr class="separator:add88b12cac56efa9386aa03aba0c3b76"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a11c4afca237a60003a35270f5fbe9bdf"><td class="memItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1Vector.html#a11c4afca237a60003a35270f5fbe9bdf">Add</a> (<a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">Vector</a> &amp;y, <a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">Vector</a> &amp;z)</td></tr>
-<tr class="memdesc:a11c4afca237a60003a35270f5fbe9bdf"><td class="mdescLeft">&#160;</td><td class="mdescRight">operator + z=x+y  <a href="classChipSum_1_1Numeric_1_1Vector.html#a11c4afca237a60003a35270f5fbe9bdf">更多...</a><br /></td></tr>
-<tr class="separator:a11c4afca237a60003a35270f5fbe9bdf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2606fc884f6dd2b2e00e58177a4347a4"><td class="memItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE <a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">Vector</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1Vector.html#a2606fc884f6dd2b2e00e58177a4347a4">operator+=</a> (<a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">Vector</a> &amp;y)</td></tr>
-<tr class="memdesc:a2606fc884f6dd2b2e00e58177a4347a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">operator += x+=y  <a href="classChipSum_1_1Numeric_1_1Vector.html#a2606fc884f6dd2b2e00e58177a4347a4">更多...</a><br /></td></tr>
+<tr class="memdesc:a2606fc884f6dd2b2e00e58177a4347a4"><td class="mdescLeft">&#160;</td><td class="mdescRight">operator +=, (*this)+=y  <a href="classChipSum_1_1Numeric_1_1Vector.html#a2606fc884f6dd2b2e00e58177a4347a4">更多...</a><br /></td></tr>
 <tr class="separator:a2606fc884f6dd2b2e00e58177a4347a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7cd635d9141fa54c6122bdb3de8d0bef"><td class="memItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1Vector.html#a7cd635d9141fa54c6122bdb3de8d0bef">Sub</a> (<a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">Vector</a> &amp;y)</td></tr>
-<tr class="memdesc:a7cd635d9141fa54c6122bdb3de8d0bef"><td class="mdescLeft">&#160;</td><td class="mdescRight">operator - z=x-y  <a href="classChipSum_1_1Numeric_1_1Vector.html#a7cd635d9141fa54c6122bdb3de8d0bef">更多...</a><br /></td></tr>
+<tr class="memdesc:a7cd635d9141fa54c6122bdb3de8d0bef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sub减法， (*this)=(*this)-y  <a href="classChipSum_1_1Numeric_1_1Vector.html#a7cd635d9141fa54c6122bdb3de8d0bef">更多...</a><br /></td></tr>
 <tr class="separator:a7cd635d9141fa54c6122bdb3de8d0bef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad05b9f8367efdcdf4f6a33354b7ef6ec"><td class="memItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1Vector.html#ad05b9f8367efdcdf4f6a33354b7ef6ec">Sub</a> (<a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">Vector</a> &amp;y, <a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">Vector</a> &amp;z)</td></tr>
-<tr class="memdesc:ad05b9f8367efdcdf4f6a33354b7ef6ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sub 减法接口 z = (*this)-y  <a href="classChipSum_1_1Numeric_1_1Vector.html#ad05b9f8367efdcdf4f6a33354b7ef6ec">更多...</a><br /></td></tr>
+<tr class="memdesc:ad05b9f8367efdcdf4f6a33354b7ef6ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sub 减法, z = z-y  <a href="classChipSum_1_1Numeric_1_1Vector.html#ad05b9f8367efdcdf4f6a33354b7ef6ec">更多...</a><br /></td></tr>
 <tr class="separator:ad05b9f8367efdcdf4f6a33354b7ef6ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a145903211693df30c4c7d40f66c45760"><td class="memItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE <a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">Vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1Vector.html#a145903211693df30c4c7d40f66c45760">operator-</a> ()</td></tr>
-<tr class="memdesc:a145903211693df30c4c7d40f66c45760"><td class="mdescLeft">&#160;</td><td class="mdescRight">operator - y=-x  <a href="classChipSum_1_1Numeric_1_1Vector.html#a145903211693df30c4c7d40f66c45760">更多...</a><br /></td></tr>
+<tr class="memdesc:a145903211693df30c4c7d40f66c45760"><td class="mdescLeft">&#160;</td><td class="mdescRight">operator - 负号, y=-x  <a href="classChipSum_1_1Numeric_1_1Vector.html#a145903211693df30c4c7d40f66c45760">更多...</a><br /></td></tr>
 <tr class="separator:a145903211693df30c4c7d40f66c45760"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2a8ac129c977d2eef6286ac2dcf258d7"><td class="memItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE <a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">Vector</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1Vector.html#a2a8ac129c977d2eef6286ac2dcf258d7">Neg</a> ()</td></tr>
-<tr class="memdesc:a2a8ac129c977d2eef6286ac2dcf258d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">operator - y=-x  <a href="classChipSum_1_1Numeric_1_1Vector.html#a2a8ac129c977d2eef6286ac2dcf258d7">更多...</a><br /></td></tr>
+<tr class="memdesc:a2a8ac129c977d2eef6286ac2dcf258d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Neg 负函数， y=-x  <a href="classChipSum_1_1Numeric_1_1Vector.html#a2a8ac129c977d2eef6286ac2dcf258d7">更多...</a><br /></td></tr>
 <tr class="separator:a2a8ac129c977d2eef6286ac2dcf258d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a30f4598f86f62a2a283b2ce4afdbc7b5"><td class="memItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE <a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">Vector</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1Vector.html#a30f4598f86f62a2a283b2ce4afdbc7b5">operator-=</a> (<a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">Vector</a> &amp;y)</td></tr>
-<tr class="memdesc:a30f4598f86f62a2a283b2ce4afdbc7b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">operator -= x=x-y  <a href="classChipSum_1_1Numeric_1_1Vector.html#a30f4598f86f62a2a283b2ce4afdbc7b5">更多...</a><br /></td></tr>
+<tr class="memdesc:a30f4598f86f62a2a283b2ce4afdbc7b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">operator -=， (*this)=(*this)-y  <a href="classChipSum_1_1Numeric_1_1Vector.html#a30f4598f86f62a2a283b2ce4afdbc7b5">更多...</a><br /></td></tr>
 <tr class="separator:a30f4598f86f62a2a283b2ce4afdbc7b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acbe87b2b896b16e4286bbf00c728599b"><td class="memItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE value_type_ref&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1Vector.html#acbe87b2b896b16e4286bbf00c728599b">operator()</a> (size_type i)</td></tr>
-<tr class="memdesc:acbe87b2b896b16e4286bbf00c728599b"><td class="mdescLeft">&#160;</td><td class="mdescRight">operator () x(i)  <a href="classChipSum_1_1Numeric_1_1Vector.html#acbe87b2b896b16e4286bbf00c728599b">更多...</a><br /></td></tr>
+<tr class="memdesc:acbe87b2b896b16e4286bbf00c728599b"><td class="mdescLeft">&#160;</td><td class="mdescRight">operator ()， x(i)  <a href="classChipSum_1_1Numeric_1_1Vector.html#acbe87b2b896b16e4286bbf00c728599b">更多...</a><br /></td></tr>
 <tr class="separator:acbe87b2b896b16e4286bbf00c728599b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a1c66913898bceda9fe48b2c309b8d983"><td class="memItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1Vector.html#a1c66913898bceda9fe48b2c309b8d983">Norm1</a> ()</td></tr>
-<tr class="memdesc:a1c66913898bceda9fe48b2c309b8d983"><td class="mdescLeft">&#160;</td><td class="mdescRight">Norm2 x的1范数  <a href="classChipSum_1_1Numeric_1_1Vector.html#a1c66913898bceda9fe48b2c309b8d983">更多...</a><br /></td></tr>
+<tr class="memdesc:a1c66913898bceda9fe48b2c309b8d983"><td class="mdescLeft">&#160;</td><td class="mdescRight">Norm1， x的1范数  <a href="classChipSum_1_1Numeric_1_1Vector.html#a1c66913898bceda9fe48b2c309b8d983">更多...</a><br /></td></tr>
 <tr class="separator:a1c66913898bceda9fe48b2c309b8d983"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a77532e1f1f1774577eb27855277f114a"><td class="memTemplParams" colspan="2">template&lt;typename RefType &gt; </td></tr>
 <tr class="memitem:a77532e1f1f1774577eb27855277f114a"><td class="memTemplItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1Vector.html#a77532e1f1f1774577eb27855277f114a">Norm1</a> (RefType &amp;r)</td></tr>
-<tr class="memdesc:a77532e1f1f1774577eb27855277f114a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Norm1 1范数  <a href="classChipSum_1_1Numeric_1_1Vector.html#a77532e1f1f1774577eb27855277f114a">更多...</a><br /></td></tr>
+<tr class="memdesc:a77532e1f1f1774577eb27855277f114a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Norm1， 1范数  <a href="classChipSum_1_1Numeric_1_1Vector.html#a77532e1f1f1774577eb27855277f114a">更多...</a><br /></td></tr>
 <tr class="separator:a77532e1f1f1774577eb27855277f114a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a98c1f9e9d36fe451a03427416a0bcd9e"><td class="memItemLeft" align="right" valign="top"><a id="a98c1f9e9d36fe451a03427416a0bcd9e"></a>
 CHIPSUM_FUNCTION_INLINE void&#160;</td><td class="memItemRight" valign="bottom"><b>Norm1</b> (<a class="el" href="classChipSum_1_1Numeric_1_1Scalar.html">scalar_type</a> &amp;r)</td></tr>
 <tr class="separator:a98c1f9e9d36fe451a03427416a0bcd9e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af56059b55ea09f16671185dcb98ad1a3"><td class="memItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE value_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1Vector.html#af56059b55ea09f16671185dcb98ad1a3">Norm2</a> ()</td></tr>
-<tr class="memdesc:af56059b55ea09f16671185dcb98ad1a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Norm2 x的2范数  <a href="classChipSum_1_1Numeric_1_1Vector.html#af56059b55ea09f16671185dcb98ad1a3">更多...</a><br /></td></tr>
+<tr class="memdesc:af56059b55ea09f16671185dcb98ad1a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Norm2， x的2范数  <a href="classChipSum_1_1Numeric_1_1Vector.html#af56059b55ea09f16671185dcb98ad1a3">更多...</a><br /></td></tr>
 <tr class="separator:af56059b55ea09f16671185dcb98ad1a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afec8572e9f2c71b646ee5dc31a6d795f"><td class="memTemplParams" colspan="2">template&lt;typename RefType &gt; </td></tr>
 <tr class="memitem:afec8572e9f2c71b646ee5dc31a6d795f"><td class="memTemplItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1Vector.html#afec8572e9f2c71b646ee5dc31a6d795f">Norm2</a> (RefType &amp;r)</td></tr>
-<tr class="memdesc:afec8572e9f2c71b646ee5dc31a6d795f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Norm1 2范数  <a href="classChipSum_1_1Numeric_1_1Vector.html#afec8572e9f2c71b646ee5dc31a6d795f">更多...</a><br /></td></tr>
+<tr class="memdesc:afec8572e9f2c71b646ee5dc31a6d795f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Norm2， 2范数  <a href="classChipSum_1_1Numeric_1_1Vector.html#afec8572e9f2c71b646ee5dc31a6d795f">更多...</a><br /></td></tr>
 <tr class="separator:afec8572e9f2c71b646ee5dc31a6d795f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7e0d58afc6a1c36702513a04859de2f5"><td class="memItemLeft" align="right" valign="top"><a id="a7e0d58afc6a1c36702513a04859de2f5"></a>
 CHIPSUM_FUNCTION_INLINE void&#160;</td><td class="memItemRight" valign="bottom"><b>Norm2</b> (<a class="el" href="classChipSum_1_1Numeric_1_1Scalar.html">scalar_type</a> &amp;r)</td></tr>
 <tr class="separator:a7e0d58afc6a1c36702513a04859de2f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6cdcf9727d2888f5ab70d5c25515a181"><td class="memItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE value_type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1Vector.html#a6cdcf9727d2888f5ab70d5c25515a181">NormInf</a> ()</td></tr>
-<tr class="memdesc:a6cdcf9727d2888f5ab70d5c25515a181"><td class="mdescLeft">&#160;</td><td class="mdescRight">NormInf x的Inf范数  <a href="classChipSum_1_1Numeric_1_1Vector.html#a6cdcf9727d2888f5ab70d5c25515a181">更多...</a><br /></td></tr>
+<tr class="memdesc:a6cdcf9727d2888f5ab70d5c25515a181"><td class="mdescLeft">&#160;</td><td class="mdescRight">NormInf， x的Inf范数  <a href="classChipSum_1_1Numeric_1_1Vector.html#a6cdcf9727d2888f5ab70d5c25515a181">更多...</a><br /></td></tr>
 <tr class="separator:a6cdcf9727d2888f5ab70d5c25515a181"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aaada2293e04293cbb1a2236262330653"><td class="memTemplParams" colspan="2">template&lt;typename RefType &gt; </td></tr>
 <tr class="memitem:aaada2293e04293cbb1a2236262330653"><td class="memTemplItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1Vector.html#aaada2293e04293cbb1a2236262330653">NormInf</a> (RefType &amp;r)</td></tr>
-<tr class="memdesc:aaada2293e04293cbb1a2236262330653"><td class="mdescLeft">&#160;</td><td class="mdescRight">Norm1 2范数  <a href="classChipSum_1_1Numeric_1_1Vector.html#aaada2293e04293cbb1a2236262330653">更多...</a><br /></td></tr>
+<tr class="memdesc:aaada2293e04293cbb1a2236262330653"><td class="mdescLeft">&#160;</td><td class="mdescRight">NormInf， Inf范数了  <a href="classChipSum_1_1Numeric_1_1Vector.html#aaada2293e04293cbb1a2236262330653">更多...</a><br /></td></tr>
 <tr class="separator:aaada2293e04293cbb1a2236262330653"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af96918c39af17ac769299b2a8e89ccf4"><td class="memItemLeft" align="right" valign="top"><a id="af96918c39af17ac769299b2a8e89ccf4"></a>
 CHIPSUM_FUNCTION_INLINE void&#160;</td><td class="memItemRight" valign="bottom"><b>NormInf</b> (<a class="el" href="classChipSum_1_1Numeric_1_1Scalar.html">scalar_type</a> &amp;r)</td></tr>
@@ -232,9 +235,14 @@ CHIPSUM_FUNCTION_INLINE void&#160;</td><td class="memItemRight" valign="bottom">
 <tr class="memdesc:adb2334f1c3bc90aaf92d8ab532b0a9f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">AXPBY 模板化接口  <a href="classChipSum_1_1Numeric_1_1Vector.html#adb2334f1c3bc90aaf92d8ab532b0a9f0">更多...</a><br /></td></tr>
 <tr class="separator:adb2334f1c3bc90aaf92d8ab532b0a9f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">成员函数说明</h2>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><h3>template&lt;typename ... Props&gt;<br />
+class ChipSum::Numeric::Vector&lt; Props &gt;</h3>
+
+<p>向量类用户接口 </p>
+</div><h2 class="groupheader">成员函数说明</h2>
 <a id="add88b12cac56efa9386aa03aba0c3b76"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#add88b12cac56efa9386aa03aba0c3b76">&#9670;&nbsp;</a></span>Add() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#add88b12cac56efa9386aa03aba0c3b76">&#9670;&nbsp;</a></span>Add()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -259,61 +267,14 @@ template&lt;typename ... Props&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>operator + z=x+y </p>
+<p>Add， y=(*this)+y </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
     <tr><td class="paramname">y</td><td>右端项 </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>返回</dt><dd>结果 </dd></dl>
-
-</div>
-</div>
-<a id="a11c4afca237a60003a35270f5fbe9bdf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a11c4afca237a60003a35270f5fbe9bdf">&#9670;&nbsp;</a></span>Add() <span class="overload">[2/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename ... Props&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">CHIPSUM_FUNCTION_INLINE void <a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">ChipSum::Numeric::Vector</a>&lt; Props &gt;::Add </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">Vector</a>&lt; Props &gt; &amp;&#160;</td>
-          <td class="paramname"><em>y</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype"><a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">Vector</a>&lt; Props &gt; &amp;&#160;</td>
-          <td class="paramname"><em>z</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>operator + z=x+y </p>
-<dl class="params"><dt>参数</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">y</td><td>右端项 </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>返回</dt><dd>结果 </dd></dl>
+<dl class="section return"><dt>返回</dt><dd>ret 结果 </dd></dl>
 
 </div>
 </div>
@@ -367,7 +328,7 @@ template&lt;typename ... Args&gt; </div>
 </div>
 </div>
 <a id="a890ec77b2fbfc537a2d13067aa46072b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a890ec77b2fbfc537a2d13067aa46072b">&#9670;&nbsp;</a></span>Dot() <span class="overload">[1/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a890ec77b2fbfc537a2d13067aa46072b">&#9670;&nbsp;</a></span>Dot() <span class="overload">[1/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -401,12 +362,12 @@ template&lt;typename RetType &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>返回</dt><dd>点积结果 </dd></dl>
+<dl class="section return"><dt>返回</dt><dd>r 点积结果 </dd></dl>
 
 </div>
 </div>
 <a id="a5491149b6fe6a1179a765ecd56de6695"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5491149b6fe6a1179a765ecd56de6695">&#9670;&nbsp;</a></span>Dot() <span class="overload">[2/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a5491149b6fe6a1179a765ecd56de6695">&#9670;&nbsp;</a></span>Dot() <span class="overload">[2/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -438,12 +399,61 @@ template&lt;typename ... Props&gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>返回</dt><dd>点积结果 </dd></dl>
+<dl class="section return"><dt>返回</dt><dd>r 点积结果 </dd></dl>
+
+</div>
+</div>
+<a id="a673a1a4c720ff812451f7478b4c24fbd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a673a1a4c720ff812451f7478b4c24fbd">&#9670;&nbsp;</a></span>Dot() <span class="overload">[3/4]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ... Props&gt; </div>
+<div class="memtemplate">
+template&lt;typename Arg &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">CHIPSUM_FUNCTION_INLINE void <a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">ChipSum::Numeric::Vector</a>&lt; Props &gt;::Dot </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">Vector</a>&lt; Props &gt; &amp;&#160;</td>
+          <td class="paramname"><em>v</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Arg &amp;&#160;</td>
+          <td class="paramname"><em>r</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Dot 向量点积 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">v</td><td>右端项 </td></tr>
+    <tr><td class="paramname">r</td><td>点积结果 </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
 <a id="a1a0ac4739a10d470baaacbce3e56a634"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1a0ac4739a10d470baaacbce3e56a634">&#9670;&nbsp;</a></span>Dot() <span class="overload">[3/3]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a0ac4739a10d470baaacbce3e56a634">&#9670;&nbsp;</a></span>Dot() <span class="overload">[4/4]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -482,10 +492,10 @@ template&lt;typename ... Props&gt; </div>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
     <tr><td class="paramname">v</td><td>右端项 </td></tr>
-    <tr><td class="paramname">r</td><td>点积结果 </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>返回</dt><dd>r 点积结果 </dd></dl>
 
 </div>
 </div>
@@ -587,11 +597,11 @@ template&lt;typename VT &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Mult y=a*(*this) </p>
+<p>Mult, y=alpha*(*this) </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
-    <tr><td class="paramname">a</td><td></td></tr>
-    <tr><td class="paramname">y</td><td></td></tr>
+    <tr><td class="paramname">alpha</td><td>系数 </td></tr>
+    <tr><td class="paramname">y</td><td>向量 </td></tr>
   </table>
   </dd>
 </dl>
@@ -634,10 +644,10 @@ template&lt;typename ... Props&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>operator * y = a*x </p>
+<p>Mult， y = alpha*(*this) </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
-    <tr><td class="paramname">a</td><td>系数(后端Scalar类型) </td></tr>
+    <tr><td class="paramname">alpha</td><td>系数(后端Scalar类型) </td></tr>
   </table>
   </dd>
 </dl>
@@ -670,7 +680,7 @@ template&lt;typename ... Props&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>operator - y=-x </p>
+<p>Neg 负函数， y=-x </p>
 <dl class="section return"><dt>返回</dt><dd>y </dd></dl>
 
 </div>
@@ -700,7 +710,7 @@ template&lt;typename ... Props&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Norm2 x的1范数 </p>
+<p>Norm1， x的1范数 </p>
 <dl class="section return"><dt>返回</dt><dd>标量（POD） </dd></dl>
 
 </div>
@@ -733,10 +743,10 @@ template&lt;typename RefType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Norm1 1范数 </p>
+<p>Norm1， 1范数 </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
-    <tr><td class="paramname">r</td><td>[OUT] </td></tr>
+    <tr><td class="paramname">r</td><td>结果 </td></tr>
   </table>
   </dd>
 </dl>
@@ -768,7 +778,7 @@ template&lt;typename ... Props&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Norm2 x的2范数 </p>
+<p>Norm2， x的2范数 </p>
 <dl class="section return"><dt>返回</dt><dd>标量（POD） </dd></dl>
 
 </div>
@@ -801,10 +811,10 @@ template&lt;typename RefType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Norm1 2范数 </p>
+<p>Norm2， 2范数 </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
-    <tr><td class="paramname">r</td><td>[OUT] </td></tr>
+    <tr><td class="paramname">r</td><td>结果 </td></tr>
   </table>
   </dd>
 </dl>
@@ -836,7 +846,7 @@ template&lt;typename ... Props&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>NormInf x的Inf范数 </p>
+<p>NormInf， x的Inf范数 </p>
 <dl class="section return"><dt>返回</dt><dd>标量（POD） </dd></dl>
 
 </div>
@@ -869,10 +879,10 @@ template&lt;typename RefType &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Norm1 2范数 </p>
+<p>NormInf， Inf范数了 </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
-    <tr><td class="paramname">r</td><td>[OUT] </td></tr>
+    <tr><td class="paramname">r</td><td>结果 </td></tr>
   </table>
   </dd>
 </dl>
@@ -905,7 +915,7 @@ template&lt;typename ... Props&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>operator () x(i) </p>
+<p>operator ()， x(i) </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
     <tr><td class="paramname">i</td><td>下标索引 </td></tr>
@@ -942,14 +952,14 @@ template&lt;typename ... Props&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>operator * y = a*x </p>
+<p>operator *, ret = alpha*(*this) </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
-    <tr><td class="paramname">a</td><td>系数 </td></tr>
+    <tr><td class="paramname">alpha</td><td>系数 </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>返回</dt><dd>y </dd></dl>
+<dl class="section return"><dt>返回</dt><dd>ret 结果 </dd></dl>
 
 </div>
 </div>
@@ -979,14 +989,14 @@ template&lt;typename ... Props&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>operator * y = a*x </p>
+<p>operator *=， (<em>this) = alpha</em>(*this) </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
-    <tr><td class="paramname">a</td><td>系数(后端Scalar类型) </td></tr>
+    <tr><td class="paramname">alpha</td><td>系数(后端Scalar类型) </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>返回</dt><dd>y </dd></dl>
+<dl class="section return"><dt>返回</dt><dd>(*this) </dd></dl>
 
 </div>
 </div>
@@ -1016,10 +1026,10 @@ template&lt;typename ... Props&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>operator *= x = a*x </p>
+<p>operator *=, (<em>this) = alpha</em>(*this) </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
-    <tr><td class="paramname">a</td><td>系数 </td></tr>
+    <tr><td class="paramname">alpha</td><td>系数 </td></tr>
   </table>
   </dd>
 </dl>
@@ -1053,14 +1063,14 @@ template&lt;typename ... Props&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>operator += x+=y </p>
+<p>operator +=, (*this)+=y </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
     <tr><td class="paramname">y</td><td>右端项 </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>返回</dt><dd>结果 </dd></dl>
+<dl class="section return"><dt>返回</dt><dd>(*this) </dd></dl>
 
 </div>
 </div>
@@ -1089,7 +1099,7 @@ template&lt;typename ... Props&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>operator - y=-x </p>
+<p>operator - 负号, y=-x </p>
 <dl class="section return"><dt>返回</dt><dd>y </dd></dl>
 
 </div>
@@ -1120,14 +1130,51 @@ template&lt;typename ... Props&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>operator -= x=x-y </p>
+<p>operator -=， (*this)=(*this)-y </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
-    <tr><td class="paramname">y</td><td></td></tr>
+    <tr><td class="paramname">y</td><td>向量 </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>返回</dt><dd></dd></dl>
+<dl class="section return"><dt>返回</dt><dd>(*this) </dd></dl>
+
+</div>
+</div>
+<a id="acd16718cd5f6c92ed7b28f0ca008e052"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acd16718cd5f6c92ed7b28f0ca008e052">&#9670;&nbsp;</a></span>operator=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ... Props&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">CHIPSUM_FUNCTION_INLINE <a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">Vector</a>&amp; <a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">ChipSum::Numeric::Vector</a>&lt; Props &gt;::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">Vector</a>&lt; Props &gt; &amp;&#160;</td>
+          <td class="paramname"><em>y</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>operator =，重载 =运算符, 深拷贝 </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">y</td><td>向量 </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>(*this) </dd></dl>
 
 </div>
 </div>
@@ -1195,14 +1242,14 @@ template&lt;typename ... Props&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>operator - z=x-y </p>
+<p>Sub减法， (*this)=(*this)-y </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
-    <tr><td class="paramname">y</td><td></td></tr>
+    <tr><td class="paramname">y</td><td>向量 </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>返回</dt><dd></dd></dl>
+<dl class="section return"><dt>返回</dt><dd>(*this) </dd></dl>
 
 </div>
 </div>
@@ -1242,11 +1289,11 @@ template&lt;typename ... Props&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Sub 减法接口 z = (*this)-y </p>
+<p>Sub 减法, z = z-y </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
-    <tr><td class="paramname">y</td><td>输入 y </td></tr>
-    <tr><td class="paramname">z</td><td>输出 z </td></tr>
+    <tr><td class="paramname">y</td><td>输入向量 </td></tr>
+    <tr><td class="paramname">z</td><td>输出向量 </td></tr>
   </table>
   </dd>
 </dl>
@@ -1254,7 +1301,7 @@ template&lt;typename ... Props&gt; </div>
 </div>
 </div>
 <hr/>该类的文档由以下文件生成:<ul>
-<li>/home/lky/code/git/ChipSum/chipsum/numeric/<a class="el" href="vector_8hpp_source.html">vector.hpp</a></li>
+<li>/home/xyk/work/ChipSum/chipsum/numeric/<a class="el" href="vector_8hpp_source.html">vector.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

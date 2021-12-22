@@ -3,7 +3,7 @@ var indexSectionsWithContent =
   0: "adgmnopsvå",
   1: "dsv",
   2: "dsv",
-  3: "adgmnops",
+  3: "adgmnopsv",
   4: "mv",
   5: "å"
 };

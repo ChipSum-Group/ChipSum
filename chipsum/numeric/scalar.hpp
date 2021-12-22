@@ -77,7 +77,7 @@ public:
     ///
     /// \brief Scalar 构造函数
     ///
-    Scalar(const_value_type_ref s) {
+    Scalar(const value_type& s) {
         ChipSum::Numeric::Impl::Scalar::create(__data, s);
     }
 
@@ -94,7 +94,7 @@ public:
 
     CHIPSUM_FUNCTION_INLINE
     typename ::std::add_lvalue_reference<Scalar>::type
-    operator=(value_type s) {
+    operator=(const value_type& s) {
         ChipSum::Numeric::Impl::Scalar::deep_copy( __data,s);
         return *this;
     }
@@ -104,9 +104,11 @@ public:
     /// \brief operator ()
     /// \return
     ///
-    const_value_type_ref operator()() {
-        return ChipSum::Numeric::Impl::Scalar::get_item(
-                    __data);
+    value_type operator()() {
+        value_type r;
+        ChipSum::Numeric::Impl::Scalar::get_item(
+                    __data,r);
+        return r;
     }
 
     CHIPSUM_FUNCTION_INLINE
@@ -114,8 +116,10 @@ public:
     /// \brief operator ScalarType
     ///
     operator value_type()  {
-        return ChipSum::Numeric::Impl::Scalar::get_item(
-                    __data);
+        value_type r;
+        ChipSum::Numeric::Impl::Scalar::get_item(
+                    __data,r);
+        return r;
     }
 
     CHIPSUM_FUNCTION_INLINE

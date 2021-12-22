@@ -6,5 +6,6 @@ var searchData=
   ['operator_2a_3d_21',['operator*=',['../classChipSum_1_1Numeric_1_1Vector.html#ad97e1eaffe6e3c9a2d18672bb1e69a5d',1,'ChipSum::Numeric::Vector::operator*=(Scalar&lt; Props... &gt; &amp;a)'],['../classChipSum_1_1Numeric_1_1Vector.html#a761aa973c4bd553b31e6e835e7445a64',1,'ChipSum::Numeric::Vector::operator*=(value_type a)'],['../classChipSum_1_1Numeric_1_1DenseMatrix.html#a6e81829ee3a76229205956f3687f5bf0',1,'ChipSum::Numeric::DenseMatrix::operator*=()']]],
   ['operator_2b_3d_22',['operator+=',['../classChipSum_1_1Numeric_1_1Vector.html#a2606fc884f6dd2b2e00e58177a4347a4',1,'ChipSum::Numeric::Vector']]],
   ['operator_2d_23',['operator-',['../classChipSum_1_1Numeric_1_1Vector.html#a145903211693df30c4c7d40f66c45760',1,'ChipSum::Numeric::Vector']]],
-  ['operator_2d_3d_24',['operator-=',['../classChipSum_1_1Numeric_1_1Vector.html#a30f4598f86f62a2a283b2ce4afdbc7b5',1,'ChipSum::Numeric::Vector']]]
+  ['operator_2d_3d_24',['operator-=',['../classChipSum_1_1Numeric_1_1Vector.html#a30f4598f86f62a2a283b2ce4afdbc7b5',1,'ChipSum::Numeric::Vector']]],
+  ['operator_3d_25',['operator=',['../classChipSum_1_1Numeric_1_1Vector.html#acd16718cd5f6c92ed7b28f0ca008e052',1,'ChipSum::Numeric::Vector::operator=()'],['../classChipSum_1_1Numeric_1_1Scalar.html#ad9163fdc2706a471728e525ea3c29ba2',1,'ChipSum::Numeric::Scalar::operator=()']]]
 ];

@@ -72,7 +72,10 @@ Vector cg(CSR &A, Vector &b, Vector &x, double tol, int max_it)
 int main(int argc, char *argv[])
 {
 
+    /* .mtx格式数据，如$HOME/ChipSum/data/A.mtx */
     char* filename_A = argv[1];
+    
+    /* .mtx格式数据，如$HOME/ChipSum/data/b.csv */
     char* filename_b = argv[2];
 
 
@@ -113,15 +116,7 @@ int main(int argc, char *argv[])
         double tol = 1e-12;
         int max_it = 500;
 
-
-
-
         auto sol_cg = cg(A, b, x0, tol, max_it);
-   
-
-
-
-
 
         delete xadj;
         delete adj;

@@ -1,9 +1,9 @@
-digraph "/home/lky/code/git/ChipSum/chipsum/numeric/vector.hpp"
+digraph "/home/xyk/work/ChipSum/chipsum/numeric/vector.hpp"
 {
  // LATEX_PDF_SIZE
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
-  Node1 [label="/home/lky/code/git\l/ChipSum/chipsum/numeric\l/vector.hpp",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="向量类用户接口"];
+  Node1 [label="/home/xyk/work/ChipSum\l/chipsum/numeric/vector.hpp",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="向量类用户接口"];
   Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node2 [label="fstream",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
   Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
@@ -11,7 +11,7 @@ digraph "/home/lky/code/git/ChipSum/chipsum/numeric/vector.hpp"
   Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node4 [label="type_traits",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
   Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node5 [label="/home/lky/code/git\l/ChipSum/chipsum/backend\l/backend.hpp",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node5 [label="/home/xyk/work/ChipSum\l/chipsum/backend/backend.hpp",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
   Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node6 [label="scalar.hpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$scalar_8hpp.html",tooltip="标量用户接口，主要是为了衔接类似点积一类 操作的Device端实现。"];
   Node6 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
@@ -26,9 +26,9 @@ digraph "/home/lky/code/git/ChipSum/chipsum/numeric/vector.hpp"
   Node1 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node11 [label="vector",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
   Node1 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node12 [label="/home/lky/code/git\l/ChipSum/chipsum/chipsum\l_macro.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node12 [label="/home/xyk/work/ChipSum\l/chipsum/chipsum_macro.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
   Node1 -> Node13 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node13 [label="/home/lky/code/git\l/ChipSum/chipsum/numeric\l/numeric_traits.hpp",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node13 [label="/home/xyk/work/ChipSum\l/chipsum/numeric/numeric\l_traits.hpp",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
   Node1 -> Node14 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node14 [label="../common/data_types.hpp",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
   Node1 -> Node15 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
@@ -36,25 +36,25 @@ digraph "/home/lky/code/git/ChipSum/chipsum/numeric/vector.hpp"
   Node1 -> Node16 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node16 [label="cassert",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
   Node1 -> Node17 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node17 [label="/home/lky/code/git\l/ChipSum/chipsum/numeric\l/impl/serial/vector_serial\l_impl.hpp",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node17 [label="/home/xyk/work/ChipSum\l/chipsum/numeric/impl\l/serial/vector_serial_impl.hpp",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
   Node1 -> Node18 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node18 [label="/home/lky/code/git\l/ChipSum/chipsum/numeric\l/impl/serial/vector_serial\l_dot_impl.hpp",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node18 [label="/home/xyk/work/ChipSum\l/chipsum/numeric/impl\l/serial/vector_serial_dot\l_impl.hpp",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
   Node1 -> Node19 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node19 [label="/home/lky/code/git\l/ChipSum/chipsum/numeric\l/impl/serial/vector_serial\l_axpby_impl.hpp",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node19 [label="/home/xyk/work/ChipSum\l/chipsum/numeric/impl\l/serial/vector_serial_axpby\l_impl.hpp",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
   Node1 -> Node20 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node20 [label="/home/lky/code/git\l/ChipSum/chipsum/numeric\l/impl/serial/vector_serial\l_nrm1_impl.hpp",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node20 [label="/home/xyk/work/ChipSum\l/chipsum/numeric/impl\l/serial/vector_serial_nrm1\l_impl.hpp",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
   Node1 -> Node21 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node21 [label="/home/lky/code/git\l/ChipSum/chipsum/numeric\l/impl/serial/vector_serial\l_nrm2_impl.hpp",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node21 [label="/home/xyk/work/ChipSum\l/chipsum/numeric/impl\l/serial/vector_serial_nrm2\l_impl.hpp",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
   Node1 -> Node22 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node22 [label="cmath",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
   Node1 -> Node23 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node23 [label="/home/lky/code/git\l/ChipSum/chipsum/numeric\l/impl/serial/vector_serial\l_nrminf_impl.hpp",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node23 [label="/home/xyk/work/ChipSum\l/chipsum/numeric/impl\l/serial/vector_serial_nrminf\l_impl.hpp",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
   Node1 -> Node24 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node24 [label="algorithm",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
   Node1 -> Node25 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node25 [label="/home/lky/code/git\l/ChipSum/chipsum/numeric\l/impl/serial/vector_serial\l_scal_impl.hpp",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node25 [label="/home/xyk/work/ChipSum\l/chipsum/numeric/impl\l/serial/vector_serial_scal\l_impl.hpp",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
   Node1 -> Node26 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node26 [label="/home/lky/code/git\l/ChipSum/chipsum/numeric\l/impl/kokkoskernels/vector\l_kokkoskernels_impl.hpp",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node26 [label="/home/xyk/work/ChipSum\l/chipsum/numeric/impl\l/kokkoskernels/vector_kokkoskernels\l_impl.hpp",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
   Node1 -> Node27 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node27 [label="impl/impl_abstract.hpp",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
 }

@@ -217,9 +217,9 @@ public:
     /// \return y
     ///
     CHIPSUM_FUNCTION_INLINE Vector&
-    operator*=(Scalar<Props...> &a) {
+    operator*=(scalar_type &a) {
         ChipSum::Numeric::Impl::Vector::scal(
-                     __data,a.GetData(),__data.GetData());
+                     __data,a.GetData(),__data);
 
         return (*this);
     }

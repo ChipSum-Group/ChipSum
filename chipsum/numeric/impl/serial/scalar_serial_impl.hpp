@@ -66,7 +66,7 @@ template <typename ValueType,typename OStreamT>
 
 CHIPSUM_FUNCTION_INLINE void print(const ValueType s, OStreamT &out) {
 
-    cout << "scalar_serial: " << s << endl;
+    ::std::cout << "scalar_serial: " << s << ::std::endl;
 }
 } // namespace Scalar
 } // namespace Impl

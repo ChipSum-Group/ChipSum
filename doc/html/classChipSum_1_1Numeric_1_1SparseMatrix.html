@@ -22,9 +22,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ChipSum
-   &#160;<span id="projectnumber">1.0.0</span>
+   &#160;<span id="projectnumber">0.2.1</span>
    </div>
-   <div id="projectbrief">面向性能可移植的稠密、稀疏代数调用接口</div>
+   <div id="projectbrief">一种性能可移植的异构并行C++模板元编程框架</div>
   </td>
  </tr>
  </tbody>
@@ -113,13 +113,9 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>dense_type</b> = <a 
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public 成员函数</h2></td></tr>
-<tr class="memitem:a67f60224c12042993623b40bda72ceab"><td class="memItemLeft" align="right" valign="top"><a id="a67f60224c12042993623b40bda72ceab"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1SparseMatrix.html#a67f60224c12042993623b40bda72ceab">SparseMatrix</a> ()=default</td></tr>
-<tr class="memdesc:a67f60224c12042993623b40bda72ceab"><td class="mdescLeft">&#160;</td><td class="mdescRight">该不该delete掉？ <br /></td></tr>
-<tr class="separator:a67f60224c12042993623b40bda72ceab"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a658dc2afb4b63797b4bdff7b269f2fec"><td class="memTemplParams" colspan="2">template&lt;typename... Args&gt; </td></tr>
 <tr class="memitem:a658dc2afb4b63797b4bdff7b269f2fec"><td class="memTemplItemLeft" align="right" valign="top">CHIPSUM_DECLARED_FUNCTION&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1SparseMatrix.html#a658dc2afb4b63797b4bdff7b269f2fec">SparseMatrix</a> (ordinal_type nrow, ordinal_type ncol, size_type annz, Args... args)</td></tr>
-<tr class="memdesc:a658dc2afb4b63797b4bdff7b269f2fec"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classChipSum_1_1Numeric_1_1SparseMatrix.html" title="稀疏矩阵用户接口">SparseMatrix</a> 稀疏矩阵模板。SpFormat表示稀疏矩阵的储存格式，至少会支持CSC/CSR/COO，后续会添加一些新的后端。  <a href="classChipSum_1_1Numeric_1_1SparseMatrix.html#a658dc2afb4b63797b4bdff7b269f2fec">更多...</a><br /></td></tr>
+<tr class="memdesc:a658dc2afb4b63797b4bdff7b269f2fec"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classChipSum_1_1Numeric_1_1SparseMatrix.html" title="稀疏矩阵用户接口">SparseMatrix</a> 稀疏矩阵模板。 SpFormat表示稀疏矩阵的储存格式，至少会支持CSC/CSR/COO，后续会添加一些新的后端。  <a href="classChipSum_1_1Numeric_1_1SparseMatrix.html#a658dc2afb4b63797b4bdff7b269f2fec">更多...</a><br /></td></tr>
 <tr class="separator:a658dc2afb4b63797b4bdff7b269f2fec"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abe694cf87b634f26851efa72c98088c0"><td class="memItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE sp_type &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1SparseMatrix.html#abe694cf87b634f26851efa72c98088c0">GetData</a> ()</td></tr>
 <tr class="memdesc:abe694cf87b634f26851efa72c98088c0"><td class="mdescLeft">&#160;</td><td class="mdescRight">GetData 获取后端类型数据  <a href="classChipSum_1_1Numeric_1_1SparseMatrix.html#abe694cf87b634f26851efa72c98088c0">更多...</a><br /></td></tr>
@@ -134,14 +130,14 @@ Public 成员函数</h2></td></tr>
 <tr class="memdesc:a200e4c17bfd16346fbbfb4956dec2de4"><td class="mdescLeft">&#160;</td><td class="mdescRight">GetNNZ 获取非零元数  <a href="classChipSum_1_1Numeric_1_1SparseMatrix.html#a200e4c17bfd16346fbbfb4956dec2de4">更多...</a><br /></td></tr>
 <tr class="separator:a200e4c17bfd16346fbbfb4956dec2de4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9a2227d3a1d093ed72623c9ac725e82a"><td class="memItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE <a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">vector_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1SparseMatrix.html#a9a2227d3a1d093ed72623c9ac725e82a">operator*</a> (<a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">vector_type</a> &amp;x)</td></tr>
-<tr class="memdesc:a9a2227d3a1d093ed72623c9ac725e82a"><td class="mdescLeft">&#160;</td><td class="mdescRight">operator * SpMV operator*版SpMV主要是 方便用户创造结果向量，性能并不 好  <a href="classChipSum_1_1Numeric_1_1SparseMatrix.html#a9a2227d3a1d093ed72623c9ac725e82a">更多...</a><br /></td></tr>
+<tr class="memdesc:a9a2227d3a1d093ed72623c9ac725e82a"><td class="mdescLeft">&#160;</td><td class="mdescRight">operator *, SpMV operator*版SpMV主要是 方便用户创造结果向量，性能并不好  <a href="classChipSum_1_1Numeric_1_1SparseMatrix.html#a9a2227d3a1d093ed72623c9ac725e82a">更多...</a><br /></td></tr>
 <tr class="separator:a9a2227d3a1d093ed72623c9ac725e82a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a352a1ed4a29df2880574f870e52ac869"><td class="memItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE <a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html">dense_type</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1SparseMatrix.html#a352a1ed4a29df2880574f870e52ac869">operator*</a> (<a class="el" href="classChipSum_1_1Numeric_1_1DenseMatrix.html">dense_type</a> &amp;m)</td></tr>
-<tr class="memdesc:a352a1ed4a29df2880574f870e52ac869"><td class="mdescLeft">&#160;</td><td class="mdescRight">operator * SpMV（稀疏矩阵乘稠密矩阵）  <a href="classChipSum_1_1Numeric_1_1SparseMatrix.html#a352a1ed4a29df2880574f870e52ac869">更多...</a><br /></td></tr>
+<tr class="memdesc:a352a1ed4a29df2880574f870e52ac869"><td class="mdescLeft">&#160;</td><td class="mdescRight">operator *， SpMV（稀疏矩阵乘稠密矩阵）  <a href="classChipSum_1_1Numeric_1_1SparseMatrix.html#a352a1ed4a29df2880574f870e52ac869">更多...</a><br /></td></tr>
 <tr class="separator:a352a1ed4a29df2880574f870e52ac869"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aec489e0f3f4f0e62ded81a6a36b70003"><td class="memTemplParams" colspan="2">template&lt;typename V , typename ... Args&gt; </td></tr>
 <tr class="memitem:aec489e0f3f4f0e62ded81a6a36b70003"><td class="memTemplItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1SparseMatrix.html#aec489e0f3f4f0e62ded81a6a36b70003">SPMV</a> (V &amp;x, V &amp;y, Args ... args)</td></tr>
-<tr class="memdesc:aec489e0f3f4f0e62ded81a6a36b70003"><td class="mdescLeft">&#160;</td><td class="mdescRight">SpMV 在需要考虑性能的时候，强烈建议采用此接口进行稀疏矩阵乘向量  <a href="classChipSum_1_1Numeric_1_1SparseMatrix.html#aec489e0f3f4f0e62ded81a6a36b70003">更多...</a><br /></td></tr>
+<tr class="memdesc:aec489e0f3f4f0e62ded81a6a36b70003"><td class="mdescLeft">&#160;</td><td class="mdescRight">SPMV， 在需要考虑性能的时候，强烈建议采用此接口进行稀疏矩阵乘向量  <a href="classChipSum_1_1Numeric_1_1SparseMatrix.html#aec489e0f3f4f0e62ded81a6a36b70003">更多...</a><br /></td></tr>
 <tr class="separator:aec489e0f3f4f0e62ded81a6a36b70003"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2293eaf43f7a0d563a2c41098ac4cd59"><td class="memItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1SparseMatrix.html#a2293eaf43f7a0d563a2c41098ac4cd59">Print</a> (std::ostream &amp;out=std::cout)</td></tr>
 <tr class="memdesc:a2293eaf43f7a0d563a2c41098ac4cd59"><td class="mdescLeft">&#160;</td><td class="mdescRight">SpMV 在需要考虑性能的时候，强烈建议采用此接口进行稀疏矩阵乘矩阵  <a href="classChipSum_1_1Numeric_1_1SparseMatrix.html#a2293eaf43f7a0d563a2c41098ac4cd59">更多...</a><br /></td></tr>
@@ -222,7 +218,7 @@ template&lt;typename... Args&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p><a class="el" href="classChipSum_1_1Numeric_1_1SparseMatrix.html" title="稀疏矩阵用户接口">SparseMatrix</a> 稀疏矩阵模板。SpFormat表示稀疏矩阵的储存格式，至少会支持CSC/CSR/COO，后续会添加一些新的后端。 </p>
+<p><a class="el" href="classChipSum_1_1Numeric_1_1SparseMatrix.html" title="稀疏矩阵用户接口">SparseMatrix</a> 稀疏矩阵模板。 SpFormat表示稀疏矩阵的储存格式，至少会支持CSC/CSR/COO，后续会添加一些新的后端。 </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
     <tr><td class="paramname">nrow</td><td>行数 </td></tr>
@@ -382,14 +378,14 @@ template&lt;typename... Props&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>operator * SpMV（稀疏矩阵乘稠密矩阵） </p>
+<p>operator *， SpMV（稀疏矩阵乘稠密矩阵） </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
     <tr><td class="paramname">m</td><td>稠密矩阵 </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>返回</dt><dd></dd></dl>
+<dl class="section return"><dt>返回</dt><dd>R 稠密矩阵 </dd></dl>
 
 </div>
 </div>
@@ -419,14 +415,14 @@ template&lt;typename... Props&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>operator * SpMV operator*版SpMV主要是 方便用户创造结果向量，性能并不 好 </p>
+<p>operator *, SpMV operator*版SpMV主要是 方便用户创造结果向量，性能并不好 </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
     <tr><td class="paramname">x</td><td>向量 </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>返回</dt><dd>向量（结果） </dd></dl>
+<dl class="section return"><dt>返回</dt><dd>R 向量（结果） </dd></dl>
 
 </div>
 </div>
@@ -636,7 +632,7 @@ template&lt;typename V , typename ... Args&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>SpMV 在需要考虑性能的时候，强烈建议采用此接口进行稀疏矩阵乘向量 </p>
+<p>SPMV， 在需要考虑性能的时候，强烈建议采用此接口进行稀疏矩阵乘向量 </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
     <tr><td class="paramname">x</td><td>左端项 </td></tr>
@@ -648,7 +644,7 @@ template&lt;typename V , typename ... Args&gt; </div>
 </div>
 </div>
 <hr/>该类的文档由以下文件生成:<ul>
-<li>/home/lky/code/git/ChipSum/chipsum/numeric/<a class="el" href="sparse__matrix_8hpp_source.html">sparse_matrix.hpp</a></li>
+<li>/home/xyk/work/ChipSum/chipsum/numeric/<a class="el" href="sparse__matrix_8hpp_source.html">sparse_matrix.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

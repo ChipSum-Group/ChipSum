@@ -9,10 +9,11 @@
 #ifndef __CHIPSUM_DENSE_MATRIX_HPP__
 #define __CHIPSUM_DENSE_MATRIX_HPP__
 
-#if defined(ChipSum_USE_KokkosKernels) || defined(ChipSum_USE_KokkosKernels64)
+
 #include "impl/kokkoskernels/densemat_kokkoskernels_impl.hpp"
-#endif
+
 #include "impl/serial/densemat_serial_impl.hpp"
+
 #include "numeric_traits.hpp"
 #include "scalar.hpp"
 #include "vector.hpp"
@@ -192,6 +193,18 @@ public:
     ///
     CHIPSUM_FUNCTION_INLINE DenseMatrix& operator*=(const value_type& a) {
         ChipSum::Numeric::Impl::DenseMat::scal( __data,__data,a);
+        return *this;
+    }
+
+    ///
+    /// \brief operator /= A/=a
+    /// \attention 后续希望将1/a变为类似ChipSum::Numeric::Const<ValueType>::one()/a;
+    /// \param a 系数
+    /// \return A（结果）
+    ///
+    CHIPSUM_FUNCTION_INLINE DenseMatrix& operator/=(const value_type& a) {
+        value_type one = static_cast<value_type>(1);
+        ChipSum::Numeric::Impl::DenseMat::scal( __data,__data,(one/a));
         return *this;
     }
 

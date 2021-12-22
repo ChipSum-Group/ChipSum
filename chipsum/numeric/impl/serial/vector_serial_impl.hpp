@@ -18,6 +18,8 @@
 #include "../../numeric_traits.hpp"
 
 
+
+
 #include "vector_serial_dot_impl.hpp"
 #include "vector_serial_axpby_impl.hpp"
 #include "vector_serial_nrm1_impl.hpp"

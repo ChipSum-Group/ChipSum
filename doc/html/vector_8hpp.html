@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>ChipSum: /home/lky/code/git/ChipSum/chipsum/numeric/vector.hpp 文件参考</title>
+<title>ChipSum: /home/xyk/work/ChipSum/chipsum/numeric/vector.hpp 文件参考</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -22,9 +22,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ChipSum
-   &#160;<span id="projectnumber">1.0.0</span>
+   &#160;<span id="projectnumber">0.2.1</span>
    </div>
-   <div id="projectbrief">面向性能可移植的稠密、稀疏代数调用接口</div>
+   <div id="projectbrief">一种性能可移植的异构并行C++模板元编程框架</div>
   </td>
  </tr>
  </tbody>
@@ -87,12 +87,12 @@ $(function() {
 </div><div class="textblock"><div class="dynheader">
 vector.hpp 的引用(Include)关系图:</div>
 <div class="dyncontent">
-<div class="center"><img src="vector_8hpp__incl.png" border="0" usemap="#_2home_2lky_2code_2git_2ChipSum_2chipsum_2numeric_2vector_8hpp" alt=""/></div>
+<div class="center"><img src="vector_8hpp__incl.png" border="0" usemap="#_2home_2xyk_2work_2ChipSum_2chipsum_2numeric_2vector_8hpp" alt=""/></div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 此图展示该文件直接或间接的被哪些文件引用了:</div>
 <div class="dyncontent">
-<div class="center"><img src="vector_8hpp__dep__incl.png" border="0" usemap="#_2home_2lky_2code_2git_2ChipSum_2chipsum_2numeric_2vector_8hppdep" alt=""/></div>
+<div class="center"><img src="vector_8hpp__dep__incl.png" border="0" usemap="#_2home_2xyk_2work_2ChipSum_2chipsum_2numeric_2vector_8hppdep" alt=""/></div>
 </div>
 </div>
 <p><a href="vector_8hpp_source.html">浏览源代码.</a></p>
@@ -100,6 +100,7 @@ vector.hpp 的引用(Include)关系图:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 类</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">ChipSum::Numeric::Vector&lt; Props &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">向量类用户接口  <a href="classChipSum_1_1Numeric_1_1Vector.html#details">更多...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
@@ -115,11 +116,11 @@ typedef <a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">ChipSum::Num
 函数</h2></td></tr>
 <tr class="memitem:a74d6d3eafecd5cd59764872a1ec76cbc"><td class="memTemplParams" colspan="2">template&lt;typename ValueType , typename... Props&gt; </td></tr>
 <tr class="memitem:a74d6d3eafecd5cd59764872a1ec76cbc"><td class="memTemplItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE <a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">Vector</a>&lt; ValueType, Props... &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="vector_8hpp.html#a74d6d3eafecd5cd59764872a1ec76cbc">ChipSum::Numeric::operator*</a> (const ValueType &amp;a, <a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">Vector</a>&lt; ValueType, Props... &gt; &amp;x)</td></tr>
-<tr class="memdesc:a74d6d3eafecd5cd59764872a1ec76cbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">operator * y=a*x  <a href="vector_8hpp.html#a74d6d3eafecd5cd59764872a1ec76cbc">更多...</a><br /></td></tr>
+<tr class="memdesc:a74d6d3eafecd5cd59764872a1ec76cbc"><td class="mdescLeft">&#160;</td><td class="mdescRight">operator *, y=alpha*x  <a href="vector_8hpp.html#a74d6d3eafecd5cd59764872a1ec76cbc">更多...</a><br /></td></tr>
 <tr class="separator:a74d6d3eafecd5cd59764872a1ec76cbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a714ee4fc7300f95b8ae586c8596c9c4b"><td class="memTemplParams" colspan="2">template&lt;typename... Props&gt; </td></tr>
 <tr class="memitem:a714ee4fc7300f95b8ae586c8596c9c4b"><td class="memTemplItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE <a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">Vector</a>&lt; Props... &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="vector_8hpp.html#a714ee4fc7300f95b8ae586c8596c9c4b">ChipSum::Numeric::operator*</a> (<a class="el" href="classChipSum_1_1Numeric_1_1Scalar.html">Scalar</a>&lt; Props... &gt; &amp;a, <a class="el" href="classChipSum_1_1Numeric_1_1Vector.html">Vector</a>&lt; Props... &gt; &amp;x)</td></tr>
-<tr class="memdesc:a714ee4fc7300f95b8ae586c8596c9c4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">operator * y=a*x  <a href="vector_8hpp.html#a714ee4fc7300f95b8ae586c8596c9c4b">更多...</a><br /></td></tr>
+<tr class="memdesc:a714ee4fc7300f95b8ae586c8596c9c4b"><td class="mdescLeft">&#160;</td><td class="mdescRight">operator * y=alpha*x  <a href="vector_8hpp.html#a714ee4fc7300f95b8ae586c8596c9c4b">更多...</a><br /></td></tr>
 <tr class="separator:a714ee4fc7300f95b8ae586c8596c9c4b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
@@ -155,10 +156,10 @@ template&lt;typename ValueType , typename... Props&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>operator * y=a*x </p>
+<p>operator *, y=alpha*x </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
-    <tr><td class="paramname">a</td><td>系数（POD） </td></tr>
+    <tr><td class="paramname">alpha</td><td>系数（POD） </td></tr>
     <tr><td class="paramname">x</td><td>向量 </td></tr>
   </table>
   </dd>
@@ -195,10 +196,10 @@ template&lt;typename... Props&gt; </div>
       </table>
 </div><div class="memdoc">
 
-<p>operator * y=a*x </p>
+<p>operator * y=alpha*x </p>
 <dl class="params"><dt>参数</dt><dd>
   <table class="params">
-    <tr><td class="paramname">a</td><td>标量（后端数据类型） </td></tr>
+    <tr><td class="paramname">alpha</td><td>标量（后端数据类型） </td></tr>
     <tr><td class="paramname">x</td><td>向量x </td></tr>
   </table>
   </dd>

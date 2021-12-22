@@ -22,9 +22,9 @@
  <tr style="height: 56px;">
   <td id="projectalign" style="padding-left: 0.5em;">
    <div id="projectname">ChipSum
-   &#160;<span id="projectnumber">1.0.0</span>
+   &#160;<span id="projectnumber">0.2.1</span>
    </div>
-   <div id="projectbrief">面向性能可移植的稠密、稀疏代数调用接口</div>
+   <div id="projectbrief">一种性能可移植的异构并行C++模板元编程框架</div>
   </td>
  </tr>
  </tbody>
@@ -75,6 +75,11 @@ $(function() {
 <div class="title">ChipSum::Numeric::Scalar&lt; Props &gt; 模板类 参考</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>标量用户接口，主要是为了衔接类似点积一类 操作的Device端实现。  
+ <a href="classChipSum_1_1Numeric_1_1Scalar.html#details">更多...</a></p>
+
+<p><code>#include &lt;<a class="el" href="scalar_8hpp_source.html">scalar.hpp</a>&gt;</code></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
 Public 类型</h2></td></tr>
@@ -114,17 +119,17 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>const_value_type_ref
 Public 成员函数</h2></td></tr>
 <tr class="memitem:a3af21fc6d4f7837fc2acd3e2bae09bac"><td class="memItemLeft" align="right" valign="top"><a id="a3af21fc6d4f7837fc2acd3e2bae09bac"></a>
 CHIPSUM_DECLARED_FUNCTION&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1Scalar.html#a3af21fc6d4f7837fc2acd3e2bae09bac">Scalar</a> ()</td></tr>
-<tr class="memdesc:a3af21fc6d4f7837fc2acd3e2bae09bac"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classChipSum_1_1Numeric_1_1Scalar.html">Scalar</a> 构造函数 <br /></td></tr>
+<tr class="memdesc:a3af21fc6d4f7837fc2acd3e2bae09bac"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classChipSum_1_1Numeric_1_1Scalar.html" title="标量用户接口，主要是为了衔接类似点积一类 操作的Device端实现。">Scalar</a> 构造函数 <br /></td></tr>
 <tr class="separator:a3af21fc6d4f7837fc2acd3e2bae09bac"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a14e327dbb2ce835f7c9eed815a964047"><td class="memItemLeft" align="right" valign="top"><a id="a14e327dbb2ce835f7c9eed815a964047"></a>
 CHIPSUM_DECLARED_FUNCTION&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1Scalar.html#a14e327dbb2ce835f7c9eed815a964047">Scalar</a> (const_value_type_ref s)</td></tr>
-<tr class="memdesc:a14e327dbb2ce835f7c9eed815a964047"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classChipSum_1_1Numeric_1_1Scalar.html">Scalar</a> 构造函数 <br /></td></tr>
+<tr class="memdesc:a14e327dbb2ce835f7c9eed815a964047"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="classChipSum_1_1Numeric_1_1Scalar.html" title="标量用户接口，主要是为了衔接类似点积一类 操作的Device端实现。">Scalar</a> 构造函数 <br /></td></tr>
 <tr class="separator:a14e327dbb2ce835f7c9eed815a964047"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a96f06d636376fcd81283b7309c86578c"><td class="memItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE const_scalar_type_ref&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1Scalar.html#a96f06d636376fcd81283b7309c86578c">GetData</a> ()</td></tr>
-<tr class="memdesc:a96f06d636376fcd81283b7309c86578c"><td class="mdescLeft">&#160;</td><td class="mdescRight">GetData 获取后端底层，如Kokkos::View&lt;double&gt;  <a href="classChipSum_1_1Numeric_1_1Scalar.html#a96f06d636376fcd81283b7309c86578c">更多...</a><br /></td></tr>
+<tr class="memdesc:a96f06d636376fcd81283b7309c86578c"><td class="mdescLeft">&#160;</td><td class="mdescRight">GetData 获取后端支持数据类型，如Kokkos::View&lt;double&gt;  <a href="classChipSum_1_1Numeric_1_1Scalar.html#a96f06d636376fcd81283b7309c86578c">更多...</a><br /></td></tr>
 <tr class="separator:a96f06d636376fcd81283b7309c86578c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad9163fdc2706a471728e525ea3c29ba2"><td class="memItemLeft" align="right" valign="top"><a id="ad9163fdc2706a471728e525ea3c29ba2"></a>
-CHIPSUM_FUNCTION_INLINE typename ::std::add_lvalue_reference&lt; <a class="el" href="classChipSum_1_1Numeric_1_1Scalar.html">Scalar</a> &gt;::type&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (<a class="el" href="classChipSum_1_1Numeric_1_1Scalar.html#a28dc3063da16f79115e7cc0f3f1cc3e1">value_type</a> s)</td></tr>
+<tr class="memitem:ad9163fdc2706a471728e525ea3c29ba2"><td class="memItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE typename ::std::add_lvalue_reference&lt; <a class="el" href="classChipSum_1_1Numeric_1_1Scalar.html">Scalar</a> &gt;::type&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1Scalar.html#ad9163fdc2706a471728e525ea3c29ba2">operator=</a> (<a class="el" href="classChipSum_1_1Numeric_1_1Scalar.html#a28dc3063da16f79115e7cc0f3f1cc3e1">value_type</a> s)</td></tr>
+<tr class="memdesc:ad9163fdc2706a471728e525ea3c29ba2"><td class="mdescLeft">&#160;</td><td class="mdescRight">operator =，(*this)=s  <a href="classChipSum_1_1Numeric_1_1Scalar.html#ad9163fdc2706a471728e525ea3c29ba2">更多...</a><br /></td></tr>
 <tr class="separator:ad9163fdc2706a471728e525ea3c29ba2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2d9600fbd3a2a7997ee59e9491ce3c1f"><td class="memItemLeft" align="right" valign="top">CHIPSUM_FUNCTION_INLINE const_value_type_ref&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classChipSum_1_1Numeric_1_1Scalar.html#a2d9600fbd3a2a7997ee59e9491ce3c1f">operator()</a> ()</td></tr>
 <tr class="memdesc:a2d9600fbd3a2a7997ee59e9491ce3c1f"><td class="mdescLeft">&#160;</td><td class="mdescRight">operator ()  <a href="classChipSum_1_1Numeric_1_1Scalar.html#a2d9600fbd3a2a7997ee59e9491ce3c1f">更多...</a><br /></td></tr>
@@ -137,7 +142,12 @@ CHIPSUM_FUNCTION_INLINE&#160;</td><td class="memItemRight" valign="bottom"><a cl
 <tr class="memdesc:a33ac4f6e76c2479219b1a3d614e3427d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print  <a href="classChipSum_1_1Numeric_1_1Scalar.html#a33ac4f6e76c2479219b1a3d614e3427d">更多...</a><br /></td></tr>
 <tr class="separator:a33ac4f6e76c2479219b1a3d614e3427d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<h2 class="groupheader">成员函数说明</h2>
+<a name="details" id="details"></a><h2 class="groupheader">详细描述</h2>
+<div class="textblock"><h3>template&lt;typename... Props&gt;<br />
+class ChipSum::Numeric::Scalar&lt; Props &gt;</h3>
+
+<p>标量用户接口，主要是为了衔接类似点积一类 操作的Device端实现。 </p>
+</div><h2 class="groupheader">成员函数说明</h2>
 <a id="a96f06d636376fcd81283b7309c86578c"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a96f06d636376fcd81283b7309c86578c">&#9670;&nbsp;</a></span>GetData()</h2>
 
@@ -163,7 +173,7 @@ template&lt;typename... Props&gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>GetData 获取后端底层，如Kokkos::View&lt;double&gt; </p>
+<p>GetData 获取后端支持数据类型，如Kokkos::View&lt;double&gt; </p>
 <dl class="section return"><dt>返回</dt><dd>后端数据引用 </dd></dl>
 
 </div>
@@ -195,6 +205,43 @@ template&lt;typename... Props&gt; </div>
 
 <p>operator () </p>
 <dl class="section return"><dt>返回</dt><dd></dd></dl>
+
+</div>
+</div>
+<a id="ad9163fdc2706a471728e525ea3c29ba2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad9163fdc2706a471728e525ea3c29ba2">&#9670;&nbsp;</a></span>operator=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename... Props&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">CHIPSUM_FUNCTION_INLINE typename ::std::add_lvalue_reference&lt;<a class="el" href="classChipSum_1_1Numeric_1_1Scalar.html">Scalar</a>&gt;::type <a class="el" href="classChipSum_1_1Numeric_1_1Scalar.html">ChipSum::Numeric::Scalar</a>&lt; Props &gt;::operator= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classChipSum_1_1Numeric_1_1Scalar.html#a28dc3063da16f79115e7cc0f3f1cc3e1">value_type</a>&#160;</td>
+          <td class="paramname"><em>s</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>operator =，(*this)=s </p>
+<dl class="params"><dt>参数</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">s</td><td></td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>返回</dt><dd>(*this) </dd></dl>
 
 </div>
 </div>
@@ -235,7 +282,7 @@ template&lt;typename... Props&gt; </div>
 </div>
 </div>
 <hr/>该类的文档由以下文件生成:<ul>
-<li>/home/lky/code/git/ChipSum/chipsum/numeric/<a class="el" href="scalar_8hpp_source.html">scalar.hpp</a></li>
+<li>/home/xyk/work/ChipSum/chipsum/numeric/<a class="el" href="scalar_8hpp_source.html">scalar.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

@@ -39,6 +39,7 @@ CHIPSUM_FUNCTION_INLINE void scal(
         const Kokkos::View<ValueType*>& X,
         const Kokkos::View<ValueType>& A,
         const Kokkos::View<ValueType*>& R) {
+
     Kokkos::parallel_for(R.extent(0),
                          scal_functor<
                          ValueType

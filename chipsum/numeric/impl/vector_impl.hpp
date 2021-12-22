@@ -6,6 +6,7 @@
 #include "serial/vector_serial_impl.hpp"
 #include "kokkoskernels/vector_kokkoskernels_impl.hpp"
 
+
 namespace ChipSum {
 namespace Numeric {
 

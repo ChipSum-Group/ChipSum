@@ -46,7 +46,7 @@ CHIPSUM_FUNCTION_INLINE void create(Kokkos::View<ValueType>& r) {
 
 template <typename ValueType>
 CHIPSUM_FUNCTION_INLINE void deep_copy(
-        Kokkos::View<ValueType>& r,
+        const Kokkos::View<ValueType>& r,
         const ValueType& s
                                        ) {
 
@@ -65,15 +65,16 @@ template <typename ValueType>
  * @author: Li Kunyun
  */
 CHIPSUM_FUNCTION_INLINE void create(
-        const Kokkos::View<ValueType>& r,
+        Kokkos::View<ValueType>& r,
         const ValueType& s
         ) {
-    deep_copy(s, r);
+    r = Kokkos::View<ValueType>("scalar_" + std::to_string(scalar_name++));
+    deep_copy(r, s);
 }
 
 template <typename ValueType>
 CHIPSUM_FUNCTION_INLINE ValueType&
-get_item(Kokkos::View<ValueType>& s) {
+get_item(const Kokkos::View<ValueType>& s) {
     typename Kokkos::View<ValueType>::HostMirror h_s
             = Kokkos::create_mirror_view(s);
     Kokkos::deep_copy(h_s, s);
@@ -102,11 +103,8 @@ template <typename ValueType, typename OStreamT>
 CHIPSUM_FUNCTION_INLINE
 void print(const Kokkos::View<ValueType>& s,
            OStreamT& out) {
-    typename Kokkos::View<ValueType>::HostMirror h_s =
-            Kokkos::create_mirror_view(s);
-    Kokkos::deep_copy(h_s, s);
-    out << s.label() << ": ";
-    out << h_s() << endl;
+    out<<get_item(s)<<"\n";
+
 }
 
 
