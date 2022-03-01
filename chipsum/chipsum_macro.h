@@ -10,7 +10,11 @@
 /// \brief 根据需求修改
 #define CHIPSUM_DECLARED_FUNCTION inline
 
-
+#if defined(ChipSum_USE_KokkosKernels) || defined(ChipSum_USE_KokkosKernels64)
+#define CHIPSUM_SPECIAL_INLINE KOKKOS_INLINE_FUNCTION
+#elif
+#define CHIPSUM_SPECIAL_INLINE inline
+#endif
 #define CHIPSUM_UNUSED(x) (void)x;
 
 #define CSErr_t __int32_t

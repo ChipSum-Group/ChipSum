@@ -16,6 +16,7 @@
 #include "vector.hpp"
 
 #include "impl/serial/csr_serial_impl.hpp"
+#include "impl/serial/coo_serial_impl.hpp"
 
 
 #include "impl/kokkoskernels/csr_kokkoskernels_impl.hpp"
@@ -225,7 +226,41 @@ public:
     CHIPSUM_FUNCTION_INLINE void SPGEMM(SparseMatrix& B,SparseMatrix& C){
         ChipSum::Numeric::Impl::Sparse::spgemm
                 (__data,B.GetData(),C.GetData());
+    }
 
+    ///
+    /// \brief AKA: Experimental 待测试
+    /// \brief Multiply SPILU L*U=A-DETA
+    /// \param L [OUT] 上三角矩阵
+    /// \param U [OUT] 下三角矩阵
+    ///
+    CHIPSUM_FUNCTION_INLINE void SPILU(SparseMatrix& L,SparseMatrix& U,size_type fill_lev=2){
+        ChipSum::Numeric::Impl::Sparse::spilu(__data,L.GetData(),U.GetData(),fill_lev);
+    }
+    
+    ///
+    /// \brief COO矩阵获取CSR格式数据
+    /// \param csr_row_map 行索引，标准库vector类型输出
+    /// \param csr_col_map 列索引，标准库vector类型输出
+    /// \param csr_col_map 矩阵值，标准库vector<value_type>类型输出
+    ///
+    template<typename S>
+    CHIPSUM_FUNCTION_INLINE void GetCrsData(std::vector<S> &csr_row_map,
+                                            std::vector<S> &csr_col_map,
+                                            std::vector<value_type> &values){
+        ChipSum::Numeric::Impl::Sparse::get_csr_data(__data, csr_row_map, csr_col_map, values);
+    }
+
+    ///
+    /// \brief COO矩阵插入数据
+    /// \param csr_row_map 行索引，标准库vector类型输出
+    /// \param csr_col_map 列索引，标准库vector类型输出
+    /// \param csr_col_map 矩阵值，标准库vector<value_type>类型输出
+    ///
+    CHIPSUM_FUNCTION_INLINE void Insert(ordinal_type row,
+                                        ordinal_type col,
+                                        value_type value){
+        ChipSum::Numeric::Impl::Sparse::insert(__data, row, col, value);
     }
 
 };
@@ -235,8 +270,17 @@ public:
 typedef
 ChipSum::Numeric::SparseMatrix<CSFloat,
 ChipSum::Backend::DefaultBackend,
+// ChipSum::Backend::Serial,
 ChipSum::Numeric::SparseTypes::Csr,
 CSInt,
 CSInt
 >       CSR;
+
+typedef
+ChipSum::Numeric::SparseMatrix<CSFloat,
+ChipSum::Backend::Serial,
+ChipSum::Numeric::SparseTypes::Coo,
+CSInt,
+CSInt
+>       COO;
 #endif // SPARSEMATRIX_HPP

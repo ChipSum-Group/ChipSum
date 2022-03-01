@@ -2,7 +2,7 @@
 #define __CHIPSUM_DENSEMAT_KOKKOSKERNELS_SCAL_IMPL_HPP__
 
 #include <KokkosBlas1_scal.hpp>
-
+#include <Kokkos_DualView.hpp>
 
 #include "../../../chipsum_macro.h"
 
@@ -14,10 +14,10 @@ namespace DenseMat {
 template <typename ValueType, typename... Args>
 
 CHIPSUM_FUNCTION_INLINE void scal(
-        const Kokkos::View<ValueType **> &A,
-        Kokkos::View<ValueType **> &R,
+        const Kokkos::DualView<ValueType **> &A,
+        Kokkos::DualView<ValueType **> &R,
         const ValueType alpha) {
-    KokkosBlas::scal(R, alpha, A);
+    KokkosBlas::scal(R.d_view, alpha, A.d_view);
 }
 
 }

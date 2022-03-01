@@ -23,6 +23,11 @@ list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/densemat_kokkoskernels_scal_impl.h
 list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/densemat_kokkoskernels_gemv_impl.hpp")
 list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/densemat_kokkoskernels_gemm_impl.hpp")
 
+# list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/densemat_kokkoskernels_relu_impl.hpp")
+# list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/densemat_kokkoskernels_activation_impl.hpp")
+# list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/densemat_kokkoskernels_norm_impl.hpp")
+# list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/densemat_kokkoskernels_dense_impl.hpp")
+
 install(FILES ${HDRS} DESTINATION  ${CMAKE_INSTALL_PREFIX}/include/chipsum/numeric/impl/kokkoskernels)
 
 set(SOURCES ${SOURCES} ${SRCS} PARENT_SCOPE)

@@ -23,6 +23,7 @@
 
 #include "csr_serial_spmv_impl.hpp"
 
+
 namespace ChipSum {
 namespace Numeric {
 
@@ -88,12 +89,14 @@ create(serial_csr_format<ValueType> &A,
 template <typename ValueType>
 // 创建未初始化的CSR格式矩阵
 CHIPSUM_FUNCTION_INLINE void create(serial_csr_format<ValueType> &A,
-                                    const ::std::size_t row_map_size,
-                                    const ::std::size_t col_map_size) {
+                                    const ::std::size_t nrows,
+                                    const ::std::size_t ncols,
+                                    const ::std::size_t annz) {
 
-  A.vals.resize(col_map_size);
-  A.graph.row_map.resize(row_map_size);
-  A.graph.col_map.resize(col_map_size);
+  A.vals.resize(annz);
+  A.graph.row_map.resize(nrows+1);
+  A.graph.col_map.resize(annz);
+  A.col_num = ncols;
 }
 
 

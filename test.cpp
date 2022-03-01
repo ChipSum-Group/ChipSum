@@ -152,7 +152,6 @@ int main(int argc, char *argv[]) {
 
         run_cg(A,b,x,10e-5,1477);
 
-
         delete xadj;
         delete adj;
         delete ew;

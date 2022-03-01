@@ -11,6 +11,7 @@ list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/bmp_writer.h")
 list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/bmp_writer.cpp")
 
 list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/png_writer.hpp")
+list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/coo_reader.hpp")
 # list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/bmp_writer.cpp")
 
 

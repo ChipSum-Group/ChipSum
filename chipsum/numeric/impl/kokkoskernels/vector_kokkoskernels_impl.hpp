@@ -14,7 +14,7 @@
 #if defined(ChipSum_USE_KokkosKernels) || defined(ChipSum_USE_KokkosKernels64)
 
 #include <fstream>
-
+using namespace std;
 #include <KokkosBlas1_fill.hpp>
 
 
@@ -34,12 +34,9 @@ using namespace std;
 #include "vector_kokkoskernels_nrminf_impl.hpp"
 #include "vector_kokkoskernels_axpby_impl.hpp"
 
-/// 一个不幸的消息是vector的实现需要大改。
 /// 由于直接用view<type*>作为vector的数据底层，导致了数据无法灵活在
-/// device和host之间流转。所以这部分的底层数据类型需要替换为dualview
-/// 这个改动将会带来整个kokkos实现的大改，但好在接口本就不多。
+/// device和host之间流转。所以这部分的底层数据类型替换为dualview。
 
-/// 这部分工作不会太复杂。
 
 static int vector_name = 0;
 namespace ChipSum {
@@ -48,7 +45,7 @@ namespace Numeric {
 template <typename ValueType,typename ...Props>
 struct Vector_Traits<ValueType, ChipSum::Backend::KokkosKernels,Props...>
         : public Operator_Traits<ValueType> {
-    using vector_type = Kokkos::View<ValueType*>;
+    using vector_type = Kokkos::DualView<ValueType *>;
     using size_type = typename vector_type::size_type;
     using scalar_type = Kokkos::View<ValueType>;
     using value_type = typename vector_type::value_type;
@@ -89,27 +86,25 @@ template <typename ValueType> using traits = Vector_Traits<ValueType,ChipSum::Ba
 template<typename ValueType,typename ST>
 
 CHIPSUM_FUNCTION_INLINE void create(
-        Kokkos::View<ValueType*>& x,
+        Kokkos::DualView<ValueType *>& x,
         const ST& n
         )
 {
 
-    x = typename traits<ValueType>::vector_type("vector_" + ::std::to_string(vector_name++),
-                                                n);
+    x.resize(n);
 }
 
 template <typename ValueType,typename ST>
 CHIPSUM_FUNCTION_INLINE void create(
-        Kokkos::View<ValueType*>& x,
+        Kokkos::DualView<ValueType *>& x,
         const ST& n,
         ValueType* src
         ) {
-    typename traits<ValueType>::vector_type::HostMirror h_x(src, n);
-
-    if(x.extent(0)!=h_x.extent(0)){
-        x = typename traits<ValueType>::vector_type("vector_"+ ::std::to_string(vector_name++),n);
-    }
-    Kokkos::deep_copy(x, h_x);
+    
+    Kokkos::resize(x.d_view,n);
+    x.h_view = typename Kokkos::View<ValueType*>::HostMirror(src,n);
+    Kokkos::deep_copy(x.d_view, x.h_view);
+ 
 }
 
 
@@ -117,44 +112,65 @@ CHIPSUM_FUNCTION_INLINE void create(
 template <typename ValueType>
 CHIPSUM_FUNCTION_INLINE void
 deep_copy(
-        const Kokkos::View<ValueType*>& dst,
-        const Kokkos::View<ValueType*>& src)
+        const Kokkos::DualView<ValueType *>& dst,
+        const Kokkos::DualView<ValueType *>& src)
 {
 
-    Kokkos::deep_copy(dst, src);
+    Kokkos::deep_copy(dst.h_view, src.h_view);
+    Kokkos::deep_copy(dst.d_view, src.d_view);
 }
 
-template <typename ValueType,typename ST>
+template <typename ValueType>
+CHIPSUM_FUNCTION_INLINE void
+device_to_host(Kokkos::DualView<ValueType *>& x) 
+{
+    Kokkos::deep_copy(x.h_view, x.d_view);
+}
+
+template <typename ValueType>
+CHIPSUM_FUNCTION_INLINE void
+host_to_device(Kokkos::DualView<ValueType *>& x)
+{ 
+    Kokkos::deep_copy(x.d_view, x.h_view);
+}
+
+template <typename ValueType>
 CHIPSUM_FUNCTION_INLINE
 typename ::std::add_lvalue_reference<
 typename traits<ValueType>::vector_type::value_type
 >::type
 get_item(
-        const Kokkos::View<ValueType*>& vec,
-        const ST& index
+        const Kokkos::DualView<ValueType *>& vec,
+        const size_t index
         )
 {
-    return vec(index);
+    return vec.h_view(index);
+}
+
+template <typename ValueType>
+CHIPSUM_SPECIAL_INLINE
+ValueType&
+item(
+        const Kokkos::DualView<ValueType *>& vec,
+        const size_t index
+        )
+{
+    return vec.d_view(index);
 }
 
 template <typename ValueType>
 CHIPSUM_FUNCTION_INLINE
-void print(const Kokkos::View<ValueType*>& vec,
+void print( Kokkos::DualView<ValueType *>& vec,
            ::std::ostream& out)
 {
-    typename traits<ValueType>::vector_type::HostMirror
-            h_vec("h_vector",vec.extent(0));
+    Kokkos::deep_copy(vec.h_view, vec.d_view);
+    out<< vec.h_view.label()<<": ";
+    for(typename traits<ValueType>::vector_type::size_type i = 0; i < vec.extent(0)-1; ++i)
+        {
+            out << vec.h_view(i) << ", ";
+        }
+        out<<vec.h_view(vec.extent(0)-1)<<endl;
 
-    Kokkos::deep_copy(h_vec, vec);
-
-    out << vec.label() << ": [";
-    for (typename traits<ValueType>::vector_type::HostMirror::size_type i = 0;
-         i < h_vec.extent(0) - 1;
-         ++i) {
-        out << h_vec(i) << ", ";
-    }
-
-    out << h_vec(h_vec.extent(0) - 1) << "]" << std::endl;
 }
 
 

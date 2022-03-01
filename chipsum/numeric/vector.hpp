@@ -1,6 +1,6 @@
 ///
 /// \file     vector.hpp
-/// \author   Riiiichman-Li
+/// \author   Riiiichman-Li, Zhou Xingbin
 /// \group    CDCS-HPC
 /// \date     2021-11-01
 /// \brief    向量类用户接口
@@ -76,7 +76,7 @@ public:
     // 拷贝构造函数
     CHIPSUM_DECLARED_FUNCTION Vector(const Vector &) = default;
 
-    // 拷贝构造函数
+    // 移动构造函数
     CHIPSUM_DECLARED_FUNCTION Vector(Vector &&) = default;
 
 
@@ -89,17 +89,34 @@ public:
     CHIPSUM_DECLARED_FUNCTION Vector(const ST& size,Args... args)
         :__size(size)
     {
+        
         ChipSum::Numeric::Impl::Vector::create(__data,size,args...);
     }
 
 
 
 
-
+    ///
+    /// \brief Vector深拷贝
+    /// \param y 输出向量
+    ///
     CHIPSUM_FUNCTION_INLINE void DeepCopy(Vector& y){
         ChipSum::Numeric::Impl::Vector::deep_copy(__data,y.GetData());
     }
 
+    ///
+    /// \brief Device端到Host端数据深拷贝
+    ///
+    CHIPSUM_FUNCTION_INLINE void DeviceToHost(){
+        ChipSum::Numeric::Impl::Vector::device_to_host(__data);
+    }
+
+    ///
+    /// \brief Host端到Device端数据深拷贝
+    ///
+    CHIPSUM_FUNCTION_INLINE void HostToDevice(){
+        ChipSum::Numeric::Impl::Vector::host_to_device(__data);
+    }
 
     ///
     /// \brief GetData 获取后端数据类型
@@ -330,15 +347,34 @@ public:
     }
 
     ///
-    /// \brief operator () x(i)
+    /// \brief operator () x(i) CPU端索引
     /// \param i 下标索引
     /// \return
     ///
-    CHIPSUM_FUNCTION_INLINE value_type_ref operator()(size_type i) {
+    CHIPSUM_FUNCTION_INLINE value_type& operator()(const size_type i) {
         return ChipSum::Numeric::Impl::Vector::get_item(
-                    i, __data);
+                    __data ,i);
     }
 
+    ///
+    /// \brief operator [] x[i] 设备端索引访问
+    /// \param i 下标索引
+    /// \return
+    ///
+    CHIPSUM_SPECIAL_INLINE value_type& operator[](const size_type i)const {
+        return ChipSum::Numeric::Impl::Vector::item(
+                    __data ,i);
+    }
+
+    ///
+    /// \brief 同operator []， x.item(i) 设备端索引
+    /// \param i 下标索引
+    /// \return
+    ///
+    CHIPSUM_SPECIAL_INLINE value_type& Item(const size_type i) const {
+        return ChipSum::Numeric::Impl::Vector::item(
+                    __data ,i);
+    }
 
 
     ///

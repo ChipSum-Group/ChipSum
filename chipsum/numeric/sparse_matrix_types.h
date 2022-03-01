@@ -19,6 +19,8 @@ struct Csr: public SparseMatrixBase{};
 
 struct Csc:public SparseMatrixBase{};
 
+struct Coo: public SparseMatrixBase{};
+
 }
 }
 }
