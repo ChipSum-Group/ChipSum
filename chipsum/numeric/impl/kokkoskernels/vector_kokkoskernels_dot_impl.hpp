@@ -4,8 +4,7 @@
 
 
 #include <KokkosBlas1_dot.hpp>
-
-
+#include <Kokkos_DualView.hpp>
 #include "../../../chipsum_macro.h"
 
 namespace  ChipSum{
@@ -15,23 +14,23 @@ namespace Vector {
 
 template <typename ValueType>
 CHIPSUM_FUNCTION_INLINE ValueType dot(
-        const Kokkos::View<ValueType*>& x,
-        const Kokkos::View<ValueType*>& y
+        const Kokkos::DualView<ValueType *>& x,
+        const Kokkos::DualView<ValueType *>& y
         )
 {
 
-    return KokkosBlas::dot(x, y);
+    return KokkosBlas::dot(x.d_view, y.d_view);
 }
 
 template <typename ValueType,typename RefType>
 CHIPSUM_FUNCTION_INLINE void
 dot(
-        const Kokkos::View<ValueType*>& x,
-        const Kokkos::View<ValueType*>& y,
+        const Kokkos::DualView<ValueType *>& x,
+        const Kokkos::DualView<ValueType *>& y,
         RefType& r
         ) {
 
-    KokkosBlas::dot(r, x, y);
+    KokkosBlas::dot(r, x.d_view, y.d_view);
 }
 
 }

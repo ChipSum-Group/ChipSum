@@ -3,8 +3,7 @@
 
 
 #include <KokkosBlas1_scal.hpp>
-
-
+#include <Kokkos_DualView.hpp>
 #include "../../../chipsum_macro.h"
 
 namespace  ChipSum{
@@ -15,9 +14,9 @@ namespace  Vector{
 template <typename ValueType>
 /// y = a*x 的函数子
 struct scal_functor {
-    scal_functor(const Kokkos::View<ValueType*>& r,
+    scal_functor(const Kokkos::DualView<ValueType *>& r,
                  const Kokkos::View<ValueType>& a,
-                 const Kokkos::View<ValueType*>& x
+                 const Kokkos::DualView<ValueType *>& x
                  )
         :__r(r),__a(a),__x(x)
     {}
@@ -27,18 +26,18 @@ struct scal_functor {
     }
 
 private:
-    Kokkos::View<ValueType*> __r;
+    Kokkos::DualView<ValueType *> __r;
     Kokkos::View<ValueType> __a;
-    Kokkos::View<ValueType*> __x;
+    Kokkos::DualView<ValueType *> __x;
 
 };
 
 template <typename ValueType>
 CHIPSUM_FUNCTION_INLINE void scal(
 
-        const Kokkos::View<ValueType*>& X,
+        const Kokkos::DualView<ValueType *>& X,
         const Kokkos::View<ValueType>& A,
-        const Kokkos::View<ValueType*>& R) {
+        const Kokkos::DualView<ValueType *>& R) {
 
     Kokkos::parallel_for(R.extent(0),
                          scal_functor<
@@ -48,12 +47,12 @@ CHIPSUM_FUNCTION_INLINE void scal(
 
 template <typename ValueType,typename RefType>
 CHIPSUM_FUNCTION_INLINE void scal(
-        const Kokkos::View<ValueType*>& X,
+        const Kokkos::DualView<ValueType *>& X,
         const RefType& a,
-        const Kokkos::View<ValueType*>& R
+        const Kokkos::DualView<ValueType *>& R
         )
 {
-    KokkosBlas::scal(R, a, X);
+    KokkosBlas::scal(R.d_view, a, X.d_view);
 }
 
 }

@@ -13,13 +13,43 @@ using namespace std;
 
 #include "ChipSum.hpp"
 
-
+#include <Kokkos_Core.hpp>
 #include <KokkosKernels_IOUtils.hpp>
+#include "chipsum/common/coo_reader.hpp"
 
 #define N 5
 #define M 3
 
 
+struct ParallelPrintf_matrix {
+    
+    Matrix _data;
+
+    ParallelPrintf_matrix(Matrix data) : _data(data){}
+
+    CHIPSUM_SPECIAL_INLINE
+    void operator() (const int64_t i, const int64_t j) const {
+        printf("%f** ", _data.Item(i,j)); 
+        // printf("%f** ", _data[i][j]); 
+    }
+};
+
+struct ParallelPrintf_vec {
+
+    ParallelPrintf_vec(double *v):_vec(N,v){   
+        _vec.Print();
+    }
+
+    CHIPSUM_SPECIAL_INLINE
+    void operator ()(const int i ) const {
+        _vec[i] = 12;
+        printf("AAA: %f\n", _vec.Item(i));
+
+    }
+
+    private:
+    Vector _vec;
+};
 
 
 int main(int argc, char *argv[]) {
@@ -39,7 +69,13 @@ int main(int argc, char *argv[]) {
         a.Print();
         Vector b(N,v2); // b = {0,1,2,3,4}
         
+        // a.HostToDevice();
+        // a.DeviceToHost();
+        
         a += b; // a = {0,2,4,6,8}
+
+        cout<<"vector host index "<<a(1)<<std::endl;
+        Kokkos::parallel_for("dev_p",N, ParallelPrintf_vec(v1));
         
         a += b; // a = {0,3,6,9,12}
         
@@ -98,7 +134,7 @@ int main(int argc, char *argv[]) {
         for(int i=0;i<N*N;++i)
         {
 
-            A1[i] = 0;
+            A1[i] = -1;
 
         }
         for(int i=0;i<N;++i)
@@ -111,14 +147,28 @@ int main(int argc, char *argv[]) {
 
         double *A2 = static_cast<double *>(std::malloc(N*M * sizeof(double)));
 
-        ;
-
-        Matrix A(N, N,A1);
+        Matrix A(N, N, A1);
         A.Print();
+
+        A.Norm();
+        A.Print();
+        // A.LeakyRelu();
+        A.Softmax();
+
+        A.Print();
+
+        using mdrange_policy = Kokkos::MDRangePolicy<Kokkos::Rank<2>>;
+        ParallelPrintf_matrix functor(A);
+        Kokkos::parallel_for( "device_out", mdrange_policy({0,0}, {5,5}), functor);
+
+        A(0,0)=0;
+        A.HostToDevice();
+        A.DeviceToHost();
+        A.Print();
+        
 
         auto y = A*a;
         (A*a).Print();
-
 
 
         for (int i=0;i<N*M;++i) {
@@ -137,6 +187,23 @@ int main(int argc, char *argv[]) {
         Matrix B(N,M,A2);
         B.Print();
 
+        double *A3 = static_cast<double *>(std::malloc(N*M * sizeof(double)));
+        for (int i=0;i<N*M;++i) {
+            A3[i] = 0;
+        }
+        Matrix C(N,M,A3);
+
+        double *A4 = static_cast<double *>(std::malloc(M * sizeof(double)));
+        for (int i=0;i<M;++i) {
+            A4[i] = -100;
+        }
+        Vector bias(M, A4);
+
+        A.Dense("N", "N", B, C);
+        A.Dense("N", "N", B, bias, C);
+        C.Print();
+        cout<<"dense result"<<endl;
+        
         (A*B*3).Print();
 
 
@@ -167,7 +234,7 @@ int main(int argc, char *argv[]) {
         CSInt annz = 13;
         CSInt *row_map = (CSInt *)malloc(6 * sizeof(CSInt));
         CSInt *col_map = (CSInt *)malloc(13 * sizeof(CSInt));
-        double *values = (double *)malloc(13 * sizeof(double));
+        CSFloat *values = (double *)malloc(13 * sizeof(double));
         row_map[0] = 0;
         row_map[1] = 3;
         row_map[2] = 5;
@@ -208,16 +275,64 @@ int main(int argc, char *argv[]) {
 
         s_M.SavePatternFig("mtx.PNG");
 */
+        CSInt *row_map2 = (CSInt *)malloc(5 * sizeof(CSInt));
+        CSInt *col_map2 = (CSInt *)malloc(5 * sizeof(CSInt));
+        CSFloat *values2 = (double *)malloc(5 * sizeof(double));
+        row_map2[0] = 0;
+        row_map2[1] = 1;
+        row_map2[2] = 2;
+        row_map2[3] = 3;
+        row_map2[4] = 4;
+
+        col_map2[0] = 0;
+        col_map2[1] = 1;
+        col_map2[2] = 2;
+        col_map2[3] = 3;
+        col_map2[4] = 4;
+
+        values2[0] = 1;
+        values2[1] = 2;
+        values2[2] = 3;
+        values2[3] = 4;
+        values2[4] = 5;
+        COO s_C(nrows,ncols,5,row_map2,col_map2,values2);
+        s_C.Insert(1,2,7.0);
+        std::vector<int> t_row_map, t_col_map;
+        std::vector<CSFloat> t_values;
+        // s_C.GetCrsData(t_row_map, t_col_map, t_values);
+
+
+        //read coo
+        int nr, nc, nz;
+        int *rm, *cm;
+        CSFloat *vals;
+        ChipSum::Common::coo_reader(nr, nc, nz, rm, cm, vals, "../data/A.mtx" );
+        COO sparse_coo(nr,nc,nz,rm,cm,vals);
+        //coo to csr
+        sparse_coo.GetCrsData(t_row_map, t_col_map, t_values);
+        CSR sparse_csr(nr,nc,nz,t_row_map.data(),t_col_map.data(),t_values.data());
+
+        
+
+
+        delete rm;
+        delete cm;
+        delete vals;
 
         std::free(row_map);
         std::free(col_map);
         std::free(values);
+        std::free(row_map2);
+        std::free(col_map2);
+        std::free(values2);
         
 
         std::free(v1);
         std::free(v2);
         std::free(A1);
         std::free(A2);
+        std::free(A3);
+        std::free(A4);
     }
     ChipSum::Common::Finalize();
 }

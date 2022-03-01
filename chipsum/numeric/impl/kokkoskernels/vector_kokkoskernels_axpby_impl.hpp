@@ -3,8 +3,7 @@
 
 
 #include <KokkosBlas1_axpby.hpp>
-
-
+#include <Kokkos_DualView.hpp>
 #include "../../../chipsum_macro.h"
 
 namespace  ChipSum{
@@ -17,35 +16,35 @@ namespace Vector {
 
 template <typename ValueType>
 CHIPSUM_FUNCTION_INLINE void add(
-        const Kokkos::View<ValueType*>& X,
-        Kokkos::View<ValueType*>& Y) {
-    KokkosBlas::axpy(1, X, Y);
+        const Kokkos::DualView<ValueType *>& X,
+        Kokkos::DualView<ValueType *>& Y) {
+    KokkosBlas::axpy(1, X.d_view, Y.d_view);
 }
 
 template <typename ValueType>
 CHIPSUM_FUNCTION_INLINE void axpby(
-        const Kokkos::View<ValueType*>& X,
-        Kokkos::View<ValueType*>& Y) {
-    KokkosBlas::axpy(1, X, Y);
+        const Kokkos::DualView<ValueType *>& X,
+        Kokkos::DualView<ValueType *>& Y) {
+    KokkosBlas::axpy(1, X.d_view, Y.d_view);
 }
 
 
 template <typename ValueType,typename AlphaT>
 CHIPSUM_FUNCTION_INLINE void axpby(
-        const Kokkos::View<ValueType*>& X,
-        Kokkos::View<ValueType*>& Y,
+        const Kokkos::DualView<ValueType *>& X,
+        Kokkos::DualView<ValueType *>& Y,
         const AlphaT& A) {
-    KokkosBlas::axpy(A, X, Y);
+    KokkosBlas::axpy(A, X.d_view, Y.d_view);
 }
 
 template <typename ValueType, typename AlphaT, typename BetaT>
 CHIPSUM_FUNCTION_INLINE void
-axpby(const Kokkos::View<ValueType*>& X,
-      Kokkos::View<ValueType*>& Y,
+axpby(const Kokkos::DualView<ValueType *>& X,
+      Kokkos::DualView<ValueType *>& Y,
       const AlphaT& A,
       const BetaT& B
       ) {
-    KokkosBlas::axpby(A, X, B, Y);
+    KokkosBlas::axpby(A, X.d_view, B, Y.d_view);
 }
 }
 }

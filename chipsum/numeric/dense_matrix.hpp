@@ -123,6 +123,19 @@ public:
         ChipSum::Numeric::Impl::DenseMat::get_row_copy(__data,x.GetData(),i);
     }
 
+    ///
+    /// \brief Device端到Host端数据深拷贝
+    ///
+    CHIPSUM_FUNCTION_INLINE void DeviceToHost(){
+        ChipSum::Numeric::Impl::DenseMat::device_to_host(__data);
+    }
+
+    ///
+    /// \brief Host端到Device端数据深拷贝
+    ///
+    CHIPSUM_FUNCTION_INLINE void HostToDevice(){
+        ChipSum::Numeric::Impl::DenseMat::host_to_device(__data);
+    }
 
     ///
     /// \brief operator * GEMM
@@ -148,6 +161,32 @@ public:
 
     }
 
+    ///
+    /// \brief LU分解
+    /// \param tiny 分解精度,默认为0
+    ///
+    CHIPSUM_FUNCTION_INLINE void LU(const value_type tiny = 0) {
+        ChipSum::Numeric::Impl::DenseMat::lu(__data,tiny);
+    }
+
+    ///
+    /// \brief QR分解
+    /// \param 输出矩阵系数
+    /// \param 输出矩阵系数
+    ///
+    CHIPSUM_FUNCTION_INLINE void QR(vector_type &x,vector_type& y) {
+        ChipSum::Numeric::Impl::DenseMat::qr(__data,x.GetData(),y.GetData());
+    }
+
+    ///
+    /// \brief HESSENBERG变换
+    /// \param 输出矩阵系数t
+    /// \param 输出矩阵系数w
+    ///
+    CHIPSUM_FUNCTION_INLINE void HESSENBERG(vector_type &t,vector_type& w) {
+        ChipSum::Numeric::Impl::DenseMat::hessenberg(__data,t.GetData(),w.GetData());
+    }
+    
 
     ///
     /// \brief operator * GEMV
@@ -235,6 +274,115 @@ public:
                     __data,i,j);
     }
 
+
+    ///
+    /// \brief operator [], 获取device端 A(i,j)值
+    ///        device端 仅返回二维中的该行的首地址，列由C++自身寻址完成
+    /// \param i 行索引
+    /// \param j 列索引
+    /// \return A[i,0]
+    ///
+    CHIPSUM_SPECIAL_INLINE value_type *operator[](const_size_type_ref i) const{
+        return ChipSum::Numeric::Impl::DenseMat::item(__data, i, 0);
+    }
+
+    ///
+    /// \brief Item函数, 获取device端 A(i,j)值
+    /// \param i 行索引
+    /// \param j 列索引
+    /// \return A[i,j]
+    ///
+    CHIPSUM_SPECIAL_INLINE value_type & Item(const_size_type_ref i,
+                                              const_size_type_ref j) const{
+        return *(ChipSum::Numeric::Impl::DenseMat::item(__data, i, j));
+    }
+
+    // ********************** AI op start ********************** //
+    
+    ///
+    /// \brief dense, without bias, out = __data * weight
+    /// \return out
+    /// 
+    CHIPSUM_FUNCTION_INLINE void Dense(DenseMatrix& weight, DenseMatrix& out) {
+        return ChipSum::Numeric::Impl::DenseMat::dense(__data, weight.GetData(), out.GetData());
+    }
+
+    ///
+    /// \brief dense, without bias, out = __data * weight, with transpose parameter
+    /// \return out
+    /// 
+    CHIPSUM_FUNCTION_INLINE void Dense(const char transA[], const char transB[], 
+                                        DenseMatrix& weight, DenseMatrix& out) {
+        return ChipSum::Numeric::Impl::DenseMat::dense(__data, weight.GetData(), out.GetData(), transA, transB);
+    }
+
+    ///
+    /// \brief dense, with bias, out = __data * weight + bias
+    /// \return out
+    /// 
+    CHIPSUM_FUNCTION_INLINE void Dense(DenseMatrix& weight, vector_type& bias, DenseMatrix& out) {
+        return ChipSum::Numeric::Impl::DenseMat::dense(__data, weight.GetData(), bias.GetData(), out.GetData());
+    }
+
+    ///
+    /// \brief dense, with bias, out = __data * weight + bias, with transpose parameter
+    /// \return out
+    /// 
+    CHIPSUM_FUNCTION_INLINE void Dense(const char transA[], const char transB[], 
+                                        DenseMatrix& weight, vector_type& bias, DenseMatrix& out) {
+        return ChipSum::Numeric::Impl::DenseMat::dense(__data, weight.GetData(), bias.GetData(), out.GetData(), transA, transB);
+    }
+
+    ///
+    /// \brief Relu, val>0 ? val : 0
+    /// \return A[i,j]
+    /// 
+    CHIPSUM_FUNCTION_INLINE void Relu() {
+        return ChipSum::Numeric::Impl::DenseMat::relu(__data);
+    }
+
+    ///
+    /// \brief LeakyRelu, val>0 ? val : 0.01*val
+    /// \return A[i,j]
+    /// 
+    CHIPSUM_FUNCTION_INLINE void LeakyRelu() {
+        return ChipSum::Numeric::Impl::DenseMat::leakyrelu(__data);
+    }
+
+    ///
+    /// \brief Softmax
+    /// \return A[i,j]
+    /// 
+    CHIPSUM_FUNCTION_INLINE void Softmax() {
+        return ChipSum::Numeric::Impl::DenseMat::softmax(__data);
+    }
+
+    ///
+    /// \brief logSoftmax
+    /// \return A[i,j]
+    /// 
+    CHIPSUM_FUNCTION_INLINE void LogSoftmax() {
+        return ChipSum::Numeric::Impl::DenseMat::softmax(__data, true);
+    }
+
+    ///
+    /// \brief norm
+    /// \return A[i,j]
+    /// 
+    CHIPSUM_FUNCTION_INLINE void Norm() {
+        return ChipSum::Numeric::Impl::DenseMat::norm(__data);
+    }
+
+    ///
+    /// \brief argma
+    /// \return int index of the max value
+    /// 
+    template<typename OStreamT=std::ostream>
+    CHIPSUM_FUNCTION_INLINE void Argmax(OStreamT &out = std::cout) {
+        ChipSum::Numeric::Impl::DenseMat::argmax(__data,out);
+    }
+
+    // ********************** AI op finish ********************** //
 
     template<typename OStreamT=std::ostream>
     ///

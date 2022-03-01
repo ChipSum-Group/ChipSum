@@ -65,9 +65,9 @@ install(TARGETS chipsum DESTINATION lib)
 install(FILES ChipSum.hpp DESTINATION include)
 
 
-
+# "spilu.cpp" "mnist.cpp"
 add_executable(ChipSum
-    "test2.cpp"
+    "examples/mnist.cpp"
     "ChipSum.hpp"
     )
 install(TARGETS ChipSum  DESTINATION bin)

@@ -31,6 +31,7 @@
 
 #include "csr_kokkoskernels_spmv_impl.hpp"
 #include "csr_kokkoskernels_spgemm_impl.hpp"
+#include "csr_kokkoskernels_spilu_impl.hpp"
 
 /*
 //  这一部分实现的接口与crs_serial_impl.hpp中类似，不再反复添加注释
@@ -106,7 +107,7 @@ template <typename ValueType,
 
 CHIPSUM_FUNCTION_INLINE void
 create(matrix_type &A,
-       const OrdinalType row_map_size, const OrdinalType col_map_size) {
+       const OrdinalType row_map_size, const OrdinalType col_map_size, const OrdinalType) {
 
     typename matrix_type::row_map_type row_map(
                 "row_map_" + A.label(),
@@ -119,11 +120,6 @@ create(matrix_type &A,
 
     A = matrix_type(A.label(), graph);
 }
-
-
-
-
-
 
 template <typename ValueType,
           typename OrdinalType,

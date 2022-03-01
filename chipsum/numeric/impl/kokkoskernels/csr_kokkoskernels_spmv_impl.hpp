@@ -4,6 +4,7 @@
 #include "../../../chipsum_macro.h"
 
 #include <KokkosSparse_spmv.hpp>
+#include <Kokkos_DualView.hpp>
 #include <KokkosKernels_default_types.hpp>
 
 namespace  ChipSum{
@@ -18,10 +19,10 @@ template <typename ValueType,
           typename SizeType>
 CHIPSUM_FUNCTION_INLINE void
 spmv(const KokkosSparse::CrsMatrix<ValueType,OrdinalType, default_device,void,SizeType> &A,
-     const Kokkos::View<ValueType *> &x,
-     Kokkos::View<ValueType *> &b)
+     const Kokkos::DualView<ValueType *> &x,
+     Kokkos::DualView<ValueType *> &b)
 {
-    KokkosSparse::spmv("N", 1, A, x,0, b);
+    KokkosSparse::spmv("N", 1, A, x.d_view,0, b.d_view);
 }
 
 
@@ -30,10 +31,10 @@ template <typename ValueType,
           typename SizeType>
 CHIPSUM_FUNCTION_INLINE void
 spmv(const KokkosSparse::CrsMatrix<ValueType,OrdinalType, default_device,void,SizeType> &A,
-     const Kokkos::View<ValueType **> &B,
-     Kokkos::View<ValueType **> &C) {
-    KokkosSparse::spmv("N", static_cast<ValueType>(1), A, B,
-                       static_cast<ValueType>(0), C);
+     const Kokkos::DualView<ValueType **> &B,
+     Kokkos::DualView<ValueType **> &C) {
+    KokkosSparse::spmv("N", static_cast<ValueType>(1), A, B.d_view,
+                       static_cast<ValueType>(0), C.d_view);
 }
 
 template <typename ValueType,
@@ -44,11 +45,11 @@ template <typename ValueType,
           >
 CHIPSUM_FUNCTION_INLINE void
 spmv(const KokkosSparse::CrsMatrix<ValueType,OrdinalType, default_device,void,SizeType> &A,
-     Kokkos::View<ValueType *> &x,
-     Kokkos::View<ValueType *> &b,
+     Kokkos::DualView<ValueType *> &x,
+     Kokkos::DualView<ValueType *> &b,
      AlphaT alpha,
      BetaT beta) {
-    KokkosSparse::spmv("N", alpha, A, x, beta, b);
+    KokkosSparse::spmv("N", alpha, A, x.d_view, beta, b.d_view);
 }
 
 template <typename ValueType,
@@ -59,12 +60,12 @@ template <typename ValueType,
           >
 CHIPSUM_FUNCTION_INLINE void
 spmv(const KokkosSparse::CrsMatrix<ValueType,OrdinalType, default_device,void,SizeType> &A,
-     Kokkos::View<ValueType *> &x,
-     Kokkos::View<ValueType *> &b,
+     Kokkos::DualView<ValueType *> &x,
+     Kokkos::DualView<ValueType *> &b,
      AlphaT alpha,
      BetaT beta,
      const char transA[]) {
-    KokkosSparse::spmv(transA, alpha, A, x, beta, b);
+    KokkosSparse::spmv(transA, alpha, A, x.d_view, beta, b.d_view);
 }
 
 }
