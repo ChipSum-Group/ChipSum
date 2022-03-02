@@ -54,17 +54,17 @@ for i in range(1,len(sys.argv)):
 
 
 def kokkos_source_build():
-    if os.path.exists("./tpl/kokkos/build"):
-    	os.system("rm -rf ./tpl/kokkos/build")
+    if os.path.exists("./tpls/kokkos/build"):
+    	os.system("rm -rf ./tpls/kokkos/build")
     	
-    os.mkdir("./tpl/kokkos/build")
-    if os.path.exists("./tpl/kokkos-build"):
-    	os.system("rm -rf ./tpl/kokkos-build")    
-    os.mkdir("./tpl/kokkos-build")
+    os.mkdir("./tpls/kokkos/build")
+    if os.path.exists("./tpls/kokkos-build"):
+    	os.system("rm -rf ./tpls/kokkos-build")    
+    os.mkdir("./tpls/kokkos-build")
         
  
     org_path = os.path.abspath(".")
-    os.chdir("./tpl/kokkos/build")
+    os.chdir("./tpls/kokkos/build")
     
     bash = "../generate_makefile.bash "
       
@@ -82,7 +82,7 @@ def kokkos_source_build():
     kokkos_arch = "--arch="+arch+" "
     
     if cuda_path:
-        compiler = "--compiler="+org_path+"/tpl/kokkos/bin/nvcc_wrapper "
+        compiler = "--compiler="+org_path+"/tpls/kokkos/bin/nvcc_wrapper "
     else:
         compiler = "--compiler="+chipsum_compiler+" "
     
@@ -94,15 +94,15 @@ def kokkos_source_build():
     
     
 def kokkoskernels_source_build():
-    if os.path.exists("./tpl/kokkos-kernels/build"):
-    	os.system("rm -rf ./tpl/kokkos-kernels/build")
-    os.mkdir("./tpl/kokkos-kernels/build")
+    if os.path.exists("./tpls/kokkos-kernels/build"):
+    	os.system("rm -rf ./tpls/kokkos-kernels/build")
+    os.mkdir("./tpls/kokkos-kernels/build")
 
-    if os.path.exists("./tpl/kokkos-kernels-build"):
-    	os.system("rm -rf ./tpl/kokkos-kernels-build")
-    os.mkdir("./tpl/kokkos-kernels-build")    
+    if os.path.exists("./tpls/kokkos-kernels-build"):
+    	os.system("rm -rf ./tpls/kokkos-kernels-build")
+    os.mkdir("./tpls/kokkos-kernels-build")    
     org_path = os.path.abspath(".")
-    os.chdir("./tpl/kokkos-kernels/build")
+    os.chdir("./tpls/kokkos-kernels/build")
     
     bash = "../cm_generate_makefile.bash "
 
@@ -126,7 +126,7 @@ def kokkoskernels_source_build():
 
     compiler = ""        
     if cuda_path:
-        compiler = "--compiler="+org_path+"/tpl/kokkos/bin/nvcc_wrapper "
+        compiler = "--compiler="+org_path+"/tpls/kokkos/bin/nvcc_wrapper "
     else:
         compiler = "--compiler="+chipsum_compiler+" "
     
@@ -146,19 +146,19 @@ tpl_build_flags = [
         ]
 
 tpl_source_flags = [
-        "./tpl/kokkos/CMakeLists.txt",
-        "./tpl/kokkos-kernels/CMakeLists.txt"
+        "./tpls/kokkos/CMakeLists.txt",
+        "./tpls/kokkos-kernels/CMakeLists.txt"
         ]
 
 
 tpl_lib64_flags = [
-        "./tpl/kokkos-build/lib64/cmake/Kokkos/KokkosConfig.cmake",
-        "./tpl/kokkos-kernels-build/lib64/cmake/KokkosKernels/KokkosKernelsConfig.cmake"
+        "./tpls/kokkos-build/lib64/cmake/Kokkos/KokkosConfig.cmake",
+        "./tpls/kokkos-kernels-build/lib64/cmake/KokkosKernels/KokkosKernelsConfig.cmake"
         ]
         
 tpl_lib_flags = [
-        "./tpl/kokkos-build/lib/cmake/Kokkos/KokkosConfig.cmake",
-        "./tpl/kokkos-kernels-build/lib/cmake/KokkosKernels/KokkosKernelsConfig.cmake"
+        "./tpls/kokkos-build/lib/cmake/Kokkos/KokkosConfig.cmake",
+        "./tpls/kokkos-kernels-build/lib/cmake/KokkosKernels/KokkosKernelsConfig.cmake"
         ]
 
 
