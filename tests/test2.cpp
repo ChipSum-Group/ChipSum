@@ -5,8 +5,8 @@
 /// \date     2021-12-21
 /// \brief    %stuff%
 ///
-#include "ChipSum.hpp"
-#include "chipsum/chipsum_macro.h"
+#include "../ChipSum.hpp"
+#include "../chipsum/chipsum_macro.h"
 
 #include <Kokkos_Core.hpp>
 #include <Kokkos_Vector.hpp>

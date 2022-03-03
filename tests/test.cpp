@@ -21,8 +21,8 @@ using namespace std;
 
 
 
-#include "ChipSum.hpp"
-#include "chipsum/chipsum_macro.h"
+#include "../ChipSum.hpp"
+#include "../chipsum/chipsum_macro.h"
 
 
 
@@ -117,6 +117,8 @@ int main(int argc, char *argv[]) {
     char* filename_A = argv[1];
     char* filename_b = argv[2];
 
+    if(filename_A == nullptr) filename_A = "../data/A.mtx";
+
     ChipSum::Common::Init(argc, argv);
     {
 
@@ -128,7 +130,7 @@ int main(int argc, char *argv[]) {
 
         CSR A(nv,nv,ne,xadj,adj,ew);
 
-        A.SavePatternFig("A.PNG");
+        A.SavePatternFig("../A.PNG");
 
 
         vector<double> b_data;

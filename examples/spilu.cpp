@@ -15,8 +15,8 @@ using namespace std;
 
 #include <vector>
 
-#include "ChipSum.hpp"
-#include "chipsum/chipsum_macro.h"
+#include "../ChipSum.hpp"
+#include "../chipsum/chipsum_macro.h"
 
 
 int main(int argc, char *argv[]) {
