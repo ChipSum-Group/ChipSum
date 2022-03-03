@@ -11,8 +11,8 @@ using namespace std;
 
 #include <KokkosKernels_default_types.hpp>
 
-#include "tpl/kokkos-kernels/test_common/KokkosKernels_Test_Structured_Matrix.hpp"
-#include "ChipSum.hpp"
+#include "../tpls/kokkos-kernels/test_common/KokkosKernels_Test_Structured_Matrix.hpp"
+#include "../ChipSum.hpp"
 
 
 using Scal  = default_scalar;
