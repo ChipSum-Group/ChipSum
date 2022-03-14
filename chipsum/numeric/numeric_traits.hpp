@@ -47,7 +47,9 @@ template<typename ...Props>
 struct Sparse_Traits: public Operator_Traits<Props...>
 {};
 
-
+template<size_t NDIM, typename ...Props>
+struct Tensor_Traits: public Operator_Traits<Props...>
+{};
 
 
 //template <typename... Props>

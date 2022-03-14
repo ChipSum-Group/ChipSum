@@ -8,5 +8,6 @@
 #include "chipsum/numeric/vector.hpp"
 #include "chipsum/numeric/dense_matrix.hpp"
 #include "chipsum/numeric/sparse_matrix.hpp"
+#include "chipsum/numeric/tensor.hpp"
 
 #endif
