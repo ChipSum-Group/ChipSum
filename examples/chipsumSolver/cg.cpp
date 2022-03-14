@@ -1,14 +1,9 @@
-///
-/// \file     ex1.cpp
-/// \author   yaojie yu
-/// \group    CDCS-HPC
-/// \date     2021-12-14
-/// \brief    %stuff%
-///
-
-
-
-
+/* * * * * * * * * * * * * * * * * * * * *
+ *   File:     cg.cpp
+ *   Author:   Yaojie Yu
+ *   group:    CDCS-HPC
+ *   Time:     2021-12-14
+ * * * * * * * * * * * * * * * * * * * * * */
 
 #include "ChipSum.hpp"
 #include "chipsum/chipsum_macro.h"
