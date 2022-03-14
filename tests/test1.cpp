@@ -11,11 +11,11 @@ using namespace std;
 #include <type_traits>
 #include <vector>
 
-#include "ChipSum.hpp"
+#include "../ChipSum.hpp"
 
 #include <Kokkos_Core.hpp>
 #include <KokkosKernels_IOUtils.hpp>
-#include "chipsum/common/coo_reader.hpp"
+#include "../chipsum/common/coo_reader.hpp"
 
 #define N 5
 #define M 3

@@ -26,16 +26,16 @@ set(CMAKE_INCLUDE_DIRECTORIES_BEFORE on)
 
 set(ChipSum_ENABLE_KokkosKernels ON)
 if(ChipSum_ENABLE_KokkosKernels)
-    if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/tpl/kokkos-build/lib)
-        set(Kokkos_LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tpl/kokkos-build/lib)
-    elseif(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/tpl/kokkos-build/lib64)
-        set(Kokkos_LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tpl/kokkos-build/lib64)
+    if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/tpls/kokkos-build/lib)
+        set(Kokkos_LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tpls/kokkos-build/lib)
+    elseif(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/tpls/kokkos-build/lib64)
+        set(Kokkos_LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tpls/kokkos-build/lib64)
     endif()
 
-    if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/tpl/kokkos-kernels-build/lib)
-        set(KokkosKernels_LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tpl/kokkos-kernels-build/lib)
-    elseif(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/tpl/kokkos-kernels-build/lib64)
-        set(KokkosKernels_LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tpl/kokkos-kernels-build/lib64)
+    if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/tpls/kokkos-kernels-build/lib)
+        set(KokkosKernels_LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tpls/kokkos-kernels-build/lib)
+    elseif(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/tpls/kokkos-kernels-build/lib64)
+        set(KokkosKernels_LIB_DIR ${CMAKE_CURRENT_SOURCE_DIR}/tpls/kokkos-kernels-build/lib64)
     endif()
 
     add_definitions("-DChipSum_USE_KokkosKernels=on")
@@ -65,9 +65,9 @@ install(TARGETS chipsum DESTINATION lib)
 install(FILES ChipSum.hpp DESTINATION include)
 
 
-# "spilu.cpp" "mnist.cpp"
+# "examples/chipsumAI/mnist.cpp" "examples/chipsumSolver/lu.cpp" "tests/test1.cpp" "perf_test/perf_test.cpp"
 add_executable(ChipSum
-    "examples/mnist.cpp"
+    "tests/test1.cpp"
     "ChipSum.hpp"
     )
 install(TARGETS ChipSum  DESTINATION bin)
