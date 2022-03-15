@@ -79,4 +79,15 @@ target_include_directories(ChipSum PUBLIC
                            )
 
 
+add_executable(ChipSumMnist
+    "examples/chipsumAI/mnist.cpp"
+    "ChipSum.hpp"
+    )
+install(TARGETS ChipSumMnist  DESTINATION bin)
+target_link_libraries(ChipSumMnist PUBLIC ${CHIPSUM_LIBS}  )
+target_include_directories(ChipSumMnist PUBLIC
+                            "${PROJECT_BINARY_DIR}"
+                            )
+
+
 
