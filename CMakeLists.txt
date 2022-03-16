@@ -1,13 +1,10 @@
 cmake_minimum_required(VERSION 3.5)
 
 set(CMAKE_CXX_STANDARD 14)
-#set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 project(ChipSum VERSION 1.0)
 
 configure_file(ChipSumConfig.h.in ChipSumConfig.h)
-
-
 
 set(CMAKE_CXX_FLAGS "-Wall"${CMAKE_CXX_FLAGS})
 
@@ -18,6 +15,7 @@ set(CHIPSUM_SOURCES "")
 set(CHIPSUM_HEADERS "")
 
 add_subdirectory("unit_test")
+
 add_subdirectory("chipsum")
 
 set(CMAKE_INCLUDE_DIRECTORIES_BEFORE on)
@@ -52,28 +50,29 @@ if(ChipSum_ENABLE_KokkosKernels)
 
 endif()
 
-
 add_definitions("-fopenmp")
-
-
 
 add_library(chipsum ${CHIPSUM_SOURCES} ${CHIPSUM_HEADERS})
 
 list(APPEND CHIPSUM_LIBS chipsum)
 
-install(TARGETS chipsum DESTINATION lib)
-install(FILES ChipSum.hpp DESTINATION include)
+# set .exe name
+set(EXE_NAME test2)
 
-
-# "examples/chipsumAI/mnist.cpp" "examples/chipsumSolver/lu.cpp" "tests/test1.cpp" "perf_test/perf_test.cpp"
-
-set(EXE_NAME gmres)
-
-#add_executable(${EXE_NAME} "tests/test1.cpp" "ChipSum.hpp")
+# add_executable(${EXE_NAME} "tests/test1.cpp" "ChipSum.hpp")
+add_executable(${EXE_NAME} "tests/test2.cpp" "ChipSum.hpp")
+# add_executable(${EXE_NAME} "examples/chipsumSolver/qr.cpp" "ChipSum.hpp")
+# add_executable(${EXE_NAME} "examples/chipsumSolver/lu.cpp" "ChipSum.hpp")
 # add_executable(${EXE_NAME} "examples/chipsumSolver/cg.cpp" "ChipSum.hpp")
 # add_executable(${EXE_NAME} "examples/chipsumSolver/bicg.cpp" "ChipSum.hpp")
 # add_executable(${EXE_NAME} "examples/chipsumSolver/bicgstab.cpp" "ChipSum.hpp")
-add_executable(${EXE_NAME} "examples/chipsumSolver/gmres.cpp" "ChipSum.hpp")
+# add_executable(${EXE_NAME} "examples/chipsumSolver/gmres.cpp" "ChipSum.hpp")
+# add_executable(${EXE_NAME} "examples/chipsumAI/mnist.cpp" "ChipSum.hpp")
+
+# install options
+install(TARGETS chipsum DESTINATION lib)
+
+install(FILES ChipSum.hpp DESTINATION include)
 
 install(TARGETS ${EXE_NAME} DESTINATION bin)
 
