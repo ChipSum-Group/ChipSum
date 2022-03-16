@@ -106,11 +106,21 @@ public:
     template<typename IDT>
     ///
     /// \brief SetRow
-    /// \param i 航索引
+    /// \param i 行索引
     /// \param x
     ///
     CHIPSUM_FUNCTION_INLINE void SetRow(IDT i,vector_type& x){
         ChipSum::Numeric::Impl::DenseMat::set_row(__data,x.GetData(),i);
+    }
+
+    template<typename IDT>
+    ///
+    /// \brief SetCol
+    /// \param i 列索引
+    /// \param x
+    ///
+    CHIPSUM_FUNCTION_INLINE void SetCol(IDT i,vector_type& x){
+        ChipSum::Numeric::Impl::DenseMat::set_col(__data, x.GetData(), i);
     }
 
     template<typename IDT>

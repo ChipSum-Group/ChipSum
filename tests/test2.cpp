@@ -98,6 +98,23 @@ int main(int argc, char *argv[])
 
         Btensor.GEMM(Btensor1, Btensor2);
         Btensor2.Print();
+
+        double *m1 = static_cast<double *>(std::malloc(5*5 * sizeof(double)));
+        for (int i = 0; i < 5*5 ; ++i) {
+            m1[i] = double(1);
+        }
+        Matrix M1(5,5,m1);
+
+        double *m2 = static_cast<double *>(std::malloc(5 * sizeof(double)));
+        for (int i = 0; i < 5 ; ++i) {
+            m2[i] = double(i);
+        }
+        Vector M2(5,m2);
+
+        M1.SetCol(1,M2);
+        M1.SetRow(1,M2);
+        M1.Print();
+
     }
     ChipSum::Common::Finalize();
 }
