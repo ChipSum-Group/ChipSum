@@ -57,17 +57,17 @@ add_library(chipsum ${CHIPSUM_SOURCES} ${CHIPSUM_HEADERS})
 list(APPEND CHIPSUM_LIBS chipsum)
 
 # set .exe name
-set(EXE_NAME test3)
+set(EXE_NAME gmres)
 
 # add_executable(${EXE_NAME} "tests/test1.cpp" "ChipSum.hpp")
 # add_executable(${EXE_NAME} "tests/test2.cpp" "ChipSum.hpp")
-add_executable(${EXE_NAME} "tests/test3.cpp" "ChipSum.hpp")
+# add_executable(${EXE_NAME} "tests/test3.cpp" "ChipSum.hpp")
 # add_executable(${EXE_NAME} "examples/chipsumSolver/qr.cpp" "ChipSum.hpp")
 # add_executable(${EXE_NAME} "examples/chipsumSolver/lu.cpp" "ChipSum.hpp")
 # add_executable(${EXE_NAME} "examples/chipsumSolver/cg.cpp" "ChipSum.hpp")
 # add_executable(${EXE_NAME} "examples/chipsumSolver/bicg.cpp" "ChipSum.hpp")
 # add_executable(${EXE_NAME} "examples/chipsumSolver/bicgstab.cpp" "ChipSum.hpp")
-# add_executable(${EXE_NAME} "examples/chipsumSolver/gmres.cpp" "ChipSum.hpp")
+add_executable(${EXE_NAME} "examples/chipsumSolver/gmres.cpp" "ChipSum.hpp")
 # add_executable(${EXE_NAME} "examples/chipsumAI/mnist.cpp" "ChipSum.hpp")
 
 # install options

@@ -23,28 +23,62 @@ Vector gmres(CSR &A, Vector &b, Vector &x, double tol, int max_it)
     int m = max_it;
     int n = b.GetSize();
 
-    // get r = b - A*x 
+    // get r = b - A*x
     Vector r(n);
     A.SPMV(x, r);
     b.AXPBY(r, 1.0, -1.0); // r = b - A*x
 
     double bnrm2 = b.Norm2();
-    if (bnrm2 == 0.0) bnrm2 = 1.0;
+    if (bnrm2 == 0.0)
+        bnrm2 = 1.0;
 
     double error = r.Norm2() / bnrm2;
 
-    if (error < tol) return x;
+    if (error < tol)
+        return x;
 
     Vector sn(m);
     Vector cs(m);
-    Vector beta(m+1);
+    Vector beta(m + 1);
 
     beta(0) = r.Norm2();
 
-    Matrix H(m+1, m);
-    Matrix Q(n, m+1);
+    Matrix H(m + 1, m);
+    Matrix Q(n, m + 1);
+
+    r *= 1.0 / beta(0);
+
+    Q.SetCol(0, r);
 
     int j = 0;
+
+    while (j < m)
+    {
+        // Applying Givens Rotation to H col
+        for (int i = 0; i <= j - 1; i++) {
+            double temp = cs(i) * H(i, j) + sn(i) * H(i + 1, j);
+            H(i + 1, j) = -sn(i) * H(i, j) + cs(i) * H(i + 1, j);
+            H(i, j) = temp;
+        }
+
+        cs(j) = H(j, j) / sqrt(H(j, j) * H(j, j) + H(j + 1, j) * H(j + 1, j));
+        sn(j) = H(j + 1, j) / sqrt(H(j, j) * H(j, j) + H(j + 1, j) * H(j + 1, j));
+
+        H(j, j) = cs(j) * H(j, j) + sn(j) * H(j + 1, j);
+
+        H(j + 1, j) = 0.0;
+
+        // update the residual vector
+        beta(j + 1) = -sn(j) * beta(j);
+        beta(j) = cs(j) * beta(j);
+
+        error = abs(beta(j + 1)) / b.Norm2();
+
+        if (error <= tol) break;
+
+        j++;
+    }
+
     return x;
 }
 
@@ -90,7 +124,7 @@ int main(int argc, char *argv[])
         double tol = 1e-12;
         int max_it = 500;
 
-        auto sol_gmres= gmres(A, b, x0, tol, max_it);
+        auto sol_gmres = gmres(A, b, x0, tol, max_it);
 
         sol_gmres.Print();
 
