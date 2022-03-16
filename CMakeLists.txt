@@ -57,10 +57,11 @@ add_library(chipsum ${CHIPSUM_SOURCES} ${CHIPSUM_HEADERS})
 list(APPEND CHIPSUM_LIBS chipsum)
 
 # set .exe name
-set(EXE_NAME test2)
+set(EXE_NAME test3)
 
 # add_executable(${EXE_NAME} "tests/test1.cpp" "ChipSum.hpp")
-add_executable(${EXE_NAME} "tests/test2.cpp" "ChipSum.hpp")
+# add_executable(${EXE_NAME} "tests/test2.cpp" "ChipSum.hpp")
+add_executable(${EXE_NAME} "tests/test3.cpp" "ChipSum.hpp")
 # add_executable(${EXE_NAME} "examples/chipsumSolver/qr.cpp" "ChipSum.hpp")
 # add_executable(${EXE_NAME} "examples/chipsumSolver/lu.cpp" "ChipSum.hpp")
 # add_executable(${EXE_NAME} "examples/chipsumSolver/cg.cpp" "ChipSum.hpp")
