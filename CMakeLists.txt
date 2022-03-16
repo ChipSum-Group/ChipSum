@@ -67,12 +67,13 @@ install(FILES ChipSum.hpp DESTINATION include)
 
 # "examples/chipsumAI/mnist.cpp" "examples/chipsumSolver/lu.cpp" "tests/test1.cpp" "perf_test/perf_test.cpp"
 
-set(EXE_NAME bicgstab)
+set(EXE_NAME gmres)
 
 #add_executable(${EXE_NAME} "tests/test1.cpp" "ChipSum.hpp")
 # add_executable(${EXE_NAME} "examples/chipsumSolver/cg.cpp" "ChipSum.hpp")
 # add_executable(${EXE_NAME} "examples/chipsumSolver/bicg.cpp" "ChipSum.hpp")
-add_executable(${EXE_NAME} "examples/chipsumSolver/bicgstab.cpp" "ChipSum.hpp")
+# add_executable(${EXE_NAME} "examples/chipsumSolver/bicgstab.cpp" "ChipSum.hpp")
+add_executable(${EXE_NAME} "examples/chipsumSolver/gmres.cpp" "ChipSum.hpp")
 
 install(TARGETS ${EXE_NAME} DESTINATION bin)
 

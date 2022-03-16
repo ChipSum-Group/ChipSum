@@ -2,15 +2,15 @@
  *   File:     cg.cpp
  *   Author:   Yaojie Yu
  *   group:    CDCS-HPC
- *   Time:     2021-12-14
+ *   Time:     2022-3-16
  * * * * * * * * * * * * * * * * * * * * * */
 
 #include "../ChipSum.hpp"
 #include "../chipsum/chipsum_macro.h"
 
-Vector cg(CSR &A, Vector &b, Vector &x, double tol, int max_it)
+Vector gmres(CSR &A, Vector &b, Vector &x, double tol, int max_it)
 {
-    // Conjugate Gradient Method without preconditioning.
+    // GMRES Method without preconditioning.
     //
     // input   A        REAL matrix
     //         x        REAL initial guess vector
@@ -20,40 +20,31 @@ Vector cg(CSR &A, Vector &b, Vector &x, double tol, int max_it)
     //
     // output  x        REAL solution vector
 
-    Vector r(x.GetSize());
+    int m = max_it;
+    int n = b.GetSize();
+
+    // get r = b - A*x 
+    Vector r(n);
     A.SPMV(x, r);
     b.AXPBY(r, 1.0, -1.0); // r = b - A*x
 
-    Vector p(b.GetSize());
-    p.DeepCopy(r);
+    double bnrm2 = b.Norm2();
+    if (bnrm2 == 0.0) bnrm2 = 1.0;
 
-    Vector Ap(b.GetSize());
+    double error = r.Norm2() / bnrm2;
 
-    double alpha = 0, beta = 0.0, rsnew = 0;
-    double rsold = r.Dot(r);
+    if (error < tol) return x;
 
-    for (int i = 0; i < max_it; i++)
-    {
+    Vector sn(m);
+    Vector cs(m);
+    Vector beta(m+1);
 
-        A.SPMV(p, Ap);
+    beta(0) = r.Norm2();
 
-        alpha = rsold / (p.Dot(Ap));
+    Matrix H(m+1, m);
+    Matrix Q(n, m+1);
 
-        p.AXPBY(x, alpha, 1.0);
-
-        Ap.AXPBY(r, -alpha, 1.0);
-
-        rsnew = r.Dot(r);
-
-        if (sqrt(rsnew) < tol)
-            break;
-
-        beta = rsnew / rsold;
-        r.AXPBY(p, 1.0, beta);
-
-        rsold = rsnew;
-    }
-
+    int j = 0;
     return x;
 }
 
@@ -99,9 +90,9 @@ int main(int argc, char *argv[])
         double tol = 1e-12;
         int max_it = 500;
 
-        auto sol_cg = cg(A, b, x0, tol, max_it);
+        auto sol_gmres= gmres(A, b, x0, tol, max_it);
 
-        sol_cg.Print();
+        sol_gmres.Print();
 
         delete xadj;
         delete adj;
