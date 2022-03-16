@@ -1,8 +1,0 @@
-A minimal configure&build of ChipSum:
-
-cd /Path/To/Your/ChipSum
-mkdir build
-cd build
-cmake -DCMAKE_INSTALL_PREFIX=/Path/You/Want/To/Install ..
-make -j8
-make install

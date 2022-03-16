@@ -5,8 +5,8 @@
  *   Time:     2021-12-14
  * * * * * * * * * * * * * * * * * * * * * */
 
-#include "ChipSum.hpp"
-#include "chipsum/chipsum_macro.h"
+#include "../ChipSum.hpp"
+#include "../chipsum/chipsum_macro.h"
 
 Vector bicg(CSR &A, Vector &b, Vector &x, double tol, int max_it)
 {

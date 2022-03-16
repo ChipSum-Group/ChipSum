@@ -66,17 +66,18 @@ install(FILES ChipSum.hpp DESTINATION include)
 
 
 # "examples/chipsumAI/mnist.cpp" "examples/chipsumSolver/lu.cpp" "tests/test1.cpp" "perf_test/perf_test.cpp"
-add_executable(ChipSum
-    "tests/test1.cpp"
-    "ChipSum.hpp"
-    )
-install(TARGETS ChipSum  DESTINATION bin)
 
-target_link_libraries(ChipSum PUBLIC ${CHIPSUM_LIBS}  )
+set(EXE_NAME bicgstab)
 
-target_include_directories(ChipSum PUBLIC
+#add_executable(${EXE_NAME} "tests/test1.cpp" "ChipSum.hpp")
+# add_executable(${EXE_NAME} "examples/chipsumSolver/cg.cpp" "ChipSum.hpp")
+# add_executable(${EXE_NAME} "examples/chipsumSolver/bicg.cpp" "ChipSum.hpp")
+add_executable(${EXE_NAME} "examples/chipsumSolver/bicgstab.cpp" "ChipSum.hpp")
+
+install(TARGETS ${EXE_NAME} DESTINATION bin)
+
+target_link_libraries(${EXE_NAME} PUBLIC ${CHIPSUM_LIBS}  )
+
+target_include_directories(${EXE_NAME} PUBLIC
                            "${PROJECT_BINARY_DIR}"
                            )
-
-
-
