@@ -111,6 +111,10 @@ int main(int argc,char* argv[])
         M1.SetRow(1,M2);
         M1.Print();
 
+        M1.GetRowCopy(1, M2);
+        M2.Print();
+        M1.GetColCopy(1, M2);
+        M2.Print();
     }
     ChipSum::Common::Finalize();
 }

@@ -125,12 +125,22 @@ public:
 
     template<typename IDT>
     ///
-    /// \brief GetRowPtr 获取某一行的非拷贝数据
+    /// \brief GetRowPtr 获取某一行的拷贝数据
     /// \param i 行索引
     /// \param x
     ///
     CHIPSUM_FUNCTION_INLINE void GetRowCopy(IDT i,vector_type& x){
-        ChipSum::Numeric::Impl::DenseMat::get_row_copy(__data,x.GetData(),i);
+        ChipSum::Numeric::Impl::DenseMat::get_row_copy(__data, x.GetData(), i);
+    }
+
+    template<typename IDT>
+    ///
+    /// \brief GetRowPtr 获取某一列的拷贝数据
+    /// \param i 列索引
+    /// \param x
+    ///
+    CHIPSUM_FUNCTION_INLINE void GetColCopy(IDT i,vector_type& x){
+        ChipSum::Numeric::Impl::DenseMat::get_col_copy(__data, x.GetData(), i);
     }
 
     ///

@@ -158,6 +158,29 @@ set_col(const Kokkos::DualView<ValueType**>& A,
     Kokkos::deep_copy(A_sub,a.d_view);
 }
 
+template <typename ValueType, typename IDT>
+CHIPSUM_FUNCTION_INLINE void
+get_row_copy(const Kokkos::DualView<ValueType**>& A,
+          const Kokkos::DualView<ValueType*>& a,
+          const IDT&  i){
+
+    auto A_sub = Kokkos::subview(A.d_view, i, Kokkos::ALL());
+    
+    Kokkos::deep_copy(a.d_view, A_sub);
+}
+
+template <typename ValueType, typename IDT>
+CHIPSUM_FUNCTION_INLINE void
+get_col_copy(const Kokkos::DualView<ValueType**>& A,
+          const Kokkos::DualView<ValueType*>& a,
+          const IDT&  i){
+
+    auto A_sub = Kokkos::subview(A.d_view, Kokkos::ALL(), i);
+    
+    Kokkos::deep_copy(a.d_view, A_sub);
+}
+
+
 
 template <typename ValueType,typename IDT>
 CHIPSUM_FUNCTION_INLINE void
