@@ -52,8 +52,32 @@ Vector gmres(CSR &A, Vector &b, Vector &x, double tol, int max_it)
 
     int j = 0;
 
+    Vector tmp1(n);
+
+    Vector tmp2(n);
+
     while (j < m)
     {
+        // Arnoldi process
+        Q.GetColCopy(j, tmp1);
+        A.SPMV(tmp1, tmp2);
+        Q.SetCol(j+1, tmp2);
+
+        for (int i = 0; i <= j; i++) {
+            Q.GetColCopy(j,   tmp1);
+            Q.GetColCopy(j+1, tmp2);
+
+            H(i, j) = tmp1.Dot(tmp2);
+
+            Q.GetColCopy(j,   tmp1);
+            Q.GetColCopy(j+1, tmp2);
+
+            tmp1 *= H(i,j);
+
+            tmp2 -= tmp1;
+            Q.SetCol(j+1, tmp2);
+        }
+
         // Applying Givens Rotation to H col
         for (int i = 0; i <= j - 1; i++) {
             double temp = cs(i) * H(i, j) + sn(i) * H(i + 1, j);
