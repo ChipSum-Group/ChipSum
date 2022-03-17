@@ -1,17 +1,12 @@
-///
-/// \file     ex3.cpp
-/// \author   yaojie yu
-/// \group    CDCS-HPC
-/// \date     2021-12-14
-/// \brief    %stuff%
-///
+/* * * * * * * * * * * * * * * * * * * * *
+ *   File:     bicg.cpp
+ *   Author:   Yaojie Yu
+ *   group:    CDCS-HPC
+ *   Time:     2021-12-14
+ * * * * * * * * * * * * * * * * * * * * * */
 
-
-
-#include "ChipSum.hpp"
-#include "chipsum/chipsum_macro.h"
-
-
+#include "../ChipSum.hpp"
+#include "../chipsum/chipsum_macro.h"
 
 Vector bicgstab(CSR &A, Vector &b, Vector &x, double tol, int max_it)
 {
@@ -31,11 +26,12 @@ Vector bicgstab(CSR &A, Vector &b, Vector &x, double tol, int max_it)
 
     Vector r(x.GetSize());
     A.SPMV(x, r);
-    b.AXPBY(r, 1.0, -1.0); //r = b - A*x
+    b.AXPBY(r, 1.0, -1.0); // r = b - A*x
 
     double error = r.Norm2() / bnrm2;
 
-    if (error < tol) return x;
+    if (error < tol)
+        return x;
 
     Vector r_tld(x.GetSize());
     r_tld.DeepCopy(r);
@@ -51,7 +47,8 @@ Vector bicgstab(CSR &A, Vector &b, Vector &x, double tol, int max_it)
     {
         rho = r.Dot(r_tld);
 
-        if (rho == 0.0)     break;
+        if (rho == 0.0)
+            break;
 
         if (i > 0)
         {
@@ -79,7 +76,7 @@ Vector bicgstab(CSR &A, Vector &b, Vector &x, double tol, int max_it)
 
         s_hat.DeepCopy(s); // s_hat = M^-1 * s, M is a preconditioner matrix
 
-        A.SPMV(s_hat, t); //t = A*s_hat
+        A.SPMV(s_hat, t); // t = A*s_hat
 
         omega = (t.Dot(s)) / t.Dot(t);
         p_hat.AXPBY(x, alpha, 1.0); // x = x +  alpha * p_hat
@@ -90,28 +87,26 @@ Vector bicgstab(CSR &A, Vector &b, Vector &x, double tol, int max_it)
 
         error = r.Norm2() / bnrm2;
 
-        if (error <= tol) break;
-        if (omega == 0.0) break;
+        if (error <= tol)
+            break;
+        if (omega == 0.0)
+            break;
 
         rho_1 = rho;
         Vector r_temp(b.GetSize());
-        A.SPMV(x,r_temp); /* r_temp = A*x */
-        b.AXPBY(r_temp,1.0,-1.0); /* r_temp = b-r_temp */
-        printf("%.20f\n",r_temp.Norm2());
-
+        A.SPMV(x, r_temp);          /* r_temp = A*x */
+        b.AXPBY(r_temp, 1.0, -1.0); /* r_temp = b-r_temp */
+        printf("%.20f\n", r_temp.Norm2());
     }
 
     return x;
 }
 
-
-
 int main(int argc, char *argv[])
 {
 
-    char* filename_A = argv[1];
-    char* filename_b = argv[2];
-
+    char *filename_A = argv[1];
+    char *filename_b = argv[2];
 
     ChipSum::Common::Init(argc, argv);
     {
@@ -120,30 +115,28 @@ int main(int argc, char *argv[])
         CSInt *xadj, *adj;
         double *ew;
 
-        KokkosKernels::Impl::read_matrix<CSInt,CSInt, double> (&nv, &ne, &xadj, &adj, &ew, filename_A);
+        KokkosKernels::Impl::read_matrix<CSInt, CSInt, double>(&nv, &ne, &xadj, &adj, &ew, filename_A);
 
-        CSR A(nv,nv,ne,xadj,adj,ew);
-
-
+        CSR A(nv, nv, ne, xadj, adj, ew);
 
         vector<double> b_data;
         double temp;
 
         ifstream IN(filename_b);
 
-        for(int i=0;i<nv;++i){
+        for (int i = 0; i < nv; ++i)
+        {
             temp = 1.;
             b_data.push_back(temp);
         }
 
-
         IN.close();
 
-        Vector b(nv,b_data.data());
+        Vector b(nv, b_data.data());
 
         Vector x0(nv);
 
-        x0*=0;
+        x0 *= 0;
 
         double tol = 1e-12;
         int max_it = 500;
@@ -156,4 +149,3 @@ int main(int argc, char *argv[])
     }
     ChipSum::Common::Finalize();
 }
-
