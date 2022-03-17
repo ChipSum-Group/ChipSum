@@ -1,17 +1,12 @@
-///
-/// \file     ex1.cpp
-/// \author   yaojie yu
-/// \group    CDCS-HPC
-/// \date     2021-12-14
-/// \brief    %stuff%
-///
+/* * * * * * * * * * * * * * * * * * * * *
+ *   File:     cg.cpp
+ *   Author:   Yaojie Yu
+ *   group:    CDCS-HPC
+ *   Time:     2021-12-14
+ * * * * * * * * * * * * * * * * * * * * * */
 
-
-
-
-
-#include "ChipSum.hpp"
-#include "chipsum/chipsum_macro.h"
+#include "../ChipSum.hpp"
+#include "../chipsum/chipsum_macro.h"
 
 Vector cg(CSR &A, Vector &b, Vector &x, double tol, int max_it)
 {
@@ -25,10 +20,9 @@ Vector cg(CSR &A, Vector &b, Vector &x, double tol, int max_it)
     //
     // output  x        REAL solution vector
 
-
     Vector r(x.GetSize());
     A.SPMV(x, r);
-    b.AXPBY(r, 1.0, -1.0); //r = b - A*x
+    b.AXPBY(r, 1.0, -1.0); // r = b - A*x
 
     Vector p(b.GetSize());
     p.DeepCopy(r);
@@ -57,27 +51,20 @@ Vector cg(CSR &A, Vector &b, Vector &x, double tol, int max_it)
         beta = rsnew / rsold;
         r.AXPBY(p, 1.0, beta);
 
-
         rsold = rsnew;
-
-
-
     }
 
     return x;
 }
 
-
-
 int main(int argc, char *argv[])
 {
 
     /* .mtx格式数据，如$HOME/ChipSum/data/A.mtx */
-    char* filename_A = argv[1];
-    
-    /* .mtx格式数据，如$HOME/ChipSum/data/b.csv */
-    char* filename_b = argv[2];
+    char *filename_A = argv[1];
 
+    /* .mtx格式数据，如$HOME/ChipSum/data/b.csv */
+    char *filename_b = argv[2];
 
     ChipSum::Common::Init(argc, argv);
     {
@@ -86,37 +73,35 @@ int main(int argc, char *argv[])
         CSInt *xadj, *adj;
         double *ew;
 
-        KokkosKernels::Impl::read_matrix<CSInt,CSInt, double> (&nv, &ne, &xadj, &adj, &ew, filename_A);
+        KokkosKernels::Impl::read_matrix<CSInt, CSInt, double>(&nv, &ne, &xadj, &adj, &ew, filename_A);
 
-        CSR A(nv,nv,ne,xadj,adj,ew);
-
-
-
+        CSR A(nv, nv, ne, xadj, adj, ew);
 
         vector<double> b_data;
         double temp;
 
         ifstream IN(filename_b);
 
-        for(int i=0;i<nv;++i){
+        for (int i = 0; i < nv; ++i)
+        {
             temp = 1.;
             b_data.push_back(temp);
         }
 
-
         IN.close();
 
-        Vector b(nv,b_data.data());
+        Vector b(nv, b_data.data());
 
         Vector x0(nv);
 
-        x0*=0;
-
+        x0 *= 0;
 
         double tol = 1e-12;
         int max_it = 500;
 
         auto sol_cg = cg(A, b, x0, tol, max_it);
+
+        sol_cg.Print();
 
         delete xadj;
         delete adj;
@@ -124,4 +109,3 @@ int main(int argc, char *argv[])
     }
     ChipSum::Common::Finalize();
 }
-
