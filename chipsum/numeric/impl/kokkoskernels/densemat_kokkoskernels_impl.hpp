@@ -180,6 +180,35 @@ get_col_copy(const Kokkos::DualView<ValueType**>& A,
     Kokkos::deep_copy(a.d_view, A_sub);
 }
 
+template <typename ValueType, typename IDT>
+CHIPSUM_FUNCTION_INLINE void
+get_row_slice(const Kokkos::DualView<ValueType**>& A,
+          const Kokkos::DualView<ValueType*>& a,
+          const IDT&  idx,
+          const IDT&  i,
+          const IDT&  j){
+    // if (a.extent(0)!=(j-i)) 
+    //     std::cout << "get_row_slice require that shape is must matched" << std::endl;
+    auto A_sub = Kokkos::subview(A.d_view, idx, Kokkos::make_pair(i, j));
+    
+    Kokkos::deep_copy(a.d_view, A_sub);
+}
+
+
+template <typename ValueType, typename IDT>
+CHIPSUM_FUNCTION_INLINE void
+get_col_slice(const Kokkos::DualView<ValueType**>& A,
+          const Kokkos::DualView<ValueType*>& a,
+          const IDT&  idx,
+          const IDT&  i,
+          const IDT&  j){
+
+    // if (a.extent(0)!=(j-i)) 
+    //     std::cout << "get_row_slice require that shape is must matched" << std::endl;
+    auto A_sub = Kokkos::subview(A.d_view, Kokkos::make_pair(i, j), idx);
+    
+    Kokkos::deep_copy(a.d_view, A_sub);
+}
 
 
 template <typename ValueType,typename IDT>

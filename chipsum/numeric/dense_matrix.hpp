@@ -125,7 +125,7 @@ public:
 
     template<typename IDT>
     ///
-    /// \brief GetRowPtr 获取某一行的拷贝数据
+    /// \brief GetRowCopy 获取某一行的拷贝数据
     /// \param i 行索引
     /// \param x
     ///
@@ -135,12 +135,36 @@ public:
 
     template<typename IDT>
     ///
-    /// \brief GetRowPtr 获取某一列的拷贝数据
+    /// \brief GetColCopy 获取某一列的拷贝数据
     /// \param i 列索引
     /// \param x
     ///
     CHIPSUM_FUNCTION_INLINE void GetColCopy(IDT i,vector_type& x){
         ChipSum::Numeric::Impl::DenseMat::get_col_copy(__data, x.GetData(), i);
+    }
+
+    template<typename IDT>
+    ///
+    /// \brief GetRowSlice 获取某一列的拷贝数据
+    /// \param idx 行索引
+    /// \param i 行终止索引
+    /// \param j 行终止索引
+    /// \param x
+    ///
+    CHIPSUM_FUNCTION_INLINE void GetRowSlice(IDT idx, IDT i, IDT j, vector_type& x){
+        ChipSum::Numeric::Impl::DenseMat::get_row_slice(__data, x.GetData(), idx, i, j);
+    }
+
+    template<typename IDT>
+    ///
+    /// \brief GetColSlice 获取某一列的拷贝数据
+    /// \param idx 列索引
+    /// \param i 列起始索引
+    /// \param j 列终止索引
+    /// \param x
+    ///
+    CHIPSUM_FUNCTION_INLINE void GetColSlice(IDT idx, IDT i, IDT j, vector_type& x){
+        ChipSum::Numeric::Impl::DenseMat::get_col_slice(__data, x.GetData(), idx, i, j);
     }
 
     ///
