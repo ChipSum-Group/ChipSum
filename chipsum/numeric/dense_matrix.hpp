@@ -167,6 +167,19 @@ public:
         ChipSum::Numeric::Impl::DenseMat::get_col_slice(__data, x.GetData(), idx, i, j);
     }
 
+    template<typename IDT>
+    ///
+    /// \brief GetPartSlice 获取某一局部矩阵的拷贝数据
+    /// \param l_i 左上角行索引
+    /// \param l_j 左上角列索引
+    /// \param r_i 右下角行索引
+    /// \param r_j 右下角列索引
+    /// \param x
+    ///
+    CHIPSUM_FUNCTION_INLINE void GetPartSlice(IDT l_i, IDT l_j, IDT r_i, IDT r_j, DenseMatrix& x){
+        ChipSum::Numeric::Impl::DenseMat::get_part_slice(__data, x.GetData(), l_i, l_j, r_i, r_j);
+    }
+
     ///
     /// \brief Device端到Host端数据深拷贝
     ///
