@@ -72,11 +72,17 @@ Vector gmres(CSR &A, Vector &b, Vector &x, double tol, int max_it)
             Q.GetColCopy(j,   tmp1);
             Q.GetColCopy(j+1, tmp2);
 
-            tmp1 *= H(i,j);
+            tmp1 *= -1.0*H(i,j);
+            tmp2 += tmp1;
 
-            tmp2 -= tmp1;
             Q.SetCol(j+1, tmp2);
         }
+
+        Q.GetColCopy(j+1, tmp1);
+        H(j+1, j) = tmp1.Norm2();
+        
+        tmp1 *= 1.0/H(j+1,j);
+        Q.SetCol(j+1, tmp1);
 
         // Applying Givens Rotation to H col
         for (int i = 0; i <= j - 1; i++) {
@@ -102,6 +108,7 @@ Vector gmres(CSR &A, Vector &b, Vector &x, double tol, int max_it)
 
         j++;
     }
+
 
     return x;
 }
