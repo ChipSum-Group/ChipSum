@@ -119,6 +119,12 @@ int main(int argc, char *argv[])
         M2.Print();
         M1.GetColCopy(1, M2);
         M2.Print();
+        M1.GetRowSlice(3,0,5,M2); //等大小取，slice大小和取出后存储vector大小相同
+        M2.Print();
+
+        Matrix M3(2,2);
+        M1.GetPartSlice(1,1,3,3,M3);
+        M3.Print();
     }
     ChipSum::Common::Finalize();
 }
