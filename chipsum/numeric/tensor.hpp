@@ -17,6 +17,7 @@
 #include "numeric_traits.hpp"
 #include "scalar.hpp"
 #include "vector.hpp"
+#include "dense_matrix.hpp"
 
 namespace ChipSum {
 namespace Numeric {
@@ -37,8 +38,10 @@ public:
     using const_size_type_ref = const size_type&;
 
     using value_type = typename traits::value_type;
+    using backend_type = typename traits::backend_type;
 
     using vector_type = ChipSum::Numeric::Vector< Props...>;
+    using matrix_type =  ChipSum::Numeric::DenseMatrix< Props...>;
 
 private:
     tensor_type __data;
@@ -179,6 +182,23 @@ public:
     ///
     CHIPSUM_FUNCTION_INLINE void GEMV(TensorDNIM &x, TensorDNIM& y) {
         ChipSum::Numeric::Impl::Tensor::batch_gemv(__data, x.GetData(), y.GetData());
+    }
+
+    ///
+    /// \brief LU分解，结果存入原矩阵
+    /// \param tiny 分解精度,默认为0
+    ///
+    CHIPSUM_FUNCTION_INLINE void LU(const value_type tiny = 0) {
+        ChipSum::Numeric::Impl::Tensor::batch_lu(__data,tiny);
+    }
+
+    ///
+    /// \brief QR分解，结果存入原矩阵
+    /// \param 输出矩阵系数tau
+    /// \param 输出矩阵系数w
+    ///
+    CHIPSUM_FUNCTION_INLINE void QR(matrix_type &x, matrix_type& y) {
+        ChipSum::Numeric::Impl::Tensor::batch_qr(__data,x.GetData(),y.GetData());
     }
 
     template<typename OStreamT=std::ostream>

@@ -16,15 +16,15 @@ int main(int argc, char *argv[]) {
     {
         int M = 5;
 
-        CSFloat *A1 = static_cast<CSFloat *>(std::malloc(M*M * sizeof(CSFloat)));
+        CSFloat *m1 = static_cast<CSFloat *>(std::malloc(M*M * sizeof(CSFloat)));
 
         for(int i=0;i<M*M;++i)
         {
             // A1[i] = CSFloat(rand()) / RAND_MAX;
-            A1[i]=i+1;
+            m1[i]=i+1;
 
         }
-        Matrix A(M, M, A1);
+        Matrix A(M, M, m1);
         typedef ChipSum::Numeric::Vector<CSFloat,
         ChipSum::Backend::DefaultBackend> Vector;
         Vector a(M);
@@ -35,14 +35,37 @@ int main(int argc, char *argv[]) {
         A.QR(a,b);
         std::cout<<"qr tau:"<<std::endl;
         a.Print();
-
         std::cout<<"qr w:"<<std::endl;
         b.Print();
-
         std::cout<<"qr matrix:";
-        A.Print();   
+        A.Print();
+
+
+         //Tensor LU
+        int N = 3;
+        CSFloat *m2 = static_cast<CSFloat *>(std::malloc(N*M*M*sizeof(CSFloat)));
+        for(int i=0;i<N;++i)
+            for(int j=0;j<M*M;++j)
+                m2[i*M*M+j] = m1[j];
         
-        std::free(A1);
+        Tensor<3> A2(N, M, M, m2);
+        Matrix a2(N, M);
+        Matrix b2(M, M);
+        std::cout<<"origin tensor:"<<std::endl;
+        // A2.Print();
+        A2.QR(a2,b2);
+        std::cout<<"qr tau:"<<std::endl;
+        a2.Print();
+        std::cout<<"qr w:"<<std::endl;
+        b2.Print();
+        std::cout<<"qr tensor:"<<std::endl;
+        A2.Print();
+
+
+
+        
+        std::free(m1);
+        std::free(m2);
     }
     ChipSum::Common::Finalize();
 }
