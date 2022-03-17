@@ -72,7 +72,7 @@ namespace Impl {
 namespace Sparse {
 
 
-#define matrix_type KokkosSparse::CrsMatrix \
+#define __matrix_type KokkosSparse::CrsMatrix \
     <ValueType, OrdinalType, default_device,void,SizeType>
 
 template <typename ValueType,
@@ -85,7 +85,7 @@ template <typename ValueType,
           typename S5 >
 // kokkos实现的创建CSR矩阵
 CHIPSUM_FUNCTION_INLINE void
-create(matrix_type &A,
+create(__matrix_type &A,
        const S1& nrows,
        const S2& ncols,
        const S3& annz,
@@ -93,12 +93,12 @@ create(matrix_type &A,
        S5 *col_map,
        ValueType *values) {
 
-    A = matrix_type("spm_" + ::std::to_string(spm_name++),
-                    static_cast<typename matrix_type::ordinal_type>(nrows),
-                    static_cast<typename matrix_type::ordinal_type>(ncols),
-                    static_cast<typename matrix_type::size_type>(annz), values,
-                    static_cast<typename matrix_type::size_type *>(row_map),
-                    static_cast<typename matrix_type::ordinal_type *>(col_map));
+    A = __matrix_type("spm_" + ::std::to_string(spm_name++),
+                    static_cast<typename __matrix_type::ordinal_type>(nrows),
+                    static_cast<typename __matrix_type::ordinal_type>(ncols),
+                    static_cast<typename __matrix_type::size_type>(annz), values,
+                    static_cast<typename __matrix_type::size_type *>(row_map),
+                    static_cast<typename __matrix_type::ordinal_type *>(col_map));
 }
 
 template <typename ValueType,
@@ -106,19 +106,19 @@ template <typename ValueType,
           typename SizeType>
 
 CHIPSUM_FUNCTION_INLINE void
-create(matrix_type &A,
+create(__matrix_type &A,
        const OrdinalType row_map_size, const OrdinalType col_map_size, const OrdinalType) {
 
-    typename matrix_type::row_map_type row_map(
+    typename __matrix_type::row_map_type row_map(
                 "row_map_" + A.label(),
-                static_cast<typename matrix_type::row_map_type>(row_map_size));
-    typename matrix_type::entries_type col_map(
+                static_cast<typename __matrix_type::row_map_type>(row_map_size));
+    typename __matrix_type::entries_type col_map(
                 "col_map_" + A.label(),
-                static_cast<typename matrix_type::entries_type>(col_map_size));
+                static_cast<typename __matrix_type::entries_type>(col_map_size));
 
-    typename matrix_type::staticcrsgraph_type graph(col_map, row_map);
+    typename __matrix_type::staticcrsgraph_type graph(col_map, row_map);
 
-    A = matrix_type(A.label(), graph);
+    A = __matrix_type(A.label(), graph);
 }
 
 template <typename ValueType,
@@ -126,10 +126,10 @@ template <typename ValueType,
           typename SizeType>
 
 CHIPSUM_FUNCTION_INLINE void
-print(matrix_type &A,
+print(__matrix_type &A,
       ::std::ostream &out) {
     using crs_t =
-    typename matrix_type;
+    typename __matrix_type;
 
     using row_map_t = typename crs_t::row_map_type::HostMirror;
     using entries_t = typename crs_t::index_type::HostMirror;
@@ -175,10 +175,10 @@ template <typename ValueType,
           typename SizeType>
 
 CHIPSUM_FUNCTION_INLINE void
-print_pattern(matrix_type &A,
+print_pattern(__matrix_type &A,
               ::std::ostream &out) {
     using crs_t =
-    typename matrix_type;
+    typename __matrix_type;
 
     using row_map_t = typename crs_t::row_map_type::HostMirror;
     using entries_t = typename crs_t::index_type::HostMirror;
@@ -225,10 +225,10 @@ template <typename ValueType,
           typename SizeType>
 
 CHIPSUM_FUNCTION_INLINE void
-save_figure(matrix_type &A,
+save_figure(__matrix_type &A,
             const char *filename) {
     using crs_t =
-    typename matrix_type;
+    typename __matrix_type;
 
     using row_map_t = typename crs_t::row_map_type::HostMirror;
     using entries_t = typename crs_t::index_type::HostMirror;

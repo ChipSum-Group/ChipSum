@@ -162,7 +162,7 @@ public:
     }
 
     ///
-    /// \brief LU分解
+    /// \brief LU分解，结果存入原矩阵
     /// \param tiny 分解精度,默认为0
     ///
     CHIPSUM_FUNCTION_INLINE void LU(const value_type tiny = 0) {
@@ -170,17 +170,17 @@ public:
     }
 
     ///
-    /// \brief QR分解
-    /// \param 输出矩阵系数
-    /// \param 输出矩阵系数
+    /// \brief QR分解，结果存入原矩阵
+    /// \param 输出矩阵系数tau
+    /// \param 输出矩阵系数w
     ///
     CHIPSUM_FUNCTION_INLINE void QR(vector_type &x,vector_type& y) {
         ChipSum::Numeric::Impl::DenseMat::qr(__data,x.GetData(),y.GetData());
     }
 
     ///
-    /// \brief HESSENBERG变换
-    /// \param 输出矩阵系数t
+    /// \brief HESSENBERG变换，结果存入原矩阵
+    /// \param 输出矩阵系数tau
     /// \param 输出矩阵系数w
     ///
     CHIPSUM_FUNCTION_INLINE void HESSENBERG(vector_type &t,vector_type& w) {

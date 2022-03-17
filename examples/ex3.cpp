@@ -7,9 +7,8 @@
 ///
 
 
-
-#include "ChipSum.hpp"
-#include "chipsum/chipsum_macro.h"
+#include "../ChipSum.hpp"
+#include "../chipsum/chipsum_macro.h"
 
 
 

@@ -17,8 +17,9 @@ set(CHIPSUM_SOURCES "")
 
 set(CHIPSUM_HEADERS "")
 
-add_subdirectory("unit_test")
+
 add_subdirectory("chipsum")
+
 
 set(CMAKE_INCLUDE_DIRECTORIES_BEFORE on)
 
@@ -62,21 +63,19 @@ add_library(chipsum ${CHIPSUM_SOURCES} ${CHIPSUM_HEADERS})
 list(APPEND CHIPSUM_LIBS chipsum)
 
 install(TARGETS chipsum DESTINATION lib)
-install(FILES ChipSum.hpp DESTINATION include)
+install(FILES ChipSum.hpp DESTINATION ${CMAKE_INSTALL_PREFIX})
 
 
-# "examples/chipsumAI/mnist.cpp" "examples/chipsumSolver/lu.cpp" "tests/test1.cpp" "perf_test/perf_test.cpp"
-add_executable(ChipSum
-    "tests/test1.cpp"
-    "ChipSum.hpp"
-    )
+add_subdirectory("tests")
+add_subdirectory("examples")
+add_subdirectory("perf_test")
+add_subdirectory("unit_test")
+
+
+#"examples/chipsumAI/mnist.cpp" "examples/chipsumSolver/lu.cpp" "tests/test1.cpp" "perf_test/perf_test.cpp"
+add_executable(ChipSum "examples/chipsumSolver/qr.cpp")
 install(TARGETS ChipSum  DESTINATION bin)
-
-target_link_libraries(ChipSum PUBLIC ${CHIPSUM_LIBS}  )
-
-target_include_directories(ChipSum PUBLIC
-                           "${PROJECT_BINARY_DIR}"
-                           )
-
+target_link_libraries(ChipSum PUBLIC ${CHIPSUM_LIBS})
+target_include_directories(ChipSum PUBLIC ${PROJECT_BINARY_DIR})
 
 

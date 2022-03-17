@@ -6,12 +6,8 @@
 /// \brief    %stuff%
 ///
 
-
-
-
-
-#include "ChipSum.hpp"
-#include "chipsum/chipsum_macro.h"
+#include "../ChipSum.hpp"
+#include "../chipsum/chipsum_macro.h"
 
 Vector cg(CSR &A, Vector &b, Vector &x, double tol, int max_it)
 {

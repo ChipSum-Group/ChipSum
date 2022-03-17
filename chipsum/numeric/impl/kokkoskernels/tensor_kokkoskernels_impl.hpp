@@ -18,6 +18,8 @@
 // #include "densemat_kokkoskernels_gemv_impl.hpp"
 #include "tensor_kokkoskernels_gemm_impl.hpp"
 #include "tensor_kokkoskernels_gemv_impl.hpp"
+#include "tensor_kokkoskernels_lu_impl.hpp"
+#include "tensor_kokkoskernels_qr_impl.hpp"
 
 // #include "../examples/chipsumAI/mnist/kernels/densemat_kokkoskernels_relu_impl.hpp"
 // #include "../examples/chipsumAI/mnist/kernels/densemat_kokkoskernels_activation_impl.hpp"
@@ -52,6 +54,7 @@ struct Tensor_Traits<NDIM, ValueType, ChipSum::Backend::KokkosKernels, Props...>
         : public Operator_Traits<ValueType> {
 
     using tensor_type = typename Kokkos::DualView<typename Tensor_Traits_t<NDIM, ValueType>::type, Kokkos::LayoutRight>;
+    using backend_type = ChipSum::Backend::KokkosKernels;
     using size_type = typename tensor_type::size_type;
     using value_type = typename tensor_type::value_type;
 
