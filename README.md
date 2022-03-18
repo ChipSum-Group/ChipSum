@@ -40,7 +40,7 @@ git clone https://github.com/kokkos/kokkos-kernels.git
 
 ### Compile
 
-- `ChipsSum` can be compiled automatically by a python3 script `setup.py`. We finished compiling on both `AMD Vega 906` and `NVIDIA 2080TI`
+- `ChipSum` can be compiled automatically by a python3 script `setup.py`. We finished compiling on both `AMD Vega 906` and `NVIDIA 2080TI`
 
 ```
 # for AMD Vega906/900  
