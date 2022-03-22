@@ -106,7 +106,7 @@ public:
     template<typename IDT>
     ///
     /// \brief SetRow
-    /// \param i 航索引
+    /// \param i 行索引
     /// \param x
     ///
     CHIPSUM_FUNCTION_INLINE void SetRow(IDT i,vector_type& x){
@@ -115,12 +115,69 @@ public:
 
     template<typename IDT>
     ///
-    /// \brief GetRowPtr 获取某一行的非拷贝数据
+    /// \brief SetCol
+    /// \param i 列索引
+    /// \param x
+    ///
+    CHIPSUM_FUNCTION_INLINE void SetCol(IDT i,vector_type& x){
+        ChipSum::Numeric::Impl::DenseMat::set_col(__data, x.GetData(), i);
+    }
+
+    template<typename IDT>
+    ///
+    /// \brief GetRowCopy 获取某一行的拷贝数据
     /// \param i 行索引
     /// \param x
     ///
     CHIPSUM_FUNCTION_INLINE void GetRowCopy(IDT i,vector_type& x){
-        ChipSum::Numeric::Impl::DenseMat::get_row_copy(__data,x.GetData(),i);
+        ChipSum::Numeric::Impl::DenseMat::get_row_copy(__data, x.GetData(), i);
+    }
+
+    template<typename IDT>
+    ///
+    /// \brief GetColCopy 获取某一列的拷贝数据
+    /// \param i 列索引
+    /// \param x
+    ///
+    CHIPSUM_FUNCTION_INLINE void GetColCopy(IDT i,vector_type& x){
+        ChipSum::Numeric::Impl::DenseMat::get_col_copy(__data, x.GetData(), i);
+    }
+
+    template<typename IDT>
+    ///
+    /// \brief GetRowSlice 获取某一列的拷贝数据
+    /// \param idx 行索引
+    /// \param i 行终止索引
+    /// \param j 行终止索引
+    /// \param x
+    ///
+    CHIPSUM_FUNCTION_INLINE void GetRowSlice(IDT idx, IDT i, IDT j, vector_type& x){
+        ChipSum::Numeric::Impl::DenseMat::get_row_slice(__data, x.GetData(), idx, i, j);
+    }
+
+    template<typename IDT>
+    ///
+    /// \brief GetColSlice 获取某一列的拷贝数据
+    /// \param idx 列索引
+    /// \param i 列起始索引
+    /// \param j 列终止索引
+    /// \param x
+    ///
+    CHIPSUM_FUNCTION_INLINE void GetColSlice(IDT idx, IDT i, IDT j, vector_type& x){
+        ChipSum::Numeric::Impl::DenseMat::get_col_slice(__data, x.GetData(), idx, i, j);
+    }
+
+    template<typename IDT>
+    ///
+    /// \brief GetPartSlice 获取某一局部矩阵的拷贝数据
+    /// \param l_i 左上角行索引
+    /// \param l_j 左上角列索引
+    /// \param r_i 右下角行索引
+    /// \param r_j 右下角列索引
+    /// \param x
+    ///
+    CHIPSUM_FUNCTION_INLINE void GetPartSlice(IDT l_i, IDT l_j, IDT r_i, IDT r_j, DenseMatrix& x){
+        ChipSum::Numeric::Impl::DenseMat::get_part_slice(__data, x.GetData(), l_i, l_j, r_i, r_j);
     }
 
     ///

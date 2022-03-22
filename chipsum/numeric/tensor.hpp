@@ -23,11 +23,11 @@ namespace ChipSum {
 namespace Numeric {
 
 
-template <size_t DNIM, typename... Props>
-class TensorDNIM {
+template <size_t NDIM, typename... Props>
+class TensorNDIM {
 
 public:
-    using traits = Tensor_Traits<DNIM, Props...>;
+    using traits = Tensor_Traits<NDIM, Props...>;
     
     using tensor_type = typename traits::tensor_type;
     using tensor_type_ref = typename std::add_lvalue_reference<tensor_type>::type;
@@ -53,48 +53,48 @@ private:
 public:
 
     ///
-    /// \brief TensorDNIM 构造一个3维张量，该张量未初始化
+    /// \brief TensorNDIM 构造一个3维张量，该张量未初始化
     /// \param Batch Batch数
     /// \param M M 行数
     /// \param N N 列数
     ///
-    CHIPSUM_DECLARED_FUNCTION TensorDNIM(const_size_type Batch, const_size_type M, const_size_type N)
+    CHIPSUM_DECLARED_FUNCTION TensorNDIM(const_size_type Batch, const_size_type M, const_size_type N)
         : __nbatch(Batch), __nrow(M), __ncol(N) {
         ChipSum::Numeric::Impl::Tensor::create(__data, Batch, M, N);
     }
 
     ///
-    /// \brief TensorDNIM 构造一个3维张量，并张量初始化
+    /// \brief TensorNDIM 构造一个3维张量，并张量初始化
     /// \param Batch Batch数
     /// \param M M 行数
     /// \param N N 列数
     ///
-    CHIPSUM_DECLARED_FUNCTION TensorDNIM(const_size_type Batch, const_size_type M, const_size_type N, value_type *src)
+    CHIPSUM_DECLARED_FUNCTION TensorNDIM(const_size_type Batch, const_size_type M, const_size_type N, value_type *src)
         : __nbatch(Batch), __nrow(M), __ncol(N) {
         // ChipSum::Numeric::Impl::Tensor::create(__data, Batch, M, N, src);
         ChipSum::Numeric::Impl::Tensor::create(src, __data, Batch, M, N);
     }
 
     ///
-    /// \brief TensorDNIM 构造一个4维张量，该张量未初始化
+    /// \brief TensorNDIM 构造一个4维张量，该张量未初始化
     /// \param Num 个数
     /// \param Batch Batch数
     /// \param M M 行数
     /// \param N N 列数
     ///
-    CHIPSUM_DECLARED_FUNCTION TensorDNIM(const_size_type Num, const_size_type Batch, const_size_type M, const_size_type N)
+    CHIPSUM_DECLARED_FUNCTION TensorNDIM(const_size_type Num, const_size_type Batch, const_size_type M, const_size_type N)
         : __nnum(Num), __nbatch(Batch), __nrow(M), __ncol(N) {
         ChipSum::Numeric::Impl::Tensor::create(__data, Num, Batch, M, N);
     }
 
     ///
-    /// \brief TensorDNIM 构造一个4维张量，并张量初始化
+    /// \brief TensorNDIM 构造一个4维张量，并张量初始化
     /// \param Num 个数
     /// \param Batch Batch数
     /// \param M M 行数
     /// \param N N 列数
     ///
-    CHIPSUM_DECLARED_FUNCTION TensorDNIM(const_size_type Num, const_size_type Batch, const_size_type M, const_size_type N, value_type *src)
+    CHIPSUM_DECLARED_FUNCTION TensorNDIM(const_size_type Num, const_size_type Batch, const_size_type M, const_size_type N, value_type *src)
         : __nnum(Num), __nbatch(Batch), __nrow(M), __ncol(N) {
         ChipSum::Numeric::Impl::Tensor::create(src, __data, Num, Batch, M, N);
     }
@@ -171,7 +171,7 @@ public:
     /// \param B  参与运算的另一矩阵
     /// \param C  结果
     ///
-    CHIPSUM_FUNCTION_INLINE void GEMM(TensorDNIM &m, TensorDNIM &ret) {
+    CHIPSUM_FUNCTION_INLINE void GEMM(TensorNDIM &m, TensorNDIM &ret) {
         ChipSum::Numeric::Impl::Tensor::batch_gemm(__data, m.GetData(), ret.GetData());
     }
 
@@ -180,7 +180,7 @@ public:
     /// \param x  参与运算的向量
     /// \param y  结果
     ///
-    CHIPSUM_FUNCTION_INLINE void GEMV(TensorDNIM &x, TensorDNIM& y) {
+    CHIPSUM_FUNCTION_INLINE void GEMV(TensorNDIM &x, TensorNDIM& y) {
         ChipSum::Numeric::Impl::Tensor::batch_gemv(__data, x.GetData(), y.GetData());
     }
 
@@ -219,6 +219,6 @@ public:
 ///
 /// \brief Tensor 默认的
 ///
-template<size_t NDIM> using Tensor = ChipSum::Numeric::TensorDNIM<NDIM, CSFloat, ChipSum::Backend::DefaultBackend>;
+template<size_t NDIM> using Tensor = ChipSum::Numeric::TensorNDIM<NDIM, CSFloat, ChipSum::Backend::DefaultBackend>;
 
 #endif // __CHIPSUM_TENSOR_HPP__
