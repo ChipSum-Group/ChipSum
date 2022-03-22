@@ -70,7 +70,23 @@ namespace Tensor {
     }
 
 
-    template <typename ValueType>
+    // 可变模板参数 给定值初始化
+    template <typename T, typename ValueType, typename ...Args>
+    CHIPSUM_FUNCTION_INLINE void create(
+        ValueType *src,
+        Kokkos::DualView<T, Kokkos::LayoutRight> &A,
+        Args ...args)
+    { 
+        static_assert(A.rank==sizeof ...(args));
+        A = Kokkos::DualView<T, Kokkos::LayoutRight>("tensor_" + std::to_string(tensor_name++), args...);
+
+        Kokkos::View<T, Kokkos::LayoutRight, Kokkos::HostSpace, Kokkos::MemoryTraits<Kokkos::Unmanaged> > tmp_view (src, args...);
+        Kokkos::deep_copy(A.h_view, tmp_view);
+        Kokkos::deep_copy(A.d_view, A.h_view);
+    }
+    // 
+
+    /* template <typename ValueType>
     CHIPSUM_FUNCTION_INLINE void create(
         ValueType *src,
         Kokkos::DualView<ValueType ***, Kokkos::LayoutRight> &A,
@@ -115,7 +131,7 @@ namespace Tensor {
         );
 
         Kokkos::deep_copy(A.d_view, A.h_view);
-    }
+    } */
 
 
     template <typename T>

@@ -55,11 +55,13 @@ int main(int argc,char* argv[])
             v3[i] = double(0);
         }
 
+        Tensor<3> tmp(2,2,2);
+
         Tensor<3> a(B,N,N,v1);
         Tensor<3> a1(B,N,1,v2);
         Tensor<3> a2(B,N,1,v3);
         a.Print();
-        // a(0,0,1) = 100;
+        a(0,0,1) = 100;
         std::cout<<a.GetDimthNum(2)<<std::endl;
         a.HostToDevice();
         a.Print();
@@ -67,7 +69,7 @@ int main(int argc,char* argv[])
         a1.Print();
         a2.Print();
 
-        a.GEMV(a1, a2);
+        a.GEMM(a1, a2);
         a2.Print();
         
         
@@ -92,8 +94,24 @@ int main(int argc,char* argv[])
         Tensor<4> Btensor2(K,B,N,N,b3);
         Btensor2.Print();
 
-        Btensor.GEMM(Btensor1, Btensor2);
+        // Btensor.GEMM(Btensor1, Btensor2);
         Btensor2.Print();
+
+        double *b4 = static_cast<double *>(std::malloc(K*B*M*1 * sizeof(double)));
+        for (int i = 0; i < K*B*M*1 ; ++i) {
+            b4[i] = double(4);
+        }
+        double *b5 = static_cast<double *>(std::malloc(K*B*N*1 * sizeof(double)));
+        for (int i = 0; i < K*B*N*1 ; ++i) {
+            b5[i] = double(5);
+        }
+        Tensor<4> Btensor4(K,B,M,1,b4);
+        Btensor4.Print();
+        Tensor<4> Btensor5(K,B,N,1,b5);
+        Btensor5.Print();
+
+        Btensor.GEMV(Btensor4, Btensor5);
+        Btensor5.Print();
 
         double *m1 = static_cast<double *>(std::malloc(5*5 * sizeof(double)));
         for (int i = 0; i < 5*5 ; ++i) {
