@@ -12,7 +12,8 @@
 
 #if defined(ChipSum_USE_KokkosKernels) || defined(ChipSum_USE_KokkosKernels64)
 #define CHIPSUM_SPECIAL_INLINE KOKKOS_INLINE_FUNCTION
-#elif
+// #elif
+#else
 #define CHIPSUM_SPECIAL_INLINE inline
 #endif
 #define CHIPSUM_UNUSED(x) (void)x;

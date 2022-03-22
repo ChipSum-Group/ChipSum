@@ -14,9 +14,9 @@ set(CHIPSUM_SOURCES "")
 
 set(CHIPSUM_HEADERS "")
 
-add_subdirectory("unit_test")
 
 add_subdirectory("chipsum")
+
 
 set(CMAKE_INCLUDE_DIRECTORIES_BEFORE on)
 
@@ -56,35 +56,32 @@ add_library(chipsum ${CHIPSUM_SOURCES} ${CHIPSUM_HEADERS})
 
 list(APPEND CHIPSUM_LIBS chipsum)
 
-# set .exe name
-set(EXE_NAME test1)
+install(TARGETS chipsum DESTINATION lib)
+install(FILES ChipSum.hpp DESTINATION ${CMAKE_INSTALL_PREFIX})
 
-add_executable(${EXE_NAME} "tests/test1.cpp" "ChipSum.hpp")
-# add_executable(${EXE_NAME} "tests/test2.cpp" "ChipSum.hpp")
-# add_executable(${EXE_NAME} "tests/test3.cpp" "ChipSum.hpp")
-# add_executable(${EXE_NAME} "examples/chipsumSolver/qr.cpp" "ChipSum.hpp")
-# add_executable(${EXE_NAME} "examples/chipsumSolver/lu.cpp" "ChipSum.hpp")
-# add_executable(${EXE_NAME} "examples/chipsumSolver/cg.cpp" "ChipSum.hpp")
-# add_executable(${EXE_NAME} "examples/chipsumSolver/bicg.cpp" "ChipSum.hpp")
-# add_executable(${EXE_NAME} "examples/chipsumSolver/bicgstab.cpp" "ChipSum.hpp")
-# add_executable(${EXE_NAME} "examples/chipsumSolver/gmres.cpp" "ChipSum.hpp")
-# add_executable(${EXE_NAME} "examples/chipsumAI/mnist.cpp" "ChipSum.hpp")
+set(CHIPSUM_ENABLE_TEST ON)
+set(CHIPSUM_ENABLE_EXAMPLE ON)
+set(CHIPSUM_ENABLE_PERF_TEST ON)
+set(CHIPSUM_ENABLE_UNIT_TEST ON)
 
-# install options
-install(TARGETS ${EXE_NAME} DESTINATION bin)
+if(CHIPSUM_ENABLE_TEST)
+add_subdirectory("tests")
+endif()
+if(CHIPSUM_ENABLE_EXAMPLE)
+add_subdirectory("examples")
+endif()
+if(CHIPSUM_ENABLE_PERF_TEST)
+add_subdirectory("perf_test")
+endif()
+if(CHIPSUM_ENABLE_UNIT_TEST)
+add_subdirectory("unit_test")
+endif()
 
-target_link_libraries(${EXE_NAME} PUBLIC ${CHIPSUM_LIBS})
 
-target_include_directories(${EXE_NAME} PUBLIC
-                           "${PROJECT_BINARY_DIR}"
-                           )
+#"examples/chipsumAI/mnist.cpp" "examples/matrix/lu.cpp" "tests/test1.cpp" "perf_test/perf_test.cpp"
+add_executable(ChipSum "examples/matrix/trtri.cpp")
+install(TARGETS ChipSum  DESTINATION bin)
+target_link_libraries(ChipSum PUBLIC ${CHIPSUM_LIBS})
+target_include_directories(ChipSum PUBLIC ${PROJECT_BINARY_DIR})
 
-add_executable(ChipSumMnist
-    "examples/chipsumAI/mnist.cpp"
-    "ChipSum.hpp"
-    )
-install(TARGETS ChipSumMnist  DESTINATION bin)
-target_link_libraries(ChipSumMnist PUBLIC ${CHIPSUM_LIBS}  )
-target_include_directories(ChipSumMnist PUBLIC
-                            "${PROJECT_BINARY_DIR}"
-                            )
+

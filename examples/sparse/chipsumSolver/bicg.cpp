@@ -1,9 +1,22 @@
+<<<<<<< HEAD:examples/matrix/bicg.cpp
 /* * * * * * * * * * * * * * * * * * * * *
  *   File:     bicg.cpp
  *   Author:   Yaojie Yu
  *   group:    CDCS-HPC
  *   Time:     2021-12-14
  * * * * * * * * * * * * * * * * * * * * * */
+=======
+///
+/// \file     ex2.cpp
+/// \author   yaojie yu
+/// \group    CDCS-HPC
+/// \date     2021-12-14
+/// \brief    %stuff%
+///
+
+#include "../ChipSum.hpp"
+#include "../chipsum/chipsum_macro.h"
+>>>>>>> dev_zxb:examples/sparse/chipsumSolver/bicg.cpp
 
 #include "../ChipSum.hpp"
 #include "../chipsum/chipsum_macro.h"

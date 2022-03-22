@@ -219,7 +219,7 @@ public:
     }
 
     ///
-    /// \brief LU分解
+    /// \brief LU分解，结果存入原矩阵
     /// \param tiny 分解精度,默认为0
     ///
     CHIPSUM_FUNCTION_INLINE void LU(const value_type tiny = 0) {
@@ -227,21 +227,69 @@ public:
     }
 
     ///
-    /// \brief QR分解
-    /// \param 输出矩阵系数
-    /// \param 输出矩阵系数
+    /// \brief QR分解，结果存入原矩阵
+    /// \param 输出矩阵系数tau
+    /// \param 输出矩阵系数w
     ///
     CHIPSUM_FUNCTION_INLINE void QR(vector_type &x,vector_type& y) {
         ChipSum::Numeric::Impl::DenseMat::qr(__data,x.GetData(),y.GetData());
     }
 
     ///
-    /// \brief HESSENBERG变换
-    /// \param 输出矩阵系数t
+    /// \brief HESSENBERG变换，结果存入原矩阵
+    /// \param 输出矩阵系数tau
     /// \param 输出矩阵系数w
     ///
     CHIPSUM_FUNCTION_INLINE void HESSENBERG(vector_type &t,vector_type& w) {
         ChipSum::Numeric::Impl::DenseMat::hessenberg(__data,t.GetData(),w.GetData());
+    }
+
+    ///
+    /// \brief op(A)*X = alpha*B if side == "L" or "l", X*op(A) = alpha*B if side == "R" or "r"
+    /// \param *this  [IN,OUT]输入/输出矩阵B，输入时，多重RHS的M×N矩阵。输出时，用求解的x覆盖。
+    /// \param A      [IN]矩阵A,上三角矩阵或下三角矩阵
+    /// \param alpha  [IN]标量系数
+    /// \param side[] [IN]op(A)*X时"L" or "l"，X*op(A)时"R" or "r"
+    /// \param uplo[] [IN]A是上三角矩阵"U" or "u",下三角矩阵"L" or "l"
+    /// \param trans[][IN]op(A)当"N" or "n"非转置,"T" or "t"转置, "C" or "c"伴随
+    /// \param diag[] [IN]"U" or "u" 对角线参数，对角线为unit，"N" or "n"对角线非unit
+    ///
+    CHIPSUM_FUNCTION_INLINE void TRSM(DenseMatrix &A,
+                                      const value_type alpha,
+                                      const char side[],
+                                      const char uplo[],
+                                      const char trans[]="N",
+                                      const char diag[]="N") {
+        ChipSum::Numeric::Impl::DenseMat::trsm(A.GetData(),__data,alpha,side,uplo,trans,diag);
+    }
+
+    ///
+    /// \brief B = alpha * op(A) * B if side == "L" or "l"  B = alpha * B * op(A) if side == "R" or "r"
+    /// \param *this  [IN,OUT]输入/输出矩阵B，输入时，多重RHS的M×N矩阵。输出时，用求解的x覆盖。
+    /// \param A      [IN]矩阵A,上三角矩阵或下三角矩阵
+    /// \param alpha  [IN]标量系数
+    /// \param side[] [IN]op(A)*X时"L" or "l"，X*op(A)时"R" or "r"
+    /// \param uplo[] [IN]A是上三角矩阵"U" or "u",下三角矩阵"L" or "l"
+    /// \param trans[][IN]op(A)当"N" or "n"非转置,"T" or "t"转置, "C" or "c"伴随
+    /// \param diag[] [IN]"U" or "u" 对角线参数，对角线为unit，"N" or "n"对角线非unit
+    ///
+    CHIPSUM_FUNCTION_INLINE void TRMM(DenseMatrix &A,
+                                      const value_type alpha,
+                                      const char side[],
+                                      const char uplo[],
+                                      const char trans[]="N",
+                                      const char diag[]="N") {
+        ChipSum::Numeric::Impl::DenseMat::trsm(A.GetData(),__data,alpha,side,uplo,trans,diag);
+    }
+
+    ///
+    /// \brief 上/下三角矩阵的逆, A = inv(A)
+    /// \param *this  [IN,OUT]输入/输出矩阵A/inv(A)
+    /// \param diag[] [IN]"U" or "u" 对角线参数，对角线为unit,"N" or "n"对角线非unit
+    /// \return int    0成功,i如果矩阵的第i对角线元素为零，且无法完成计算
+    ///
+    CHIPSUM_FUNCTION_INLINE int TRTRI(const char uplo[],const char diag[]="N") {
+        return ChipSum::Numeric::Impl::DenseMat::trtri(__data,uplo,diag);
     }
     
 

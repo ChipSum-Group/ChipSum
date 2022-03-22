@@ -23,7 +23,7 @@ using namespace std;
 void init_input(int index, double *pic, char *pic_28){
     
     // init input
-    ifstream pic_in("../data/mnist/data/pic_" + to_string(index) + ".txt");
+    ifstream pic_in("../../../data/mnist/data/pic_" + to_string(index) + ".txt");
     for(int i = 0; i < M; ++i){
         pic_in >> pic[i];
         pic[i] /= 255;

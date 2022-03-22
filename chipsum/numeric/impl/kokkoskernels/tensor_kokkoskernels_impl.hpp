@@ -18,6 +18,8 @@
 // #include "densemat_kokkoskernels_gemv_impl.hpp"
 #include "tensor_kokkoskernels_gemm_impl.hpp"
 #include "tensor_kokkoskernels_gemv_impl.hpp"
+#include "tensor_kokkoskernels_lu_impl.hpp"
+#include "tensor_kokkoskernels_qr_impl.hpp"
 
 // #include "../examples/chipsumAI/mnist/kernels/densemat_kokkoskernels_relu_impl.hpp"
 // #include "../examples/chipsumAI/mnist/kernels/densemat_kokkoskernels_activation_impl.hpp"
@@ -52,6 +54,7 @@ struct Tensor_Traits<NDIM, ValueType, ChipSum::Backend::KokkosKernels, Props...>
         : public Operator_Traits<ValueType> {
 
     using tensor_type = typename Kokkos::DualView<typename Tensor_Traits_t<NDIM, ValueType>::type, Kokkos::LayoutRight>;
+    using backend_type = ChipSum::Backend::KokkosKernels;
     using size_type = typename tensor_type::size_type;
     using value_type = typename tensor_type::value_type;
 
@@ -70,7 +73,23 @@ namespace Tensor {
     }
 
 
-    template <typename ValueType>
+    // 可变模板参数 给定值初始化
+    template <typename T, typename ValueType, typename ...Args>
+    CHIPSUM_FUNCTION_INLINE void create(
+        ValueType *src,
+        Kokkos::DualView<T, Kokkos::LayoutRight> &A,
+        Args ...args)
+    { 
+        static_assert(A.rank==sizeof ...(args));
+        A = Kokkos::DualView<T, Kokkos::LayoutRight>("tensor_" + std::to_string(tensor_name++), args...);
+
+        Kokkos::View<T, Kokkos::LayoutRight, Kokkos::HostSpace, Kokkos::MemoryTraits<Kokkos::Unmanaged> > tmp_view (src, args...);
+        Kokkos::deep_copy(A.h_view, tmp_view);
+        Kokkos::deep_copy(A.d_view, A.h_view);
+    }
+    // 
+
+    /* template <typename ValueType>
     CHIPSUM_FUNCTION_INLINE void create(
         ValueType *src,
         Kokkos::DualView<ValueType ***, Kokkos::LayoutRight> &A,
@@ -115,7 +134,7 @@ namespace Tensor {
         );
 
         Kokkos::deep_copy(A.d_view, A.h_view);
-    }
+    } */
 
 
     template <typename T>

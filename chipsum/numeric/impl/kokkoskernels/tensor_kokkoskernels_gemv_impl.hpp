@@ -3,7 +3,7 @@
 
 #include <KokkosBlas3_gemm.hpp>
 #include <Kokkos_DualView.hpp>
-#include "KokkosBatched_Gemv_Team_Impl.hpp"
+#include <KokkosBatched_Gemv_Decl.hpp>
 
 #include "../../../chipsum_macro.h"
 
@@ -59,22 +59,30 @@ batch_gemv(Kokkos::DualView<ValueType ***, Kokkos::LayoutRight> &A,
 
 template <typename ValueType>
 CHIPSUM_FUNCTION_INLINE void
-batch_gemv(const Kokkos::DualView<ValueType ****, Kokkos::LayoutRight> &A,
-     const Kokkos::DualView<ValueType ****, Kokkos::LayoutRight> &B,
+batch_gemv(Kokkos::DualView<ValueType ****, Kokkos::LayoutRight> &A,
+     Kokkos::DualView<ValueType ****, Kokkos::LayoutRight> &B,
      Kokkos::DualView<ValueType ****, Kokkos::LayoutRight> &C) {
      
      for(size_t i=0; i<A.extent(0); ++i){
           
-          auto A_sub = Kokkos::subview(A.d_view, i, Kokkos::ALL(),Kokkos::ALL(),Kokkos::ALL());
-          auto B_sub = Kokkos::subview(B.d_view, i, Kokkos::ALL(),Kokkos::ALL(),Kokkos::ALL());
-          auto C_sub = Kokkos::subview(C.d_view, i, Kokkos::ALL(),Kokkos::ALL(),Kokkos::ALL());
+          // auto A_sub = Kokkos::subview(A, i, Kokkos::ALL(),Kokkos::ALL(),Kokkos::ALL());
+          // auto B_sub = Kokkos::subview(B, i, Kokkos::ALL(),Kokkos::ALL(),Kokkos::ALL());
+          // auto C_sub = Kokkos::subview(C, i, Kokkos::ALL(),Kokkos::ALL(),Kokkos::ALL());
+
+          // auto A_sub = Kokkos::subview(A, i, Kokkos::ALL(),Kokkos::ALL(),Kokkos::ALL());
+          // auto B_sub = Kokkos::subview(B, i, Kokkos::ALL(),Kokkos::ALL(),Kokkos::ALL());
+          // auto C_sub = Kokkos::subview(C, i, Kokkos::ALL(),Kokkos::ALL(),Kokkos::ALL());
+
+          Kokkos::DualView<ValueType ***, Kokkos::LayoutRight> A_sub(A, i, Kokkos::ALL(), Kokkos::ALL(), Kokkos::ALL());
+          Kokkos::DualView<ValueType ***, Kokkos::LayoutRight> B_sub(B, i, Kokkos::ALL(), Kokkos::ALL(), Kokkos::ALL());
+          Kokkos::DualView<ValueType ***, Kokkos::LayoutRight> C_sub(C, i, Kokkos::ALL(), Kokkos::ALL(), Kokkos::ALL());
           
           typedef Kokkos::TeamPolicy<> team_policy;
 
-          team_policy policy(A_sub.extent(0), Kokkos::AUTO);
+          team_policy policy(A_sub.d_view.extent(0), Kokkos::AUTO);
           GemvFunctor<ValueType> functor(A_sub, B_sub, C_sub, 1.0, 0.0);
 
-          Kokkos::parallel_for( "batch_gemv", policy, functor);
+          Kokkos::parallel_for( "batch_gemv_4d", policy, functor);
      }
 }
 
