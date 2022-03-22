@@ -107,6 +107,17 @@ CHIPSUM_FUNCTION_INLINE void create(
  
 }
 
+template <typename ValueType,typename ST>
+CHIPSUM_FUNCTION_INLINE void create(
+        Kokkos::DualView<ValueType *>& x,
+        const ST& n,
+        ValueType value
+        ) {
+    x.resize(n);
+    Kokkos::deep_copy(x.h_view, value);
+    Kokkos::deep_copy(x.d_view, x.h_view);
+}
+
 
 
 template <typename ValueType>

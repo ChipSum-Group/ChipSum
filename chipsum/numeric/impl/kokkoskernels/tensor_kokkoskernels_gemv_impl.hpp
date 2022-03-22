@@ -65,9 +65,9 @@ batch_gemv(const Kokkos::DualView<ValueType ****, Kokkos::LayoutRight> &A,
      
      for(size_t i=0; i<A.extent(0); ++i){
           
-          auto A_sub = Kokkos::subview(A.d_view, i, Kokkos::ALL(),Kokkos::ALL(),Kokkos::ALL());
-          auto B_sub = Kokkos::subview(B.d_view, i, Kokkos::ALL(),Kokkos::ALL(),Kokkos::ALL());
-          auto C_sub = Kokkos::subview(C.d_view, i, Kokkos::ALL(),Kokkos::ALL(),Kokkos::ALL());
+          auto A_sub = Kokkos::subview(A, i, Kokkos::ALL(),Kokkos::ALL(),Kokkos::ALL());
+          auto B_sub = Kokkos::subview(B, i, Kokkos::ALL(),Kokkos::ALL(),Kokkos::ALL());
+          auto C_sub = Kokkos::subview(C, i, Kokkos::ALL(),Kokkos::ALL(),Kokkos::ALL());
           
           typedef Kokkos::TeamPolicy<> team_policy;
 
