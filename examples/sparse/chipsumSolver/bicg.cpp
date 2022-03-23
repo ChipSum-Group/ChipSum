@@ -8,7 +8,7 @@
 #include "../ChipSum.hpp"
 #include "../chipsum/chipsum_macro.h"
 
-Vector bicg(CSR &A, Vector &b, Vector &x, double tol, int max_it)
+CSVector bicg(CSR &A, CSVector &b, CSVector &x, double tol, int max_it)
 {
     // BiConjugate Gradient Method without preconditioning.
     //
@@ -24,7 +24,7 @@ Vector bicg(CSR &A, Vector &b, Vector &x, double tol, int max_it)
     if (bnrm2 == 0.0)
         bnrm2 = 1.0;
 
-    Vector r(x.GetSize());
+    CSVector r(x.GetSize());
     A.SPMV(x, r);
     b.AXPBY(r, 1.0, -1.0); // r = b - A*x
 
@@ -33,12 +33,12 @@ Vector bicg(CSR &A, Vector &b, Vector &x, double tol, int max_it)
     if (error < tol)
         return x;
 
-    Vector r_tld(x.GetSize());
+    CSVector r_tld(x.GetSize());
     r_tld.DeepCopy(r);
 
-    Vector p(x.GetSize()), p_tld(x.GetSize());
-    Vector z(x.GetSize()), z_tld(x.GetSize());
-    Vector q(x.GetSize()), q_tld(x.GetSize());
+    CSVector p(x.GetSize()), p_tld(x.GetSize());
+    CSVector z(x.GetSize()), z_tld(x.GetSize());
+    CSVector q(x.GetSize()), q_tld(x.GetSize());
 
     double alpha, beta, rho, rho_1;
 
@@ -82,10 +82,10 @@ Vector bicg(CSR &A, Vector &b, Vector &x, double tol, int max_it)
         if (error <= tol)
             break;
 
-        Vector r_temp(b.GetSize());
-        A.SPMV(x, r_temp);          /* r_temp = A*x */
-        b.AXPBY(r_temp, 1.0, -1.0); /* r_temp = b-r_temp */
-        printf("%.20f\n", r_temp.Norm2());
+        CSVector r_temp(b.GetSize());
+        A.SPMV(x,r_temp); /* r_temp = A*x */
+        b.AXPBY(r_temp,1.0,-1.0); /* r_temp = b-r_temp */
+        printf("%.20f\n",r_temp.Norm2());
 
         rho_1 = rho;
     }
@@ -123,9 +123,9 @@ int main(int argc, char *argv[])
 
         IN.close();
 
-        Vector b(nv, b_data.data());
+        CSVector b(nv,b_data.data());
 
-        Vector x0(nv);
+        CSVector x0(nv);
 
         x0 *= 0;
 

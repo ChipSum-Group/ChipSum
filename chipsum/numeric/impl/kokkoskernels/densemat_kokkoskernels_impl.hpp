@@ -29,6 +29,9 @@
 
 #include "densemat_kokkoskernels_lu_impl.hpp"
 #include "densemat_kokkoskernels_qr_impl.hpp"
+#include "densemat_kokkoskernels_trsm_impl.hpp"
+#include "densemat_kokkoskernels_trmm_impl.hpp"
+#include "densemat_kokkoskernels_trtri_impl.hpp"
 #include "densemat_kokkoskernels_hessenberg_impl.hpp"
 
 
