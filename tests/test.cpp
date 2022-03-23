@@ -95,22 +95,11 @@ inline void ApplyPlaneRotation(double &dx, double &dy, double &cs, double &sn)
     dx = temp;
 }
 
-int main(int argc, char *argv[])
-{
-
-<<<<<<< HEAD
-    char *filename_A = argv[1];
-    char *filename_b = argv[2];
-
-    if (filename_A == nullptr)
-        filename_A = "../data/A.mtx";
-=======
 int main(int argc, char *argv[]) {
 
     const char* filename_A = argv[1];
     const char* filename_b = argv[2];
     if(filename_A == nullptr) filename_A = "../data/A.mtx";
->>>>>>> dev_zxb
 
     ChipSum::Common::Init(argc, argv);
     {
