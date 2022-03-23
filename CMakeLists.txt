@@ -61,8 +61,8 @@ install(FILES ChipSum.hpp DESTINATION ${CMAKE_INSTALL_PREFIX})
 
 set(CHIPSUM_ENABLE_TEST ON)
 set(CHIPSUM_ENABLE_EXAMPLE OFF)
-set(CHIPSUM_ENABLE_PERF_TEST OFF)
-set(CHIPSUM_ENABLE_UNIT_TEST OFF)
+set(CHIPSUM_ENABLE_PERF_TEST ON)
+set(CHIPSUM_ENABLE_UNIT_TEST ON)
 
 if(CHIPSUM_ENABLE_TEST)
 add_subdirectory("tests")
@@ -76,7 +76,6 @@ endif()
 if(CHIPSUM_ENABLE_UNIT_TEST)
 add_subdirectory("unit_test")
 endif()
-
 
 #"examples/chipsumAI/mnist.cpp" "examples/matrix/lu.cpp" "tests/test1.cpp" "perf_test/perf_test.cpp"
 add_executable(ChipSum "examples/matrix/trtri.cpp")

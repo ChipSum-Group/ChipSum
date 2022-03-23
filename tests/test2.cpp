@@ -58,11 +58,11 @@ int main(int argc, char *argv[])
             v3[i] = double(0);
         }
 
-        Tensor<3> tmp(2,2,2);
+        CSTensor<3> tmp(2,2,2);
 
-        Tensor<3> a(B,N,N,v1);
-        Tensor<3> a1(B,N,1,v2);
-        Tensor<3> a2(B,N,1,v3);
+        CSTensor<3> a(B,N,N,v1);
+        CSTensor<3> a1(B,N,1,v2);
+        CSTensor<3> a2(B,N,1,v3);
         a.Print();
         a(0,0,1) = 100;
         std::cout<<a.GetDimthNum(2)<<std::endl;
@@ -91,11 +91,11 @@ int main(int argc, char *argv[])
             b3[i] = double(0);
         }
 
-        Tensor<4> Btensor(K, B, N, M, b1);
+        CSTensor<4> Btensor(K,B,N,M,b1);
         Btensor.Print();
-        Tensor<4> Btensor1(K, B, M, N, b2);
+        CSTensor<4> Btensor1(K,B,M,N,b2);
         Btensor1.Print();
-        Tensor<4> Btensor2(K, B, N, N, b3);
+        CSTensor<4> Btensor2(K,B,N,N,b3);
         Btensor2.Print();
 
         // Btensor.GEMM(Btensor1, Btensor2);
@@ -109,9 +109,9 @@ int main(int argc, char *argv[])
         for (int i = 0; i < K*B*N*1 ; ++i) {
             b5[i] = double(5);
         }
-        Tensor<4> Btensor4(K,B,M,1,b4);
+        CSTensor<4> Btensor4(K,B,M,1,b4);
         Btensor4.Print();
-        Tensor<4> Btensor5(K,B,N,1,b5);
+        CSTensor<4> Btensor5(K,B,N,1,b5);
         Btensor5.Print();
 
         Btensor.GEMV(Btensor4, Btensor5);
@@ -121,13 +121,13 @@ int main(int argc, char *argv[])
         for (int i = 0; i < 5*5 ; ++i) {
             m1[i] = double(1);
         }
-        Matrix M1(5,5,m1);
+        CSMatrix M1(5,5,m1);
 
         double *m2 = static_cast<double *>(std::malloc(5 * sizeof(double)));
         for (int i = 0; i < 5 ; ++i) {
             m2[i] = double(i);
         }
-        Vector M2(5,m2);
+        CSVector M2(5,m2);
 
         M1.SetCol(1,M2);
         M1.SetRow(1,M2);
@@ -140,7 +140,7 @@ int main(int argc, char *argv[])
         M1.GetRowSlice(3,0,5,M2); //等大小取，slice大小和取出后存储vector大小相同
         M2.Print();
 
-        Matrix M3(2,2);
+        CSMatrix M3(2,2);
         M1.GetPartSlice(1,1,3,3,M3);
         M3.Print();
     }

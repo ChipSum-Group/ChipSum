@@ -500,7 +500,7 @@ operator*(Scalar<Props...> &a,
 
 typedef ChipSum::Numeric::Vector<CSFloat,
 ChipSum::Backend::DefaultBackend>
-Vector;
+CSVector;
 
 typedef ChipSum::Numeric::Vector<CSFloat,
 ChipSum::Backend::Serial>

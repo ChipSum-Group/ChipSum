@@ -11,7 +11,7 @@ int main(int argc, char *argv[]) {
     
     ChipSum::Common::Init(argc, argv);
     {
-        //Matrix LU
+        //CSMatrix LU
         int M = 5;
         CSFloat *a = static_cast<CSFloat *>(std::malloc(M*M * sizeof(CSFloat)));
         for(int i=0;i<M;++i)
@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
             else
               a[i*M+j] = 0.0;
         }
-        Matrix A(M, M, a);
+        CSMatrix A(M, M, a);
 
         std::cout<<"origin matrix A:"<<std::endl;
         A.Print();

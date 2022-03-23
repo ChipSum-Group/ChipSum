@@ -219,6 +219,6 @@ public:
 ///
 /// \brief Tensor 默认的
 ///
-template<size_t NDIM> using Tensor = ChipSum::Numeric::TensorNDIM<NDIM, CSFloat, ChipSum::Backend::DefaultBackend>;
+template<size_t NDIM> using CSTensor = ChipSum::Numeric::TensorNDIM<NDIM, CSFloat, ChipSum::Backend::DefaultBackend>;
 
 #endif // __CHIPSUM_TENSOR_HPP__

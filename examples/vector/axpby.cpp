@@ -29,8 +29,8 @@ int main(int argc, char *argv[]) {
             v2[i] = CSFloat(i);
         }
         
-        Vector a(N,v1); // a = {0,1,2,3,4...}
-        Vector b(N,v2); // b = {0,1,2,3,4...}
+        CSVector a(N,v1); // a = {0,1,2,3,4...}
+        CSVector b(N,v2); // b = {0,1,2,3,4...}
 
         a.AXPBY(b,3.0,2.0); // a=3.0*a+2.0*b      
         std::free(v1);

@@ -37,7 +37,7 @@ int main(int argc, char *argv[]) {
             {
                 A1[i] = CSFloat(rand()) / CSFloat(RAND_MAX);
             }
-            Matrix A(M, K, A1);
+            CSMatrix A(M, K, A1);
             // A.Print();
 
             CSFloat *A2 = static_cast<CSFloat *>(std::malloc(K*N * sizeof(CSFloat)));
@@ -46,7 +46,7 @@ int main(int argc, char *argv[]) {
             {
                 A2[i] = CSFloat(rand()) / RAND_MAX;
             }
-            Matrix B(K, N, A2);
+            CSMatrix B(K, N, A2);
             // B.Print();
 
             CSFloat *A3 = static_cast<CSFloat *>(std::malloc(M*N * sizeof(CSFloat)));
@@ -55,7 +55,7 @@ int main(int argc, char *argv[]) {
             {
                 A3[i] = CSFloat(0);
             }
-            Matrix C(M, N, A3);
+            CSMatrix C(M, N, A3);
             //C.Print();
 
 
@@ -83,7 +83,7 @@ int main(int argc, char *argv[]) {
             if(j==0){
                 std::cout<<"---------------------ChipSum Perf Test"
                     "---------------------"<<endl
-                    <<"Matrix size, Matrix size, GFlops: "<<std::endl;
+                    <<"CSMatrix size, CSMatrix size, GFlops: "<<std::endl;
             }
             //cout<<i<<endl;
             std::cout<<setiosflags(ios::left)<<setw(15)<<M*K<<setw(12)<<K*N<<Gbytes<<std::endl;

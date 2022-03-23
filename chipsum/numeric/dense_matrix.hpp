@@ -507,7 +507,7 @@ public:
 /// \brief Matrix 默认的
 ///
 typedef ChipSum::Numeric::DenseMatrix<CSFloat,ChipSum::Backend::DefaultBackend>
-Matrix;
+CSMatrix;
 
 typedef ChipSum::Numeric::DenseMatrix<CSFloat,ChipSum::Backend::Serial>
 SerialMatrix;
