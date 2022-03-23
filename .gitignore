@@ -1,4 +1,4 @@
-build
+build*
 tpls
 CMakeLists.txt.user
 .vscode
