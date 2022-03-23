@@ -26,8 +26,8 @@ int main(int argc, char *argv[]) {
                 v2[i] = CSFloat(i);
             }
             
-            Vector a(N,v1); // a = {0,1,2,3,4...}
-            Vector b(N,v2); // b = {0,1,2,3,4...}
+            CSVector a(N,v1); // a = {0,1,2,3,4...}
+            CSVector b(N,v2); // b = {0,1,2,3,4...}
 
             // Scalar r ;
             int repeat = 100;
@@ -46,7 +46,7 @@ int main(int argc, char *argv[]) {
                 Kokkos::DefaultExecutionSpace::print_configuration(cout,true);
                 cout<<"---------------------ChipSum dot Perf Test "
                       "---------------------"<<endl
-                    <<"Vector size,GFlops :"<<endl;
+                    <<"CSVector size,GFlops :"<<endl;
             }
             cout<<setiosflags(ios::left)<<setw(12)<<N<<Gbytes<<endl;
             

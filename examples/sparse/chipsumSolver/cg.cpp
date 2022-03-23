@@ -9,7 +9,7 @@
 #include "../ChipSum.hpp"
 #include "../chipsum/chipsum_macro.h"
 
-Vector cg(CSR &A, Vector &b, Vector &x, double tol, int max_it)
+CSVector cg(CSR &A, CSVector &b, CSVector &x, double tol, int max_it)
 {
     // Conjugate Gradient Method without preconditioning.
     //
@@ -22,14 +22,14 @@ Vector cg(CSR &A, Vector &b, Vector &x, double tol, int max_it)
     // output  x        REAL solution vector
 
 
-    Vector r(x.GetSize());
+    CSVector r(x.GetSize());
     A.SPMV(x, r);
     b.AXPBY(r, 1.0, -1.0); //r = b - A*x
 
-    Vector p(b.GetSize());
+    CSVector p(b.GetSize());
     p.DeepCopy(r);
 
-    Vector Ap(b.GetSize());
+    CSVector Ap(b.GetSize());
 
     double alpha = 0, beta = 0.0, rsnew = 0;
     double rsold = r.Dot(r);
@@ -102,9 +102,9 @@ int main(int argc, char *argv[])
 
         IN.close();
 
-        Vector b(nv,b_data.data());
+        CSVector b(nv,b_data.data());
 
-        Vector x0(nv);
+        CSVector x0(nv);
 
         x0*=0;
 

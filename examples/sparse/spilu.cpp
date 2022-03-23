@@ -94,10 +94,10 @@ int main(int argc, char *argv[]) {
         std::cout<<"U_CSR:";
         U.Print();
 
-        Vector bb(nrows);
-        Vector bb_tmp(nrows);
+        CSVector bb(nrows);
+        CSVector bb_tmp(nrows);
         std::vector<CSFloat> one(nrows,1.0);
-        Vector e_one(nrows,one.data());
+        CSVector e_one(nrows,one.data());
 
         A.SPMV(e_one,bb);
         // CSFloat bb_nrm = bb.Norm2();

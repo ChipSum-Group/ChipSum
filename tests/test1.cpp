@@ -23,9 +23,9 @@ using namespace std;
 
 struct ParallelPrintf_matrix {
     
-    Matrix _data;
+    CSMatrix _data;
 
-    ParallelPrintf_matrix(Matrix data) : _data(data){}
+    ParallelPrintf_matrix(CSMatrix data) : _data(data){}
 
     CHIPSUM_SPECIAL_INLINE
     void operator() (const int64_t i, const int64_t j) const {
@@ -48,7 +48,7 @@ struct ParallelPrintf_vec {
     }
 
     private:
-    Vector _vec;
+    CSVector _vec;
 };
 
 
@@ -65,9 +65,9 @@ int main(int argc, char *argv[]) {
             v2[i] = double(i);
         }
         
-        Vector a( N,v1); // a = {0,1,2,3,4}
+        CSVector a( N,v1); // a = {0,1,2,3,4}
         a.Print();
-        Vector b(N,v2); // b = {0,1,2,3,4}
+        CSVector b(N,v2); // b = {0,1,2,3,4}
         
         // a.HostToDevice();
         // a.DeviceToHost();
@@ -147,7 +147,7 @@ int main(int argc, char *argv[]) {
 
         double *A2 = static_cast<double *>(std::malloc(N*M * sizeof(double)));
 
-        Matrix A(N, N, A1);
+        CSMatrix A(N, N, A1);
         A.Print();
 
         A.Norm();
@@ -184,20 +184,20 @@ int main(int argc, char *argv[]) {
 
 
 
-        Matrix B(N,M,A2);
+        CSMatrix B(N,M,A2);
         B.Print();
 
         double *A3 = static_cast<double *>(std::malloc(N*M * sizeof(double)));
         for (int i=0;i<N*M;++i) {
             A3[i] = 0;
         }
-        Matrix C(N,M,A3);
+        CSMatrix C(N,M,A3);
 
         double *A4 = static_cast<double *>(std::malloc(M * sizeof(double)));
         for (int i=0;i<M;++i) {
             A4[i] = -100;
         }
-        Vector bias(M, A4);
+        CSVector bias(M, A4);
 
         A.Dense("N", "N", B, C);
         A.Dense("N", "N", B, bias, C);
@@ -303,21 +303,23 @@ int main(int argc, char *argv[]) {
 
 
         //read coo
-        int nr, nc, nz;
+        /* int nr, nc, nz;
         int *rm, *cm;
         CSFloat *vals;
-        ChipSum::Common::coo_reader(nr, nc, nz, rm, cm, vals, "../data/A.mtx" );
+        std::vector<int> t_row_map1, t_col_map1;
+        std::vector<CSFloat> t_values1;
+        ChipSum::Common::coo_reader(nr, nc, nz, rm, cm, vals, "../../data/A.mtx" );
         COO sparse_coo(nr,nc,nz,rm,cm,vals);
         //coo to csr
-        sparse_coo.GetCrsData(t_row_map, t_col_map, t_values);
-        CSR sparse_csr(nr,nc,nz,t_row_map.data(),t_col_map.data(),t_values.data());
+        sparse_coo.GetCrsData(t_row_map1, t_col_map1, t_values1);
+        CSR sparse_csr(nr,nc,nz,t_row_map1.data(),t_col_map1.data(),t_values1.data()); */
 
         
 
 
-        delete rm;
-        delete cm;
-        delete vals;
+        // delete rm;
+        // delete cm;
+        // delete vals;
 
         std::free(row_map);
         std::free(col_map);

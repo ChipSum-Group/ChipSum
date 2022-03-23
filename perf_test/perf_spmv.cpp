@@ -79,12 +79,12 @@ int main(int argc, char *argv[]) {
 
          std::vector<Scal> h_v(A.GetRowNum(),1);
 
-         Vector x(A.GetRowNum(),h_v.data());
+         CSVector x(A.GetRowNum(),h_v.data());
 
          /// \brief 此处用的是A.operator*()，此接口性能不好，但是很方便，
          ///        不用再构造b。如果b已经构造好了，建议调用A.SpMV接口，类
          ///        似接口后续会增添algorithm模块完成。目前先凑合吧。
-         Vector b = A*x;
+         CSVector b = A*x;
 
          int repeat = 100;
          /// \brief 暂时用Kokkos的Timer充数吧

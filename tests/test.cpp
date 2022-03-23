@@ -26,37 +26,33 @@ using namespace std;
 
 
 
-
-
-
-
 using Scal  = default_scalar;
 using Ordinal = default_lno_t;
 using Offset  = default_size_type;
 using Layout  = default_layout;
 
 
-CHIPSUM_FUNCTION_INLINE void run_cg(CSR& A,Vector& b,Vector& x,double tol=10e-12,int max_it=200)
+CHIPSUM_FUNCTION_INLINE void run_cg(CSR& A,CSVector& b,CSVector& x,double tol=10e-12,int max_it=200)
 {
 
     //    x0 = np.zeros(len(b))
     //    r0 = b-np.dot(A,x0)
     //    p0 = r0
-    Vector x0(x.GetSize());
+    CSVector x0(x.GetSize());
 
-    Vector r0(x.GetSize());
+    CSVector r0(x.GetSize());
 
     A.SPMV(x0,r0);
 
     b.AXPBY(r0,1.,-1.);
 
-    Vector p0(x.GetSize());
+    CSVector p0(x.GetSize());
 
     p0.DeepCopy(r0);
 
-    Vector Ap(x.GetSize());
+    CSVector Ap(x.GetSize());
 
-    Vector err(x.GetSize());
+    CSVector err(x.GetSize());
 
 
     for(int i=0;i<max_it;++i){
@@ -71,7 +67,7 @@ CHIPSUM_FUNCTION_INLINE void run_cg(CSR& A,Vector& b,Vector& x,double tol=10e-12
         p0.AXPBY(x,alpha);
 
         //        r1 = r0-alpha*np.dot(A,p0)
-        Vector r1(r0.GetSize());
+        CSVector r1(r0.GetSize());
         r1.DeepCopy(r0);
         Ap.AXPBY(r1,-alpha,1);
 
@@ -116,7 +112,7 @@ int main(int argc, char *argv[]) {
 
     const char* filename_A = argv[1];
     const char* filename_b = argv[2];
-    if(filename_A == nullptr) filename_A = "../data/A.mtx";
+    if(filename_A == nullptr) filename_A = "../../data/A.mtx";
 
     ChipSum::Common::Init(argc, argv);
     {
@@ -145,9 +141,9 @@ int main(int argc, char *argv[]) {
 
         IN.close();
 
-        Vector b(nv,b_data.data());
+        CSVector b(nv,b_data.data());
 
-        Vector x(nv);
+        CSVector x(nv);
 
 
 

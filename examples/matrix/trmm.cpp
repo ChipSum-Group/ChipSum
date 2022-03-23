@@ -12,7 +12,7 @@ int main(int argc, char *argv[]) {
     
     ChipSum::Common::Init(argc, argv);
     {
-        //Matrix LU
+        //CSMatrix LU
         int M = 5;
         int N = 4;
         CSFloat alpha = 1.0;
@@ -28,8 +28,8 @@ int main(int argc, char *argv[]) {
         }
         for(int i=0;i<M*N;++i)
             b[i] = CSFloat(rand()) / RAND_MAX;
-        Matrix A(M, M, a);
-        Matrix B(M, N, b);
+        CSMatrix A(M, M, a);
+        CSMatrix B(M, N, b);
 
         std::cout<<"origin matrix A:"<<std::endl;
         A.Print();

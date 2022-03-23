@@ -51,7 +51,7 @@ void init_input(int index, double *pic, char *pic_28){
 void init_ModelParameter(double *w1, double *w2, double *w3, double *b1, double *b2, double *b3){
     
     // init dense1
-    ifstream w1_in("../data/mnist/parameters/weight_Dense_1.txt");
+    ifstream w1_in("../../../data/mnist/parameters/weight_Dense_1.txt");
     for(int i = 0; i < M; ++i){
         for(int j = 0; j < N; ++j){
             w1_in >> w1[i*N+j];
@@ -59,14 +59,14 @@ void init_ModelParameter(double *w1, double *w2, double *w3, double *b1, double 
     }
     w1_in.close();
 
-    ifstream b1_in("../data/mnist/parameters/bias_Dense_1.txt");
+    ifstream b1_in("../../../data/mnist/parameters/bias_Dense_1.txt");
     for(int i = 0; i < N; ++i){
         b1_in >> b1[i];
     }
     b1_in.close();
 
     // init dense2
-    ifstream w2_in("../data/mnist/parameters/weight_Dense_2.txt");
+    ifstream w2_in("../../../data/mnist/parameters/weight_Dense_2.txt");
     for(int i = 0; i < N; ++i){
         for(int j = 0; j < N; ++j){
             w2_in >> w2[i*N+j];
@@ -74,14 +74,14 @@ void init_ModelParameter(double *w1, double *w2, double *w3, double *b1, double 
     }
     w2_in.close();
 
-    ifstream b2_in("../data/mnist/parameters/bias_Dense_2.txt");
+    ifstream b2_in("../../../data/mnist/parameters/bias_Dense_2.txt");
     for(int i = 0; i < N; ++i){
         b2_in >> b2[i];
     }
     b2_in.close();
 
     // init dense3
-    ifstream w3_in("../data/mnist/parameters/weight_Dense_3.txt");
+    ifstream w3_in("../../../data/mnist/parameters/weight_Dense_3.txt");
     for(int i = 0; i < N; ++i){
         for(int j = 0; j < K; ++j){
             w3_in >> w3[i*K+j];
@@ -89,7 +89,7 @@ void init_ModelParameter(double *w1, double *w2, double *w3, double *b1, double 
     }
     w3_in.close();
 
-    ifstream b3_in("../data/mnist/parameters/bias_Dense_3.txt");
+    ifstream b3_in("../../../data/mnist/parameters/bias_Dense_3.txt");
     for(int i = 0; i < K; ++i){
         b3_in >> b3[i];
     }
@@ -116,20 +116,20 @@ int main(int argc, char *argv[]) {
         // init model parameters
         init_ModelParameter(w1, w2, w3, b1, b2, b3);
 
-        // init parameters Matrix
-        Matrix weight_Dense_1(M, N, w1);
-        Vector bias_Dense_1(N, b1);
+        // init parameters CSMatrix
+        CSMatrix weight_Dense_1(M, N, w1);
+        CSVector bias_Dense_1(N, b1);
 
-        Matrix weight_Dense_2(N, N, w2);
-        Vector bias_Dense_2(N, b2);
+        CSMatrix weight_Dense_2(N, N, w2);
+        CSVector bias_Dense_2(N, b2);
 
-        Matrix weight_Dense_3(N, K, w3);
-        Vector bias_Dense_3(K, b3);
+        CSMatrix weight_Dense_3(N, K, w3);
+        CSVector bias_Dense_3(K, b3);
 
         // temp variable
-        Matrix C1(1,N);
-        Matrix C2(1,N);
-        Matrix C3(1,K);
+        CSMatrix C1(1,N);
+        CSMatrix C2(1,N);
+        CSMatrix C3(1,K);
 
 
         // compute
@@ -137,7 +137,7 @@ int main(int argc, char *argv[]) {
         {
             // get input
             init_input(index, pic, pic_28);
-            Matrix input(1, M, pic);
+            CSMatrix input(1, M, pic);
 
             // model
             input.Dense("N", "N", weight_Dense_1, bias_Dense_1, C1);
