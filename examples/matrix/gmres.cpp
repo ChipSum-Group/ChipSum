@@ -53,8 +53,8 @@ Vector gmres(CSR &A, Vector &b, Vector &x, double tol, int max_it)
     int j = 0;
 
     Vector tmp1(n);
-
     Vector tmp2(n);
+    Vector beta_n(n);
 
     while (j < m)
     {
@@ -109,6 +109,15 @@ Vector gmres(CSR &A, Vector &b, Vector &x, double tol, int max_it)
         j++;
     }
 
+    Matrix H_n(j+1, j+1);
+    H.GetPartSlice(0, 0, j+1, j+1, H_n);
+    Vector y(j+1);
+    beta(0, j+1, y);
+    y.TRMM(H_n, 1.0, "L", "U");
+
+    Matrix Q_n(j+1, j+1);
+    Q.GetPartSlice(0, 0, n, j+1, Q_n);
+    x += Q_n.SPMV(y);
 
     return x;
 }
