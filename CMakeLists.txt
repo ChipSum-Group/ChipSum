@@ -56,18 +56,29 @@ add_library(chipsum ${CHIPSUM_SOURCES} ${CHIPSUM_HEADERS})
 
 list(APPEND CHIPSUM_LIBS chipsum)
 
-# install options
 install(TARGETS chipsum DESTINATION lib)
 install(FILES ChipSum.hpp DESTINATION ${CMAKE_INSTALL_PREFIX})
 
-install(FILES ChipSum.hpp DESTINATION include)
+set(CHIPSUM_ENABLE_TEST ON)
+set(CHIPSUM_ENABLE_EXAMPLE OFF)
+set(CHIPSUM_ENABLE_PERF_TEST ON)
+set(CHIPSUM_ENABLE_UNIT_TEST ON)
 
+if(CHIPSUM_ENABLE_TEST)
 add_subdirectory("tests")
+endif()
+if(CHIPSUM_ENABLE_EXAMPLE)
 add_subdirectory("examples")
+endif()
+if(CHIPSUM_ENABLE_PERF_TEST)
 add_subdirectory("perf_test")
+endif()
+if(CHIPSUM_ENABLE_UNIT_TEST)
 add_subdirectory("unit_test")
+endif()
 
-add_executable(ChipSum "examples/chipsumSolver/qr.cpp")
+#"examples/chipsumAI/mnist.cpp" "examples/matrix/lu.cpp" "tests/test1.cpp" "perf_test/perf_test.cpp"
+add_executable(ChipSum "examples/matrix/trtri.cpp")
 install(TARGETS ChipSum  DESTINATION bin)
 target_link_libraries(ChipSum PUBLIC ${CHIPSUM_LIBS})
 target_include_directories(ChipSum PUBLIC ${PROJECT_BINARY_DIR})

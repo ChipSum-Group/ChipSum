@@ -24,11 +24,11 @@ int main(int argc, char *argv[]) {
             m1[i]=i+1;
 
         }
-        Matrix A(M, M, m1);
+        CSMatrix A(M, M, m1);
         typedef ChipSum::Numeric::Vector<CSFloat,
-        ChipSum::Backend::DefaultBackend> Vector;
-        Vector a(M);
-        Vector b(M);
+        ChipSum::Backend::DefaultBackend> CSVector;
+        CSVector a(M);
+        CSVector b(M);
         std::cout<<"origin matrix:"<<std::endl;
         A.Print();
 
@@ -41,16 +41,16 @@ int main(int argc, char *argv[]) {
         A.Print();
 
 
-         //Tensor LU
+         //CSTensor LU
         int N = 3;
         CSFloat *m2 = static_cast<CSFloat *>(std::malloc(N*M*M*sizeof(CSFloat)));
         for(int i=0;i<N;++i)
             for(int j=0;j<M*M;++j)
                 m2[i*M*M+j] = m1[j];
         
-        Tensor<3> A2(N, M, M, m2);
-        Matrix a2(N, M);
-        Matrix b2(M, M);
+        CSTensor<3> A2(N, M, M, m2);
+        CSMatrix a2(N, M);
+        CSMatrix b2(M, M);
         std::cout<<"origin tensor:"<<std::endl;
         // A2.Print();
         A2.QR(a2,b2);

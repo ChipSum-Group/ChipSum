@@ -12,14 +12,14 @@ int main(int argc, char *argv[]) {
     
     ChipSum::Common::Init(argc, argv);
     {
-        //Matrix LU
+        //CSMatrix LU
         int M = 5;
         CSFloat *a = static_cast<CSFloat *>(std::malloc(M*M * sizeof(CSFloat)));
         for(int i=0;i<M*M;++i)
         {
             a[i] = CSFloat(rand()) / RAND_MAX;
         }
-        Matrix A(M, M, a);
+        CSMatrix A(M, M, a);
         std::cout<<"origin matrix:"<<std::endl;
         A.Print();
         A.LU();
@@ -27,14 +27,14 @@ int main(int argc, char *argv[]) {
         A.Print();      
         
 
-        //Tensor LU
+        //CSTensor LU
         int N = 3;
         CSFloat *a2 = static_cast<CSFloat *>(std::malloc(N*M*M*sizeof(CSFloat)));
         for(int i=0;i<N;++i)
             for(int j=0;j<M*M;++j)
                 a2[i*M*M+j] = a[j];
         
-        Tensor<3> A2(N,M,M,a2);
+        CSTensor<3> A2(N,M,M,a2);
         std::cout<<"origin tensor:"<<std::endl;
         A2.Print();
         A2.LU(0.0);

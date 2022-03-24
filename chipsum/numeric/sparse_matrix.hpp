@@ -229,7 +229,6 @@ public:
     }
 
     ///
-    /// \brief AKA: Experimental 待测试
     /// \brief Multiply SPILU L*U=A-DETA
     /// \param L [OUT] 上三角矩阵
     /// \param U [OUT] 下三角矩阵
@@ -237,6 +236,18 @@ public:
     CHIPSUM_FUNCTION_INLINE void SPILU(SparseMatrix& L,SparseMatrix& U,size_type fill_lev=2){
         ChipSum::Numeric::Impl::Sparse::spilu(__data,L.GetData(),U.GetData(),fill_lev);
     }
+
+    ///
+    /// \brief Lower or Upper triangular solve: x = L(U) \ b
+    /// \param L/U [IN] 下/上三角矩阵
+    /// \param x [OUT] 待求解向量
+    /// \param b [IN] 乘法系数
+    /// \param is_lower_tri [IN] 是否下三角矩阵，默认否
+    ///
+    CHIPSUM_FUNCTION_INLINE void SPTRSV(vector_type &x, vector_type &b, bool is_lower_tri=false){
+        ChipSum::Numeric::Impl::Sparse::sptrsv(__data,x.GetData(),b.GetData(),is_lower_tri);
+    }
+    
     
     ///
     /// \brief COO矩阵获取CSR格式数据

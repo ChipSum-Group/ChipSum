@@ -32,6 +32,7 @@
 #include "csr_kokkoskernels_spmv_impl.hpp"
 #include "csr_kokkoskernels_spgemm_impl.hpp"
 #include "csr_kokkoskernels_spilu_impl.hpp"
+#include "csr_kokkoskernels_sptrsv_impl.hpp"
 
 /*
 //  这一部分实现的接口与crs_serial_impl.hpp中类似，不再反复添加注释

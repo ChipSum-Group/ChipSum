@@ -24,13 +24,13 @@ int main(int argc, char *argv[]) {
             A1[i]=i+1;
 
         }
-        Matrix A(M, M, A1);
+        CSMatrix A(M, M, A1);
         // typedef ChipSum::Numeric::Vector<CSFloat,
-        // ChipSum::Backend::DefaultBackend> Vector;
-        // Vector a(M);
-        // Vector b(M);
-        Vector a(M);
-        Vector b(M);
+        // ChipSum::Backend::DefaultBackend> CSVector;
+        // CSVector a(M);
+        // CSVector b(M);
+        CSVector a(M);
+        CSVector b(M);
         std::cout<<"origin matrix:"<<std::endl;
         A.Print();
 
