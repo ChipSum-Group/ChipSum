@@ -16,12 +16,34 @@ list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/vector_kokkoskernels_axpby_impl.hp
 list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/csr_kokkoskernels_impl.hpp")
 list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/csr_kokkoskernels_spmv_impl.hpp")
 list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/csr_kokkoskernels_spgemm_impl.hpp")
+list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/csr_kokkoskernels_spilu_impl.hpp")
+list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/csr_kokkoskernels_sptrsv_impl.hpp")
 
 
 list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/densemat_kokkoskernels_impl.hpp")
 list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/densemat_kokkoskernels_scal_impl.hpp")
 list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/densemat_kokkoskernels_gemv_impl.hpp")
 list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/densemat_kokkoskernels_gemm_impl.hpp")
+list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/densemat_kokkoskernels_lu_impl.hpp")
+
+list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/densemat_kokkoskernels_qr_impl.hpp")
+list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/densemat_kokkoskernels_trsm_impl.hpp")
+list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/densemat_kokkoskernels_trmm_impl.hpp")
+list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/densemat_kokkoskernels_trtri_impl.hpp")
+list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/densemat_kokkoskernels_hessenberg_impl.hpp")
+
+
+list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/tensor_kokkoskernels_impl.hpp")
+
+list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/tensor_kokkoskernels_gemv_impl.hpp")
+list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/tensor_kokkoskernels_gemm_impl.hpp")
+list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/tensor_kokkoskernels_lu_impl.hpp")
+list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/tensor_kokkoskernels_qr_impl.hpp")
+
+
+
+
+
 
 # list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/densemat_kokkoskernels_relu_impl.hpp")
 # list(APPEND HDRS "${CMAKE_CURRENT_SOURCE_DIR}/densemat_kokkoskernels_activation_impl.hpp")
