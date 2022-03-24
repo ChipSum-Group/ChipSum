@@ -15,10 +15,6 @@
 
 
 
-namespace  ChipSum{
-namespace  Numeric{
-namespace  Impl {
-namespace  DenseMat {
 
 template <typename ValueType>
 struct Relu_functor{
@@ -37,7 +33,9 @@ struct Relu_functor{
 
 template <typename ValueType>
 CHIPSUM_FUNCTION_INLINE void
-relu(Kokkos::DualView<ValueType **> &A) {
+relu(ChipSum::Numeric::DenseMatrix<ValueType, ChipSum::Backend::DefaultBackend> &input) {
+     auto A = input.GetData();
+
      const std::size_t M = A.extent(0);
      const std::size_t N = A.extent(1);
 
@@ -51,7 +49,9 @@ relu(Kokkos::DualView<ValueType **> &A) {
 
 template <typename ValueType>
 CHIPSUM_FUNCTION_INLINE void
-leakyrelu(Kokkos::DualView<ValueType **> &A) {
+leakyrelu(ChipSum::Numeric::DenseMatrix<ValueType, ChipSum::Backend::DefaultBackend> &input) {
+     auto A = input.GetData();
+
      const std::size_t M = A.extent(0);
      const std::size_t N = A.extent(1);
 
@@ -61,8 +61,4 @@ leakyrelu(Kokkos::DualView<ValueType **> &A) {
 
 }
 
-}
-}
-}
-}
 #endif // DENSEMAT_KOKKOSKERNELS_RELU_IMPL_HPP
