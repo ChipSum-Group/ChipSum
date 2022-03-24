@@ -95,6 +95,8 @@ int main(int argc, char *argv[])
 
         CSVector x0(nv);
 
+        x0*=0;
+
         x0 *= 0;
 
         double tol = 1e-12;
