@@ -8,7 +8,7 @@
 #include "../ChipSum.hpp"
 #include "../chipsum/chipsum_macro.h"
 
-Vector gmres(CSR &A, Vector &b, Vector &x, double tol, int max_it)
+CSVector gmres(CSR &A, CSVector &b, CSVector &x, double tol, int max_it)
 {
     // GMRES Method without preconditioning.
     //
@@ -24,7 +24,7 @@ Vector gmres(CSR &A, Vector &b, Vector &x, double tol, int max_it)
     int n = b.GetSize();
 
     // get r = b - A*x
-    Vector r(n);
+    CSVector r(n);
     A.SPMV(x, r);
     b.AXPBY(r, 1.0, -1.0); // r = b - A*x
 
@@ -37,14 +37,14 @@ Vector gmres(CSR &A, Vector &b, Vector &x, double tol, int max_it)
     if (error < tol)
         return x;
 
-    Vector sn(m);
-    Vector cs(m);
-    Vector beta(m + 1);
+    CSVector sn(m);
+    CSVector cs(m);
+    CSVector beta(m + 1);
 
     beta(0) = r.Norm2();
 
-    Matrix H(m + 1, m);
-    Matrix Q(n, m + 1);
+    CSMatrix H(m + 1, m);
+    CSMatrix Q(n, m + 1);
 
     r *= 1.0 / beta(0);
 
@@ -52,40 +52,42 @@ Vector gmres(CSR &A, Vector &b, Vector &x, double tol, int max_it)
 
     int j = 0;
 
-    Vector tmp1(n);
-    Vector tmp2(n);
-    Vector beta_n(n);
+    CSVector tmp1(n);
+    CSVector tmp2(n);
+    CSVector beta_n(n);
 
     while (j < m)
     {
         // Arnoldi process
         Q.GetColCopy(j, tmp1);
         A.SPMV(tmp1, tmp2);
-        Q.SetCol(j+1, tmp2);
+        Q.SetCol(j + 1, tmp2);
 
-        for (int i = 0; i <= j; i++) {
-            Q.GetColCopy(j,   tmp1);
-            Q.GetColCopy(j+1, tmp2);
+        for (int i = 0; i <= j; i++)
+        {
+            Q.GetColCopy(j, tmp1);
+            Q.GetColCopy(j + 1, tmp2);
 
             H(i, j) = tmp1.Dot(tmp2);
 
-            Q.GetColCopy(j,   tmp1);
-            Q.GetColCopy(j+1, tmp2);
+            Q.GetColCopy(j, tmp1);
+            Q.GetColCopy(j + 1, tmp2);
 
-            tmp1 *= -1.0*H(i,j);
+            tmp1 *= -1.0 * H(i, j);
             tmp2 += tmp1;
 
-            Q.SetCol(j+1, tmp2);
+            Q.SetCol(j + 1, tmp2);
         }
 
-        Q.GetColCopy(j+1, tmp1);
-        H(j+1, j) = tmp1.Norm2();
-        
-        tmp1 *= 1.0/H(j+1,j);
-        Q.SetCol(j+1, tmp1);
+        Q.GetColCopy(j + 1, tmp1);
+        H(j + 1, j) = tmp1.Norm2();
+
+        tmp1 *= 1.0 / H(j + 1, j);
+        Q.SetCol(j + 1, tmp1);
 
         // Applying Givens Rotation to H col
-        for (int i = 0; i <= j - 1; i++) {
+        for (int i = 0; i <= j - 1; i++)
+        {
             double temp = cs(i) * H(i, j) + sn(i) * H(i + 1, j);
             H(i + 1, j) = -sn(i) * H(i, j) + cs(i) * H(i + 1, j);
             H(i, j) = temp;
@@ -104,20 +106,21 @@ Vector gmres(CSR &A, Vector &b, Vector &x, double tol, int max_it)
 
         error = abs(beta(j + 1)) / b.Norm2();
 
-        if (error <= tol) break;
+        if (error <= tol)
+            break;
 
         j++;
     }
 
-    Matrix H_n(j+1, j+1);
-    H.GetPartSlice(0, 0, j+1, j+1, H_n);
-    Vector y(j+1);
-    beta(0, j+1, y);
-    y.TRMM(H_n, 1.0, "L", "U");
+    CSMatrix H_n(j + 1, j + 1);
+    H.GetPartSlice(0, 0, j + 1, j + 1, H_n);
+    // CSVector y(j+1);
+    // beta(0, j+1, y);
+    // y.TRMM(H_n, 1.0, "L", "U");
 
-    Matrix Q_n(j+1, j+1);
-    Q.GetPartSlice(0, 0, n, j+1, Q_n);
-    x += Q_n.SPMV(y);
+    // Matrix Q_n(j+1, j+1);
+    // Q.GetPartSlice(0, 0, n, j+1, Q_n);
+    // x += Q_n.SPMV(y);
 
     return x;
 }
@@ -155,9 +158,9 @@ int main(int argc, char *argv[])
 
         IN.close();
 
-        Vector b(nv, b_data.data());
+        CSVector b(nv, b_data.data());
 
-        Vector x0(nv);
+        CSVector x0(nv);
 
         x0 *= 0;
 
