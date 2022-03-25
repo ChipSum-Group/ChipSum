@@ -112,7 +112,7 @@ int main(int argc, char *argv[]) {
 
     const char* filename_A = argv[1];
     const char* filename_b = argv[2];
-    if(filename_A == nullptr) filename_A = "../../data/A.mtx";
+    if(filename_A == nullptr) filename_A = "../data/A.mtx";
 
     ChipSum::Common::Init(argc, argv);
     {

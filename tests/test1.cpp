@@ -69,8 +69,6 @@ int main(int argc, char *argv[]) {
         a.Print();
         CSVector b(N,v2); // b = {0,1,2,3,4}
         
-        // a.HostToDevice();
-        // a.DeviceToHost();
         
         a += b; // a = {0,2,4,6,8}
 
@@ -83,13 +81,8 @@ int main(int argc, char *argv[]) {
         
         a.Print();
         
-        //    for(std::size_t i=0;i<N;++i) b(i) = 0.0; /* for operator()
         b *= 1.0;  /*  */
         b.Print(); // b = {0.,1.,2., 3. , 4.}
-        
-        //    a -= a; // if uncomment, all results below turns 0
-        
-        //    auto c = a+b;
         
         cout << a.Norm1() << endl; // 30
         
@@ -150,12 +143,6 @@ int main(int argc, char *argv[]) {
         CSMatrix A(N, N, A1);
         A.Print();
 
-        A.Norm();
-        A.Print();
-        // A.LeakyRelu();
-        A.Softmax();
-
-        A.Print();
 
         using mdrange_policy = Kokkos::MDRangePolicy<Kokkos::Rank<2>>;
         ParallelPrintf_matrix functor(A);
@@ -183,26 +170,9 @@ int main(int argc, char *argv[]) {
         }
 
 
-
         CSMatrix B(N,M,A2);
         B.Print();
 
-        double *A3 = static_cast<double *>(std::malloc(N*M * sizeof(double)));
-        for (int i=0;i<N*M;++i) {
-            A3[i] = 0;
-        }
-        CSMatrix C(N,M,A3);
-
-        double *A4 = static_cast<double *>(std::malloc(M * sizeof(double)));
-        for (int i=0;i<M;++i) {
-            A4[i] = -100;
-        }
-        CSVector bias(M, A4);
-
-        A.Dense("N", "N", B, C);
-        A.Dense("N", "N", B, bias, C);
-        C.Print();
-        cout<<"dense result"<<endl;
         
         (A*B*3).Print();
 
@@ -308,7 +278,7 @@ int main(int argc, char *argv[]) {
         CSFloat *vals;
         std::vector<int> t_row_map1, t_col_map1;
         std::vector<CSFloat> t_values1;
-        ChipSum::Common::coo_reader(nr, nc, nz, rm, cm, vals, "../../data/A.mtx" );
+        ChipSum::Common::coo_reader(nr, nc, nz, rm, cm, vals, "../data/A.mtx" );
         COO sparse_coo(nr,nc,nz,rm,cm,vals);
         //coo to csr
         sparse_coo.GetCrsData(t_row_map1, t_col_map1, t_values1);
@@ -333,8 +303,6 @@ int main(int argc, char *argv[]) {
         std::free(v2);
         std::free(A1);
         std::free(A2);
-        std::free(A3);
-        std::free(A4);
     }
     ChipSum::Common::Finalize();
 }

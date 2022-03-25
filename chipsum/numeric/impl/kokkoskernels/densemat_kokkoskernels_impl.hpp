@@ -18,24 +18,12 @@
 #include "densemat_kokkoskernels_gemv_impl.hpp"
 #include "densemat_kokkoskernels_gemm_impl.hpp"
 
-// #include "densemat_kokkoskernels_relu_impl.hpp"
-// #include "densemat_kokkoskernels_activation_impl.hpp"
-// #include "densemat_kokkoskernels_norm_impl.hpp"
-// #include "densemat_kokkoskernels_dense_impl.hpp"
-/*
-#include "../examples/chipsumAI/mnist/kernels/densemat_kokkoskernels_relu_impl.hpp"
-#include "../examples/chipsumAI/mnist/kernels/densemat_kokkoskernels_activation_impl.hpp"
-#include "../examples/chipsumAI/mnist/kernels/densemat_kokkoskernels_norm_impl.hpp"
-#include "../examples/chipsumAI/mnist/kernels/densemat_kokkoskernels_dense_impl.hpp"
-*/
 #include "densemat_kokkoskernels_lu_impl.hpp"
 #include "densemat_kokkoskernels_qr_impl.hpp"
 #include "densemat_kokkoskernels_trsm_impl.hpp"
 #include "densemat_kokkoskernels_trmm_impl.hpp"
 #include "densemat_kokkoskernels_trtri_impl.hpp"
 #include "densemat_kokkoskernels_hessenberg_impl.hpp"
-
-
 
 /// kokkos后端由于设计失误，导致不太适合用于数值系统求解
 /// 目前todo的工作是将数据结构修改为multi vector
@@ -271,29 +259,6 @@ CHIPSUM_FUNCTION_INLINE void print(Kokkos::DualView<ValueType **> &A,
     out << endl;
 }
 
-template <typename ValueType>
-CHIPSUM_FUNCTION_INLINE void argmax(Kokkos::DualView<ValueType **> &A,
-                                   ::std::ostream &out) {
-    ::std::size_t M = A.extent(0);
-    ::std::size_t N = A.extent(1);
-    // auto h_A = Kokkos::create_mirror_view(A);
-
-    Kokkos::deep_copy(A.h_view, A.d_view);
-
-    // cout << "prediction is" << ":" << endl;
-
-    ValueType max_position = 0;
-    ValueType max_val = A.h_view(0, 0);
-
-    for (std::size_t i = 0; i < N; ++i) {
-        if(A.h_view(0, i)>=max_val){
-            max_val = A.h_view(0, i);
-            max_position = i;
-        }
-    }
-    out << "*****prediction is*****" << " : " << max_position << endl;
-    out << endl;
-}
 
 } // namespace DenseMat
 } // namespace Impl

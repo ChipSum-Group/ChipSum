@@ -14,22 +14,10 @@
 #include "../../../chipsum_macro.h"
 #include "../../numeric_traits.hpp"
 
-// #include "densemat_kokkoskernels_scal_impl.hpp"
-// #include "densemat_kokkoskernels_gemv_impl.hpp"
 #include "tensor_kokkoskernels_gemm_impl.hpp"
 #include "tensor_kokkoskernels_gemv_impl.hpp"
 #include "tensor_kokkoskernels_lu_impl.hpp"
 #include "tensor_kokkoskernels_qr_impl.hpp"
-
-// #include "../examples/chipsumAI/mnist/kernels/densemat_kokkoskernels_relu_impl.hpp"
-// #include "../examples/chipsumAI/mnist/kernels/densemat_kokkoskernels_activation_impl.hpp"
-// #include "../examples/chipsumAI/mnist/kernels/densemat_kokkoskernels_norm_impl.hpp"
-// #include "../examples/chipsumAI/mnist/kernels/densemat_kokkoskernels_dense_impl.hpp"
-
-// #include "densemat_kokkoskernels_lu_impl.hpp"
-// #include "densemat_kokkoskernels_qr_impl.hpp"
-// #include "densemat_kokkoskernels_hessenberg_impl.hpp"
-
 
 
 static int tensor_name = 0;
@@ -87,54 +75,6 @@ namespace Tensor {
         Kokkos::deep_copy(A.h_view, tmp_view);
         Kokkos::deep_copy(A.d_view, A.h_view);
     }
-    // 
-
-    /* template <typename ValueType>
-    CHIPSUM_FUNCTION_INLINE void create(
-        ValueType *src,
-        Kokkos::DualView<ValueType ***, Kokkos::LayoutRight> &A,
-        const ::std::size_t B,
-        const ::std::size_t M,
-        const ::std::size_t N)
-    {
-        if(A.extent(0)!=B||A.extent(1)!=M||A.extent(2)!=N)
-        {
-            A = Kokkos::DualView<ValueType ***, Kokkos::LayoutRight>("tensor_" + std::to_string(tensor_name++), B, M,
-                                    N);
-        }
-        using mdrange_policy = Kokkos::MDRangePolicy< Kokkos::Rank<3>, Kokkos::OpenMP >;
-        Kokkos::parallel_for( "init_A", mdrange_policy({0,0,0}, {B,M,N}), KOKKOS_LAMBDA ( const int i , const int j, const int k ) {
-            A.h_view(i,j,k) = src[i*M*N+j*N+k];
-        }
-        );
-
-        Kokkos::deep_copy(A.d_view, A.h_view);
-    }
-
-
-    template <typename ValueType>
-    CHIPSUM_FUNCTION_INLINE void create(
-            ValueType *src,
-            Kokkos::DualView<ValueType ****, Kokkos::LayoutRight> &A,
-            const ::std::size_t K,
-            const ::std::size_t B,
-            const ::std::size_t M,
-            const ::std::size_t N)
-    {
-        if(A.extent(0)!=K||A.extent(1)!=B||A.extent(2)!=M||A.extent(3)!=N)
-        {
-            A = Kokkos::DualView<ValueType ****, Kokkos::LayoutRight>("tensor_" + std::to_string(tensor_name++), K,
-                                        B, M, N);
-        }
-
-        using mdrange_policy = Kokkos::MDRangePolicy< Kokkos::Rank<4>, Kokkos::OpenMP >;
-        Kokkos::parallel_for( "init_A", mdrange_policy({0,0,0,0}, {K,B,M,N}), KOKKOS_LAMBDA ( const int i , const int j, const int k, const int p ) {
-            A.h_view(i,j,k,p) = src[i*B*M*N+j*M*N+k*N+p];
-        }
-        );
-
-        Kokkos::deep_copy(A.d_view, A.h_view);
-    } */
 
 
     template <typename T>

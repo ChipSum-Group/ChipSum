@@ -376,6 +376,16 @@ public:
                     __data ,i);
     }
 
+    ///
+    /// \brief GetSlice 获取Vector部分拷贝数据
+    /// \param i 起始索引
+    /// \param j 终止索引
+    /// \param x
+    ///
+    template<typename IDT>
+    CHIPSUM_FUNCTION_INLINE void GetSlice(IDT i, IDT j, Vector& x){
+        ChipSum::Numeric::Impl::Vector::get_slice(__data, x.GetData(), i, j);
+    }
 
     ///
     /// \brief Norm2 x的1范数
