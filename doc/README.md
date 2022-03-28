@@ -8,7 +8,7 @@
 2. sphinx + breathe + exhale
 
 ```
-pip install sphinx breathe exhale sphinx sphinx_rtd_theme
+pip install sphinx breathe exhale sphinx_rtd_theme myst-parser
 ```
 
 ### Make html

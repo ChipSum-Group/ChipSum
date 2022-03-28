@@ -36,6 +36,7 @@ extensions = [
     'sphinx.ext.mathjax',
     'sphinx.ext.viewcode',
     'sphinx.ext.todo',
+    'myst_parser',
     'breathe',
     'exhale'
 ]
