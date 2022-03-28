@@ -56,7 +56,7 @@ CSVector gmres(CSR &A, CSVector &b, CSVector &x, double tol, int max_it)
     CSVector tmp2(n);
     CSVector beta_n(n);
 
-    while (j < m)
+    for(int j = 0; j < m; j++)
     {
         // Arnoldi process
         Q.GetColCopy(j, tmp1);
@@ -108,19 +108,35 @@ CSVector gmres(CSR &A, CSVector &b, CSVector &x, double tol, int max_it)
 
         if (error <= tol)
             break;
-
-        j++;
     }
 
+    // solve the triangular equation
     CSMatrix H_n(j + 1, j + 1);
     H.GetPartSlice(0, 0, j + 1, j + 1, H_n);
-    // CSVector y(j+1);
-    // beta(0, j+1, y);
-    // y.TRMM(H_n, 1.0, "L", "U");
 
-    // Matrix Q_n(j+1, j+1);
-    // Q.GetPartSlice(0, 0, n, j+1, Q_n);
-    // x += Q_n.SPMV(y);
+    CSMatrix Y(j + 1, 1);
+
+    for (int i = 0; i <= j; i++)
+    {
+        Y(i, 0) = beta(i);
+    }
+
+    // Y.Print();
+    Y.TRMM(H_n, 1.0, "L", "U");
+    // Y.Print();
+
+    // get solution x
+    CSMatrix Q_n(n, j + 1);
+    Q.GetPartSlice(0, 0, n, j + 1, Q_n);
+
+    // Q.Print();
+    CSVector y(j + 1);
+    Y.GetColCopy(0, y);
+
+    CSVector x_n(n);
+    Q_n.GEMV(y, x_n);
+
+    x += x_n;
 
     return x;
 }
@@ -169,7 +185,11 @@ int main(int argc, char *argv[])
 
         auto sol_gmres = gmres(A, b, x0, tol, max_it);
 
-        sol_gmres.Print();
+        CSVector res(nv);
+        A.SPMV(sol_gmres, res);
+        
+        res.Print();
+        // sol_gmres.Print();
 
         delete xadj;
         delete adj;
