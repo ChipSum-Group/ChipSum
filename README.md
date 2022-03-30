@@ -10,9 +10,9 @@
 #### ChipSum's ecosystem
 |Level Defination|Description|Contents|
 |:--:|:--:|:--:|
-|Level 3|ChipSum's application code|[ChipSum.MD](https://github.com/CDCS-HPC/ChipSum.MD)|
-|Level 2|ChipSum's foundation code|[ChipSum.Solver](https://github.com/CDCS-HPC/ChipSum.Solver), [ChipSum.AI](https://github.com/CDCS-HPC/ChipSum.AI)|
-|Level 1|ChipSum's core code|[ChipSum](https://github.com/CDCS-HPC/ChipSum)|
+|Level 3|ChipSum's application code|[ChipSum.MD](https://github.com/CDCS-Group/ChipSum.MD)|
+|Level 2|ChipSum's foundation code|[ChipSum.Solver](https://github.com/CDCS-Group/ChipSum.Solver), [ChipSum.AI](https://github.com/CDCS-HPC/ChipSum.AI)|
+|Level 1|ChipSum's core code|[ChipSum](https://github.com/CDCS-Group/ChipSum)|
 
 ChipSum is a main framework intigrating HPC libraries using C++ template programming.
 
@@ -29,7 +29,7 @@ ChipSum is a main framework intigrating HPC libraries using C++ template program
 
 ```
 # get ChipSum
-git clone https://github.com/CDCS-HPC/ChipSum.git
+git clone https://github.com/CDCS-Group/ChipSum.git
 
 # get kokkos and kokkos-kernels
 cd ChipSum/tpl
