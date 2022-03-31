@@ -35,7 +35,7 @@ mkdir build && cd build
 
 export ChipSum_DIR=/path/you/want/
 
-cmake -DKokkos_DIR=${ChipSum_DIR}/tpls/kokkos-build/lib/cmake/Kokkos -DKokkosKernels_DIR=${ChipSum_DIR}/tpls/kokkos-kernels-build/lib/cmake/KokkosKernels -DChipSum_DIR=${ChipSum_DIR} ..
+cmake -DChipSum_DIR=${ChipSum_DIR} ..
 
 make -j8
 ./mnist

@@ -8,6 +8,21 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 
+if(EXISTS ${ChipSum_DIR}/tpls/kokkos-build/lib)
+    set(Kokkos_LIB_DIR ${ChipSum_DIR}/tpls/kokkos-build/lib)
+elseif(EXISTS ${ChipSum_DIR}/tpls/kokkos-build/lib64)
+    set(Kokkos_LIB_DIR ${ChipSum_DIR}/tpls/kokkos-build/lib64)
+endif()
+
+if(EXISTS ${ChipSum_DIR}/tpls/kokkos-kernels-build/lib)
+    set(KokkosKernels_LIB_DIR ${ChipSum_DIR}/tpls/kokkos-kernels-build/lib)
+elseif(EXISTS ${ChipSum_DIR}/tpls/kokkos-kernels-build/lib64)
+    set(KokkosKernels_LIB_DIR ${ChipSum_DIR}/tpls/kokkos-kernels-build/lib64)
+endif()
+
+set(Kokkos_DIR ${Kokkos_LIB_DIR}/cmake/Kokkos)
+set(KokkosKernels_DIR ${KokkosKernels_LIB_DIR}/cmake/KokkosKernels)
+
 find_package(Kokkos REQUIRED)
 find_package(KokkosKernels REQUIRED)
 
