@@ -20,15 +20,17 @@ CSVector gmres(CSR &A, CSVector &b, CSVector &x, double tol, int max_it)
     //
     // output  x        REAL solution vector
 
-    int m = max_it;
     int n = b.GetSize();
+    int m = max_it;
 
     // get r = b - A*x
     CSVector r(n);
     A.SPMV(x, r);
     b.AXPBY(r, 1.0, -1.0); // r = b - A*x
 
+    // get norm of b
     double bnrm2 = b.Norm2();
+
     if (bnrm2 == 0.0)
         bnrm2 = 1.0;
 
@@ -56,7 +58,7 @@ CSVector gmres(CSR &A, CSVector &b, CSVector &x, double tol, int max_it)
     CSVector tmp2(n);
     CSVector beta_n(n);
 
-    for(int j = 0; j < m; j++)
+    for (int j = 0; j < m; j++)
     {
         // Arnoldi process
         Q.GetColCopy(j, tmp1);
@@ -187,7 +189,7 @@ int main(int argc, char *argv[])
 
         CSVector res(nv);
         A.SPMV(sol_gmres, res);
-        
+
         res.Print();
         // sol_gmres.Print();
 
