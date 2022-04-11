@@ -191,6 +191,7 @@ int main(int argc, char *argv[])
         A.SPMV(sol_gmres, res);
 
         res.Print();
+        std::cout << res.Norm2() << std::endl;
         // sol_gmres.Print();
 
         delete xadj;
