@@ -147,17 +147,6 @@ int main(int argc, char *argv[])
         CSMatrix M3(2, 2);
         M1.GetPartSlice(1, 1, 3, 3, M3);
         M3.Print();
-
-        double *vec1 = static_cast<double *>(std::malloc(12 * sizeof(double)));
-        for (int i = 0; i < 12; ++i)
-        {
-            vec1[i] = double(i);
-        }
-        CSVector V1(12, vec1);
-        CSVector V2(6);
-        V2.Print();
-        V1.GetSlice(1, 7, V2);
-        V2.Print();
     }
     ChipSum::Common::Finalize();
 }

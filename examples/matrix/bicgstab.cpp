@@ -8,7 +8,7 @@
 #include "../ChipSum.hpp"
 #include "../chipsum/chipsum_macro.h"
 
-CSVector bicgstab(CSR &A, CSVector &b, CSVector &x, double tol, int max_it)
+Vector bicgstab(CSR &A, Vector &b, Vector &x, double tol, int max_it)
 {
     // BiConjugate Gradient Stabilized Method without preconditioning.
     //
@@ -24,7 +24,7 @@ CSVector bicgstab(CSR &A, CSVector &b, CSVector &x, double tol, int max_it)
     if (bnrm2 == 0.0)
         bnrm2 = 1.0;
 
-    CSVector r(x.GetSize());
+    Vector r(x.GetSize());
     A.SPMV(x, r);
     b.AXPBY(r, 1.0, -1.0); // r = b - A*x
 
@@ -33,12 +33,12 @@ CSVector bicgstab(CSR &A, CSVector &b, CSVector &x, double tol, int max_it)
     if (error < tol)
         return x;
 
-    CSVector r_tld(x.GetSize());
+    Vector r_tld(x.GetSize());
     r_tld.DeepCopy(r);
 
-    CSVector p(x.GetSize()), p_hat(x.GetSize());
-    CSVector v(x.GetSize()), t(x.GetSize());
-    CSVector s(x.GetSize()), s_hat(x.GetSize());
+    Vector p(x.GetSize()), p_hat(x.GetSize());
+    Vector v(x.GetSize()), t(x.GetSize());
+    Vector s(x.GetSize()), s_hat(x.GetSize());
 
     double omega = 1.0;
     double alpha, beta, rho, rho_1;
@@ -78,9 +78,7 @@ CSVector bicgstab(CSR &A, CSVector &b, CSVector &x, double tol, int max_it)
 
         A.SPMV(s_hat, t); // t = A*s_hat
 
-        double tmp = t.Dot(t);
-        omega = (t.Dot(s)) / tmp;
-        // omega = (t.Dot(s)) / (t.Dot(t));
+        omega = (t.Dot(s)) / t.Dot(t);
         p_hat.AXPBY(x, alpha, 1.0); // x = x +  alpha * p_hat
         s_hat.AXPBY(x, omega, 1.0); // x = x +  omega * s_hat
 
@@ -95,11 +93,10 @@ CSVector bicgstab(CSR &A, CSVector &b, CSVector &x, double tol, int max_it)
             break;
 
         rho_1 = rho;
-        CSVector r_temp(b.GetSize());
-        A.SPMV(x,r_temp); /* r_temp = A*x */
-        b.AXPBY(r_temp,1.0,-1.0); /* r_temp = b-r_temp */
-        printf("%.20f\n",r_temp.Norm2());
-
+        Vector r_temp(b.GetSize());
+        A.SPMV(x, r_temp);          /* r_temp = A*x */
+        b.AXPBY(r_temp, 1.0, -1.0); /* r_temp = b-r_temp */
+        printf("%.20f\n", r_temp.Norm2());
     }
 
     return x;
@@ -135,9 +132,9 @@ int main(int argc, char *argv[])
 
         IN.close();
 
-        CSVector b(nv,b_data.data());
+        Vector b(nv, b_data.data());
 
-        CSVector x0(nv);
+        Vector x0(nv);
 
         x0 *= 0;
 

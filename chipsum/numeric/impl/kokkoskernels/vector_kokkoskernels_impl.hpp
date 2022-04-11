@@ -38,7 +38,6 @@ using namespace std;
 /// device和host之间流转。所以这部分的底层数据类型替换为dualview。
 
 
-static int vector_name = 0;
 namespace ChipSum {
 namespace Numeric {
 

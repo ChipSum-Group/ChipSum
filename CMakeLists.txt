@@ -1,13 +1,10 @@
 cmake_minimum_required(VERSION 3.5)
 
 set(CMAKE_CXX_STANDARD 14)
-#set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 project(ChipSum VERSION 1.0)
 
 configure_file(ChipSumConfig.h.in ChipSumConfig.h)
-
-
 
 set(CMAKE_CXX_FLAGS "-Wall"${CMAKE_CXX_FLAGS})
 
@@ -53,10 +50,7 @@ if(ChipSum_ENABLE_KokkosKernels)
 
 endif()
 
-
 add_definitions("-fopenmp")
-
-
 
 add_library(chipsum ${CHIPSUM_SOURCES} ${CHIPSUM_HEADERS})
 
@@ -82,7 +76,6 @@ endif()
 if(CHIPSUM_ENABLE_UNIT_TEST)
 add_subdirectory("unit_test")
 endif()
-
 
 #"examples/vector/axpby.cpp" "examples/matrix/lu.cpp" "tests/test1.cpp" "perf_test/perf_axpby.cpp"
 add_executable(ChipSum "examples/matrix/trtri.cpp")
