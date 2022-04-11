@@ -8,10 +8,6 @@
 #include "../ChipSum.hpp"
 #include "../chipsum/chipsum_macro.h"
 
-<<<<<<< HEAD
-=======
-
->>>>>>> dev_zxb
 CSVector bicg(CSR &A, CSVector &b, CSVector &x, double tol, int max_it)
 {
     // BiConjugate Gradient Method without preconditioning.
@@ -87,9 +83,9 @@ CSVector bicg(CSR &A, CSVector &b, CSVector &x, double tol, int max_it)
             break;
 
         CSVector r_temp(b.GetSize());
-        A.SPMV(x,r_temp); /* r_temp = A*x */
-        b.AXPBY(r_temp,1.0,-1.0); /* r_temp = b-r_temp */
-        printf("%.20f\n",r_temp.Norm2());
+        A.SPMV(x, r_temp);          /* r_temp = A*x */
+        b.AXPBY(r_temp, 1.0, -1.0); /* r_temp = b-r_temp */
+        printf("%.20f\n", r_temp.Norm2());
 
         rho_1 = rho;
     }
@@ -127,11 +123,9 @@ int main(int argc, char *argv[])
 
         IN.close();
 
-        CSVector b(nv,b_data.data());
+        CSVector b(nv, b_data.data());
 
         CSVector x0(nv);
-
-        x0*=0;
 
         x0 *= 0;
 

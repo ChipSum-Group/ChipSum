@@ -14,19 +14,13 @@
 #include "../chipsum/chipsum_macro.h"
 
 
-
-namespace  ChipSum{
-namespace  Numeric{
-namespace  Impl {
-namespace  DenseMat {
-
 template <typename ValueType>
 struct ReduceMaxFunctor{
     
     ValueType *_data;
 
     CHIPSUM_SPECIAL_INLINE
-    ReduceMaxFunctor(ValueType *data) : _data(data) {}// printf("%f** ", 1.0);
+    ReduceMaxFunctor(ValueType *data) : _data(data) {}
 
     CHIPSUM_SPECIAL_INLINE 
     void operator() (const int64_t j, ValueType & thisRowMax) const{
@@ -79,61 +73,15 @@ struct SingleRowFunctor{
         if(_flagLog) _data(i,j) =(_data(i,j) - row_max) - log(row_sum);// logSoftmax
         else _data(i,j) = exp(_data(i,j) - row_max) / row_sum;// Softmax
 
-        //_data(i,j) = _flagLog ？ ((_data(i,j) - row_max) - log(row_sum)) ： (exp(_data(i,j) - row_max) / row_sum);
     }
 };
 
-
-/* template <typename ValueType>
-struct perRowMax_functor{
-    
-    Kokkos::View<ValueType **> _data;
-    Kokkos::View<ValueType *> _out;
-
-    HIPSUM_SPECIAL_INLINE
-    perRowMax_functor(Kokkos::DualView<ValueType **> &data, Kokkos::View<ValueType *> &out) : _data(data.d_view), _out(out) {}
-
-    CHIPSUM_SPECIAL_INLINE void operator() (const int64_t i, const int64_t j) const{
-        _out(i) = max(_out(i), _data(i,j));
-    }
-
-};
-
-template <typename ValueType>
-struct perRowSum_functor{
-    
-    Kokkos::View<ValueType **> _data;
-    Kokkos::View<ValueType *> _out;
-    Kokkos::View<ValueType *> _row_max;
-
-    HIPSUM_SPECIAL_INLINE
-    perRowSum_functor(Kokkos::DualView<ValueType **> &data, Kokkos::View<ValueType *> &out, Kokkos::View<ValueType *> &row_max) : 
-                        _data(data.d_view), _out(out), _row_max(row_max) {}
-
-    CHIPSUM_SPECIAL_INLINE void operator() (const int64_t i, const int64_t j) const{
-        _out(i) += exp(_data(i,j) - _row_max(i));
-    }
-
-};
-
-template <typename ValueType>
-struct Softmax_functor{
-    
-    Kokkos::View<ValueType **> _data;
-    Kokkos::View<ValueType *> _out;
-
-    Softmax_functor(Kokkos::DualView<ValueType **> &data, Kokkos::View<ValueType *> &out) : _data(data.d_view), _out(out) {}
-
-    CHIPSUM_SPECIAL_INLINE void operator() (const int64_t i, const int64_t j) const{
-        _out(i) += _data(i,j);
-    }
-
-}; */
 
 
 template <typename ValueType>
 CHIPSUM_FUNCTION_INLINE void
-softmax(Kokkos::DualView<ValueType **> &A, bool flagLog = false) {
+softmax(ChipSum::Numeric::DenseMatrix<ValueType, ChipSum::Backend::DefaultBackend> &input, bool flagLog = false) {
+     auto A = input.GetData();
      const std::size_t M = A.extent(0);// row
      const std::size_t N = A.extent(1);// col
      
@@ -144,22 +92,32 @@ softmax(Kokkos::DualView<ValueType **> &A, bool flagLog = false) {
      team_policy policy( M, N );
      Kokkos::parallel_for( "softmax", policy, functor);
 
-     /* using mdrange_policy = Kokkos::MDRangePolicy<Kokkos::Rank<2>>;
-
-     Kokkos::View<ValueType *> row_max("pre row max val", M);
-     perRowMax_functor<ValueType> functor_max(A, row_max);
-     Kokkos::parallel_reduce( "get pre row max", mdrange_policy({0,0}, {M,N}), functor_max);
-
-     Kokkos::View<ValueType *> row_sum("pre row sum val", M);
-     perRowSum_functor<ValueType> functor_sum(A, row_sum, row_max);
-     Kokkos::parallel_reduce( "get pre row sum", mdrange_policy({0,0}, {M,N}), functor_sum);
-
-     Softmax_functor<ValueType> functor(A, row_sum, row_max);
-     Kokkos::parallel_for( "softmax", mdrange_policy({0,0}, {M,N}), functor); */
 }
 
+template <typename ValueType>
+CHIPSUM_FUNCTION_INLINE void argmax(ChipSum::Numeric::DenseMatrix<ValueType, ChipSum::Backend::DefaultBackend> &input) {
+    auto A = input.GetData();
+    
+    ::std::size_t M = A.extent(0);
+    ::std::size_t N = A.extent(1);
+    // auto h_A = Kokkos::create_mirror_view(A);
+
+    Kokkos::deep_copy(A.h_view, A.d_view);
+
+    // cout << "prediction is" << ":" << endl;
+
+    ValueType max_position = 0;
+    ValueType max_val = A.h_view(0, 0);
+
+    for (std::size_t i = 0; i < N; ++i) {
+        if(A.h_view(0, i)>=max_val){
+            max_val = A.h_view(0, i);
+            max_position = i;
+        }
+    }
+    ::std::cout << "*****prediction is*****" << " : " << max_position << ::std::endl;
+    ::std::cout << ::std::endl;
 }
-}
-}
-}
+
+
 #endif // DENSEMAT_KOKKOSKERNELS_ACTIVATION_IMPL_HPP

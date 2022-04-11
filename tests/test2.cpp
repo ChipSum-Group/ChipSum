@@ -58,14 +58,14 @@ int main(int argc, char *argv[])
             v3[i] = double(0);
         }
 
-        CSTensor<3> tmp(2,2,2);
+        CSTensor<3> tmp(2, 2, 2);
 
-        CSTensor<3> a(B,N,N,v1);
-        CSTensor<3> a1(B,N,1,v2);
-        CSTensor<3> a2(B,N,1,v3);
+        CSTensor<3> a(B, N, N, v1);
+        CSTensor<3> a1(B, N, 1, v2);
+        CSTensor<3> a2(B, N, 1, v3);
         a.Print();
-        a(0,0,1) = 100;
-        std::cout<<a.GetDimthNum(2)<<std::endl;
+        a(0, 0, 1) = 100;
+        std::cout << a.GetDimthNum(2) << std::endl;
         a.HostToDevice();
         a.Print();
 
@@ -91,58 +91,73 @@ int main(int argc, char *argv[])
             b3[i] = double(0);
         }
 
-        CSTensor<4> Btensor(K,B,N,M,b1);
+        CSTensor<4> Btensor(K, B, N, M, b1);
         Btensor.Print();
-        CSTensor<4> Btensor1(K,B,M,N,b2);
+        CSTensor<4> Btensor1(K, B, M, N, b2);
         Btensor1.Print();
-        CSTensor<4> Btensor2(K,B,N,N,b3);
+        CSTensor<4> Btensor2(K, B, N, N, b3);
         Btensor2.Print();
 
         // Btensor.GEMM(Btensor1, Btensor2);
         Btensor2.Print();
 
-        double *b4 = static_cast<double *>(std::malloc(K*B*M*1 * sizeof(double)));
-        for (int i = 0; i < K*B*M*1 ; ++i) {
+        double *b4 = static_cast<double *>(std::malloc(K * B * M * 1 * sizeof(double)));
+        for (int i = 0; i < K * B * M * 1; ++i)
+        {
             b4[i] = double(4);
         }
-        double *b5 = static_cast<double *>(std::malloc(K*B*N*1 * sizeof(double)));
-        for (int i = 0; i < K*B*N*1 ; ++i) {
+        double *b5 = static_cast<double *>(std::malloc(K * B * N * 1 * sizeof(double)));
+        for (int i = 0; i < K * B * N * 1; ++i)
+        {
             b5[i] = double(5);
         }
-        CSTensor<4> Btensor4(K,B,M,1,b4);
+        CSTensor<4> Btensor4(K, B, M, 1, b4);
         Btensor4.Print();
-        CSTensor<4> Btensor5(K,B,N,1,b5);
+        CSTensor<4> Btensor5(K, B, N, 1, b5);
         Btensor5.Print();
 
         Btensor.GEMV(Btensor4, Btensor5);
         Btensor5.Print();
 
-        double *m1 = static_cast<double *>(std::malloc(5*5 * sizeof(double)));
-        for (int i = 0; i < 5*5 ; ++i) {
+        double *m1 = static_cast<double *>(std::malloc(5 * 5 * sizeof(double)));
+        for (int i = 0; i < 5 * 5; ++i)
+        {
             m1[i] = double(1);
         }
-        CSMatrix M1(5,5,m1);
+        CSMatrix M1(5, 5, m1);
 
         double *m2 = static_cast<double *>(std::malloc(5 * sizeof(double)));
-        for (int i = 0; i < 5 ; ++i) {
+        for (int i = 0; i < 5; ++i)
+        {
             m2[i] = double(i);
         }
-        CSVector M2(5,m2);
+        CSVector M2(5, m2);
 
-        M1.SetCol(1,M2);
-        M1.SetRow(1,M2);
+        M1.SetCol(1, M2);
+        M1.SetRow(1, M2);
         M1.Print();
 
         M1.GetRowCopy(1, M2);
         M2.Print();
         M1.GetColCopy(1, M2);
         M2.Print();
-        M1.GetRowSlice(3,0,5,M2); //等大小取，slice大小和取出后存储vector大小相同
+        M1.GetRowSlice(3, 0, 5, M2); //等大小取，slice大小和取出后存储vector大小相同
         M2.Print();
 
-        CSMatrix M3(2,2);
-        M1.GetPartSlice(1,1,3,3,M3);
+        CSMatrix M3(2, 2);
+        M1.GetPartSlice(1, 1, 3, 3, M3);
         M3.Print();
+
+        double *vec1 = static_cast<double *>(std::malloc(12 * sizeof(double)));
+        for (int i = 0; i < 12; ++i)
+        {
+            vec1[i] = double(i);
+        }
+        CSVector V1(12, vec1);
+        CSVector V2(6);
+        V2.Print();
+        V1.GetSlice(1, 7, V2);
+        V2.Print();
     }
     ChipSum::Common::Finalize();
 }
