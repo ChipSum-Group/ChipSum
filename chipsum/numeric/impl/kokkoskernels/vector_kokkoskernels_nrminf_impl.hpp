@@ -15,6 +15,16 @@ norminf(const Kokkos::DualView<ValueType *>& X) {
     return KokkosBlas::nrminf(X.d_view);
 }
 
+template <typename ValueType>
+CHIPSUM_FUNCTION_INLINE void
+norminf(const Kokkos::DualView<ValueType *>& X,
+        const typename Kokkos::View<ValueType>& r) {
+    // KokkosBlas::nrminf(r, X.d_view);
+    std::cout<<"todo ... "<<std::endl;
+}
+
+
+
 }
 }
 }

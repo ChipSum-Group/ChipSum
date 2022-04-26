@@ -229,12 +229,33 @@ public:
     }
 
     ///
-    /// \brief Multiply SPILU L*U=A-DETA
+    /// \brief SPILU L*U=A-DETA
     /// \param L [OUT] 上三角矩阵
     /// \param U [OUT] 下三角矩阵
     ///
     CHIPSUM_FUNCTION_INLINE void SPILU(SparseMatrix& L,SparseMatrix& U,size_type fill_lev=2){
         ChipSum::Numeric::Impl::Sparse::spilu(__data,L.GetData(),U.GetData(),fill_lev);
+    }
+
+    ///
+    /// \brief SPADD C=A+B
+    /// \param A [IN] Csr输入
+    /// \param B [IN] Csr输入
+    ///
+    CHIPSUM_FUNCTION_INLINE void SPADD(SparseMatrix& A,SparseMatrix& B,const bool& isSortRows = false){
+        ChipSum::Numeric::Impl::Sparse::spadd(__data,1.0,A.GetData(),1.0,B.GetData(),isSortRows);
+    }
+
+    ///
+    /// \brief SPADD C=alpha*A+beta*B
+    /// \param A [IN] Csr输入
+    /// \param B [IN] Csr输入
+    /// \param isSortRows [IN] C行重排
+    ///
+    CHIPSUM_FUNCTION_INLINE void SPADD(const value_type& alpha,SparseMatrix& A, 
+                                       const value_type& beta, SparseMatrix& B,
+                                       const bool& isSortRows = false){
+        ChipSum::Numeric::Impl::Sparse::spadd(__data,alpha,A.GetData(),beta,B.GetData(),isSortRows);
     }
 
     ///

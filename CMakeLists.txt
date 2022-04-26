@@ -85,7 +85,7 @@ endif()
 
 
 #"examples/chipsumAI/mnist.cpp" "examples/matrix/lu.cpp" "tests/test1.cpp" "perf_test/perf_test.cpp"
-add_executable(ChipSum "examples/matrix/trtri.cpp")
+add_executable(ChipSum "examples/sparse/spadd.cpp")
 install(TARGETS ChipSum  DESTINATION bin)
 target_link_libraries(ChipSum PUBLIC ${CHIPSUM_LIBS})
 target_include_directories(ChipSum PUBLIC ${PROJECT_BINARY_DIR})
