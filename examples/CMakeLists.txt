@@ -3,7 +3,6 @@ add_subdirectory("vector")
 add_subdirectory("sparse")
 add_subdirectory("matrix")
 add_subdirectory("tensor")
-add_subdirectory("chipsumAI")
 file(GLOB testfiles ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
 foreach(mainfile IN LISTS testfiles)
     #get file name without directory

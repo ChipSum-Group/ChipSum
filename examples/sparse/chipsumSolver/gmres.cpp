@@ -8,7 +8,7 @@
 #include "../ChipSum.hpp"
 #include "../chipsum/chipsum_macro.h"
 
-Vector gmres(CSR &A, Vector &b, Vector &x, double tol, int max_it)
+CSVector gmres(CSR &A, CSVector &b, CSVector &x, double tol, int max_it)
 {
     // GMRES Method without preconditioning.
     //
@@ -24,7 +24,7 @@ Vector gmres(CSR &A, Vector &b, Vector &x, double tol, int max_it)
     int n = b.GetSize();
 
     // get r = b - A*x
-    Vector r(n);
+    CSVector r(n);
     A.SPMV(x, r);
     b.AXPBY(r, 1.0, -1.0); // r = b - A*x
 
@@ -37,14 +37,14 @@ Vector gmres(CSR &A, Vector &b, Vector &x, double tol, int max_it)
     if (error < tol)
         return x;
 
-    Vector sn(m);
-    Vector cs(m);
-    Vector beta(m + 1);
+    CSVector sn(m);
+    CSVector cs(m);
+    CSVector beta(m + 1);
 
     beta(0) = r.Norm2();
 
-    Matrix H(m + 1, m);
-    Matrix Q(n, m + 1);
+    CSMatrix H(m + 1, m);
+    CSMatrix Q(n, m + 1);
 
     r *= 1.0 / beta(0);
 
@@ -52,9 +52,9 @@ Vector gmres(CSR &A, Vector &b, Vector &x, double tol, int max_it)
 
     int j = 0;
 
-    Vector tmp1(n);
+    CSVector tmp1(n);
 
-    Vector tmp2(n);
+    CSVector tmp2(n);
 
     while (j < m)
     {
@@ -146,9 +146,9 @@ int main(int argc, char *argv[])
 
         IN.close();
 
-        Vector b(nv, b_data.data());
+        CSVector b(nv, b_data.data());
 
-        Vector x0(nv);
+        CSVector x0(nv);
 
         x0 *= 0;
 
