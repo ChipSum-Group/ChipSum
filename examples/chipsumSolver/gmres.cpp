@@ -55,13 +55,8 @@ CSVector gmres(CSR &A, CSVector &b, CSVector &x, double tol, int max_it)
     int j = 0;
 
     CSVector tmp1(n);
-<<<<<<< HEAD:examples/sparse/chipsumSolver/gmres.cpp
-
-    CSVector tmp2(n);
-=======
     CSVector tmp2(n);
     CSVector beta_n(n);
->>>>>>> feature_solver_reorgnize:examples/chipsumSolver/gmres.cpp
 
     for (int j = 0; j < m; j++)
     {
