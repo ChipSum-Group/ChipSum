@@ -438,16 +438,21 @@ public:
     CHIPSUM_FUNCTION_INLINE value_type NormInf() {
         return ChipSum::Numeric::Impl::Vector::norminf(__data);
     }
-
-    template<typename RefType>
+    
+    //todo
+    /* template<typename RefType>
     ///
     /// \brief Norm1 2范数
     /// \param r [OUT]
     ///
     CHIPSUM_FUNCTION_INLINE void NormInf(RefType& r) {
         ChipSum::Numeric::Impl::Vector::norminf(__data,r);
-    }
+    }*/
 
+    ///
+    /// \brief NormInf x的Inf范数
+    /// \r [IN,OUT] scalar标量
+    ///
     CHIPSUM_FUNCTION_INLINE void NormInf(scalar_type& r) {
         ChipSum::Numeric::Impl::Vector::norminf(__data,r.GetData());
     }
@@ -474,6 +479,52 @@ public:
 
         ChipSum::Numeric::Impl::Vector::axpby(GetData(),y.GetData(),args...);
     }
+
+    template<typename ValueType>
+    ///
+    /// \brief Norm1 vector fill
+    /// \param alpha [IN] fill data
+    ///
+    CHIPSUM_FUNCTION_INLINE void Fill(ValueType alpha) {
+        ChipSum::Numeric::Impl::Vector::fill(__data,alpha);
+    }
+    CHIPSUM_FUNCTION_INLINE void Fill(scalar_type& alpha) {
+        ChipSum::Numeric::Impl::Vector::fill(__data,alpha.GetData());
+    }
+
+    ///
+    /// \brief IAMAX 向量元素最大绝对值处的（最小）索引 ARGMAX_i(|x[i]|)
+    /// \return size_type
+    ///
+    CHIPSUM_FUNCTION_INLINE auto IAMAX() {
+        return ChipSum::Numeric::Impl::Vector::iamax(__data);
+    }
+    
+    ///
+    /// \brief IAMAX 向量元素最大绝对值处的（最小）索引 ARGMAX_i(|x[i]|)
+    /// \param [OUT] scalar<unsigned> type
+    ///
+    template<typename ScalarType>
+    CHIPSUM_FUNCTION_INLINE void IAMAX(ScalarType &r) {
+        ChipSum::Numeric::Impl::Vector::iamax(__data,r.GetData());
+    }
+
+    ///
+    /// \brief 向量倒数
+    /// \param [OUT] Vector倒数输出
+    ///
+    CHIPSUM_FUNCTION_INLINE void Reciprocal(Vector &y) {
+        ChipSum::Numeric::Impl::Vector::reciprocal(__data,y.GetData());
+    }
+
+    ///
+    /// \brief 向量求和
+    /// \return 向量和
+    ///
+    CHIPSUM_FUNCTION_INLINE value_type Sum() {
+        return ChipSum::Numeric::Impl::Vector::sum(__data);
+    }
+
 };
 
 template <typename ValueType,typename... Props>
