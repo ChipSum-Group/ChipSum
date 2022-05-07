@@ -16,12 +16,6 @@
 
 
 
-namespace  ChipSum{
-namespace  Numeric{
-namespace Impl {
-namespace DenseMat {
-
-
 template <typename ValueType>
 struct Dense_functor{
     
@@ -42,10 +36,16 @@ struct Dense_functor{
 
 template <typename ValueType>
 CHIPSUM_FUNCTION_INLINE void
-dense(const Kokkos::DualView<ValueType **> &A,
-     const Kokkos::DualView<ValueType **> &weight,
-     const Kokkos::DualView<ValueType *> &bias,
-     Kokkos::DualView<ValueType **> &out) {
+dense(ChipSum::Numeric::DenseMatrix<ValueType, ChipSum::Backend::DefaultBackend> &input,
+     ChipSum::Numeric::DenseMatrix<ValueType, ChipSum::Backend::DefaultBackend> &weight_data,
+     ChipSum::Numeric::Vector<ValueType, ChipSum::Backend::DefaultBackend> &bias_data,
+     ChipSum::Numeric::DenseMatrix<ValueType, ChipSum::Backend::DefaultBackend> &out_data) {
+     
+     
+     auto A = input.GetData();
+     auto weight = weight_data.GetData();
+     auto bias = bias_data.GetData();
+     auto out = out_data.GetData();
 
      KokkosBlas::gemm("N", "N", 1, A.d_view, weight.d_view,
                      0, out.d_view);
@@ -60,23 +60,32 @@ dense(const Kokkos::DualView<ValueType **> &A,
 
 template <typename ValueType>
 CHIPSUM_FUNCTION_INLINE void
-dense(const Kokkos::DualView<ValueType **> &A,
-     const Kokkos::DualView<ValueType **> &weight,
-     Kokkos::DualView<ValueType **> &out) {
-
+dense(ChipSum::Numeric::DenseMatrix<ValueType, ChipSum::Backend::DefaultBackend> &input,
+     ChipSum::Numeric::DenseMatrix<ValueType, ChipSum::Backend::DefaultBackend> &weight_data,
+     ChipSum::Numeric::DenseMatrix<ValueType, ChipSum::Backend::DefaultBackend> &out_data) {
+     
+     auto A = input.GetData();
+     auto weight = weight_data.GetData();
+     auto out = out_data.GetData();
+     
      KokkosBlas::gemm("N", "N", 1, A.d_view, weight.d_view,
                      0, out.d_view);
 }
 
 template <typename ValueType>
 CHIPSUM_FUNCTION_INLINE void
-dense(const Kokkos::DualView<ValueType **> &A,
-     const Kokkos::DualView<ValueType **> &weight,
-     const Kokkos::DualView<ValueType *> &bias,
-     Kokkos::DualView<ValueType **> &out,
-     const char transA[],
-     const char transB[]
+dense(const char transA[],
+     const char transB[],
+     ChipSum::Numeric::DenseMatrix<ValueType, ChipSum::Backend::DefaultBackend> &input,
+     ChipSum::Numeric::DenseMatrix<ValueType, ChipSum::Backend::DefaultBackend> &weight_data,
+     ChipSum::Numeric::Vector<ValueType, ChipSum::Backend::DefaultBackend> &bias_data,
+     ChipSum::Numeric::DenseMatrix<ValueType, ChipSum::Backend::DefaultBackend> &out_data
      ) {
+
+     auto A = input.GetData();
+     auto weight = weight_data.GetData();
+     auto bias = bias_data.GetData();
+     auto out = out_data.GetData();
 
      KokkosBlas::gemm(transA, transB, 1, A.d_view, weight.d_view,
                      0, out.d_view);
@@ -91,20 +100,19 @@ dense(const Kokkos::DualView<ValueType **> &A,
 
 template <typename ValueType>
 CHIPSUM_FUNCTION_INLINE void
-dense(const Kokkos::DualView<ValueType **> &A,
-     const Kokkos::DualView<ValueType **> &weight,
-     Kokkos::DualView<ValueType **> &out,
-     const char transA[],
-     const char transB[]
+dense(const char transA[],
+     const char transB[],
+     ChipSum::Numeric::DenseMatrix<ValueType, ChipSum::Backend::DefaultBackend> &input,
+     ChipSum::Numeric::DenseMatrix<ValueType, ChipSum::Backend::DefaultBackend> &weight_data,
+     ChipSum::Numeric::DenseMatrix<ValueType, ChipSum::Backend::DefaultBackend> &out_data
      ) {
 
+     auto A = input.GetData();
+     auto weight = weight_data.GetData();
+     auto out = out_data.GetData();
+     
      KokkosBlas::gemm(transA, transB, 1, A.d_view, weight.d_view,
                      0, out.d_view);
 }
 
-
-}
-}
-}
-}
 #endif // DENSEMAT_KOKKOSKERNELS_DENSE_IMPL_HPP

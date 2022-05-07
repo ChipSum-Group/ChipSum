@@ -11,10 +11,15 @@ using namespace std;
 #include <type_traits>
 #include <vector>
 
-#include "../ChipSum.hpp"
+#include "ChipSum.hpp"
 
 #include <Kokkos_Core.hpp>
 #include <KokkosKernels_IOUtils.hpp>
+
+#include "mnist/kernels/densemat_kokkoskernels_activation_impl.hpp"
+#include "mnist/kernels/densemat_kokkoskernels_dense_impl.hpp"
+#include "mnist/kernels/densemat_kokkoskernels_norm_impl.hpp"
+#include "mnist/kernels/densemat_kokkoskernels_relu_impl.hpp"
 
 #define M 784
 #define N 512
@@ -140,16 +145,16 @@ int main(int argc, char *argv[]) {
             CSMatrix input(1, M, pic);
 
             // model
-            input.Dense("N", "N", weight_Dense_1, bias_Dense_1, C1);
-            C1.Relu();
+            dense("N", "N", input, weight_Dense_1, bias_Dense_1, C1);
+            relu(C1);
 
-            C1.Dense("N", "N", weight_Dense_2, bias_Dense_2, C2);
-            C2.Relu();
+            dense("N", "N", C1, weight_Dense_2, bias_Dense_2, C2);
+            relu(C2);
 
-            C2.Dense("N", "N", weight_Dense_3, bias_Dense_3, C3);
-            C3.Softmax();
+            dense("N", "N", C2, weight_Dense_3, bias_Dense_3, C3);
+            softmax(C3);
 
-            C3.Argmax();
+            argmax(C3);
         }
 
         

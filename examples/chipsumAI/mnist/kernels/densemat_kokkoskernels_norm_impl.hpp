@@ -14,12 +14,6 @@
 #include "../chipsum/chipsum_macro.h"
 
 
-
-namespace  ChipSum{
-namespace  Numeric{
-namespace  Impl {
-namespace  DenseMat {
-
 template <typename ValueType>
 struct Normsum_functor{
     
@@ -54,7 +48,9 @@ struct Norm_functor{
 
 template <typename ValueType>
 CHIPSUM_FUNCTION_INLINE void
-norm(Kokkos::DualView<ValueType **>& A) {
+norm(ChipSum::Numeric::DenseMatrix<ValueType, ChipSum::Backend::DefaultBackend> &input) {
+    auto A = input.GetData();
+    
     const std::size_t M = A.extent(0);// row
     const std::size_t N = A.extent(1);// col
 
@@ -67,8 +63,4 @@ norm(Kokkos::DualView<ValueType **>& A) {
     Kokkos::parallel_for( "norm", mdrange_policy({0,0}, {M,N}), functor);
 }
 
-}
-}
-}
-}
 #endif // DENSEMAT_KOKKOSKERNELS_NORM_IMPL_HPP
