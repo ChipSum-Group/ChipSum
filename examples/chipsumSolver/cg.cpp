@@ -20,7 +20,6 @@ CSVector cg(CSR &A, CSVector &b, CSVector &x, double tol, int max_it)
     //
     // output  x        REAL solution vector
 
-
     CSVector r(x.GetSize());
     A.SPMV(x, r);
     b.AXPBY(r, 1.0, -1.0); // r = b - A*x
@@ -91,11 +90,9 @@ int main(int argc, char *argv[])
 
         IN.close();
 
-        CSVector b(nv,b_data.data());
+        CSVector b(nv, b_data.data());
 
         CSVector x0(nv);
-
-        x0*=0;
 
         x0 *= 0;
 
