@@ -28,11 +28,15 @@ using namespace std;
 #include "../../numeric_traits.hpp"
 
 #include "vector_kokkoskernels_dot_impl.hpp"
+#include "vector_kokkoskernels_sum_impl.hpp"
+#include "vector_kokkoskernels_fill_impl.hpp"
 #include "vector_kokkoskernels_scal_impl.hpp"
 #include "vector_kokkoskernels_nrm1_impl.hpp"
 #include "vector_kokkoskernels_nrm2_impl.hpp"
 #include "vector_kokkoskernels_nrminf_impl.hpp"
 #include "vector_kokkoskernels_axpby_impl.hpp"
+#include "vector_kokkoskernels_iamax_impl.hpp"
+#include "vector_kokkoskernels_reciprocal_impl.hpp"
 
 /// 由于直接用view<type*>作为vector的数据底层，导致了数据无法灵活在
 /// device和host之间流转。所以这部分的底层数据类型替换为dualview。

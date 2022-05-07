@@ -1,6 +1,3 @@
-[submodule "tpls/kokkos"]
-	path = tpls/kokkos
-	url = https://hub.fastgit.xyz/kokkos/kokkos.git
 [submodule "tpls/kokkos-kernels"]
 	path = tpls/kokkos-kernels
 	url = https://hub.fastgit.xyz/kokkos/kokkos-kernels.git
