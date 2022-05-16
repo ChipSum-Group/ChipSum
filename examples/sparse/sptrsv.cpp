@@ -27,7 +27,7 @@ int main(int argc, char *argv[]) {
         CSInt *row_map = (CSInt *)malloc((nrows + 1) * sizeof(CSInt));
         CSInt *entries = (CSInt *)malloc(nnz * sizeof(CSInt));
         CSFloat *values = (CSFloat *)malloc(nnz * sizeof(CSFloat));
-        CSVector b(nrows,1.0);
+        CSVector b(nrows,(CSFloat)1.0);
         CSVector x(nrows);
 
         // Fill rowmap, entries, of Crs graph for simple example matrix, values set to ones

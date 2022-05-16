@@ -11,7 +11,7 @@
 #include <Kokkos_Core.hpp>
 #include <Kokkos_Vector.hpp>
 
-typedef Kokkos::vector<double> vector_type;
+typedef Kokkos::vector<CSFloat> vector_type;
 
 struct print_functor
 {
@@ -40,22 +40,22 @@ int main(int argc, char *argv[])
         v(1) = 2;
 
         //        Kokkos::parallel_for(5,print_functor(v));
-        double *v1 = static_cast<double *>(std::malloc(B * N * N * sizeof(double)));
+        CSFloat *v1 = static_cast<CSFloat *>(std::malloc(B * N * N * sizeof(CSFloat)));
         for (int i = 0; i < B * N * N; ++i)
         {
-            v1[i] = double(1);
+            v1[i] = CSFloat(1);
         }
 
-        double *v2 = static_cast<double *>(std::malloc(B * N * 1 * sizeof(double)));
+        CSFloat *v2 = static_cast<CSFloat *>(std::malloc(B * N * 1 * sizeof(CSFloat)));
         for (int i = 0; i < B * N * 1; ++i)
         {
-            v2[i] = double(2);
+            v2[i] = CSFloat(2);
         }
 
-        double *v3 = static_cast<double *>(std::malloc(B * N * 1 * sizeof(double)));
+        CSFloat *v3 = static_cast<CSFloat *>(std::malloc(B * N * 1 * sizeof(CSFloat)));
         for (int i = 0; i < B * N * 1; ++i)
         {
-            v3[i] = double(0);
+            v3[i] = CSFloat(0);
         }
 
         CSTensor<3> tmp(2, 2, 2);
@@ -75,20 +75,20 @@ int main(int argc, char *argv[])
         a.GEMM(a1, a2);
         a2.Print();
 
-        double *b1 = static_cast<double *>(std::malloc(K * B * N * M * sizeof(double)));
+        CSFloat *b1 = static_cast<CSFloat *>(std::malloc(K * B * N * M * sizeof(CSFloat)));
         for (int i = 0; i < K * B * N * M; ++i)
         {
-            b1[i] = double(1);
+            b1[i] = CSFloat(1);
         }
-        double *b2 = static_cast<double *>(std::malloc(K * B * M * N * sizeof(double)));
+        CSFloat *b2 = static_cast<CSFloat *>(std::malloc(K * B * M * N * sizeof(CSFloat)));
         for (int i = 0; i < K * B * N * M; ++i)
         {
-            b2[i] = double(2);
+            b2[i] = CSFloat(2);
         }
-        double *b3 = static_cast<double *>(std::malloc(K * B * N * N * sizeof(double)));
+        CSFloat *b3 = static_cast<CSFloat *>(std::malloc(K * B * N * N * sizeof(CSFloat)));
         for (int i = 0; i < K * B * N * N; ++i)
         {
-            b3[i] = double(0);
+            b3[i] = CSFloat(0);
         }
 
         CSTensor<4> Btensor(K, B, N, M, b1);
@@ -101,15 +101,15 @@ int main(int argc, char *argv[])
         // Btensor.GEMM(Btensor1, Btensor2);
         Btensor2.Print();
 
-        double *b4 = static_cast<double *>(std::malloc(K * B * M * 1 * sizeof(double)));
+        CSFloat *b4 = static_cast<CSFloat *>(std::malloc(K * B * M * 1 * sizeof(CSFloat)));
         for (int i = 0; i < K * B * M * 1; ++i)
         {
-            b4[i] = double(4);
+            b4[i] = CSFloat(4);
         }
-        double *b5 = static_cast<double *>(std::malloc(K * B * N * 1 * sizeof(double)));
+        CSFloat *b5 = static_cast<CSFloat *>(std::malloc(K * B * N * 1 * sizeof(CSFloat)));
         for (int i = 0; i < K * B * N * 1; ++i)
         {
-            b5[i] = double(5);
+            b5[i] = CSFloat(5);
         }
         CSTensor<4> Btensor4(K, B, M, 1, b4);
         Btensor4.Print();
@@ -119,17 +119,17 @@ int main(int argc, char *argv[])
         Btensor.GEMV(Btensor4, Btensor5);
         Btensor5.Print();
 
-        double *m1 = static_cast<double *>(std::malloc(5 * 5 * sizeof(double)));
+        CSFloat *m1 = static_cast<CSFloat *>(std::malloc(5 * 5 * sizeof(CSFloat)));
         for (int i = 0; i < 5 * 5; ++i)
         {
-            m1[i] = double(1);
+            m1[i] = CSFloat(1);
         }
         CSMatrix M1(5, 5, m1);
 
-        double *m2 = static_cast<double *>(std::malloc(5 * sizeof(double)));
+        CSFloat *m2 = static_cast<CSFloat *>(std::malloc(5 * sizeof(CSFloat)));
         for (int i = 0; i < 5; ++i)
         {
-            m2[i] = double(i);
+            m2[i] = CSFloat(i);
         }
         CSVector M2(5, m2);
 

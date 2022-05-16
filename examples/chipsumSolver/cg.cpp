@@ -8,7 +8,7 @@
 #include "../ChipSum.hpp"
 #include "../chipsum/chipsum_macro.h"
 
-CSVector cg(CSR &A, CSVector &b, CSVector &x, double tol, int max_it)
+CSVector cg(CSR &A, CSVector &b, CSVector &x, CSFloat tol, int max_it)
 {
     // Conjugate Gradient Method without preconditioning.
     //
@@ -29,8 +29,8 @@ CSVector cg(CSR &A, CSVector &b, CSVector &x, double tol, int max_it)
 
     CSVector Ap(b.GetSize());
 
-    double alpha = 0, beta = 0.0, rsnew = 0;
-    double rsold = r.Dot(r);
+    CSFloat alpha = 0, beta = 0.0, rsnew = 0;
+    CSFloat rsold = r.Dot(r);
 
     for (int i = 0; i < max_it; i++)
     {
@@ -71,14 +71,14 @@ int main(int argc, char *argv[])
 
         CSInt nv = 0, ne = 0;
         CSInt *xadj, *adj;
-        double *ew;
+        CSFloat *ew;
 
-        KokkosKernels::Impl::read_matrix<CSInt, CSInt, double>(&nv, &ne, &xadj, &adj, &ew, filename_A);
+        KokkosKernels::Impl::read_matrix<CSInt, CSInt, CSFloat>(&nv, &ne, &xadj, &adj, &ew, filename_A);
 
         CSR A(nv, nv, ne, xadj, adj, ew);
 
-        vector<double> b_data;
-        double temp;
+        vector<CSFloat> b_data;
+        CSFloat temp;
 
         ifstream IN(filename_b);
 
@@ -96,7 +96,7 @@ int main(int argc, char *argv[])
 
         x0 *= 0;
 
-        double tol = 1e-12;
+        CSFloat tol = 1e-12;
         int max_it = 500;
 
         auto sol_cg = cg(A, b, x0, tol, max_it);
