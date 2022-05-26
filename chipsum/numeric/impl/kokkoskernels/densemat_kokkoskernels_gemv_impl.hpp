@@ -42,14 +42,14 @@ gemv(const Kokkos::DualView<ValueType **> &A,
 
      rocblas_handle handle;
      rocblas_create_handle(&handle);
-     if(std::is_same<typename std::decay::ValueType, double>::value){
-          rocblas_dgemv(handle, rocblas_operation_transpose, n, m, &alpha, A.d_view.data(), lda, 
-                         x.d_view.data(), incx, &beta, y.d_view.data(), incy);
-     }
-     else{
-          rocblas_sgemv(handle, rocblas_operation_transpose, n, m, &alpha, A.d_view.data(), lda, 
-                         x.d_view.data(), incx, &beta, y.d_view.data(), incy);
-     }
+     // if(std::is_same<typename std::decay::ValueType, double>::value){
+     rocblas_dgemv(handle, rocblas_operation_transpose, n, m, &alpha, A.d_view.data(), lda, 
+                    x.d_view.data(), incx, &beta, y.d_view.data(), incy);
+     // }
+     // else{
+     //      rocblas_sgemv(handle, rocblas_operation_transpose, n, m, &alpha, A.d_view.data(), lda, 
+     //                     x.d_view.data(), incx, &beta, y.d_view.data(), incy);
+     // }
      rocblas_destroy_handle(handle);
 #else
      KokkosBlas::gemv("N", 1, A.d_view, x.d_view,
@@ -86,14 +86,14 @@ gemv(const Kokkos::DualView<ValueType **> &A,
 
      rocblas_handle handle;
      rocblas_create_handle(&handle);
-     if(std::is_same<typename std::decay::ValueType, double>::value){
-          rocblas_dgemv(handle, transa, n, m, &alpha, A.d_view.data(), lda, 
-                         x.d_view.data(), incx, &beta, y.d_view.data(), incy);
-     }
-     else{
-          rocblas_sgemv(handle, transa, n, m, &alpha, A.d_view.data(), lda, 
-                         x.d_view.data(), incx, &beta, y.d_view.data(), incy);
-     }
+     // if(std::is_same<typename std::decay::ValueType, double>::value){
+     rocblas_dgemv(handle, transa, n, m, &alpha, A.d_view.data(), lda, 
+                    x.d_view.data(), incx, &beta, y.d_view.data(), incy);
+     // }
+     // else{
+     //      rocblas_sgemv(handle, transa, n, m, &alpha, A.d_view.data(), lda, 
+     //                     x.d_view.data(), incx, &beta, y.d_view.data(), incy);
+     // }
      rocblas_destroy_handle(handle);
 #else
      KokkosBlas::gemv(transA, 1, A.d_view, x.d_view,
@@ -126,14 +126,14 @@ gemv(const Kokkos::DualView<ValueType **> &A,
 
      rocblas_handle handle;
      rocblas_create_handle(&handle);
-     if(std::is_same<typename std::decay::ValueType, double>::value){
-          rocblas_dgemv(handle, rocblas_operation_transpose, n, m, a, A.d_view.data(), lda, 
-                         x.d_view.data(), incx, b, y.d_view.data(), incy);
-     }
-     else{
-          rocblas_sgemv(handle, rocblas_operation_transpose, n, m, a, A.d_view.data(), lda, 
-                         x.d_view.data(), incx, b, y.d_view.data(), incy);
-     }
+     // if(std::is_same<typename std::decay::ValueType, double>::value){
+     rocblas_dgemv(handle, rocblas_operation_transpose, n, m, a, A.d_view.data(), lda, 
+                    x.d_view.data(), incx, b, y.d_view.data(), incy);
+     // }
+     // else{
+     //      rocblas_sgemv(handle, rocblas_operation_transpose, n, m, a, A.d_view.data(), lda, 
+     //                     x.d_view.data(), incx, b, y.d_view.data(), incy);
+     // }
      rocblas_destroy_handle(handle);
 #else
      KokkosBlas::gemv("N", a, A.d_view, x.d_view,
@@ -168,14 +168,14 @@ gemv(const Kokkos::DualView<ValueType **> &A,
 
      rocblas_handle handle;
      rocblas_create_handle(&handle);
-     if(std::is_same<typename std::decay::ValueType, double>::value){
-          rocblas_dgemv(handle, transa, n, m, a, A.d_view.data(), lda, 
-                         x.d_view.data(), incx, b, y.d_view.data(), incy);
-     }
-     else{
-          rocblas_sgemv(handle, transa, n, m, a, A.d_view.data(), lda, 
-                         x.d_view.data(), incx, b, y.d_view.data(), incy);
-     }
+     // if(std::is_same<typename std::decay::ValueType, double>::value){
+     rocblas_dgemv(handle, transa, n, m, a, A.d_view.data(), lda, 
+                    x.d_view.data(), incx, b, y.d_view.data(), incy);
+     // }
+     // else{
+     //      rocblas_sgemv(handle, transa, n, m, a, A.d_view.data(), lda, 
+     //                     x.d_view.data(), incx, b, y.d_view.data(), incy);
+     // }
      rocblas_destroy_handle(handle);
 #else
      KokkosBlas::gemv(transA, a, A.d_view, x.d_view,
