@@ -60,26 +60,34 @@ python3 setup.py j=32
 
 ## 三、算例
 
+### 验证安装
  `ChipSum`在`test.cpp`中提供了一个简单的用例示范，默认路径编译完成后，可以在`./build`中查看编译结果。
+ 
 ```
 # default path
 cd ./build
 ./ChipSum
 ```
+
 预期输出：
+
 ```
 vector_0: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 3.3
 scalar_1: [0, 3.3, 6.6, 9.9, 13.2, 16.5, 19.8, 23.1, 26.4, 29.7]
 ```
 
+### MNIST识别 
  `ChipSum`在`examples/chipsumAI`中提供了基于全连接层的人工智能手写体识别示例，默认路径编译完成后，可以在`./build`中查看编译结果。
+ 
 ```
 # default path
-cd ./build
+cd ./build/examples/
 ./ChipSumMnist
 ```
+
 预期输出：
+
 ```
 ******input is****** : 9
  [                                                       ]
@@ -111,4 +119,46 @@ cd ./build
  [                                                       ]
  [                                                       ]
 *****prediction is***** : 9
+```
+
+### Conjugate Gradient 算例
+<img width="578" alt="cg" src="./doc/source/_static/CG.png">
+按默认路径完成编译后，在` ./build/examples/chipsumSolver`路径下存在cg算法的可执行文件，同时利用`./data`路径中的矩阵文件，可以实现一个简单的求解算例：
+
+```
+cd path_to_chipsum
+./build/examples/chipsumSolver/cg data/A.mtx data/b.csv
+```
+
+
+
+### BiConjugate Gradient 算例
+<img width="578" alt="cg" src="./doc/source/_static/BiCG.png">
+按默认路径完成编译后，在` ./build/examples/chipsumSolver`路径下存在BiCG算法的可执行文件，同时利用`./data`路径中的矩阵文件，可以实现一个简单的求解算例：
+
+```
+cd path_to_chipsum
+./build/examples/chipsumSolver/bicg data/A.mtx data/b.csv
+```
+
+
+### BiConjugate Gradient STAB 算例
+<img width="578" alt="cg" src="./doc/source/_static/BiCGSTAB.png">
+按默认路径完成编译后，在` ./build/examples/chipsumSolver`路径下存在BiCGSTAB算法的可执行文件，同时利用`./data`路径中的矩阵文件，可以实现一个简单的求解算例：
+
+```
+cd path_to_chipsum
+./build/examples/chipsumSolver/bicgstab data/A.mtx data/b.csv
+```
+
+
+### GMRES算例
+<img width="578" alt="cg" src="./doc/source/_static/GMRES.png">
+
+按默认路径完成编译后，在` ./build/examples/chipsumSolver`路径下存在GMRES算法的可执行文件，同时利用`./data`路径中的矩阵文件，可以实现一个简单的求解算例：
+<!--TODO：等于要杰完成测试加入可执行文件编译-->
+
+```
+cd path_to_chipsum
+
 ```
