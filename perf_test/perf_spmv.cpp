@@ -32,7 +32,7 @@ int main(int argc, char *argv[]) {
     using mat_type =
     typename KokkosSparse::CrsMatrix<Scal, Ordinal, device_type, void,
     Offset>;
-    using values_type = typename mat_type::values_type;
+    //using values_type = typename mat_type::values_type;
 
     for(int j=0; j<200; ++j){
 
