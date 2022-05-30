@@ -27,7 +27,7 @@ git submodule update
 
 ```
 # AMD Vega906/900  
-python3 setup.py arch=VEGA906 compiler=/path/to/your/rocm(i.e. 4.0.1)/bin/hipcc hip=/path/to/your/rocm(i.e. 4.0.1)
+python3 setup.py arch=VEGA906 compiler=/path/to/your/rocm(i.e. 4.0.1)/bin/hipcc hip=/path/to/your/rocm(i.e. 4.0.1)/hip
 ```
 2. `NVIDIA 2080ti`
 

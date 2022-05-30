@@ -86,7 +86,7 @@ add_subdirectory("unit_test")
 endif()
 
 #"examples/vector/axpby.cpp" "examples/matrix/lu.cpp" "tests/test1.cpp" "perf_test/perf_axpby.cpp"
-add_executable(ChipSum "perf_test/perf_gemm.cpp")
+add_executable(ChipSum "examples/matrix/lu.cpp")
 install(TARGETS ChipSum  DESTINATION bin)
 target_link_libraries(ChipSum PUBLIC ${CHIPSUM_LIBS})
 target_include_directories(ChipSum PUBLIC ${PROJECT_BINARY_DIR})
