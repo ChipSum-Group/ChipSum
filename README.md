@@ -31,29 +31,35 @@ git checkout
 ## 二、编译
 为了方便用户编译，`ChipSum`使用了一个python脚本帮助完成编译过程。已分别在`AMD VEGA906`和`NVIDIA 2080ti`等架构上完成编译并运行。
 
-1. `AMD VEGA906`
+1 `AMD VEGA906`
 
 ```
 # AMD Vega906/900  
 python3 setup.py arch=VEGA906 compiler=/path/to/your/rocm(i.e. 4.0.1)/bin/hipcc hip=/path/to/your/rocm(i.e. 4.0.1)/hip
 ```
-2. `NVIDIA 2080ti`
+
+2 `NVIDIA 2080ti`
 
 ```
 # NVIDIA 2080ti
 python3 setup.py arch=Turing75 cuda=/Path/To/Your/Cuda
 ```
-3. `Volta72`
+
+3 `Volta72`
+
 ```
 # for Volta72
 python3 setup.py cuda=/Path/To/Your/Cuda arch=Volta72
 ```
-4. `MX350(Pascal61)`
+
+4 `MX350(Pascal61)`
+
 ```
 # for MX350（Pascal61）
 python3 setup.py cuda=/Path/To/Your/Cuda arch=Pascal61
 ```
-5. 其他
+
+5 其他
 
 若想指定安装目录，可以使用`prefix`参数
 ```
