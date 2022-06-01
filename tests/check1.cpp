@@ -37,7 +37,7 @@ struct ParallelPrintf_matrix
 struct ParallelPrintf_vec
 {
 
-    ParallelPrintf_vec(double *v) : _vec(N, v)
+    ParallelPrintf_vec(CSFloat *v) : _vec(N, v)
     {
         _vec.Print();
     }
@@ -59,13 +59,13 @@ int main(int argc, char *argv[])
     ChipSum::Common::Init(argc, argv);
     {
 
-        double *v1 = static_cast<double *>(std::malloc(N * sizeof(double)));
-        double *v2 = static_cast<double *>(std::malloc(N * sizeof(double)));
+        CSFloat *v1 = static_cast<CSFloat *>(std::malloc(N * sizeof(CSFloat)));
+        CSFloat *v2 = static_cast<CSFloat *>(std::malloc(N * sizeof(CSFloat)));
 
         for (int i = 0; i < N; ++i)
         {
-            v1[i] = double(i);
-            v2[i] = double(i);
+            v1[i] = CSFloat(i);
+            v2[i] = CSFloat(i);
         }
 
         CSVector a(N, v1); // a = {0,1,2,3,4}
@@ -117,7 +117,7 @@ int main(int argc, char *argv[])
 
         cout << a.NormInf() << endl;
 
-        double *A1 = static_cast<double *>(std::malloc(N * N * sizeof(double)));
+        CSFloat *A1 = static_cast<CSFloat *>(std::malloc(N * N * sizeof(CSFloat)));
 
         for (int i = 0; i < N * N; ++i)
         {
@@ -131,7 +131,7 @@ int main(int argc, char *argv[])
         }
         A1[0] = 2;
 
-        double *A2 = static_cast<double *>(std::malloc(N * M * sizeof(double)));
+        CSFloat *A2 = static_cast<CSFloat *>(std::malloc(N * M * sizeof(CSFloat)));
 
         CSMatrix A(N, N, A1);
         A.Print();
@@ -191,7 +191,7 @@ int main(int argc, char *argv[])
         CSInt annz = 13;
         CSInt *row_map = (CSInt *)malloc(6 * sizeof(CSInt));
         CSInt *col_map = (CSInt *)malloc(13 * sizeof(CSInt));
-        CSFloat *values = (double *)malloc(13 * sizeof(double));
+        CSFloat *values = (CSFloat *)malloc(13 * sizeof(CSFloat));
         row_map[0] = 0;
         row_map[1] = 3;
         row_map[2] = 5;
@@ -205,7 +205,7 @@ int main(int argc, char *argv[])
         col_map[7] = col_map[12] = 4;
 
         for (int i = 0; i < 5; ++i)
-            values[i] = double(i + 1);
+            values[i] = CSFloat(i + 1);
 
         values[5] = 2;
         values[6] = 6;
@@ -234,7 +234,7 @@ int main(int argc, char *argv[])
         */
         CSInt *row_map2 = (CSInt *)malloc(5 * sizeof(CSInt));
         CSInt *col_map2 = (CSInt *)malloc(5 * sizeof(CSInt));
-        CSFloat *values2 = (double *)malloc(5 * sizeof(double));
+        CSFloat *values2 = (CSFloat *)malloc(5 * sizeof(CSFloat));
         row_map2[0] = 0;
         row_map2[1] = 1;
         row_map2[2] = 2;

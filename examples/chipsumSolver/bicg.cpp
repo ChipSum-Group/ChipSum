@@ -8,7 +8,7 @@
 #include "../ChipSum.hpp"
 #include "../chipsum/chipsum_macro.h"
 
-CSVector bicg(CSR &A, CSVector &b, CSVector &x, double tol, int max_it)
+CSVector bicg(CSR &A, CSVector &b, CSVector &x, CSFloat tol, int max_it)
 {
     // BiConjugate Gradient Method without preconditioning.
     //
@@ -20,7 +20,7 @@ CSVector bicg(CSR &A, CSVector &b, CSVector &x, double tol, int max_it)
     //
     // output  x        REAL solution vector
 
-    double bnrm2 = b.Norm2();
+    CSFloat bnrm2 = b.Norm2();
     if (bnrm2 == 0.0)
         bnrm2 = 1.0;
 
@@ -28,7 +28,7 @@ CSVector bicg(CSR &A, CSVector &b, CSVector &x, double tol, int max_it)
     A.SPMV(x, r);
     b.AXPBY(r, 1.0, -1.0); // r = b - A*x
 
-    double error = r.Norm2() / bnrm2;
+    CSFloat error = r.Norm2() / bnrm2;
 
     if (error < tol)
         return x;
@@ -40,7 +40,7 @@ CSVector bicg(CSR &A, CSVector &b, CSVector &x, double tol, int max_it)
     CSVector z(x.GetSize()), z_tld(x.GetSize());
     CSVector q(x.GetSize()), q_tld(x.GetSize());
 
-    double alpha, beta, rho, rho_1;
+    CSFloat alpha, beta, rho, rho_1;
 
     for (int i = 0; i < max_it; i++)
     {
@@ -104,14 +104,14 @@ int main(int argc, char *argv[])
 
         CSInt nv = 0, ne = 0;
         CSInt *xadj, *adj;
-        double *ew;
+        CSFloat *ew;
 
-        KokkosKernels::Impl::read_matrix<CSInt, CSInt, double>(&nv, &ne, &xadj, &adj, &ew, filename_A);
+        KokkosKernels::Impl::read_matrix<CSInt, CSInt, CSFloat>(&nv, &ne, &xadj, &adj, &ew, filename_A);
 
         CSR A(nv, nv, ne, xadj, adj, ew);
 
-        vector<double> b_data;
-        double temp;
+        vector<CSFloat> b_data;
+        CSFloat temp;
 
         ifstream IN(filename_b);
 
@@ -129,7 +129,7 @@ int main(int argc, char *argv[])
 
         x0 *= 0;
 
-        double tol = 1e-12;
+        CSFloat tol = 1e-12;
         int max_it = 500;
 
         auto sol_bicg = bicg(A, b, x0, tol, max_it);

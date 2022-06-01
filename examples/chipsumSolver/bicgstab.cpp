@@ -8,7 +8,7 @@
 #include "../ChipSum.hpp"
 #include "../chipsum/chipsum_macro.h"
 
-CSVector bicgstab(CSR &A, CSVector &b, CSVector &x, double tol, int max_it)
+CSVector bicgstab(CSR &A, CSVector &b, CSVector &x, CSFloat tol, int max_it)
 {
     // BiConjugate Gradient Stabilized Method without preconditioning.
     //
@@ -20,7 +20,7 @@ CSVector bicgstab(CSR &A, CSVector &b, CSVector &x, double tol, int max_it)
     //
     // output  x        REAL solution vector
 
-    double bnrm2 = b.Norm2();
+    CSFloat bnrm2 = b.Norm2();
     if (bnrm2 == 0.0)
         bnrm2 = 1.0;
 
@@ -28,7 +28,7 @@ CSVector bicgstab(CSR &A, CSVector &b, CSVector &x, double tol, int max_it)
     A.SPMV(x, r);
     b.AXPBY(r, 1.0, -1.0); // r = b - A*x
 
-    double error = r.Norm2() / bnrm2;
+    CSFloat error = r.Norm2() / bnrm2;
 
     if (error < tol)
         return x;
@@ -40,8 +40,8 @@ CSVector bicgstab(CSR &A, CSVector &b, CSVector &x, double tol, int max_it)
     CSVector v(x.GetSize()), t(x.GetSize());
     CSVector s(x.GetSize()), s_hat(x.GetSize());
 
-    double omega = 1.0;
-    double alpha, beta, rho, rho_1;
+    CSFloat omega = 1.0;
+    CSFloat alpha, beta, rho, rho_1;
 
     for (int i = 0; i < max_it; i++)
     {
@@ -78,7 +78,7 @@ CSVector bicgstab(CSR &A, CSVector &b, CSVector &x, double tol, int max_it)
 
         A.SPMV(s_hat, t); // t = A*s_hat
 
-        double tmp = t.Dot(t);
+        CSFloat tmp = t.Dot(t);
         omega = (t.Dot(s)) / tmp;
         // omega = (t.Dot(s)) / (t.Dot(t));
         p_hat.AXPBY(x, alpha, 1.0); // x = x +  alpha * p_hat
@@ -115,14 +115,14 @@ int main(int argc, char *argv[])
 
         CSInt nv = 0, ne = 0;
         CSInt *xadj, *adj;
-        double *ew;
+        CSFloat *ew;
 
-        KokkosKernels::Impl::read_matrix<CSInt, CSInt, double>(&nv, &ne, &xadj, &adj, &ew, filename_A);
+        KokkosKernels::Impl::read_matrix<CSInt, CSInt, CSFloat>(&nv, &ne, &xadj, &adj, &ew, filename_A);
 
         CSR A(nv, nv, ne, xadj, adj, ew);
 
-        vector<double> b_data;
-        double temp;
+        vector<CSFloat> b_data;
+        CSFloat temp;
 
         ifstream IN(filename_b);
 
@@ -140,7 +140,7 @@ int main(int argc, char *argv[])
 
         x0 *= 0;
 
-        double tol = 1e-12;
+        CSFloat tol = 1e-12;
         int max_it = 500;
 
         auto sol_bicgstab = bicgstab(A, b, x0, tol, max_it);

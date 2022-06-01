@@ -4,7 +4,17 @@
 
 目前`ChipSum`仅支持Linux系统
 
+<<<<<<< HEAD
 2. CMake 
+=======
+# Architecture of ChipSum
+#### ChipSum's ecosystem
+|Level Defination|Description|Contents|
+|:--:|:--:|:--:|
+|Level 3|ChipSum's application code|[ChipSum.MD](https://github.com/CDCS-Group/ChipSum.MD)|
+|Level 2|ChipSum's foundation code|[ChipSum.Solver](https://github.com/CDCS-Group/ChipSum.Solver), [ChipSum.AI](https://github.com/CDCS-HPC/ChipSum.AI)|
+|Level 1|ChipSum's core code|[ChipSum](https://github.com/CDCS-Group/ChipSum)|
+>>>>>>> main
 
  `ChipSum`以及第三方库`kokkos`和`kokkos-kernels`的编译, 都需要`Cmake>3.16`，推荐使用`3.20.0`。
 
@@ -13,7 +23,11 @@
 
 ```
 # get ChipSum
+<<<<<<< HEAD
 git clone https://gitee.com/chip-sum/ChipSum.git
+=======
+git clone https://github.com/CDCS-Group/ChipSum.git
+>>>>>>> main
 
 # get kokkos and kokkos-kernels
 cd ChipSum/

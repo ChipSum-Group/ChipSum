@@ -8,7 +8,7 @@
 #include "../ChipSum.hpp"
 #include "../chipsum/chipsum_macro.h"
 
-CSVector gmres(CSR &A, CSVector &b, CSVector &x, double tol, int max_it)
+CSVector gmres(CSR &A, CSVector &b, CSVector &x, CSFloat tol, int max_it)
 {
     // GMRES Method without preconditioning.
     //
@@ -29,12 +29,12 @@ CSVector gmres(CSR &A, CSVector &b, CSVector &x, double tol, int max_it)
     b.AXPBY(r, 1.0, -1.0); // r = b - A*x
 
     // get norm of b
-    double bnrm2 = b.Norm2();
+    CSFloat bnrm2 = b.Norm2();
 
     if (bnrm2 == 0.0)
         bnrm2 = 1.0;
 
-    double error = r.Norm2() / bnrm2;
+    CSFloat error = r.Norm2() / bnrm2;
 
     if (error < tol)
         return x;
@@ -90,7 +90,7 @@ CSVector gmres(CSR &A, CSVector &b, CSVector &x, double tol, int max_it)
         // Applying Givens Rotation to H col
         for (int i = 0; i <= j - 1; i++)
         {
-            double temp = cs(i) * H(i, j) + sn(i) * H(i + 1, j);
+            CSFloat temp = cs(i) * H(i, j) + sn(i) * H(i + 1, j);
             H(i + 1, j) = -sn(i) * H(i, j) + cs(i) * H(i + 1, j);
             H(i, j) = temp;
         }
@@ -157,14 +157,14 @@ int main(int argc, char *argv[])
 
         CSInt nv = 0, ne = 0;
         CSInt *xadj, *adj;
-        double *ew;
+        CSFloat *ew;
 
-        KokkosKernels::Impl::read_matrix<CSInt, CSInt, double>(&nv, &ne, &xadj, &adj, &ew, filename_A);
+        KokkosKernels::Impl::read_matrix<CSInt, CSInt, CSFloat>(&nv, &ne, &xadj, &adj, &ew, filename_A);
 
         CSR A(nv, nv, ne, xadj, adj, ew);
 
-        vector<double> b_data;
-        double temp;
+        vector<CSFloat> b_data;
+        CSFloat temp;
 
         ifstream IN(filename_b);
 
@@ -182,7 +182,7 @@ int main(int argc, char *argv[])
 
         x0 *= 0;
 
-        double tol = 1e-12;
+        CSFloat tol = 1e-12;
         int max_it = 500;
 
         auto sol_gmres = gmres(A, b, x0, tol, max_it);

@@ -32,6 +32,8 @@ int main(int argc, char *argv[]) {
                 
         std::free(v1);
         std::free(v2);
+
+        std::cout << "Run successfully!" << std::endl;
     }
     ChipSum::Common::Finalize();
 }
