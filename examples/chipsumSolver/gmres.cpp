@@ -20,45 +20,40 @@ CSVector gmres(CSR &A, CSVector &b, CSVector &x, CSFloat tol, int max_it)
     //
     // output  x        REAL solution vector
 
+    // get norm of b
+    CSFloat bnrm2 = b.Norm2();
+
+    if (bnrm2 == 0.0) bnrm2 = 1.0;
+
     int n = b.GetSize();
     int m = max_it;
 
-    // get r = b - A*x
     CSVector r(n);
     A.SPMV(x, r);
     b.AXPBY(r, 1.0, -1.0); // r = b - A*x
 
-    // get norm of b
-    CSFloat bnrm2 = b.Norm2();
-
-    if (bnrm2 == 0.0)
-        bnrm2 = 1.0;
-
     CSFloat error = r.Norm2() / bnrm2;
 
-    if (error < tol)
-        return x;
+    if (error < tol) return x;
 
     CSVector sn(m);
     CSVector cs(m);
-    CSVector beta(m + 1);
 
+    CSVector beta(m + 1);
     beta(0) = r.Norm2();
 
     CSMatrix H(m + 1, m);
     CSMatrix Q(n, m + 1);
 
-    r *= 1.0 / beta(0);
-
+    r *= (1.0 / r.Norm2());
     Q.SetCol(0, r);
-
-    int j = 0;
 
     CSVector tmp1(n);
     CSVector tmp2(n);
     CSVector beta_n(n);
 
-    for (int j = 0; j < m; j++)
+    int j = 0;
+    while (j < m)
     {
         // Arnoldi process
         Q.GetColCopy(j, tmp1);
@@ -67,15 +62,15 @@ CSVector gmres(CSR &A, CSVector &b, CSVector &x, CSFloat tol, int max_it)
 
         for (int i = 0; i <= j; i++)
         {
-            Q.GetColCopy(j, tmp1);
+            Q.GetColCopy(i, tmp1);
             Q.GetColCopy(j + 1, tmp2);
 
             H(i, j) = tmp1.Dot(tmp2);
 
-            Q.GetColCopy(j, tmp1);
-            Q.GetColCopy(j + 1, tmp2);
+            Q.GetColCopy(i, tmp1);
+            tmp1 *= (-1.0 * H(i, j));
 
-            tmp1 *= -1.0 * H(i, j);
+            Q.GetColCopy(j + 1, tmp2);
             tmp2 += tmp1;
 
             Q.SetCol(j + 1, tmp2);
@@ -84,7 +79,7 @@ CSVector gmres(CSR &A, CSVector &b, CSVector &x, CSFloat tol, int max_it)
         Q.GetColCopy(j + 1, tmp1);
         H(j + 1, j) = tmp1.Norm2();
 
-        tmp1 *= 1.0 / H(j + 1, j);
+        tmp1 *= (1.0 / H(j + 1, j));
         Q.SetCol(j + 1, tmp1);
 
         // Applying Givens Rotation to H col
@@ -110,6 +105,8 @@ CSVector gmres(CSR &A, CSVector &b, CSVector &x, CSFloat tol, int max_it)
 
         if (error <= tol)
             break;
+
+        j++;
     }
 
     // solve the triangular equation
@@ -123,21 +120,16 @@ CSVector gmres(CSR &A, CSVector &b, CSVector &x, CSFloat tol, int max_it)
         Y(i, 0) = beta(i);
     }
 
-    // Y.Print();
     Y.TRMM(H_n, 1.0, "L", "U");
-    // Y.Print();
-
-    // get solution x
-    CSMatrix Q_n(n, j + 1);
-    Q.GetPartSlice(0, 0, n, j + 1, Q_n);
-
-    // Q.Print();
     CSVector y(j + 1);
     Y.GetColCopy(0, y);
 
+    CSMatrix Q_n(n, j + 1);
+    Q.GetPartSlice(0, 0, n, j + 1, Q_n);
+
+    // get solution x
     CSVector x_n(n);
     Q_n.GEMV(y, x_n);
-
     x += x_n;
 
     return x;
@@ -183,7 +175,7 @@ CSVector gmres(CSR &A, CSVector &b, CSVector &x, CSFloat tol, int max_it)
 //         x0 *= 0;
 
 //         CSFloat tol = 1e-12;
-//         int max_it = 500;
+//         int max_it = 80;
 
 //         auto sol_gmres = gmres(A, b, x0, tol, max_it);
 
