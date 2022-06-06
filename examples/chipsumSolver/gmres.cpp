@@ -7,6 +7,7 @@
 
 #include "../ChipSum.hpp"
 #include "../chipsum/chipsum_macro.h"
+#include <iostream>
 
 CSVector gmres(CSR &A, CSVector &b, CSVector &x, CSFloat tol, int max_it)
 {
@@ -40,7 +41,9 @@ CSVector gmres(CSR &A, CSVector &b, CSVector &x, CSFloat tol, int max_it)
     CSVector cs(m);
 
     CSVector beta(m + 1);
+
     beta(0) = r.Norm2();
+    beta.HostToDevice();
 
     CSMatrix H(m + 1, m);
     CSMatrix Q(n, m + 1);
@@ -66,6 +69,7 @@ CSVector gmres(CSR &A, CSVector &b, CSVector &x, CSFloat tol, int max_it)
             Q.GetColCopy(j + 1, tmp2);
 
             H(i, j) = tmp1.Dot(tmp2);
+            H.HostToDevice();
 
             Q.GetColCopy(i, tmp1);
             tmp1 *= (-1.0 * H(i, j));
@@ -78,6 +82,7 @@ CSVector gmres(CSR &A, CSVector &b, CSVector &x, CSFloat tol, int max_it)
 
         Q.GetColCopy(j + 1, tmp1);
         H(j + 1, j) = tmp1.Norm2();
+        H.HostToDevice();
 
         tmp1 *= (1.0 / H(j + 1, j));
         Q.SetCol(j + 1, tmp1);
@@ -89,17 +94,22 @@ CSVector gmres(CSR &A, CSVector &b, CSVector &x, CSFloat tol, int max_it)
             H(i + 1, j) = -sn(i) * H(i, j) + cs(i) * H(i + 1, j);
             H(i, j) = temp;
         }
+        H.HostToDevice();
 
         cs(j) = H(j, j) / sqrt(H(j, j) * H(j, j) + H(j + 1, j) * H(j + 1, j));
+        cs.HostToDevice();
+
         sn(j) = H(j + 1, j) / sqrt(H(j, j) * H(j, j) + H(j + 1, j) * H(j + 1, j));
+        sn.HostToDevice();
 
         H(j, j) = cs(j) * H(j, j) + sn(j) * H(j + 1, j);
-
         H(j + 1, j) = 0.0;
+        H.HostToDevice();
 
         // update the residual vector
         beta(j + 1) = -sn(j) * beta(j);
         beta(j) = cs(j) * beta(j);
+        beta.HostToDevice();
 
         error = abs(beta(j + 1)) / b.Norm2();
 
@@ -119,6 +129,7 @@ CSVector gmres(CSR &A, CSVector &b, CSVector &x, CSFloat tol, int max_it)
     {
         Y(i, 0) = beta(i);
     }
+    Y.HostToDevice();
 
     Y.TRMM(H_n, 1.0, "L", "U");
     CSVector y(j + 1);
