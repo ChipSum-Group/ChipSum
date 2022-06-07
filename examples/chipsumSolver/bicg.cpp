@@ -2,7 +2,7 @@
  *   File:     bicg.cpp
  *   Author:   Yaojie Yu
  *   group:    CDCS-HPC
- *   Time:     2021-12-14
+ *   Time:     2022-06-07
  * * * * * * * * * * * * * * * * * * * * * */
 
 #include <bicg.hpp>

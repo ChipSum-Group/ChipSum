@@ -91,7 +91,7 @@ int main(int argc, char *argv[])
         CSFloat tol = 1e-12;
         CSInt max_it = 20;
 
-        auto sol =  ChipSum::Solver::cg(A, b, x0, tol, max_it);
+        auto sol = ChipSum::Solver::cg(A, b, x0, tol, max_it);
 
         cout << "sol = ";
         sol.Print();
