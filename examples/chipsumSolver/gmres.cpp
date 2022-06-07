@@ -2,7 +2,7 @@
  *   File:     cg.cpp
  *   Author:   Yaojie Yu
  *   group:    CDCS-HPC
- *   Time:     2022-3-16
+ *   Time:     2022-06-07
  * * * * * * * * * * * * * * * * * * * * * */
 
 #include <gmres.hpp>
