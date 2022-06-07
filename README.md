@@ -80,7 +80,7 @@ python3 setup.py j=32
 注意：第一次编译时需编译kokkos和kokkos-kernels，耗时较久。后续使用时仅编译ChipSum内容，耗时很快。
 
 ## 三、算例
-### 验证安装
+### 1. 验证安装
  `ChipSum`在`test.cpp`中提供了一个简单的用例示范，默认路径编译完成后，可以在`./build`中查看编译结果。
  
 ```
@@ -112,48 +112,44 @@ densemat_0_mirror(5,5):
 ```
 
 
-### Conjugate Gradient 算例
+### 2. Conjugate Gradient 算例
 <img width="578" alt="cg" src="./doc/source/_static/CG.png">
-按默认路径完成编译后，在` ./build/examples/chipsumSolver`路径下存在cg算法的可执行文件，同时利用`./data`路径中的矩阵文件，可以实现一个简单的求解算例：
+按默认路径完成编译后，在` ./build/examples/chipsumSolver`路径下存在cg算法的可执行文件，可以实现一个简单的求解算例：
 
 ```
 cd path_to_chipsum
-./build/examples/chipsumSolver/cg data/A.mtx data/b.csv
-
-
+./build/examples/chipsumSolver/cg
 ```
 
 
-
-### BiConjugate Gradient 算例
+### 3. BiConjugate Gradient 算例
 <img width="578" alt="cg" src="./doc/source/_static/BiCG.png">
-按默认路径完成编译后，在` ./build/examples/chipsumSolver`路径下存在BiCG算法的可执行文件，同时利用`./data`路径中的矩阵文件，可以实现一个简单的求解算例：
+按默认路径完成编译后，在` ./build/examples/chipsumSolver`路径下存在BiCG算法的可执行文件，可以实现一个简单的求解算例：
 
 ```
 cd path_to_chipsum
-./build/examples/chipsumSolver/bicg data/A.mtx data/b.csv
+./build/examples/chipsumSolver/bicg
 ```
 
 
-### BiConjugate Gradient STAB 算例
+### 4. BiConjugate Gradient STAB 算例
 <img width="578" alt="cg" src="./doc/source/_static/BiCGSTAB.png">
-按默认路径完成编译后，在` ./build/examples/chipsumSolver`路径下存在BiCGSTAB算法的可执行文件，同时利用`./data`路径中的矩阵文件，可以实现一个简单的求解算例：
+按默认路径完成编译后，在` ./build/examples/chipsumSolver`路径下存在BiCGSTAB算法的可执行文件，可以实现一个简单的求解算例：
 
 ```
 cd path_to_chipsum
-./build/examples/chipsumSolver/bicgstab data/A.mtx data/b.csv
+./build/examples/chipsumSolver/bicgstab
 ```
 
 
-### GMRES算例
+### 5. GMRES算例
 <img width="578" alt="cg" src="./doc/source/_static/GMRES.png">
 
-按默认路径完成编译后，在` ./build/examples/chipsumSolver`路径下存在GMRES算法的可执行文件，同时利用`./data`路径中的矩阵文件，可以实现一个简单的求解算例：
+按默认路径完成编译后，在` ./build/examples/chipsumSolver`路径下存在GMRES算法的可执行文件，可以实现一个简单的求解算例：
 
 ```
 cd path_to_chipsum
-./build/examples/chipsumSolver/gmres data/A.mtx data/b.csv
-
+./build/examples/chipsumSolver/gmres
 ```
 
 # 四、应用
