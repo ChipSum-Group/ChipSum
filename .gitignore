@@ -1,3 +1,5 @@
 build*
+tpls/kokkos-build/
+tpls/kokkos-kernels-build/
 CMakeLists.txt.user
 .vscode

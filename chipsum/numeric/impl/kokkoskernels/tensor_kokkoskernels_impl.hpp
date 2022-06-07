@@ -56,7 +56,7 @@ namespace Tensor {
 
     template<typename T, typename ...Args>
     CHIPSUM_FUNCTION_INLINE void create(Kokkos::DualView<T, Kokkos::LayoutRight> & dv, Args ...args){
-        static_assert(dv.rank==sizeof ...(args), "Tensor shape is not match size of args");
+        // static_assert(dv.rank==sizeof ...(args), "Tensor shape is not match size of args");
         dv = Kokkos::DualView<T, Kokkos::LayoutRight>("tensor_" + std::to_string(tensor_name++), args...);
     }
 
@@ -68,7 +68,7 @@ namespace Tensor {
         Kokkos::DualView<T, Kokkos::LayoutRight> &A,
         Args ...args)
     { 
-        static_assert(A.rank==sizeof ...(args), "Tensor shape is not match size of args");
+        // static_assert(A.rank==sizeof ...(args), "Tensor shape is not match size of args");
         A = Kokkos::DualView<T, Kokkos::LayoutRight>("tensor_" + std::to_string(tensor_name++), args...);
 
         Kokkos::View<T, Kokkos::LayoutRight, Kokkos::HostSpace, Kokkos::MemoryTraits<Kokkos::Unmanaged> > tmp_view (src, args...);

@@ -12,6 +12,7 @@ set(HEADERS "")
 add_subdirectory(common)
 add_subdirectory(numeric)
 add_subdirectory(backend)
+add_subdirectory(solver)
 #add_subdirectory(distribution)
 
 

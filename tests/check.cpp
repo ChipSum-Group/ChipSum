@@ -24,7 +24,7 @@ using Ordinal = default_lno_t;
 using Offset = default_size_type;
 using Layout = default_layout;
 
-CHIPSUM_FUNCTION_INLINE void run_cg(CSR &A, CSVector &b, CSVector &x, double tol = 10e-12, int max_it = 200)
+CHIPSUM_FUNCTION_INLINE void run_cg(CSR &A, CSVector &b, CSVector &x, CSFloat tol = 10e-12, int max_it = 200)
 {
 
     //    x0 = np.zeros(len(b))
@@ -49,7 +49,7 @@ CHIPSUM_FUNCTION_INLINE void run_cg(CSR &A, CSVector &b, CSVector &x, double tol
     for (int i = 0; i < max_it; ++i)
     {
         //        alpha = np.dot(r0.T,r0)/np.dot(p0.T,np.dot(A,p0.T))
-        double alpha = r0.Dot(r0);
+        CSFloat alpha = r0.Dot(r0);
 
         A.SPMV(p0, Ap);
         alpha /= p0.Dot(Ap);
@@ -64,7 +64,7 @@ CHIPSUM_FUNCTION_INLINE void run_cg(CSR &A, CSVector &b, CSVector &x, double tol
         Ap.AXPBY(r1, -alpha, 1);
 
         //        beta = np.dot(r1.T,r1)/np.dot(r0.T,r0)
-        double beta = r1.Dot(r1);
+        CSFloat beta = r1.Dot(r1);
         beta /= r0.Dot(r0);
 
         //        p0 = r1+beta*p0
@@ -88,9 +88,9 @@ CHIPSUM_FUNCTION_INLINE void run_cg(CSR &A, CSVector &b, CSVector &x, double tol
 }
 typedef ChipSum::Numeric::DenseMatrix<CSFloat, ChipSum::Backend::Serial>
     SerialMatrix;
-inline void ApplyPlaneRotation(double &dx, double &dy, double &cs, double &sn)
+inline void ApplyPlaneRotation(CSFloat &dx, CSFloat &dy, CSFloat &cs, CSFloat &sn)
 {
-    double temp = cs * dx + sn * dy;
+    CSFloat temp = cs * dx + sn * dy;
     dy = -sn * dx + cs * dy;
     dx = temp;
 }
@@ -108,16 +108,16 @@ int main(int argc, char *argv[])
 
         CSInt nv = 0, ne = 0;
         CSInt *xadj, *adj;
-        double *ew;
+        CSFloat *ew;
 
-        KokkosKernels::Impl::read_matrix<CSInt, CSInt, double>(&nv, &ne, &xadj, &adj, &ew, filename_A);
+        KokkosKernels::Impl::read_matrix<CSInt, CSInt, CSFloat>(&nv, &ne, &xadj, &adj, &ew, filename_A);
 
         CSR A(nv, nv, ne, xadj, adj, ew);
 
         A.SavePatternFig("../A.PNG");
 
-        vector<double> b_data;
-        double temp;
+        vector<CSFloat> b_data;
+        CSFloat temp;
 
         ifstream IN(filename_b);
 

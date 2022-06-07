@@ -28,7 +28,7 @@ sptrsv( KokkosSparse::CrsMatrix<ValueType,OrdinalType, default_device,void,SizeT
     using KernelHandle = KokkosKernels::Experimental::KokkosKernelsHandle<
           SizeType, OrdinalType, ValueType, execution_space, memory_space, memory_space>;
     KernelHandle kh;
-    using crsmat_t  = typename KokkosSparse::CrsMatrix<ValueType,OrdinalType, default_device,void,SizeType>;
+    //using crsmat_t  = typename KokkosSparse::CrsMatrix<ValueType,OrdinalType, default_device,void,SizeType>;
 
     const SizeType nrows = A.graph.numRows();
 

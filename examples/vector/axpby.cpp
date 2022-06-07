@@ -35,6 +35,8 @@ int main(int argc, char *argv[]) {
         a.AXPBY(b,3.0,2.0); // a=3.0*a+2.0*b      
         std::free(v1);
         std::free(v2);
+
+        std::cout << "Run successfully!" << std::endl;
     }
     ChipSum::Common::Finalize();
 }
