@@ -68,6 +68,7 @@ public:
     /// \param Batch Batch数
     /// \param M M 行数
     /// \param N N 列数
+    /// \param src 初始化数据
     ///
     CHIPSUM_DECLARED_FUNCTION TensorNDIM(const_size_type Batch, const_size_type M, const_size_type N, value_type *src)
         : __nbatch(Batch), __nrow(M), __ncol(N) {
@@ -93,6 +94,7 @@ public:
     /// \param Batch Batch数
     /// \param M M 行数
     /// \param N N 列数
+    /// \param src 初始化数据
     ///
     CHIPSUM_DECLARED_FUNCTION TensorNDIM(const_size_type Num, const_size_type Batch, const_size_type M, const_size_type N, value_type *src)
         : __nnum(Num), __nbatch(Batch), __nrow(M), __ncol(N) {
@@ -168,8 +170,8 @@ public:
 
     ///
     /// \brief GEMM C=A*B 当C为已初始化的矩阵时，强烈建议采用此接口进行GEMM运算
-    /// \param B  参与运算的另一矩阵
-    /// \param C  结果
+    /// \param m  参与运算的另一矩阵
+    /// \param ret  结果矩阵
     ///
     CHIPSUM_FUNCTION_INLINE void GEMM(TensorNDIM &m, TensorNDIM &ret) {
         ChipSum::Numeric::Impl::Tensor::batch_gemm(__data, m.GetData(), ret.GetData());
@@ -178,7 +180,7 @@ public:
     ///
     /// \brief GEMV y=A*x 
     /// \param x  参与运算的向量
-    /// \param y  结果
+    /// \param y  结果向量
     ///
     CHIPSUM_FUNCTION_INLINE void GEMV(TensorNDIM &x, TensorNDIM& y) {
         ChipSum::Numeric::Impl::Tensor::batch_gemv(__data, x.GetData(), y.GetData());

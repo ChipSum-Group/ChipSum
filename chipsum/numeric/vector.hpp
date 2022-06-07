@@ -286,7 +286,7 @@ public:
 
 
     ///
-    /// \brief operator -  z=x-y
+    /// \brief operator -,  z=x-y
     /// \param y
     /// \return
     ///
@@ -300,7 +300,7 @@ public:
     }
 
     ///
-    /// \brief Sub 减法接口 z = (*this)-y
+    /// \brief Sub 减法接口, z = (*this)-y
     /// \param y 输入 y
     /// \param z 输出 z
     ///
@@ -318,7 +318,7 @@ public:
     }
 
     ///
-    /// \brief operator -  y=-x
+    /// \brief operator -, y=-x
     /// \return y
     ///
     CHIPSUM_FUNCTION_INLINE Vector operator-() {
@@ -327,7 +327,7 @@ public:
     }
 
     ///
-    /// \brief operator -  y=-x
+    /// \brief Neg 取负数接口, y=-x
     /// \return y
     ///
     CHIPSUM_FUNCTION_INLINE Vector Neg() {
@@ -380,7 +380,7 @@ public:
     /// \brief GetSlice 获取Vector部分拷贝数据
     /// \param i 起始索引
     /// \param j 终止索引
-    /// \param x
+    /// \param x 获取到的Vector由i到j部分的拷贝数据
     ///
     template<typename IDT>
     CHIPSUM_FUNCTION_INLINE void GetSlice(IDT i, IDT j, Vector& x){
@@ -529,7 +529,7 @@ public:
 
 template <typename ValueType,typename... Props>
 ///
-/// \brief operator * y=a*x
+/// \brief operator *, y=a*x
 /// \param a 系数（POD）
 /// \param x 向量
 /// \return y
@@ -545,7 +545,7 @@ operator*(const ValueType& a,
 
 template <typename... Props>
 ///
-/// \brief operator * y=a*x
+/// \brief operator *, y=a*x
 /// \param a 标量（后端数据类型）
 /// \param x 向量x
 /// \return

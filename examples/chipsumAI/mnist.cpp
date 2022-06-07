@@ -55,7 +55,7 @@ void init_input(int index, double *pic, char *pic_28){
 
 void init_ModelParameter(double *w1, double *w2, double *w3, double *b1, double *b2, double *b3){
     
-    // init dense1
+    // init dense1 weight
     ifstream w1_in("../../../data/mnist/parameters/weight_Dense_1.txt");
     for(int i = 0; i < M; ++i){
         for(int j = 0; j < N; ++j){
@@ -64,13 +64,14 @@ void init_ModelParameter(double *w1, double *w2, double *w3, double *b1, double 
     }
     w1_in.close();
 
+    // init dense1 bias
     ifstream b1_in("../../../data/mnist/parameters/bias_Dense_1.txt");
     for(int i = 0; i < N; ++i){
         b1_in >> b1[i];
     }
     b1_in.close();
 
-    // init dense2
+    // init dense2 weight
     ifstream w2_in("../../../data/mnist/parameters/weight_Dense_2.txt");
     for(int i = 0; i < N; ++i){
         for(int j = 0; j < N; ++j){
@@ -79,13 +80,14 @@ void init_ModelParameter(double *w1, double *w2, double *w3, double *b1, double 
     }
     w2_in.close();
 
+    // init dense2 bias
     ifstream b2_in("../../../data/mnist/parameters/bias_Dense_2.txt");
     for(int i = 0; i < N; ++i){
         b2_in >> b2[i];
     }
     b2_in.close();
 
-    // init dense3
+    // init dense3 weight
     ifstream w3_in("../../../data/mnist/parameters/weight_Dense_3.txt");
     for(int i = 0; i < N; ++i){
         for(int j = 0; j < K; ++j){
@@ -94,6 +96,7 @@ void init_ModelParameter(double *w1, double *w2, double *w3, double *b1, double 
     }
     w3_in.close();
 
+    // init dense3 bias
     ifstream b3_in("../../../data/mnist/parameters/bias_Dense_3.txt");
     for(int i = 0; i < K; ++i){
         b3_in >> b3[i];
