@@ -59,7 +59,7 @@ if(ChipSum_ENABLE_KokkosKernels)
 endif()
 
 add_definitions("-fopenmp")
-
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/chipsum/solver)
 add_library(chipsum ${CHIPSUM_SOURCES} ${CHIPSUM_HEADERS})
 
 list(APPEND CHIPSUM_LIBS chipsum)
