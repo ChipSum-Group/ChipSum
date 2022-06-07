@@ -127,7 +127,7 @@ public:
     ///
     /// \brief GetRowCopy 获取某一行的拷贝数据
     /// \param i 行索引
-    /// \param x
+    /// \param x 获取的指定行数据
     ///
     CHIPSUM_FUNCTION_INLINE void GetRowCopy(IDT i,vector_type& x){
         ChipSum::Numeric::Impl::DenseMat::get_row_copy(__data, x.GetData(), i);
@@ -137,7 +137,7 @@ public:
     ///
     /// \brief GetColCopy 获取某一列的拷贝数据
     /// \param i 列索引
-    /// \param x
+    /// \param x 获取的指定列数据
     ///
     CHIPSUM_FUNCTION_INLINE void GetColCopy(IDT i,vector_type& x){
         ChipSum::Numeric::Impl::DenseMat::get_col_copy(__data, x.GetData(), i);
@@ -145,11 +145,11 @@ public:
 
     template<typename IDT>
     ///
-    /// \brief GetRowSlice 获取某一列的拷贝数据
+    /// \brief GetRowSlice 获取某一行的拷贝数据
     /// \param idx 行索引
     /// \param i 行终止索引
     /// \param j 行终止索引
-    /// \param x
+    /// \param x 获取的指定行的由i到j部分的数据
     ///
     CHIPSUM_FUNCTION_INLINE void GetRowSlice(IDT idx, IDT i, IDT j, vector_type& x){
         ChipSum::Numeric::Impl::DenseMat::get_row_slice(__data, x.GetData(), idx, i, j);
@@ -161,7 +161,7 @@ public:
     /// \param idx 列索引
     /// \param i 列起始索引
     /// \param j 列终止索引
-    /// \param x
+    /// \param x 获取的指定列的由i到j部分的数据
     ///
     CHIPSUM_FUNCTION_INLINE void GetColSlice(IDT idx, IDT i, IDT j, vector_type& x){
         ChipSum::Numeric::Impl::DenseMat::get_col_slice(__data, x.GetData(), idx, i, j);
@@ -174,7 +174,7 @@ public:
     /// \param l_j 左上角列索引
     /// \param r_i 右下角行索引
     /// \param r_j 右下角列索引
-    /// \param x
+    /// \param x 获取指定区域的数据
     ///
     CHIPSUM_FUNCTION_INLINE void GetPartSlice(IDT l_i, IDT l_j, IDT r_i, IDT r_j, DenseMatrix& x){
         ChipSum::Numeric::Impl::DenseMat::get_part_slice(__data, x.GetData(), l_i, l_j, r_i, r_j);
@@ -197,7 +197,7 @@ public:
     ///
     /// \brief operator * GEMM
     /// \param m 稠密矩阵
-    /// \return 稠密矩阵（结果）
+    /// \return ret 稠密矩阵（结果）
     ///
     CHIPSUM_FUNCTION_INLINE DenseMatrix operator*(DenseMatrix &m) {
         DenseMatrix ret(__nrow, m.GetColNum());

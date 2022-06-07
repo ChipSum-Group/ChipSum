@@ -19,10 +19,10 @@ int main(int argc, char *argv[]) {
     
     ChipSum::Common::Init(argc, argv);
     {
-        CSFloat tmp;
-        tmp = CSFloat(rand()) / CSFloat(RAND_MAX);
-        cout<<tmp<<endl;
-        cout<<"type: "<<typeid(CSFloat(rand()) / CSFloat(RAND_MAX)).name()<<endl;
+        // CSFloat tmp;
+        // tmp = CSFloat(rand()) / CSFloat(RAND_MAX);
+        // cout<<tmp<<endl;
+        // cout<<"type: "<<typeid(CSFloat(rand()) / CSFloat(RAND_MAX)).name()<<endl;
         int M = 10;
 
         for (int j=0; j<50; ++j){
