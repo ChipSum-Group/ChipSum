@@ -114,6 +114,7 @@ densemat_0_mirror(5,5):
 
 ### 2. Conjugate Gradient 算例
 <img width="578" alt="cg" src="./doc/source/_static/CG.png">
+
 按默认路径完成编译后，在` ./build/examples/chipsumSolver`路径下存在cg算法的可执行文件，可以实现一个简单的求解算例：
 
 ```
@@ -124,6 +125,7 @@ cd path_to_chipsum
 
 ### 3. BiConjugate Gradient 算例
 <img width="578" alt="cg" src="./doc/source/_static/BiCG.png">
+
 按默认路径完成编译后，在` ./build/examples/chipsumSolver`路径下存在BiCG算法的可执行文件，可以实现一个简单的求解算例：
 
 ```
@@ -134,6 +136,7 @@ cd path_to_chipsum
 
 ### 4. BiConjugate Gradient STAB 算例
 <img width="578" alt="cg" src="./doc/source/_static/BiCGSTAB.png">
+
 按默认路径完成编译后，在` ./build/examples/chipsumSolver`路径下存在BiCGSTAB算法的可执行文件，可以实现一个简单的求解算例：
 
 ```
