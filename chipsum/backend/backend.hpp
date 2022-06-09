@@ -23,6 +23,8 @@ struct KokkosKernels:public BackendBase{/*TODO*/};
 
 struct Kokkos:public BackendBase{/*TODO*/};
 
+struct RAJA:public BackendBase{/*TODO*/};
+
 struct Cuda:public BackendBase{/*TODO*/};
 
 // 适合用于小矩阵运算，考虑后面为它设计默认编译选项，
