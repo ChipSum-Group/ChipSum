@@ -80,7 +80,7 @@ python3 setup.py j=32
 注意：第一次编译时需编译kokkos和kokkos-kernels，耗时较久。后续使用时仅编译ChipSum内容，耗时很快。
 
 ## 三、算例
-### 验证安装
+### 1. 验证安装
  `ChipSum`在`test.cpp`中提供了一个简单的用例示范，默认路径编译完成后，可以在`./build`中查看编译结果。
  
 ```
@@ -92,54 +92,67 @@ cd ./build
 预期输出：
 
 ```
-vector_0: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-3.3
-scalar_1: [0, 3.3, 6.6, 9.9, 13.2, 16.5, 19.8, 23.1, 26.4, 29.7]
+origin matrix A:
+densemat_0_mirror(5,5):
+ [0.840188, 0.394383, 0.783099, 0.79844, 0.911647]
+ [0, 0.197551, 0.335223, 0.76823, 0.277775]
+ [0, 0, 0.55397, 0.477397, 0.628871]
+ [0, 0, 0, 0.364784, 0.513401]
+ [0, 0, 0, 0, 0.95223]
+
+return expect 0: 0
+inverse:A
+densemat_0_mirror(5,5):
+ [1.19021, -2.37608, -0.244662, 2.71905, -1.75077]
+ [0, 5.06197, -3.06314, -6.65166, 4.13262]
+ [0, 0, 1.80515, -2.36242, 0.0815571]
+ [0, 0, 0, 2.74134, -1.47801]
+ [0, 0, 0, 0, 1.05017]
+
 ```
 
 
-### Conjugate Gradient 算例
+### 2. Conjugate Gradient 算例
 <img width="578" alt="cg" src="./doc/source/_static/CG.png">
-按默认路径完成编译后，在` ./build/examples/chipsumSolver`路径下存在cg算法的可执行文件，同时利用`./data`路径中的矩阵文件，可以实现一个简单的求解算例：
+
+按默认路径完成编译后，在` ./build/examples/chipsumSolver`路径下存在cg算法的可执行文件，可以实现一个简单的求解算例：
 
 ```
 cd path_to_chipsum
-./build/examples/chipsumSolver/cg data/A.mtx data/b.csv
-
-
+./build/examples/chipsumSolver/cg
 ```
 
 
-
-### BiConjugate Gradient 算例
+### 3. BiConjugate Gradient 算例
 <img width="578" alt="cg" src="./doc/source/_static/BiCG.png">
-按默认路径完成编译后，在` ./build/examples/chipsumSolver`路径下存在BiCG算法的可执行文件，同时利用`./data`路径中的矩阵文件，可以实现一个简单的求解算例：
+
+按默认路径完成编译后，在` ./build/examples/chipsumSolver`路径下存在BiCG算法的可执行文件，可以实现一个简单的求解算例：
 
 ```
 cd path_to_chipsum
-./build/examples/chipsumSolver/bicg data/A.mtx data/b.csv
+./build/examples/chipsumSolver/bicg
 ```
 
 
-### BiConjugate Gradient STAB 算例
+### 4. BiConjugate Gradient STAB 算例
 <img width="578" alt="cg" src="./doc/source/_static/BiCGSTAB.png">
-按默认路径完成编译后，在` ./build/examples/chipsumSolver`路径下存在BiCGSTAB算法的可执行文件，同时利用`./data`路径中的矩阵文件，可以实现一个简单的求解算例：
+
+按默认路径完成编译后，在` ./build/examples/chipsumSolver`路径下存在BiCGSTAB算法的可执行文件，可以实现一个简单的求解算例：
 
 ```
 cd path_to_chipsum
-./build/examples/chipsumSolver/bicgstab data/A.mtx data/b.csv
+./build/examples/chipsumSolver/bicgstab
 ```
 
 
-### GMRES算例
+### 5. GMRES算例
 <img width="578" alt="cg" src="./doc/source/_static/GMRES.png">
 
-按默认路径完成编译后，在` ./build/examples/chipsumSolver`路径下存在GMRES算法的可执行文件，同时利用`./data`路径中的矩阵文件，可以实现一个简单的求解算例：
+按默认路径完成编译后，在` ./build/examples/chipsumSolver`路径下存在GMRES算法的可执行文件，可以实现一个简单的求解算例：
 
 ```
 cd path_to_chipsum
-./build/examples/chipsumSolver/gmres data/A.mtx data/b.csv
-
+./build/examples/chipsumSolver/gmres
 ```
 
 # 四、应用
@@ -147,15 +160,16 @@ cd path_to_chipsum
 
 ### 编译`ChipSum`
 
-首先需要将`ChipSum`编译并make install至指定文件夹
+首先需要将`ChipSum`编译并make install至指定文件夹，如：examples/chipsumAI/install_lib
 
 ```
 cd path_to_chipsum
 cd ./build
-cmake -DCMAKE_INSTALL_PREFIX=../ ..
+cmake -DCMAKE_INSTALL_PREFIX=../examples/chipsumAI/install_lib ..
 make install
+ll ../examples/chipsumAI/install_lib
 ```
-成功make install后，会在目标文件夹下新生成以下文件。
+成功make install后，会在目标文件夹下(例子中，install_lib文件夹下)新生成以下文件。
 
 ```
 .
@@ -181,9 +195,14 @@ mkdir build && cd build
 # ChipSum_DIR should be absolute path
 export ChipSum_DIR=/path/to/chipsum/
 
-cmake -DChipSum_DIR=${ChipSum_DIR} ..
+# ChipSumLib_DIR should be absolute path
+export ChipSumLib_DIR=/path/to/install_lib/
+
+cmake -DChipSum_DIR=${ChipSum_DIR} -DChipSumLib_DIR=${ChipSumLib_DIR} ..
 
 make -j8
+
+./mnist
 ```
 
 使用命令`./mnist`运行mnist实现手写体识别，预期输出示例如下：

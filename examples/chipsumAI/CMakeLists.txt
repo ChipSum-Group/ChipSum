@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16)
 
-project(untitled LANGUAGES CXX)
+project(MNIST LANGUAGES CXX)
 
 
 
@@ -28,8 +28,8 @@ find_package(KokkosKernels REQUIRED)
 
 add_definitions("-DChipSum_USE_KokkosKernels=On")
 
-include_directories(${ChipSum_DIR}/include)
-link_directories(${ChipSum_DIR}/lib)
+include_directories(${ChipSumLib_DIR}/include)
+link_directories(${ChipSumLib_DIR}/lib)
 
 set(CMAKE_CXX_COMPILER ${Kokkos_CXX_COMPILER})
 

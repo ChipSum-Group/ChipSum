@@ -12,7 +12,7 @@
 #include <KokkosBlas3_gemm.hpp>
 #include <Kokkos_DualView.hpp>
 
-#include "../chipsum/chipsum_macro.h"
+#include "chipsum/chipsum_macro.h"
 
 
 
