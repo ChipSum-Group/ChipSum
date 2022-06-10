@@ -90,7 +90,9 @@ CSVector bicgstab(CSR &A, CSVector &b, CSVector &x, CSFloat tol, int max_it)
         t.AXPBY(r, -omega, 1.0); // r = s - omega * t
 
         error = r.Norm2() / bnrm2;
-
+        printf("+++++++++++++++++++++++++++++++++++++++++++\n");
+        printf("step # %d\n", i + 1);
+        printf("residual : %.7f\n", error);
         if (error <= tol)
             break;
         if (omega == 0.0)
@@ -101,6 +103,7 @@ CSVector bicgstab(CSR &A, CSVector &b, CSVector &x, CSFloat tol, int max_it)
         A.SPMV(x, r_temp);          /* r_temp = A*x */
         b.AXPBY(r_temp, 1.0, -1.0); /* r_temp = b-r_temp */
     }
+    printf("+++++++++++++++++++++++++++++++++++++++++++\n");
 
     return x;
 }

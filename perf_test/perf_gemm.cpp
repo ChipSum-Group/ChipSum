@@ -19,19 +19,19 @@ int main(int argc, char *argv[]) {
     
     ChipSum::Common::Init(argc, argv);
     {
-        // CSFloat tmp;
-        // tmp = CSFloat(rand()) / CSFloat(RAND_MAX);
-        // cout<<tmp<<endl;
-        // cout<<"type: "<<typeid(CSFloat(rand()) / CSFloat(RAND_MAX)).name()<<endl;
         int M = 10;
 
+        // cnt记录flops两次差值比例在1%以内次数，flag记录连续性，连续5次为true
+        // 连续5次差值比例在1%以内，break
+        int cnt = 0;
+        bool flag = false;
+        double pre = 0;
+
         for (int j=0; j<50; ++j){
-            //M += 10;
             int K = M;
             int N = M;
 
             CSFloat *A1 = static_cast<CSFloat *>(std::malloc(M*K * sizeof(CSFloat)));
-            // Kokkos::View<CSFloat **> tmp = v_unmanged(A1, M, K);
 
             for(int i=0;i<M*K;++i)
             {
@@ -57,15 +57,9 @@ int main(int argc, char *argv[]) {
             }
             CSMatrix C(M, N, A3);
             //C.Print();
-
-
-            //A.GEMM(B, C);
-            //C.Print();
-
-            //(A*B*3).Print();
             
             int repeat = 20;
-            /// \brief 暂时用Kokkos的Timer充数吧
+            
             Kokkos::Timer timer;
             for(int i=0;i<repeat;++i){
                 A.GEMM(B, C);
@@ -76,25 +70,27 @@ int main(int argc, char *argv[]) {
 
             /// \brief 带宽计算公式
             double Gbytes = repeat*1.0e-9*(2.0*M*N*K - M*K)/time;
-            // std::cout<<"---------------------ChipSum Perf Test"
-            //     "---------------------"<<std::endl;  
-            // std::cout<<M<<std::endl;
-            // std::cout<<"Dense matrix GEMM performance : "<<Gbytes<<" GFlops"<<std::endl;
-            if(j==0){
-                std::cout<<"---------------------ChipSum Perf Test"
-                    "---------------------"<<endl
-                    <<"CSMatrix size, CSMatrix size, GFlops: "<<std::endl;
-            }
-            //cout<<i<<endl;
-            std::cout<<setiosflags(ios::left)<<setw(15)<<M*K<<setw(12)<<K*N<<Gbytes<<std::endl;
             
+            std::cout<<"CSMatrix A size: "<<setiosflags(ios::left)<<setw(15)<<M*K<<setw(12)<<"CSMatrix B size: "
+                        <<setw(15)<<K*N<<"GFlops: "<<Gbytes<<std::endl;
+
             std::free(A1);
             std::free(A2);
             std::free(A3);
-            // if (i<30)
-            //     M *= 1.2;
-            // else
-            //     M *= 1.6;
+
+            if(abs(Gbytes-pre)/pre < 0.05){
+                cnt += 1;
+                flag = true;
+                // cout<<"cnt: "<< cnt<<endl;
+            }
+            else{
+                cnt = 0;
+                flag = false;
+            }
+            pre = Gbytes;
+
+            if(cnt==5 && flag) break;
+        
             M *= 1.2;
         }
     }

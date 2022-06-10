@@ -80,6 +80,9 @@ CSVector bicg(CSR &A, CSVector &b, CSVector &x, CSFloat tol, int max_it)
         q_tld.AXPBY(r_tld, -alpha, 1.0); // r_tld = r_tld - alpha * q_tld
 
         error = r.Norm2() / bnrm2;
+        printf("+++++++++++++++++++++++++++++++++++++++++++\n");
+        printf("step # %d\n", i + 1);
+        printf("residual : %.7f\n", error);
 
         if (error <= tol)
             break;
@@ -87,11 +90,9 @@ CSVector bicg(CSR &A, CSVector &b, CSVector &x, CSFloat tol, int max_it)
         CSVector r_temp(b.GetSize());
         A.SPMV(x, r_temp);          /* r_temp = A*x */
         b.AXPBY(r_temp, 1.0, -1.0); /* r_temp = b-r_temp */
-        printf("%.20f\n", r_temp.Norm2());
-
         rho_1 = rho;
     }
-
+    printf("+++++++++++++++++++++++++++++++++++++++++++\n");
     return x;
 }
 

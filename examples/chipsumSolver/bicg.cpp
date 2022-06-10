@@ -79,30 +79,36 @@ int main(int argc, char *argv[])
 
         CSVector b(5, vec1);
         CSVector x0(5, vec2);
+        
+        cout << "*******************************************" << endl;
+        cout << "*           ChipSum BICG Solver           *" << endl;
+        cout << "*******************************************" << endl;
 
         cout << "A = ";
         A.Print();
-
-        cout << "b = ";
+        cout << "b ";
         b.Print();
 
-        cout << "x0 = ";
+        cout << "x0 ";
         x0.Print();
 
         CSFloat tol = 1e-12;
         CSInt max_it = 20;
 
         auto sol = ChipSum::Solver::bicg(A, b, x0, tol, max_it);
-
-        cout << "sol = ";
+        
+        cout << "sol ";
         sol.Print();
-        cout << " " << endl;
 
         CSVector res(n);
         cout << "A * sol= ";
         A.SPMV(sol, res);
         res.Print();
-        cout << " " << endl;
+        
+
+        cout << "*******************************************" << endl;
+        cout << "*                  Done!                  *" << endl;
+        cout << "*******************************************" << endl;
 
         std::free(row_map);
         std::free(col_map);

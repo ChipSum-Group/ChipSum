@@ -9,6 +9,7 @@ using namespace std;
 
 #include <type_traits>
 #include <vector>
+#include <cmath>
 
 #include "../ChipSum.hpp"
 
@@ -21,6 +22,13 @@ int main(int argc, char *argv[]) {
     
     ChipSum::Common::Init(argc, argv);
     {   int N=100;
+
+        // cnt记录flops两次差值比例在1%以内次数，flag记录连续性，连续5次为true
+        // 连续5次差值比例在1%以内，break
+        int cnt = 0;
+        bool flag = false;
+        double pre = 0;
+
         for(int j=0; j<200; ++j){
             CSFloat *v1 = static_cast<CSFloat *>(std::malloc(N * sizeof(CSFloat)));
             CSFloat *v2 = static_cast<CSFloat *>(std::malloc(N * sizeof(CSFloat)));
@@ -35,7 +43,7 @@ int main(int argc, char *argv[]) {
 
             
             int repeat = 100;
-            /// \brief 暂时用Kokkos的Timer
+            
             Kokkos::Timer timer;
             for(int i=0;i<repeat;++i){
             a.AXPBY(b,3.0,2.0); // a=3.0*a+2.0*b
@@ -46,17 +54,25 @@ int main(int argc, char *argv[]) {
             /// \brief 带宽计算公式
             double Gbytes = repeat*1.0e-9*(3.0*N-1)/time;
 
-            if(j==0){
-                Kokkos::DefaultExecutionSpace::print_configuration(cout,true);
-                cout<<"---------------------ChipSum AXPBY Perf Test "
-                    "---------------------"<<endl
-                    <<"CSVector size,GFlops :"<<endl;
-            }
-            cout<<setiosflags(ios::left)<<setw(12)<<N<<Gbytes<<endl;
-            
+            cout << "CSVector size: " << setiosflags(ios::left)<<setw(12)<<N<<"GFlops :"<<Gbytes<<endl;          
+
+
             N*=1.1;          
             std::free(v1);
             std::free(v2);
+
+            if(abs(Gbytes-pre)/pre < 0.01){
+                cnt += 1;
+                flag = true;
+                // cout<<"cnt: "<< cnt<<endl;
+            }
+            else{
+                cnt = 0;
+                flag = false;
+            }
+            pre = Gbytes;
+
+            if(cnt==5 && flag) break; 
         }
     }
     ChipSum::Common::Finalize();
