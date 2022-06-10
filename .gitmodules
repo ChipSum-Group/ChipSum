@@ -4,3 +4,6 @@
 [submodule "tpls/kokkos-kernels"]
 	path = tpls/kokkos-kernels
 	url = https://gitee.com/yaojieyu/kokkos-kernels.git
+[submodule "tpls/RAJA"]
+	path = tpls/RAJA
+	url = https://hub.fastgit.xyz/LLNL/RAJA.git
