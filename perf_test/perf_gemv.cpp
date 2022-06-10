@@ -21,6 +21,13 @@ int main(int argc, char *argv[]) {
     ChipSum::Common::Init(argc, argv);
     {
         int M = 10;
+
+        // cnt记录flops两次差值比例在1%以内次数，flag记录连续性，连续5次为true
+        // 连续5次差值比例在1%以内，break
+        int cnt = 0;
+        bool flag = false;
+        double pre = 0;
+
         for (int j=0; j<50; j++){
             //M += 10;
             int N = M;
@@ -62,24 +69,27 @@ int main(int argc, char *argv[]) {
 
             /// \brief 带宽计算公式
             double Gbytes = repeat*1.0e-9*(2.0*M*N - M)/time;
-            /* cout<<"---------------------ChipSum Perf Test"
-                "---------------------"<<endl;  
-            cout<<M<<endl;
-            cout<<"Dense matrix GEMV performance : "<<Gbytes<<" GFlops"<<endl; */
-            if(j==0){
-                cout<<"---------------------ChipSum Perf Test"
-                    "---------------------"<<endl
-                    <<"CSMatrix size, CSVector size, GFlops: "<<endl;
-            }
-            //cout<<i<<endl;
-            cout<<setiosflags(ios::left)<<setw(15)<<M*M<<setw(12)<<N<<Gbytes<<endl;
+            
+            cout<<"CSMatrix size: "<<setiosflags(ios::left)<<setw(15)<<M*M<<setw(12)<<"CSVector size: "
+                        <<setw(12)<<N<<"GFlops: "<<Gbytes<<endl;
+            
             std::free(A1);
             std::free(A2);
             std::free(A3);
-            // if (i<30)
-            //     M *= 1.2;
-            // else
-            //     M *= 1.6;
+
+            if(abs(Gbytes-pre)/pre < 0.05){
+                cnt += 1;
+                flag = true;
+                // cout<<"cnt: "<< cnt<<endl;
+            }
+            else{
+                cnt = 0;
+                flag = false;
+            }
+            pre = Gbytes;
+
+            if(cnt==5 && flag) break;
+            
             M *= 1.2;
         }
     }

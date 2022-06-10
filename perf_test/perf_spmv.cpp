@@ -24,6 +24,13 @@ int main(int argc, char *argv[]) {
     ChipSum::Common::Init(argc, argv);
 
     int N = 20;
+
+    // cnt记录flops两次差值比例在1%以内次数，flag记录连续性，连续5次为true
+    // 连续5次差值比例在1%以内，break
+    int cnt = 0;
+    bool flag = false;
+    double pre = 0;
+
     if(argc > 1)    N = atoi(argv[1]);
 
     using device_type = typename Kokkos::Device<
@@ -98,31 +105,29 @@ int main(int argc, char *argv[]) {
          Kokkos::fence();
          double time = timer.seconds();
 
-
-
-
          /// \brief 带宽计算公式
 
 
          double Gbytes = repeat*1.0e-9*(2*nnz+3*N)/time;
-
-        //  cout<<"---------------------ChipSum Perf Test "<<j+1<<
-        //        "---------------------"<<endl;
-        // Kokkos::DefaultExecutionSpace::print_configuration(cout,true);
-        if(j==0){
-            Kokkos::DefaultExecutionSpace::print_configuration(cout,true);
-            cout<<"---------------------ChipSum AXPBY SPMV Test "
-                "---------------------"<<endl
-                <<"nrow/ncol,  nnz,        GFlops :"<<endl;
-        }
   
-        //  cout<<"CSR matrix info: "<<endl<<
-        //        "rows = "<<nrow<<" , columns = "<<ncol;
-        //  cout<<" , nnz = "<<nnz<<endl;
-        //  cout<<"SpMV performance : "<<Gbytes<<" GFlops"<<endl;
-        cout<<setiosflags(ios::left)<<setw(12)<<nrow<<setw(12)<<nnz<<Gbytes<<endl;
+        cout<<"nrow/ncol: "<<setiosflags(ios::left)<<setw(12)<<nrow<<"nnz: "
+                        <<setw(12)<<nnz<<"GFlops: "<<Gbytes<<endl;
 
-         N*=1.05;
+
+        if(abs(Gbytes-pre)/pre < 0.01){
+            cnt += 1;
+            flag = true;
+            // cout<<"cnt: "<< cnt<<endl;
+        }
+        else{
+            cnt = 0;
+            flag = false;
+        }
+        pre = Gbytes;
+
+        if(cnt==5 && flag) break;
+        
+        N*=1.05;
 
 
     }
