@@ -81,13 +81,16 @@ int main(int argc, char *argv[])
         CSVector b(5, vec1);
         CSVector x0(5, vec2);
 
+        cout << "*******************************************" << endl;
+        cout << "*           ChipSum GMRES Solver          *" << endl;
+        cout << "*******************************************" << endl;
         cout << "A = ";
         A.Print();
 
-        cout << "b = ";
+        cout << "b ";
         b.Print();
 
-        cout << "x0 = ";
+        cout << "x0 ";
         x0.Print();
 
         CSFloat tol = 1e-12;
@@ -95,15 +98,16 @@ int main(int argc, char *argv[])
 
         auto sol_gmres = ChipSum::Solver::gmres(A, b, x0, tol, max_it);
 
-        cout << "sol_gmres = ";
+        cout << "sol_gmres ";
         sol_gmres.Print();
-        cout << " " << endl;
 
         CSVector res(n);
         cout << "A * sol_gmres= ";
         A.SPMV(sol_gmres, res);
         res.Print();
-        cout << " " << endl;
+        cout << "*******************************************" << endl;
+        cout << "*                  Done!                  *" << endl;
+        cout << "*******************************************" << endl;
 
         std::free(row_map);
         std::free(col_map);

@@ -113,7 +113,10 @@ CSVector gmres(CSR &A, CSVector &b, CSVector &x, CSFloat tol, int max_it)
         beta.HostToDevice();
 
         error = abs(beta(j + 1)) / b.Norm2();
-
+        printf("+++++++++++++++++++++++++++++++++++++++++++\n");
+        printf("step # %d\n", j + 1);
+        printf("residual : %.7f\n", error);
+        
         if (error <= tol)
             break;
 
@@ -143,7 +146,7 @@ CSVector gmres(CSR &A, CSVector &b, CSVector &x, CSFloat tol, int max_it)
     CSVector x_n(n);
     Q_n.GEMV(y, x_n);
     x += x_n;
-
+    printf("+++++++++++++++++++++++++++++++++++++++++++\n");
     return x;
 }
 

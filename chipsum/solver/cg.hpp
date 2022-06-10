@@ -33,6 +33,7 @@ CSVector cg(CSR &A, CSVector &b, CSVector &x, CSFloat tol, int max_it)
 
     CSFloat alpha = 0, beta = 0.0, rsnew = 0;
     CSFloat rsold = r.Dot(r);
+    CSFloat error;
 
     for (int i = 0; i < max_it; i++)
     {
@@ -46,8 +47,12 @@ CSVector cg(CSR &A, CSVector &b, CSVector &x, CSFloat tol, int max_it)
         Ap.AXPBY(r, -alpha, 1.0);
 
         rsnew = r.Dot(r);
-
-        if (sqrt(rsnew) < tol)
+        
+        error = sqrt(rsnew);
+        printf("+++++++++++++++++++++++++++++++++++++++++++\n");
+        printf("step # %d\n", i + 1);
+        printf("residual : %.7f\n", error);
+        if (error < tol)
             break;
 
         beta = rsnew / rsold;
@@ -55,7 +60,7 @@ CSVector cg(CSR &A, CSVector &b, CSVector &x, CSFloat tol, int max_it)
 
         rsold = rsnew;
     }
-
+    printf("+++++++++++++++++++++++++++++++++++++++++++\n");
     return x;
 }
 
