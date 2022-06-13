@@ -5,10 +5,15 @@
  *   Time:     2022-06-12
  * * * * * * * * * * * * * * * * * * * * * */
 
- #include <cg.hpp>
- #include <bicg.hpp>
- #include <bicgstab.hpp>
- #include <gmres.hpp>
+#include <cg.hpp>
+#include <bicg.hpp>
+#include <bicgstab.hpp>
+#include <gmres.hpp>
+#include <iostream>
+
+using namespace std;
+
+#include <KokkosKernels_IOUtils.hpp>
 
 int main(int argc, char *argv[])
 {
@@ -51,11 +56,14 @@ int main(int argc, char *argv[])
         double tol = 1e-5;
         int max_it = 100;
 
-        auto sol_bicg = ChipSum::Solver::cg(A, b, x0, tol, max_it);
-        auto sol_bicg = ChipSum::Solver::bicg(A, b, x0, tol, max_it);
-        auto sol_bicg = ChipSum::Solver::bicgstab(A, b, x0, tol, max_it);
+        Kokkos::Timer timer;
+        // auto sol_bicg = ChipSum::Solver::cg(A, b, x0, tol, max_it);
+        // auto sol_bicg = ChipSum::Solver::bicg(A, b, x0, tol, max_it);
+        // auto sol_bicg = ChipSum::Solver::bicgstab(A, b, x0, tol, max_it);
         auto sol_bicg = ChipSum::Solver::gmres(A, b, x0, tol, max_it);
+        double time = timer.seconds();
 
+        cout << time << endl;
         delete xadj;
         delete adj;
         delete ew;
