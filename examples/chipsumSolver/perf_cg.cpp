@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
 {
 
     char *filename_A = argv[1];
-    char *filename_b = argv[2];
+    // char *filename_b = argv[2];
 
     ChipSum::Common::Init(argc, argv);
     {
@@ -32,10 +32,9 @@ int main(int argc, char *argv[])
 
         CSR A(nv, nv, ne, xadj, adj, ew);
 
+
         vector<double> b_data;
         double temp;
-
-        ifstream IN(filename_b);
 
         for (int i = 0; i < nv; ++i)
         {
@@ -43,18 +42,13 @@ int main(int argc, char *argv[])
             b_data.push_back(temp);
         }
 
-        IN.close();
-
         CSVector b(nv, b_data.data());
-
         CSVector x0(nv);
 
         x0 *= 0;
 
-        x0 *= 0;
-
         double tol = 1e-5;
-        int max_it = 500;
+        int max_it = 100;
 
         Kokkos::Timer timer;
         auto sol_bicg = ChipSum::Solver::cg(A, b, x0, tol, max_it);
