@@ -57,7 +57,7 @@ int main(int argc, char *argv[])
         int max_it = 500;
 
         Kokkos::Timer timer;
-        auto sol_bicg = ChipSum::Solver::cg(A, b, x0, tol, max_it);
+        ChipSum::Solver::cg(A, b, x0, tol, max_it);
         // auto sol_bicg = ChipSum::Solver::bicg(A, b, x0, tol, max_it);
         // auto sol_bicg = ChipSum::Solver::bicgstab(A, b, x0, tol, max_it);
         // auto sol_bicg = ChipSum::Solver::gmres(A, b, x0, tol, max_it);

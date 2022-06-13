@@ -10,7 +10,7 @@
 
 namespace ChipSum {
 namespace Solver {
-CSVector cg(CSR &A, CSVector &b, CSVector &x, CSFloat tol, int max_it)
+void cg(CSR &A, CSVector &b, CSVector &x, CSFloat tol, int max_it)
 {
     // Conjugate Gradient Method without preconditioning.
     //
@@ -49,11 +49,13 @@ CSVector cg(CSR &A, CSVector &b, CSVector &x, CSFloat tol, int max_it)
         rsnew = r.Dot(r);
         
         error = sqrt(rsnew);
-        printf("+++++++++++++++++++++++++++++++++++++++++++\n");
-        printf("step # %d\n", i + 1);
-        printf("residual : %.7f\n", error);
-        if (error < tol)
+        
+        if (error < tol){
+            printf("+++++++++++++++++++++++++++++++++++++++++++\n");
+            printf("step # %d\n", i + 1);
+            printf("residual : %.7f\n", error);
             break;
+        }
 
         beta = rsnew / rsold;
         r.AXPBY(p, 1.0, beta);
@@ -61,7 +63,6 @@ CSVector cg(CSR &A, CSVector &b, CSVector &x, CSFloat tol, int max_it)
         rsold = rsnew;
     }
     printf("+++++++++++++++++++++++++++++++++++++++++++\n");
-    return x;
 }
 
 } // End namespace Solver

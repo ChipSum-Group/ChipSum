@@ -94,14 +94,16 @@ int main(int argc, char *argv[])
         CSFloat tol = 1e-12;
         CSInt max_it = 20;
 
-        auto sol = ChipSum::Solver::cg(A, b, x0, tol, max_it);
+        // auto sol = ChipSum::Solver::cg(A, b, x0, tol, max_it);
+        ChipSum::Solver::cg(A, b, x0, tol, max_it);
 
         cout << "sol ";
-        sol.Print();
+        // sol.Print();
+
 
         CSVector res(n);
         cout << "A * sol= ";
-        A.SPMV(sol, res);
+        A.SPMV(x0, res);
         res.Print();
         cout << "*******************************************" << endl;
         cout << "*                  Done!                  *" << endl;
