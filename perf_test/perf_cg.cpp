@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
         Kokkos::fence();
         double time = timer.seconds();
         
-        cout << "CG Solver Time: "<< time << endl;
+        cout << "CG Solver Time: "<< time <<" s"<< endl;
         cout << "****************************************************" << endl;
         cout << "*              CG Solver PerfTest Done             *" << endl;
         cout << "****************************************************" << endl;
