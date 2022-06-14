@@ -51,19 +51,25 @@ int main(int argc, char *argv[])
 
         x0 *= 0;
 
-        x0 *= 0;
-
         double tol = 1e-5;
-        int max_it = 500;
+        int max_it = 100;
+
+        cout << "****************************************************" << endl;
+        cout << "*            ChipSum CG Solver PerfTest            *" << endl;
+        cout << "****************************************************" << endl;
 
         Kokkos::Timer timer;
         ChipSum::Solver::cg(A, b, x0, tol, max_it);
         // auto sol_bicg = ChipSum::Solver::bicg(A, b, x0, tol, max_it);
         // auto sol_bicg = ChipSum::Solver::bicgstab(A, b, x0, tol, max_it);
         // auto sol_bicg = ChipSum::Solver::gmres(A, b, x0, tol, max_it);
+        Kokkos::fence();
         double time = timer.seconds();
-
-        cout << time << endl;
+        
+        cout << "CG Solver Time: "<< time << endl;
+        cout << "****************************************************" << endl;
+        cout << "*              CG Solver PerfTest Done             *" << endl;
+        cout << "****************************************************" << endl;
         delete xadj;
         delete adj;
         delete ew;

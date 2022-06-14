@@ -54,6 +54,7 @@ void cg(CSR &A, CSVector &b, CSVector &x, CSFloat tol, int max_it)
             printf("+++++++++++++++++++++++++++++++++++++++++++\n");
             printf("step # %d\n", i + 1);
             printf("residual : %.7f\n", error);
+            printf("+++++++++++++++++++++++++++++++++++++++++++\n");
             break;
         }
 
@@ -62,7 +63,7 @@ void cg(CSR &A, CSVector &b, CSVector &x, CSFloat tol, int max_it)
 
         rsold = rsnew;
     }
-    printf("+++++++++++++++++++++++++++++++++++++++++++\n");
+     
 }
 
 } // End namespace Solver
