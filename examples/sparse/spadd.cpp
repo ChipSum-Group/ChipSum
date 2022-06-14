@@ -81,18 +81,19 @@ int main(int argc, char *argv[]) {
         CSR A(nrows,nrows,nnz,row_map,entries,values);
         CSR B(nrows,nrows,nnz,row_map,entries2,values2);
         CSR C;
-
+        cout << "A = ";
         A.Print();
-        A.PrintPattern();
+        // A.PrintPattern();
+        cout << "B = ";
         B.Print();
-        B.PrintPattern();
+        // B.PrintPattern();
         
         // C.SPADD(A,B) = C.SPADD(1.0,A,1.0,B) = C.SPADD(1.0,A,1.0,B,false)
         // C.SPADD(2.0,A,1.0,B) = C.SPADD(2.0,A,1.0,B)
         C.SPADD(2.0,A,1.0,B,true);
-        
+        cout << endl << "A + B = ";
         C.Print();
-        C.PrintPattern();
+        // C.PrintPattern();
               
         
         free(row_map);

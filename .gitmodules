@@ -1,9 +1,9 @@
 [submodule "tpls/kokkos"]
 	path = tpls/kokkos
-	url = https://gitee.com/yaojieyu/kokkos.git
+	url = https://gitee.com/yaojieyu/kokkos-mirror.git
 [submodule "tpls/kokkos-kernels"]
 	path = tpls/kokkos-kernels
-	url = https://gitee.com/yaojieyu/kokkos-kernels.git
+	url = https://gitee.com/yaojieyu/kokkos-kernels-mirror.git
 [submodule "tpls/RAJA"]
 	path = tpls/RAJA
-	url = https://hub.fastgit.xyz/LLNL/RAJA.git
+	url = https://gitee.com/yaojieyu/raja.git

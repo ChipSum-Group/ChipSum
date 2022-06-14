@@ -41,7 +41,7 @@ spadd(KokkosSparse::CrsMatrix<ValueType,OrdinalType, default_device,void,SizeTyp
     kh.destroy_spadd_handle();
 
     //KokkosKernels 列数输出还存在问题
-    std::cout<<"Csr numCols: "<<C.numCols()<<std::endl;
+    // std::cout<<"Csr numCols: "<<C.numCols()<<std::endl;
 
 }
 
